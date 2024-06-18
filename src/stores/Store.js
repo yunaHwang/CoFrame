@@ -15,7 +15,7 @@ import {
 import { SceneSlice } from "robot-scene";
 import lodash from "lodash";
 // import KnifeAssembly from "./Knife_Assembly_Simple_VP_UR5.json";
-import KnifeAssembly from "./Knife_Assembly_Example_HighLevel.json";
+import KnifeAssembly from "./Empty_Program.json";
 // import KnifeAssemblyCompiled from "./UR5_Compiled_Knife_Assembly.json";
 // import KnifeAssembly from './Prime_Process_2_v29.json';
 import KnifeAssemblyCompiled from "./Knife_Assembly_Example_Compiled.json";
@@ -118,7 +118,7 @@ if (Object.keys(useStore.getState().programData).length === 0) {
   // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
 
   // Set the starting program
-  useCompiledStore.setState(KnifeAssemblyCompiled);
+  useCompiledStore.setState({});
   useStore.getState().setData(KnifeAssembly);
   useStore.getState().performCompileProcess();
   // useStore.persist.rehydrate()
