@@ -173,12 +173,12 @@ export default function App() {
             position: "fixed",
           }}
         >
-          <ReviewTile drawerOpen={visibleSteps && errorType === null} />
+          {/* <ReviewTile drawerOpen={visibleSteps && errorType === null} /> */}
           <ReflexContainer
             orientation="vertical"
             style={{ backgroundColor: "blue" }}
           >
-            {showSim && (
+            {/* {showSim && (
               <ReflexElement
                 // minSize={200}
                 onStopResize={(e) => {
@@ -191,7 +191,7 @@ export default function App() {
                 <SimulatorTile ref={simRef} />
               </ReflexElement>
             )}
-            {viewMode === "default" && <ReflexSplitter />}
+            {viewMode === "default" && <ReflexSplitter />} */}
 
             {showEditor && (
               <ReflexElement
@@ -209,7 +209,7 @@ export default function App() {
               </ReflexElement>
             )}
           </ReflexContainer>
-          <Snackbar
+          {/* <Snackbar
             open={errorType}
             autoHideDuration={6000}
             onClose={clearFocus}
@@ -246,7 +246,7 @@ export default function App() {
                 </>
               )}
             </Alert>
-          </Snackbar>
+          </Snackbar> */}
           <Drawer
             anchor="bottom"
             sx={{
