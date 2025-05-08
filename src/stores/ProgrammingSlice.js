@@ -384,6 +384,11 @@ export const ProgrammingSliceOverride = (set, get) => ({
     }),
   transferBlock: (data, sourceInfo, destInfo) => {
     console.log('transferBlock')
+    // yuna added
+    console.log('data', data);
+    console.log('sourceInfo', sourceInfo);
+    console.log('destInfo', destInfo);
+    ///////
     set((state) => applyTransfer(state, data, sourceInfo, destInfo));
   },
   deleteBlock: (data, parentId, fieldInfo) => {
@@ -395,7 +400,7 @@ export const ProgrammingSliceOverride = (set, get) => ({
       }));
       state = deleteChildren(state, data, parentId, fieldInfo);
 
-      // Delete current block
+      // Delete current blocka
       state = deleteSelfBlock(state, data, parentId, fieldInfo);
       
       // Clear parent properties
