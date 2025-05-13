@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState} from "react";
 // import { FiSettings } from "react-icons/fi";
 import { ReviewTile } from "./components/Body/ReviewTile";
 import { SimulatorTile } from "./components/Body/SimulatorTile";
@@ -55,6 +55,17 @@ export default function App() {
       });
     return issue;
   }, shallow);
+  //Added Fall back mode
+  const [fallbackMode, setFallbackMode] = useState(false);
+
+  useEffect(() => {
+    //Place holder, define what cause Fallback mode here
+    const timer = setTimeout(() => {
+      setFallbackMode(true);
+    }, 5000); 
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const [focusSteps, errorType] = useCompiledStore(
     useCallback(
@@ -280,6 +291,18 @@ export default function App() {
         </Stack>
         <Detail />
         <SettingsModal />
+        {fallbackMode && (
+            <Snackbar
+              open={true}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              autoHideDuration={6000}
+            >
+              <Alert severity="warning" variant="filled" sx={{ width: "100%" }}>
+                <AlertTitle>⚠️ Battery Low</AlertTitle>
+                The robot's battery is at <strong>10%</strong>. Please define a fallback action.
+              </Alert>
+            </Snackbar>
+          )}
       </ThemeProvider>
   );
 }

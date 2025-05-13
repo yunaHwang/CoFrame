@@ -43,6 +43,9 @@ const store = (set, get) => ({
   ...EvdSlice(set, get),
   ...RosSlice(set, get),
   ...ProgramStoreSlice(set, get),
+
+  fallbackMode: false,
+  setFallbackMode : (value) => set({fallbackMode: value}),
   clock: new Timer(),
   playing: true,
   pause: () => {
