@@ -184,7 +184,7 @@ export default function App() {
             position: "fixed",
           }}
         >
-          {/* <ReviewTile drawerOpen={visibleSteps && errorType === null} /> */}
+          { <ReviewTile drawerOpen={visibleSteps && errorType === null} /> }
           <ReflexContainer
             orientation="vertical"
             style={{ backgroundColor: "blue" }}
