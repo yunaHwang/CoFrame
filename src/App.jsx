@@ -184,7 +184,9 @@ export default function App() {
             position: "fixed",
           }}
         >
-          { <ReviewTile drawerOpen={visibleSteps && errorType === null} /> }
+          {fallbackMode && (
+           <ReviewTile drawerOpen={visibleSteps && errorType === null} fallbackMode={fallbackMode} /> 
+           )}
           <ReflexContainer
             orientation="vertical"
             style={{ backgroundColor: "blue" }}
