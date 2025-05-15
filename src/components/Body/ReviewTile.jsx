@@ -1,4 +1,5 @@
 import React from "react";
+import { Environment } from 'open-vp';
 import { FiAlertCircle, FiCheckCircle, FiRefreshCcw, FiRefreshCw } from "react-icons/fi";
 import useStore from "../../stores/Store";
 import { shallow } from "zustand/shallow";
@@ -20,6 +21,7 @@ import {
   DialogContent,
   CircularProgress
 } from "@mui/material";
+import { createTheme, useTheme } from '@mui/material/styles';
 import { memo, useState } from "react";
 import { ExpandCarrot } from "../Elements/ExpandCarrot";
 import frameStyles from "../../frameStyles";
@@ -27,6 +29,7 @@ import frameStyles from "../../frameStyles";
 
 export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
 
+  const highlightColor = useStore(state => state.primaryColor,shallow);
   const [ref, bounds] = useMeasure();
   const [submit, setsubmit] = useState(false);
 
@@ -84,9 +87,15 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
             height={`calc(${bounds.height - 130}px - ${drawerOpen ? "20vh" : "0vh"
               })`}
           >
-            <Box component="section" sx={{ p: 2, border: '1px dashed grey' }}>
+            {/* <Box component="section" sx={{ p: 2, border: '1px dashed grey' }}>
               This box is a placeholder for Add and Drop
-            </Box>
+            </Box> */}
+            <div style={{ height: "100%", width: "100%" }}>
+              <Environment highlightColor={highlightColor} snapToGrid={false}/>
+              {/* Replace the above line with: see chatgpt + comments from Yuna. */}
+              {/* I think this is where the draggable editor (dotted background, with keeping track of what's going on inside the editor) 
+              logic should go in*/}
+            </div> 
           </ScrollRegion>
 
           <Button
