@@ -1,4 +1,5 @@
 import React from "react";
+import { FiTrash2 } from "react-icons/fi";
 import { Environment } from 'open-vp';
 import { FiAlertCircle, FiCheckCircle, FiRefreshCcw, FiRefreshCw } from "react-icons/fi";
 import useStore from "../../stores/Store";
@@ -19,33 +20,108 @@ import {
   Box,
   Dialog,
   DialogContent,
-  CircularProgress
+  CircularProgress,
+  Alert,
+  AlertTitle,
+  Snackbar
 } from "@mui/material";
 import { createTheme, useTheme } from '@mui/material/styles';
-import { memo, useState } from "react";
+import { memo, useState, useCallback } from "react";
 import { ExpandCarrot } from "../Elements/ExpandCarrot";
 import frameStyles from "../../frameStyles";
 
+import { DndProvider } from 'react-dnd';
+import { MultiBackend } from 'react-dnd-multi-backend';
+import { HTML5toTouch } from 'rdndmb-html5-to-touch';
+import { useDrop } from 'react-dnd';
+import { TIMELINE_TYPES } from "../../stores/Constants";
+
+const FallbackDropArea = ({ onDrop, children, highlightColor }) => {
+  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+    accept: TIMELINE_TYPES,
+    drop: (item) => {
+      if (onDrop) onDrop(item);
+      return { dropped: true };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+
+  const isActive = isOver && canDrop;
+
+  return (
+    <div
+      ref={drop}
+      style={{
+        backgroundColor: isActive ? '#333' : '#1a1a1a',
+        border: `1px dashed ${isActive ? highlightColor : '#666'}`,
+        borderRadius: '4px',
+        padding: '12px',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: children ? 'flex-start' : 'center',
+      }}
+    >
+      {children || (
+        <Typography variant="body2" sx={{ color: '#999', textAlign: 'center' }}>
+          Drag Actions Here
+        </Typography>
+      )}
+    </div>
+  );
+};
 
 export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
 
   const highlightColor = useStore(state => state.primaryColor,shallow);
   const [ref, bounds] = useMeasure();
   const [submit, setsubmit] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const [reviewExpanded, setReviewExpanded] = useStore(
     (state) => [state.reviewExpanded, state.setReviewExpanded],
     shallow
   );
 
+  //Where action are suppose to be holding at
+  const [fallbackActions, setFallbackActions] = useState([]);
+
   //PlaceHolder fot Submit Button
   const handleSubmit = () => {
     setsubmit(true);
     setTimeout(() => {
       setsubmit(false);
-      console.log("Fallback Action Submit");
+      setShowSuccess(true);
+      setFallbackActions([]);
+      console.log("Fallback Action Submit", fallbackActions);
     }, 2000);
   };
+
+  //Handle Action Add
+  const handleActionDrop = useCallback((item) => {
+    if (item && item.data) {
+
+      console.log("Dropped item received:", item);
+
+      setFallbackActions(prev => [...prev, { 
+        id: `action-${Date.now()}`, 
+        type: item.data.type,
+        data: item.data,
+        name: item.data.name || item.data.type 
+      }]);
+
+      console.log("Dropped item received:", fallbackActions);
+    }
+  }, []);
+
+  // Handle removing an action
+  const handleActionRemove = useCallback((id) => {
+    setFallbackActions(prev => prev.filter(action => action.id !== id));
+  }, []);
+  
 
 
   return (
@@ -87,30 +163,56 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
             height={`calc(${bounds.height - 130}px - ${drawerOpen ? "20vh" : "0vh"
               })`}
           >
-            {/* <Box component="section" sx={{ p: 2, border: '1px dashed grey' }}>
-              This box is a placeholder for Add and Drop
-            </Box> */}
-            <div style={{ height: "100%", width: "100%" }}>
-              <Environment highlightColor={highlightColor} snapToGrid={false}/>
-              {/* Replace the above line with: see chatgpt + comments from Yuna. */}
-              {/* I think this is where the draggable editor (dotted background, with keeping track of what's going on inside the editor) 
-              logic should go in*/}
-            </div> 
+            <DndProvider backend={MultiBackend} options={HTML5toTouch}>
+              <Stack>
+                <Box>
+                  <FallbackDropArea 
+                    onDrop={handleActionDrop} 
+                    highlightColor={highlightColor}
+                  >
+                    {fallbackActions.length > 0 && (
+                      <Stack>
+                        {/* Setting a Place holder for the object Still trying to figure out how to appear like the action*/}
+                        {fallbackActions.map((action) => (
+                          <Box
+                            key={action.id}
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              p: 1,
+                              borderRadius: 1,
+                              border: `1px solid ${highlightColor}`,
+                              position: 'relative'
+                            }}
+                          >
+                            <Box/>
+                            <Typography sx={{ color: 'white'}}>{action.name}
+                            </Typography>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleActionRemove(action.id)}
+                              sx={{ color: 'white' }}
+                            >
+                              <FiTrash2 size={16} />
+                            </IconButton>
+                          </Box>
+                        ))}
+                      </Stack>
+                    )}
+                  </FallbackDropArea>
+                </Box>
+              </Stack>
+            </DndProvider>
           </ScrollRegion>
 
           <Button
             variant="contained"
-            sx={{
-              mt: 1,
-              backgroundColor: '#629e6c',
-              '&:hover': {
-                backgroundColor: '#3a5e40',
-              }
-            }}
             fullWidth
             onClick={handleSubmit}
+            disabled={fallbackActions.length === 0 || submitting}
           >
-            Submit
+            Submit Your Action
           </Button>
         </>
       )}
@@ -127,6 +229,21 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
         </DialogContent>
       </Dialog>
 
+       <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert 
+          severity="success" 
+          variant="filled"
+          onClose={() => setShowSuccess(false)}
+        >
+          <AlertTitle>Success</AlertTitle>
+          Fallback actions successfully submitted!
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 });

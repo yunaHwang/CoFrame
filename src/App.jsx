@@ -57,11 +57,13 @@ export default function App() {
   }, shallow);
   //Added Fall back mode
   const [fallbackMode, setFallbackMode] = useState(false);
+  const [warningShow, setwarningShow] = useState(false);
 
   useEffect(() => {
     //Place holder, define what cause Fallback mode here
     const timer = setTimeout(() => {
       setFallbackMode(true);
+      setwarningShow(true);
     }, 5000); 
 
     return () => clearTimeout(timer);
@@ -295,9 +297,10 @@ export default function App() {
         <SettingsModal />
         {fallbackMode && (
             <Snackbar
-              open={true}
+              open={warningShow}
+              onClose={() => {setwarningShow(false)}}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              autoHideDuration={6000}
+              autoHideDuration={5000}
             >
               <Alert severity="warning" variant="filled" sx={{ width: "100%" }}>
                 <AlertTitle>⚠️ Battery Low</AlertTitle>
