@@ -46,6 +46,12 @@ const store = (set, get) => ({
 
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
+  batteryWarning: true,
+  setBatteryWarning: (value) => set({ batteryWarning: value }),
+  batteryLevel: 0,
+  setbatteryLevel: (value) => set({ batteryLevel: value }),
+  distanceTravel: 0,
+  setdistanceTravel: (value) => set({ distanceTravel: value }),
   clock: new Timer(),
   playing: true,
   pause: () => {

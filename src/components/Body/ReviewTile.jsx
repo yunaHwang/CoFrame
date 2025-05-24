@@ -23,7 +23,8 @@ import {
   CircularProgress,
   Alert,
   AlertTitle,
-  Snackbar
+  Snackbar,
+  Backdrop
 } from "@mui/material";
 import { createTheme, useTheme } from '@mui/material/styles';
 import { memo, useState, useCallback } from "react";
@@ -229,21 +230,42 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
         </DialogContent>
       </Dialog>
 
-       <Snackbar
-        open={showSuccess}
-        autoHideDuration={3000}
-        onClose={() => setShowSuccess(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+    <Backdrop
+      sx={{
+        color: '#fff',
+        zIndex: (theme) => theme.zIndex.modal + 1
+      }}
+      open={showSuccess}
+    >
+      <Paper
+        sx={{
+          p: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 3,
+          borderRadius: 2,
+          minWidth: 300,
+          textAlign: 'center',
+          backgroundColor: '#E0FFFF'
+        }}
       >
-        <Alert 
-          severity="success" 
-          variant="filled"
-          onClose={() => setShowSuccess(false)}
+        <Typography variant="h6" sx={{ fontSize: '2.5 rem',color: 'black' }}>
+          Your fallback program is safe. You are good to go.
+        </Typography>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => {
+            setShowSuccess(false);
+            setFallbackActions([]);
+          }}
+          sx={{ minWidth: 100 }}
         >
-          <AlertTitle>Success</AlertTitle>
-          Fallback actions successfully submitted!
-        </Alert>
-      </Snackbar>
+          Great
+        </Button>
+      </Paper>
+    </Backdrop>
     </Paper>
   );
 });

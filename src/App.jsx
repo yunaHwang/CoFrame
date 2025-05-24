@@ -56,14 +56,13 @@ export default function App() {
     return issue;
   }, shallow);
   //Added Fall back mode
-  const [fallbackMode, setFallbackMode] = useState(false);
-  const [warningShow, setwarningShow] = useState(false);
+  const fallbackMode = useStore((state) => state.fallbackMode, shallow);
+  const setFallbackMode = useStore((state) => state.setFallbackMode, shallow);
 
   useEffect(() => {
     //Place holder, define what cause Fallback mode here
     const timer = setTimeout(() => {
       setFallbackMode(true);
-      setwarningShow(true);
     }, 5000); 
 
     return () => clearTimeout(timer);
@@ -295,19 +294,6 @@ export default function App() {
         </Stack>
         <Detail />
         <SettingsModal />
-        {fallbackMode && (
-            <Snackbar
-              open={warningShow}
-              onClose={() => {setwarningShow(false)}}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              autoHideDuration={5000}
-            >
-              <Alert severity="warning" variant="filled" sx={{ width: "100%" }}>
-                <AlertTitle>⚠️ Battery Low</AlertTitle>
-                The robot's battery is at <strong>10%</strong>. Please define a fallback action.
-              </Alert>
-            </Snackbar>
-          )}
       </ThemeProvider>
   );
 }
