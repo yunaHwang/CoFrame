@@ -35,54 +35,54 @@ export const EvdSlice = (set, get) => ({
   programSpec: {
     drawers: [
       // Icon is FiGrid, otherwise no icons show in the drawer
-      {
-        title: "Machines",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "machineType",
-        icon: MachineIconStyled,
-      },
-      {
-        title: "Processes",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "processType",
-        icon: ProcessIconStyled,
-      },
+      // {
+      //   title: "Machines",
+      //   dataType: DATA_TYPES.REFERENCE,
+      //   objectType: "machineType",
+      //   icon: MachineIconStyled,
+      // },
+      // {
+      //   title: "Processes",
+      //   dataType: DATA_TYPES.REFERENCE,
+      //   objectType: "processType",
+      //   icon: ProcessIconStyled,
+      // },
       {
         title: "Locations",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "locationType",
         icon: LocationIconStyled,
       },
-      {
-        title: "Waypoints",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "waypointType",
-        icon: WaypointIconStyled,
-      },
+      // {
+      //   title: "Waypoints",
+      //   dataType: DATA_TYPES.REFERENCE,
+      //   objectType: "waypointType",
+      //   icon: WaypointIconStyled,
+      // },
       {
         title: "Things",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "thingType",
         icon: ThingIconStyled,
       },
-      {
-        title: "Tools",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "toolType",
-        icon: ToolIconStyled,
-      },
-      {
-        title: "Containers",
-        dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["trajectoryType", "hierarchicalType", "skillType"],
-        icon: ContainerIconStyled,
-      },
-      {
-        title: "Skills",
-        dataType: DATA_TYPES.CALL,
-        objectType: "skillType",
-        icon: SkillIconStyled,
-      },
+      // {
+      //   title: "Tools",
+      //   dataType: DATA_TYPES.REFERENCE,
+      //   objectType: "toolType",
+      //   icon: ToolIconStyled,
+      // },
+      // {
+      //   title: "Containers",
+      //   dataType: DATA_TYPES.INSTANCE,
+      //   objectTypes: ["trajectoryType", "hierarchicalType", "skillType"],
+      //   icon: ContainerIconStyled,
+      // },
+      // {
+      //   title: "Skills",
+      //   dataType: DATA_TYPES.CALL,
+      //   objectType: "skillType",
+      //   icon: SkillIconStyled,
+      // },
       {
         title: "Actions",
         dataType: DATA_TYPES.INSTANCE,
