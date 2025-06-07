@@ -16,6 +16,7 @@ import { SceneSlice } from "robot-scene";
 import lodash from "lodash";
 // import KnifeAssembly from "./Knife_Assembly_Simple_VP_UR5.json";
 import KnifeAssembly from "./Empty_Program.json";
+//import KnifeAssembly from "./Yuna_Skeleton_Program.json" // uncomment this to work with a failing skeleton json
 // import KnifeAssemblyCompiled from "./UR5_Compiled_Knife_Assembly.json";
 // import KnifeAssembly from './Prime_Process_2_v29.json';
 import KnifeAssemblyCompiled from "./Knife_Assembly_Example_Compiled.json";
@@ -132,6 +133,34 @@ if (Object.keys(useStore.getState().programData).length === 0) {
   useStore.getState().performCompileProcess();
   // useStore.persist.rehydrate()
 }
+
+
+
+// if (Object.keys(useStore.getState().programData).length === 0) {
+//   const emptyProgram = {
+//     name: "EmptyProgram",
+//     instances: {
+//       // optional: one minimal instance so UI/scene code can read transform safely
+//       defaultInstance: {
+//         id: "defaultInstance",
+//         type: "thingType",
+//         properties: {},
+//         transform: {
+//           position: { x: 0, y: 0, z: 0 },
+//           rotation: { x: 0, y: 0, z: 0 }
+//         }
+//       }
+//   },
+//   connections: [],
+//   metadata: {}
+// };
+
+//   useStore.getState().addProgramData("DevProgram", emptyProgram, {});
+//   useCompiledStore.setState({});
+//   useStore.getState().setData(emptyProgram);
+//   useStore.getState().performCompileProcess();
+// }
+
 
 computedSliceCompiledSubscribe(useCompiledStore, useStore);
 

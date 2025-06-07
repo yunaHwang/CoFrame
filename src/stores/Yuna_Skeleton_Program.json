@@ -1,0 +1,2830 @@
+{
+  "gripper-robotiq": {
+    "type": "gripperType",
+    "id": "gripper-robotiq",
+    "name": "Robotiq Gripper",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "The gripper of the robot. This specific model is a Robotiq 2F-85, meaning it has two fingers and has a grip range of 0 and 85 mmm.",
+      "initialGripState": 30,
+      "gripperIndex": [
+        85,
+        80.75,
+        76.5,
+        72.25,
+        68,
+        63.75,
+        59.5,
+        55.25,
+        51,
+        46.75,
+        42.5,
+        38.25,
+        34,
+        29.75,
+        25.5,
+        21.25,
+        17,
+        12.75,
+        8.5,
+        4.25,
+        0
+      ],
+      "gripperFrames": {
+        "robotiq_85_base_link": [
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          },
+          {
+            "frame": "gripper-robotiq",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 89.99999999989913,
+              "y": -0.00007601974785565501,
+              "z": 89.99992398025215
+            }
+          }
+        ],
+        "robotiq_85_left_knuckle_link": [
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -2.2749099837280628e-21,
+              "z": 4.6065806728518215
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -4.5498199674561256e-21,
+              "z": 9.21316134570364
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 11.51645168212955
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -3.0332133116374176e-21,
+              "z": 13.819742018555456
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 3.0332133116374176e-21,
+              "z": 16.123032354981362
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -9.099639934912251e-21,
+              "z": 20.72961302783319
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 23.0329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 25.33619370068501
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 29.94277437353683
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 32.24606470996274
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 2.426570649309934e-20,
+              "z": 36.85264538281454
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 39.15593571924047
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": 0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -1.213285324654967e-20,
+              "z": 46.06580672851818
+            }
+          }
+        ],
+        "robotiq_85_right_knuckle_link": [
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 4.606580672851821
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 9.213161345703638
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 11.516451682129548
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 13.819742018555454
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 16.123032354981365
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 20.72961302783318
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 23.032903364259095
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 25.336193700685005
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 29.942774373536825
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 32.24606470996273
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 36.85264538281456
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 39.15593571924046
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.05490451627,
+              "y": -0.03060114443,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 46.06580672851818
+            }
+          }
+        ],
+        "robotiq_85_left_finger_link": [
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        ],
+        "robotiq_85_right_finger_link": [
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_knuckle_link",
+            "position": {
+              "x": -0.00408552455,
+              "y": -0.03148604435,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        ],
+        "robotiq_85_left_inner_knuckle_link": [
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -2.2749099837280628e-21,
+              "z": 4.6065806728518215
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -4.5498199674561256e-21,
+              "z": 9.21316134570364
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 11.51645168212955
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -3.0332133116374176e-21,
+              "z": 13.819742018555456
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 3.0332133116374176e-21,
+              "z": 16.123032354981362
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -9.099639934912251e-21,
+              "z": 20.72961302783319
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 23.0329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 25.33619370068501
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 29.94277437353683
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 32.24606470996274
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 2.426570649309934e-20,
+              "z": 36.85264538281454
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 39.15593571924047
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": 0,
+              "z": 41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -6.0664266232748344e-21,
+              "z": 43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": 0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 179.9998479605043,
+              "y": -1.213285324654967e-20,
+              "z": 46.06580672851818
+            }
+          }
+        ],
+        "robotiq_85_right_inner_knuckle_link": [
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 4.606580672851821
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 9.213161345703638
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 11.516451682129548
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 13.819742018555454
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 16.123032354981365
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 20.72961302783318
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 23.032903364259095
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 25.336193700685005
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 29.942774373536825
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 32.24606470996273
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 36.85264538281456
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 39.15593571924046
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_base_link",
+            "position": {
+              "x": 0.06142,
+              "y": -0.0127,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 46.06580672851818
+            }
+          }
+        ],
+        "robotiq_85_left_finger_tip_link": [
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -4.606580672851821
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -9.213161345703638
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -11.516451682129548
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -13.819742018555454
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -16.123032354981365
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -20.72961302783318
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -23.032903364259095
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -25.336193700685005
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -29.942774373536825
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -32.24606470996273
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -36.85264538281456
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -39.15593571924046
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_left_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -46.06580672851818
+            }
+          }
+        ],
+        "robotiq_85_right_finger_tip_link": [
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -2.30329033642591
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -4.606580672851821
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -6.909871009277729
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -9.213161345703638
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -11.516451682129548
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -13.819742018555454
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -16.123032354981365
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -18.42632269140728
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -20.72961302783318
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -23.032903364259095
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -25.336193700685005
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -27.63948403711091
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -29.942774373536825
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -32.24606470996273
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -34.54935504638864
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -36.85264538281456
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -39.15593571924046
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -41.45922605566636
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -43.76251639209228
+            }
+          },
+          {
+            "frame": "robotiq_85_right_inner_knuckle_link",
+            "position": {
+              "x": 0.04303959807,
+              "y": -0.03759940821,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -46.06580672851818
+            }
+          }
+        ]
+      },
+      "gripOffset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "compileFn": 12,
+      "updateFields": [
+        "initialGripState",
+        "position",
+        "rotation",
+        "relativeTo",
+        "gripperIndex",
+        "gripperFrames",
+        "gripOffset"
+      ],
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "relativeTo": "tool0",
+      "singleton": true,
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "gripPositionOffset": {
+        "x": 0,
+        "y": 0,
+        "z": 0.15
+      },
+      "gripRotationOffset": {
+        "x": 90,
+        "y": 0,
+        "z": 90
+      }
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "human-agent-ccbe2600155d1a70a2988926121c1911e": {
+    "type": "humanAgentType",
+    "id": "human-agent-ccbe2600155d1a70a2988926121c1911e",
+    "name": "Human Agent",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Human Agent",
+      "updateFields": [
+        "position",
+        "rotation",
+        "relativeTo"
+      ],
+      "compileFn": 11,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "relativeTo": null,
+      "singleton": true,
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "robotWorkZone": {
+    "type": "zoneType",
+    "name": "Robot Workspace",
+    "id": "robotWorkZone",
+    "canEdit": true,
+    "canDelete": true,
+    "properties": {
+      "agent": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76",
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "compileFn": 14,
+      "updateFields": [
+        "position",
+        "rotation",
+        "relativeTo",
+        "scale",
+        "agent"
+      ],
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "relativeTo": "pedestal",
+      "mesh": null,
+      "collision": null,
+      "singleton": true,
+      "description": "A place for the robot to conduct its work.",
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "zone-988926121c1911ecbe2600155d1a70a2": {
+    "type": "zoneType",
+    "name": "Human Workspace Occupancy Zone",
+    "id": "zone-988926121c1911ecbe2600155d1a70a2",
+    "canEdit": true,
+    "canDelete": true,
+    "properties": {
+      "agent": "human-agent-ccbe2600155d1a70a2988926121c1911e",
+      "scale": {
+        "x": 2,
+        "y": 1,
+        "z": 1.6
+      },
+      "compileFn": 14,
+      "updateFields": [
+        "position",
+        "rotation",
+        "relativeTo",
+        "scale",
+        "agent"
+      ],
+      "position": {
+        "x": 0,
+        "y": -1.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": -180
+      },
+      "relativeTo": "world",
+      "mesh": "human-in-workspace",
+      "collision": "humanWorkspaceCollision",
+      "singleton": true,
+      "description": "A place for the human to conduct their own work.",
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "human-in-workspace": {
+    "type": "meshType",
+    "id": "human-in-workspace",
+    "name": "Human for Occupancy Mesh",
+    "canDelete": true,
+    "canEdit": true,
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false,
+    "properties": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -0.45
+      },
+      "rotation": {
+        "x": -180,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 0.65,
+        "y": 1.25,
+        "z": 0.65
+      },
+      "keyword": "human",
+      "extraParams": null,
+      "compileFn": 0,
+      "updateFields": [
+        "position",
+        "rotation",
+        "scale"
+      ],
+      "singleton": true,
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    }
+  },
+  "zone-988926d01c1911ecbe2600155d1a70a2": {
+    "type": "zoneType",
+    "name": "Human Corridor Occupancy Zone",
+    "id": "zone-988926d01c1911ecbe2600155d1a70a2",
+    "canEdit": true,
+    "canDelete": true,
+    "properties": {
+      "agent": "human-agent-ccbe2600155d1a70a2988926121c1911e",
+      "scale": {
+        "x": 2,
+        "y": 1,
+        "z": 1.6
+      },
+      "compileFn": 14,
+      "updateFields": [
+        "position",
+        "rotation",
+        "relativeTo",
+        "scale",
+        "agent"
+      ],
+      "position": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "relativeTo": "world",
+      "mesh": "human-in-corridor",
+      "collision": "humanCorridorCollision",
+      "singleton": true,
+      "description": "A place for the human to walk.",
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "human-in-corridor": {
+    "type": "meshType",
+    "id": "human-in-corridor",
+    "name": "Human for Occupancy Mesh",
+    "canDelete": true,
+    "canEdit": true,
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false,
+    "properties": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -0.45
+      },
+      "rotation": {
+        "x": 180,
+        "y": 0,
+        "z": 89.98269144793068
+      },
+      "scale": {
+        "x": 1.25,
+        "y": 0.65,
+        "z": 0.65
+      },
+      "keyword": "human",
+      "extraParams": null,
+      "compileFn": 0,
+      "updateFields": [
+        "position",
+        "rotation",
+        "scale"
+      ],
+      "singleton": true,
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    }
+  },
+  "tabs": [
+    {
+      "title": "Main",
+      "id": "default",
+      "visible": true,
+      "blocks": [
+        "program-484de43e-adaa-4801-a23b-bca38e211365"
+      ],
+      "viewport": {
+        "x": -200.57106389986825,
+        "y": -218.61264822134387,
+        "zoom": 0.6809947299077733
+      }
+    },
+    {
+      "title": "Skills",
+      "id": "skills",
+      "visible": true,
+      "blocks": [
+        "skillType-1f4348c8-8b88-441d-95c9-dc9874848629",
+        "skillType-b359d032-0996-444e-8099-4790b97df79e"
+      ],
+      "viewport": {
+        "x": -129.72591034390405,
+        "y": 350.3869354800539,
+        "zoom": 0.7169776240079122
+      }
+    }
+  ],
+  "activeTab": "default"
+}

@@ -84,16 +84,17 @@ export const EvdSlice = (set, get) => ({
       //   icon: SkillIconStyled,
       // },
       {
+        // in typeInfo > action.js > "moveGripperType"
         title: "Actions",
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: [
-          "delayType",
+          // "delayType",
           "moveGripperType",
-          "machineInitType",
-          "processStartType",
-          "processWaitType",
-          "moveTrajectoryType",
-          "breakpointType",
+          // "machineInitType",
+          // "processStartType",
+          // "processWaitType",
+          // "moveTrajectoryType",
+          // "breakpointType",
         ],
         icon: PrimitiveIconStyled,
       },
