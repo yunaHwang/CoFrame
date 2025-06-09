@@ -44,7 +44,7 @@ export const gripperMotionCompiler = ({ data, properties, memo, compiledMemo }) 
         })
         innerSteps.push({
             stepType: STEP_TYPE.SCENE_UPDATE,
-            data: { links: frameData, thing, gripperValues, closing },
+            data: { links: frameData, thing, gripperValues, closing }, //should delete
             effect: {},
             source: data.id,
             delay:time
