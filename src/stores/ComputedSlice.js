@@ -101,6 +101,7 @@ const updateRobotScene = (useCompiledStore, useStore) => {
     let invTransformer = getGoalTransformer(gripperAgent?.properties?.gripPositionOffset, gripperAgent?.properties?.gripRotationOffset, true);
 
     Object.values(state.programData).filter(v => v.dataType === DATA_TYPES.INSTANCE).forEach(entry => {
+        console.log("entry? ", entry);
         if (entry.type === 'linkType' || entry.type === 'fixtureType') {
             const itemKey = entry.id;
             let highlighted = false;
@@ -669,6 +670,10 @@ const updateRobotScene = (useCompiledStore, useStore) => {
     // });
 
     if (compiledState) {
+        console.log("state ", state);
+        console.log("compiledState ", compiledState);
+        console.log("tfs ", tfs);
+        console.log("items ", items);
         stepsToAnimation(state, compiledState, tfs, items);
     }
 

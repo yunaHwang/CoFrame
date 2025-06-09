@@ -119,51 +119,51 @@ useStore.subscribe(
 );
 
 // Create subscribers for scene data
-// computedSliceSubscribe(useStore);
-
-// if (Object.keys(useStore.getState().programData).length === 0) {
-//   console.log("Setting with Knife Assembly Task");
-//   // Load all the programs
-//   useStore.getState().addProgramData("KnifeAssembly", KnifeAssembly, {});
-//   // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
-
-//   // Set the starting program
-//   useCompiledStore.setState({});
-//   useStore.getState().setData(KnifeAssembly);
-//   useStore.getState().performCompileProcess();
-//   // useStore.persist.rehydrate()
-// }
-
-
+computedSliceSubscribe(useStore);
 
 if (Object.keys(useStore.getState().programData).length === 0) {
-  // this is not the final thing I settled upon but it IS working in a sense that the UI is rendering
-  // comment out computedSliceCompile (and its Subscribe version) when uncommenting this code block
-  const emptyProgram = {
-    name: "EmptyProgram",
-    instances: {
-      // optional: one minimal instance so UI/scene code can read transform safely
-      defaultInstance: {
-        id: "defaultInstance",
-        type: "thingType",
-        properties: {},
-        transform: {
-          position: { x: 0, y: 0, z: 0 },
-          rotation: { x: 0, y: 0, z: 0 }
-        }
-      }
-  },
-  connections: [],
-  metadata: {}
-};
+  console.log("Setting with Knife Assembly Task");
+  // Load all the programs
+  useStore.getState().addProgramData("KnifeAssembly", KnifeAssembly, {});
+  // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
 
-  useStore.getState().addProgramData("DevProgram", emptyProgram, {});
+  // Set the starting program
   useCompiledStore.setState({});
-  useStore.getState().setData(emptyProgram);
+  useStore.getState().setData(KnifeAssembly);
   useStore.getState().performCompileProcess();
+  // useStore.persist.rehydrate()
 }
 
 
-//computedSliceCompiledSubscribe(useCompiledStore, useStore);
+
+// if (Object.keys(useStore.getState().programData).length === 0) {
+//   // this is not the final thing I settled upon but it IS working in a sense that the UI is rendering
+//   // comment out computedSliceCompile (and its Subscribe version) when uncommenting this code block
+//   const emptyProgram = {
+//     name: "EmptyProgram",
+//     instances: {
+//       // optional: one minimal instance so UI/scene code can read transform safely
+//       defaultInstance: {
+//         id: "defaultInstance",
+//         type: "thingType",
+//         properties: {},
+//         transform: {
+//           position: { x: 0, y: 0, z: 0 },
+//           rotation: { x: 0, y: 0, z: 0 }
+//         }
+//       }
+//   },
+//   connections: [],
+//   metadata: {}
+// };
+
+//   useStore.getState().addProgramData("DevProgram", emptyProgram, {});
+//   useCompiledStore.setState({});
+//   useStore.getState().setData(emptyProgram);
+//   useStore.getState().performCompileProcess();
+// }
+
+
+computedSliceCompiledSubscribe(useCompiledStore, useStore);
 
 export default useStore;
