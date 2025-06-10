@@ -13605,175 +13605,7 @@
     "editing": false
   },
 
-  "collisionShapeType-5d92624b-e55b-45d4-a22e-f950a228d94d": {
-    "id": "collisionShapeType-5d92624b-e55b-45d4-a22e-f950a228d94d",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0.046
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 180
-      },
-      "scale": {
-        "x": 0.16,
-        "y": 0.16,
-        "z": 0.09
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-157dff10-81a4-4fa0-a244-ec7534379490": {
-    "id": "collisionBodyType-157dff10-81a4-4fa0-a244-ec7534379490",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-5d92624b-e55b-45d4-a22e-f950a228d94d"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "base_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
  
-  "meshType-c9cc03e5-b0d9-418f-b0a3-d3bf0075159d": {
-    "id": "meshType-c9cc03e5-b0d9-418f-b0a3-d3bf0075159d",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/shoulder.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "shoulder_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-e4643b19-ffed-434e-a1c0-299d3f31c4dd": {
-    "id": "collisionShapeType-e4643b19-ffed-434e-a1c0-299d3f31c4dd",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 180
-      },
-      "scale": {
-        "x": 0.13,
-        "y": 0.13,
-        "z": 0.135
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-c094a9c9-bf9a-4fef-b533-5c53c8762e65": {
-    "id": "collisionBodyType-c094a9c9-bf9a-4fef-b533-5c53c8762e65",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-e4643b19-ffed-434e-a1c0-299d3f31c4dd"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "shoulder_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
   "shoulder_link": {
     "id": "shoulder_link",
     "type": "linkType",
@@ -13800,8 +13632,8 @@
         "z": 34.950425502980224
       },
       "relativeTo": "base_link",
-      "mesh": "meshType-c9cc03e5-b0d9-418f-b0a3-d3bf0075159d",
-      "collision": "collisionBodyType-c094a9c9-bf9a-4fef-b533-5c53c8762e65",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -13872,192 +13704,7 @@
       ]
     }
   },
-  "meshType-858e54ee-9a50-487a-ba60-8608c290a495": {
-    "id": "meshType-858e54ee-9a50-487a-ba60-8608c290a495",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/upperarm.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "upper_arm_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-a5df53f9-a61c-4ee8-83c7-ae003455911c": {
-    "id": "collisionShapeType-a5df53f9-a61c-4ee8-83c7-ae003455911c",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 90,
-        "y": -1.2722218725854067e-14,
-        "z": 89.99999999999999
-      },
-      "scale": {
-        "x": 0.12,
-        "y": 0.12,
-        "z": 0.135
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-6904b3b6-6928-4fee-9f8e-cd1ffe5c6441": {
-    "id": "collisionShapeType-6904b3b6-6928-4fee-9f8e-cd1ffe5c6441",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0.21
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -89.99999999999999
-      },
-      "scale": {
-        "x": 0.12,
-        "y": 0.12,
-        "z": 0.3
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-1",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-1be20ba9-3ddc-4903-a898-a462e002a590": {
-    "id": "collisionShapeType-1be20ba9-3ddc-4903-a898-a462e002a590",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0.43
-      },
-      "rotation": {
-        "x": 90,
-        "y": -1.2722218725854067e-14,
-        "z": 89.99999999999999
-      },
-      "scale": {
-        "x": 0.12,
-        "y": 0.12,
-        "z": 0.135
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-2",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-4ddaa00d-9d1e-4bc5-9c62-de3058d9f959": {
-    "id": "collisionBodyType-4ddaa00d-9d1e-4bc5-9c62-de3058d9f959",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-a5df53f9-a61c-4ee8-83c7-ae003455911c",
-        "collisionShapeType-6904b3b6-6928-4fee-9f8e-cd1ffe5c6441",
-        "collisionShapeType-1be20ba9-3ddc-4903-a898-a462e002a590"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "upper_arm_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+  
   "upper_arm_link": {
     "id": "upper_arm_link",
     "type": "linkType",
@@ -14084,8 +13731,8 @@
         "z": 0
       },
       "relativeTo": "shoulder_link",
-      "mesh": "meshType-858e54ee-9a50-487a-ba60-8608c290a495",
-      "collision": "collisionBodyType-4ddaa00d-9d1e-4bc5-9c62-de3058d9f959",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -14198,151 +13845,8 @@
       ]
     }
   },
-  "meshType-7f5a8041-30ad-4eaf-b16d-17807dab82a4": {
-    "id": "meshType-7f5a8041-30ad-4eaf-b16d-17807dab82a4",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/forearm.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "forearm_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-eda8d4cd-db35-447c-8233-0ab2c6c73201": {
-    "id": "collisionShapeType-eda8d4cd-db35-447c-8233-0ab2c6c73201",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 90,
-        "y": -1.2722218725854067e-14,
-        "z": 89.99999999999999
-      },
-      "scale": {
-        "x": 0.12,
-        "y": 0.12,
-        "z": 0.11
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-310bec11-7049-4ecb-9939-2b040dab0cfb": {
-    "id": "collisionShapeType-310bec11-7049-4ecb-9939-2b040dab0cfb",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0.2
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -89.99999999999999
-      },
-      "scale": {
-        "x": 0.1,
-        "y": 0.1,
-        "z": 0.28
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-1",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-c5f014b7-6534-437a-a3dc-15cbb5df810b": {
-    "id": "collisionBodyType-c5f014b7-6534-437a-a3dc-15cbb5df810b",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-eda8d4cd-db35-447c-8233-0ab2c6c73201",
-        "collisionShapeType-310bec11-7049-4ecb-9939-2b040dab0cfb"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "forearm_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+
+
   "forearm_link": {
     "id": "forearm_link",
     "type": "linkType",
@@ -14369,8 +13873,8 @@
         "z": 180
       },
       "relativeTo": "upper_arm_link",
-      "mesh": "meshType-7f5a8041-30ad-4eaf-b16d-17807dab82a4",
-      "collision": "collisionBodyType-c5f014b7-6534-437a-a3dc-15cbb5df810b",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -14462,110 +13966,7 @@
       ]
     }
   },
-  "meshType-a005f24a-1dbe-471c-a913-c019d5e3cb46": {
-    "id": "meshType-a005f24a-1dbe-471c-a913-c019d5e3cb46",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/wrist1.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_1_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-a97b16b1-09dd-4418-b90f-885b23e2fe22": {
-    "id": "collisionShapeType-a97b16b1-09dd-4418-b90f-885b23e2fe22",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0.01,
-        "z": 0
-      },
-      "rotation": {
-        "x": 90,
-        "y": -1.2722218725854067e-14,
-        "z": 89.99999999999999
-      },
-      "scale": {
-        "x": 0.084,
-        "y": 0.084,
-        "z": 0.14
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-8cd41708-edc6-4c28-9310-888ac25f819c": {
-    "id": "collisionBodyType-8cd41708-edc6-4c28-9310-888ac25f819c",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-a97b16b1-09dd-4418-b90f-885b23e2fe22"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_1_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+  
   "wrist_1_link": {
     "id": "wrist_1_link",
     "type": "linkType",
@@ -14592,8 +13993,8 @@
         "z": 0
       },
       "relativeTo": "forearm_link",
-      "mesh": "meshType-a005f24a-1dbe-471c-a913-c019d5e3cb46",
-      "collision": "collisionBodyType-8cd41708-edc6-4c28-9310-888ac25f819c",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -14664,110 +14065,8 @@
       ]
     }
   },
-  "meshType-302f9b57-1d37-44ae-a510-8a4377a9aebc": {
-    "id": "meshType-302f9b57-1d37-44ae-a510-8a4377a9aebc",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/wrist2.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_2_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-ddf53290-2c54-45f3-ac8c-7bc9eb007f76": {
-    "id": "collisionShapeType-ddf53290-2c54-45f3-ac8c-7bc9eb007f76",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 0.08,
-        "y": 0.08,
-        "z": 0.11
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-03bda374-b28b-42f3-a0d4-0083a25530a3": {
-    "id": "collisionBodyType-03bda374-b28b-42f3-a0d4-0083a25530a3",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-ddf53290-2c54-45f3-ac8c-7bc9eb007f76"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_2_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+
+
   "wrist_2_link": {
     "id": "wrist_2_link",
     "type": "linkType",
@@ -14794,8 +14093,8 @@
         "z": 146.33590792460313
       },
       "relativeTo": "wrist_1_link",
-      "mesh": "meshType-302f9b57-1d37-44ae-a510-8a4377a9aebc",
-      "collision": "collisionBodyType-03bda374-b28b-42f3-a0d4-0083a25530a3",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -14866,110 +14165,8 @@
       ]
     }
   },
-  "meshType-71bbca8e-a258-4a4d-9b74-0c1f5b2fcfe6": {
-    "id": "meshType-71bbca8e-a258-4a4d-9b74-0c1f5b2fcfe6",
-    "type": "meshType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "keyword": "package://ur_description/meshes/ur5/visual/wrist3.dae",
-      "extraParams": null,
-      "compileFn": 0,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_3_link-mesh",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionShapeType-ad3ef0c0-d270-493f-887e-bde788841f9a": {
-    "id": "collisionShapeType-ad3ef0c0-d270-493f-887e-bde788841f9a",
-    "type": "collisionShapeType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "position": {
-        "x": 0,
-        "y": 0.02,
-        "z": 0
-      },
-      "rotation": {
-        "x": 90,
-        "y": -1.2722218725854067e-14,
-        "z": 89.99999999999999
-      },
-      "scale": {
-        "x": 0.08,
-        "y": 0.08,
-        "z": 0.16
-      },
-      "keyword": "cylinder",
-      "extraParams": null,
-      "updateFields": [
-        "position",
-        "rotation",
-        "scale"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "robotAgentType-10302b4f-e882-451e-b0a3-a0e7399d1c76-cylinder-0",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
-  "collisionBodyType-e72493d9-e28b-446e-aec0-c1875fbf8453": {
-    "id": "collisionBodyType-e72493d9-e28b-446e-aec0-c1875fbf8453",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [
-        "collisionShapeType-ad3ef0c0-d270-493f-887e-bde788841f9a"
-      ],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "wrist_3_link-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+
+
   "wrist_3_link": {
     "id": "wrist_3_link",
     "type": "linkType",
@@ -14996,8 +14193,8 @@
         "z": -180
       },
       "relativeTo": "wrist_2_link",
-      "mesh": "meshType-71bbca8e-a258-4a4d-9b74-0c1f5b2fcfe6",
-      "collision": "collisionBodyType-e72493d9-e28b-446e-aec0-c1875fbf8453",
+      "mesh": "",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -15068,28 +14265,7 @@
       ]
     }
   },
-  "collisionBodyType-43e4f3a8-181c-4528-b8e7-282e07f7610b": {
-    "id": "collisionBodyType-43e4f3a8-181c-4528-b8e7-282e07f7610b",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "flange-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+
   "flange": {
     "id": "flange",
     "type": "linkType",
@@ -15117,7 +14293,7 @@
       },
       "relativeTo": "wrist_3_link",
       "mesh": null,
-      "collision": "collisionBodyType-43e4f3a8-181c-4528-b8e7-282e07f7610b",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
@@ -15142,28 +14318,7 @@
       "collisions": []
     }
   },
-  "collisionBodyType-4ae4b863-6589-42a5-98bb-31558c51ca72": {
-    "id": "collisionBodyType-4ae4b863-6589-42a5-98bb-31558c51ca72",
-    "type": "collisionBodyType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "componentShapes": [],
-      "updateFields": [
-        "componentShapes"
-      ],
-      "compileFn": 0,
-      "singleton": false,
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "name": "tool0-collisionbody",
-    "canDelete": true,
-    "canEdit": true,
-    "editing": false,
-    "selected": false,
-    "docActive": false
-  },
+
   "tool0": {
     "id": "tool0",
     "type": "linkType",
@@ -15191,7 +14346,7 @@
       },
       "relativeTo": "flange",
       "mesh": null,
-      "collision": "collisionBodyType-4ae4b863-6589-42a5-98bb-31558c51ca72",
+      "collision": "",
       "singleton": false,
       "status": "VALID",
       "pendingChanges": 0,
