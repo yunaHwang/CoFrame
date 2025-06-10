@@ -346,7 +346,7 @@ export const handleUpdate = ({
   // console.log('objectTypes',objectTypes)
 
   // Determine the correct compiling function based on the object's properties
-  console.log("what is data ", data);
+  // console.log("what is data ", data);
   const updateFn =
     compilers[objectTypes[data.type].properties.compileFn.default];
 

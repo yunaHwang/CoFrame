@@ -671,9 +671,9 @@ export const createEnvironmentModel = (programData) => {
   //   console.log('Skipping invalid item in handleItem:', item);
   //   return;
   // }
-    console.log("what is item, ", item);
-    console.log("what is item.properties ,", item.properties);
-    console.log("what is item.type ", item.type);
+    //console.log("what is item, ", item);
+    //console.log("what is item.properties ,", item.properties);
+    //console.log("what is item.type ", item.type);
     const parentId = item.properties.relativeTo
       ? item.properties.relativeTo
       : "world";
@@ -684,7 +684,7 @@ export const createEnvironmentModel = (programData) => {
       // Only create collisions for non-link objects, as they are handled in the URDF
       if (item.properties.collision && item.type !== "linkType" && item.type !== "toolType" && item.type !== "thingType") {
         //console.log("what are THE ones that are causing the error ", programData[item.properties.collision]); // this gives undefined? huh?
-        console.log("what are THE ones that are causing the error ", item);
+        //console.log("what are THE ones that are causing the error ", item);
 
         let collisionObjects =
           programData[item.properties.collision].properties.componentShapes; // thought - is it because there are no componentShapes for those objects of the appro. types?
@@ -778,7 +778,7 @@ export const createEnvironmentModel = (programData) => {
           allObjectTypes.includes(i.type)
       )
       .map((i) => {
-        console.log("Filtered valid item about to go to handleItem:", i);
+        //console.log("Filtered valid item about to go to handleItem:", i);
         return i;
         })
       .forEach(handleItem);

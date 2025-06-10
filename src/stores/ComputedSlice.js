@@ -101,7 +101,7 @@ const updateRobotScene = (useCompiledStore, useStore) => {
     let invTransformer = getGoalTransformer(gripperAgent?.properties?.gripPositionOffset, gripperAgent?.properties?.gripRotationOffset, true);
 
     Object.values(state.programData).filter(v => v.dataType === DATA_TYPES.INSTANCE).forEach(entry => {
-        console.log("entry? ", entry);
+        //console.log("entry? ", entry);
         if (entry.type === 'linkType' || entry.type === 'fixtureType') {
             const itemKey = entry.id;
             let highlighted = false;
