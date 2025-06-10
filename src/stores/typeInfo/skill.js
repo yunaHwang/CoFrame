@@ -35,7 +35,7 @@ const skillFeatures = {
             type: EXTRA_TYPES.ADD_ARGUMENT_GROUP,
             allowed: [
               "machineType",
-              "locationType",
+              "fromToType",
               "thingType",
               "toolType",
               "trajectoryType",

@@ -450,7 +450,7 @@ const updateRobotScene = (useCompiledStore, useStore) => {
                 rotation: eulerToQuaternion(entry.properties.rotation),
                 scale: { x: 1, y: 1, z: 1 }
             }
-        } else if (entry.type === 'locationType' || entry.type === 'waypointType') {
+        } else if (entry.type === 'fromToType' || entry.type === 'waypointType') {
             const focused = state.focus.includes(entry.id);
             const trajectoryFocused = focusedTrajectoryChildren.includes(entry.id);
             if (trajectoryFocused) {
@@ -656,7 +656,7 @@ const updateRobotScene = (useCompiledStore, useStore) => {
     //     const item = state.programData[focusId];
     //     if (!item) {
     //         return false
-    //     } else if (false && (item.type === 'waypointType' || item.type === 'locationType')) {
+    //     } else if (false && (item.type === 'waypointType' || item.type === 'fromToType')) {
     //         Object.values(item.properties.states).forEach(robotGroup => {
     //             Object.values(robotGroup).forEach(gripperGroup => {
     //                 tfs = { ...tfs, ...gripperGroup.links }
@@ -730,8 +730,8 @@ const executeGoalCondition = (condition, compiledData, programState, programID, 
         }
         return path;
     } else if (condition.type === GOAL_FUNCTIONS.MOVE) {
-        // startLocation: id of locationType
-        // endLocation: id of locationType
+        // startLocation: id of fromToType
+        // endLocation: id of fromToType
         const stepLength = compiledData?.[programID]?.[ROOT_PATH]?.steps?.length;
         if (stepLength) {
             for (let i = 0; i < stepLength; i++) {

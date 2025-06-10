@@ -27,7 +27,7 @@ export const PoseCopier = ({ disabled, onSelect = () => {} }) => {
       pickBy(
         state.programData,
         (value) =>
-          ["waypointType", "locationType"].includes(value.type) &&
+          ["waypointType", "fromToType"].includes(value.type) &&
           value.dataType === DATA_TYPES.INSTANCE
       ),
     shallow

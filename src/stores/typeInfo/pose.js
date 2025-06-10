@@ -7,7 +7,7 @@ import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
 const locationDoc = "Locations are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
-const waypointDoc = "Waypoints are positions and orientations that are used as parts of [Trajectories](trajectoryType), and unlike [Locations](locationType), do not have inherent meaning other than to allow greater specificity of the manner with which the [Robot](robotAgentType) moves between a pair of locations."
+const waypointDoc = "Waypoints are positions and orientations that are used as parts of [Trajectories](trajectoryType), and unlike [Locations](fromToType), do not have inherent meaning other than to allow greater specificity of the manner with which the [Robot](robotAgentType) moves between a pair of locations."
 
 const poseFeatures = {
   type: TYPES.OBJECT,
@@ -88,5 +88,5 @@ const waypointFeatures = {
   }
 }
 
-export const locationType = merge(locationFeatures, baseTypeData, poseFeatures);
+export const fromToType = merge(locationFeatures, baseTypeData, poseFeatures);
 export const waypointType = merge(waypointFeatures, baseTypeData, poseFeatures);

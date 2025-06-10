@@ -57,7 +57,7 @@ const programFeatures = {
         "moveGripperType",
         "closeGripperType",
         "inputOutputType",
-        "locationType", 
+        "fromToType", 
         "thingType",
         "robotAgentType",
         "humanAgentType",

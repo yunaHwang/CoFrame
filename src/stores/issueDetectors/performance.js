@@ -64,7 +64,7 @@ export const findReachabilityIssues = ({program, programData, compiledData}) => 
     }),
 
     // Enumerate locations and add warnings for those not used in the program.
-    Object.values(programData).filter(v => v.type === 'locationType' && v.dataType === DATA_TYPES.INSTANCE).forEach(location=>{
+    Object.values(programData).filter(v => v.type === 'fromToType' && v.dataType === DATA_TYPES.INSTANCE).forEach(location=>{
         if (!anyReachable(location) && checkedPoses.includes(location.id)) {
             checkedPoses.push(location.id)
             const used = usedPoses.includes(location.id)

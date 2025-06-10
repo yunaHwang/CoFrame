@@ -1,5 +1,5 @@
 import { programType } from './program';
-import { locationType, waypointType } from './pose';
+import { fromToType, waypointType } from './pose';
 import { thingType } from './thing';
 import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
@@ -18,7 +18,7 @@ import { goalProgramType } from './goalProgram';
 const mod = { 
     inputOutputType,
     programType,
-    locationType,
+    fromToType,
     waypointType,
     thingType,
     trajectoryType,

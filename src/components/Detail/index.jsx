@@ -267,7 +267,7 @@ export const Detail = memo((_) => {
                   <SingleRobotConfigurator robot={item.id} />
                 )}
 
-                {!["waypointType", "locationType"].includes(item.type) &&
+                {!["waypointType", "fromToType"].includes(item.type) &&
                   item.properties.position !== undefined &&
                   item.properties.rotation !== undefined && (
                     <PositionRotationTF
@@ -278,7 +278,7 @@ export const Detail = memo((_) => {
                     />
                   )}
 
-                {(item.type === "locationType" ||
+                {(item.type === "fromToType" ||
                   item.type === "waypointType") && (
                   <PoseConfigurator pose={item} />
                 )}

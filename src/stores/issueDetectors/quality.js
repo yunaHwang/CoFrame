@@ -365,7 +365,7 @@ export const findUnusedFeatureIssues = ({ programData }) => {
       return (
         (v.dataType === DATA_TYPES.INSTANCE ||
           v.dataType === DATA_TYPES.ARGUMENT) &&
-        v.type === "locationType"
+        v.type === "fromToType"
       );
     })
   );
@@ -495,7 +495,7 @@ export const findUnusedFeatureIssues = ({ programData }) => {
               usedMachines.push(
                 programData[primitive.properties[argument]].ref
               );
-            } else if (programData[argument].type === "locationType") {
+            } else if (programData[argument].type === "fromToType") {
               usedLocations.push(
                 programData[primitive.properties[argument]].ref
               );

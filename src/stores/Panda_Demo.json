@@ -74,7 +74,7 @@
     "editing": false
   },
   "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "name": "Initial Location",
     "canDelete": true,
@@ -1398,7 +1398,7 @@
     "editing": false
   },
   "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "name": "Deposit Location",
     "canDelete": true,
@@ -2723,7 +2723,7 @@
     "editing": false
   },
   "location-47238d9d-5241-4bdb-8b29-877f78cb124d": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "name": "Blade Fetch Location",
     "canDelete": true,
@@ -172365,9 +172365,9 @@
     "refData": null,
     "argumentBlockData": []
   },
-  "locationType-d321d120-a02c-45c8-9209-982b96909d2f": {
-    "id": "locationType-d321d120-a02c-45c8-9209-982b96909d2f",
-    "type": "locationType",
+  "fromToType-d321d120-a02c-45c8-9209-982b96909d2f": {
+    "id": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f",
+    "type": "fromToType",
     "dataType": "INSTANCE",
     "properties": {
       "position": { "x": 0.664, "y": 0, "z": 0.043 },
@@ -258151,9 +258151,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "locationType-0b216184-fd14-42b6-8a08-e95cffe0470a",
+      "startLocation": "fromToType-0b216184-fd14-42b6-8a08-e95cffe0470a",
       "waypoints": [],
-      "endLocation": "locationType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c",
+      "endLocation": "fromToType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c",
       "compileFn": 14,
       "updateFields": ["startLocation", "waypoints", "endLocation"],
       "status": "VALID",
@@ -259494,7 +259494,7 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
+            "type": "fromToType",
             "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c"
           },
           "waypoints": [],
@@ -260814,8 +260814,8 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
-            "id": "locationType-d321d120-a02c-45c8-9209-982b96909d2f"
+            "type": "fromToType",
+            "id": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f"
           },
           "status": "VALID",
           "errorCode": null
@@ -260829,9 +260829,9 @@
     "refData": null,
     "argumentBlockData": []
   },
-  "locationType-0b216184-fd14-42b6-8a08-e95cffe0470a": {
-    "id": "locationType-0b216184-fd14-42b6-8a08-e95cffe0470a",
-    "type": "locationType",
+  "fromToType-0b216184-fd14-42b6-8a08-e95cffe0470a": {
+    "id": "fromToType-0b216184-fd14-42b6-8a08-e95cffe0470a",
+    "type": "fromToType",
     "ref": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -260840,7 +260840,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
       "name": "Initial Location",
       "canDelete": true,
@@ -262129,10 +262129,10 @@
     },
     "argumentBlockData": []
   },
-  "locationType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c": {
-    "id": "locationType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c",
-    "type": "locationType",
-    "ref": "locationType-d321d120-a02c-45c8-9209-982b96909d2f",
+  "fromToType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c": {
+    "id": "fromToType-5e16851b-fab4-471b-ad60-0f96c7ad7f6c",
+    "type": "fromToType",
+    "ref": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f",
     "dataType": "REFERENCE",
     "name": "UW Tool",
     "canDelete": true,
@@ -262140,8 +262140,8 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "id": "locationType-d321d120-a02c-45c8-9209-982b96909d2f",
-      "type": "locationType",
+      "id": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f",
+      "type": "fromToType",
       "dataType": "INSTANCE",
       "properties": {
         "position": { "x": 0.664, "y": 0, "z": 0.075 },
@@ -335321,9 +335321,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "locationType-08afb337-99d1-493d-b871-476f2777e347",
+      "startLocation": "fromToType-08afb337-99d1-493d-b871-476f2777e347",
       "waypoints": [],
-      "endLocation": "locationType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6",
+      "endLocation": "fromToType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6",
       "compileFn": 14,
       "updateFields": ["startLocation", "waypoints", "endLocation"],
       "status": "VALID",
@@ -336664,7 +336664,7 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
+            "type": "fromToType",
             "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0"
           },
           "waypoints": [],
@@ -338002,7 +338002,7 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
+            "type": "fromToType",
             "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c"
           },
           "status": "VALID",
@@ -338043,9 +338043,9 @@
     "selected": false,
     "editing": false
   },
-  "locationType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6": {
-    "id": "locationType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6",
-    "type": "locationType",
+  "fromToType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6": {
+    "id": "fromToType-8c3a47cb-3eb4-488f-835f-3e3191bf8bb6",
+    "type": "fromToType",
     "ref": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -338054,7 +338054,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
       "name": "Initial Location",
       "canDelete": true,
@@ -339386,9 +339386,9 @@
     },
     "argumentBlockData": []
   },
-  "locationType-08afb337-99d1-493d-b871-476f2777e347": {
-    "id": "locationType-08afb337-99d1-493d-b871-476f2777e347",
-    "type": "locationType",
+  "fromToType-08afb337-99d1-493d-b871-476f2777e347": {
+    "id": "fromToType-08afb337-99d1-493d-b871-476f2777e347",
+    "type": "fromToType",
     "ref": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "dataType": "REFERENCE",
     "name": "Deposit Location",
@@ -339397,7 +339397,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
       "name": "Deposit Location",
       "canDelete": true,
@@ -342570,9 +342570,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "locationType-e8432733-8024-4ff8-a322-840c86d0036d",
+      "startLocation": "fromToType-e8432733-8024-4ff8-a322-840c86d0036d",
       "waypoints": [],
-      "endLocation": "locationType-86fa0535-0477-40b2-bcf5-98d2ad8c689b",
+      "endLocation": "fromToType-86fa0535-0477-40b2-bcf5-98d2ad8c689b",
       "compileFn": 14,
       "updateFields": ["startLocation", "waypoints", "endLocation"],
       "status": "VALID",
@@ -343895,8 +343895,8 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
-            "id": "locationType-d321d120-a02c-45c8-9209-982b96909d2f"
+            "type": "fromToType",
+            "id": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f"
           },
           "waypoints": [],
           "endLocation": {
@@ -345233,7 +345233,7 @@
               "status": "VALID",
               "errorCode": null
             },
-            "type": "locationType",
+            "type": "fromToType",
             "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0"
           },
           "status": "VALID",
@@ -345248,10 +345248,10 @@
     "refData": null,
     "argumentBlockData": []
   },
-  "locationType-e8432733-8024-4ff8-a322-840c86d0036d": {
-    "id": "locationType-e8432733-8024-4ff8-a322-840c86d0036d",
-    "type": "locationType",
-    "ref": "locationType-d321d120-a02c-45c8-9209-982b96909d2f",
+  "fromToType-e8432733-8024-4ff8-a322-840c86d0036d": {
+    "id": "fromToType-e8432733-8024-4ff8-a322-840c86d0036d",
+    "type": "fromToType",
+    "ref": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f",
     "dataType": "REFERENCE",
     "name": "UW Tool",
     "canDelete": true,
@@ -345259,8 +345259,8 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "id": "locationType-d321d120-a02c-45c8-9209-982b96909d2f",
-      "type": "locationType",
+      "id": "fromToType-d321d120-a02c-45c8-9209-982b96909d2f",
+      "type": "fromToType",
       "dataType": "INSTANCE",
       "properties": {
         "position": { "x": 0.664, "y": 0, "z": 0.043 },
@@ -346571,9 +346571,9 @@
     },
     "argumentBlockData": []
   },
-  "locationType-86fa0535-0477-40b2-bcf5-98d2ad8c689b": {
-    "id": "locationType-86fa0535-0477-40b2-bcf5-98d2ad8c689b",
-    "type": "locationType",
+  "fromToType-86fa0535-0477-40b2-bcf5-98d2ad8c689b": {
+    "id": "fromToType-86fa0535-0477-40b2-bcf5-98d2ad8c689b",
+    "type": "fromToType",
     "ref": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "dataType": "REFERENCE",
     "name": "Deposit Location",
@@ -346582,7 +346582,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
       "name": "Deposit Location",
       "canDelete": true,

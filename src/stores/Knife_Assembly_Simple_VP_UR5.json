@@ -1857,7 +1857,7 @@
     }
   },
   "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "name": "Initial Location",
     "canDelete": true,
@@ -2354,7 +2354,7 @@
     "editing": false
   },
   "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "name": "Deposit Location",
     "canDelete": true,
@@ -2842,7 +2842,7 @@
     "editing": false
   },
   "location-47238d9d-5241-4bdb-8b29-877f78cb124d": {
-    "type": "locationType",
+    "type": "fromToType",
     "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "name": "Blade Fetch Location",
     "canDelete": true,
@@ -8781,9 +8781,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "locationType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0",
+      "startLocation": "fromToType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0",
       "waypoints": ["waypointType-805305de-bf3e-42f1-9d7b-ac028a745750"],
-      "endLocation": "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
+      "endLocation": "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
       "compileFn": 14,
       "updateFields": ["startLocation", "waypoints", "endLocation"],
       "description": "",
@@ -8797,9 +8797,9 @@
     "refData": null,
     "argumentBlockData": []
   },
-  "locationType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0": {
-    "id": "locationType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0",
-    "type": "locationType",
+  "fromToType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0": {
+    "id": "fromToType-dcbd1aeb-0e16-410a-9b6a-9fc7cdae27b0",
+    "type": "fromToType",
     "ref": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -8808,7 +8808,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
       "name": "Initial Location",
       "canDelete": true,
@@ -9539,9 +9539,9 @@
     },
     "argumentBlockData": []
   },
-  "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b": {
-    "id": "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
-    "type": "locationType",
+  "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b": {
+    "id": "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
+    "type": "fromToType",
     "ref": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "dataType": "REFERENCE",
     "name": "Blade Fetch Location",
@@ -9550,7 +9550,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "locationType",
+      "type": "fromToType",
       "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
       "name": "Blade Fetch Location",
       "canDelete": true,
@@ -10939,7 +10939,7 @@
       "textfield": "Open the location drawer and create a new location. Select and edit the new location, moving its position to: 1, -1, 0.3",
       "condition": {
         "type": 15,
-        "programType": "locationType",
+        "programType": "fromToType",
         "criteria": [
           {
             "path": ["properties", "position"],
@@ -11143,9 +11143,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "locationType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c",
+      "startLocation": "fromToType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c",
       "waypoints": ["waypointType-67d674a5-512b-42f6-86ca-1560ecfb6cc7"],
-      "endLocation": "locationType-8e6050d9-b807-43d1-bb7e-825ec99743a1",
+      "endLocation": "fromToType-8e6050d9-b807-43d1-bb7e-825ec99743a1",
       "compileFn": 14,
       "updateFields": ["startLocation", "waypoints", "endLocation"],
       "status": "VALID",
@@ -11158,9 +11158,9 @@
     "refData": null,
     "argumentBlockData": []
   },
-  "locationType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c": {
-    "id": "locationType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c",
-    "type": "locationType",
+  "fromToType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c": {
+    "id": "fromToType-7c7aac6b-5b3b-42a3-9221-9e4643fec22c",
+    "type": "fromToType",
     "ref": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -11171,9 +11171,9 @@
     "refData": {},
     "argumentBlockData": []
   },
-  "locationType-8e6050d9-b807-43d1-bb7e-825ec99743a1": {
-    "id": "locationType-8e6050d9-b807-43d1-bb7e-825ec99743a1",
-    "type": "locationType",
+  "fromToType-8e6050d9-b807-43d1-bb7e-825ec99743a1": {
+    "id": "fromToType-8e6050d9-b807-43d1-bb7e-825ec99743a1",
+    "type": "fromToType",
     "ref": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "dataType": "REFERENCE",
     "name": "Blade Fetch Location",
