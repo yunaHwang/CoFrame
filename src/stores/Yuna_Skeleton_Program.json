@@ -13414,29 +13414,21 @@
     },
     "argumentBlockData": []
   },
-  "moveGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc": {
-    "id": "moveGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc",
-    "type": "moveGripperType",
+  "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "closeGripperType",
     "dataType": "INSTANCE",
     "properties": {
-      "description": "Adjust the gripper position",
-      "thing": "toolType-1412be32-8246-4a22-8535-e2bbb869e835",
-      "positionStart": 10,
-      "positionEnd": 50,
-      "speed": 20,
+      "description": "Clench the gripper",
       "compileFn": 9,
       "updateFields": [
-        "thing",
-        "positionStart",
-        "positionEnd",
-        "speed"
       ],
-      "status": "PENDING",
+      "status": "VALID",
       "pendingChanges": 0,
       "errorCode": null,
       "singleton": false
     },
-    "name": "Release",
+    "name": "Close Gripper",
     "canDelete": true,
     "canEdit": true,
     "refData": null,

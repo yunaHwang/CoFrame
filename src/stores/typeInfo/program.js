@@ -55,7 +55,7 @@ const programFeatures = {
       name: "Children",
       accepts: [
         "moveGripperType",
-        //Not sure which one you need so I added all the type
+        "closeGripperType",
         "inputOutputType",
         "locationType", 
         "thingType",

@@ -90,6 +90,7 @@ export const EvdSlice = (set, get) => ({
         objectTypes: [
           // "delayType",
           "moveGripperType",
+          "closeGripperType",
           // "machineInitType",
           // "processStartType",
           // "processWaitType",

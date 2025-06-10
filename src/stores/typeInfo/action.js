@@ -111,6 +111,49 @@ const gripperFeatures = {
     },
   },
 };
+const closeGripperFeatures = {
+  name: "Close Gripper",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Clench the gripper" },
+    // thing: {
+    //   name: "Object",
+    //   accepts: ["thingType"],
+    //   default: null,
+    //   isList: false,
+    //   nullValid: true,
+    // },
+    // positionStart: {
+    //   name: "Start Position",
+    //   type: SIMPLE_PROPERTY_TYPES.NUMBER,
+    //   default: 50,
+    //   min: 0,
+    //   max: 85,
+    // },
+    // positionEnd: {
+    //   name: "End Position",
+    //   type: SIMPLE_PROPERTY_TYPES.NUMBER,
+    //   default: 50,
+    //   min: 0,
+    //   max: 85,
+    // },
+    // speed: {
+    //   name: "Speed",
+    //   type: SIMPLE_PROPERTY_TYPES.NUMBER,
+    //   default: 20,
+    //   min: 1,
+    //   max: 50,
+    //   step: 1,
+    //   visualScaling: 1,
+    //   visualPrecision: 0,
+    //   units: "mm/s",
+    // },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
 
 // const machineInitFeatures = {
 //   name: "Machine Initialize",
@@ -213,9 +256,11 @@ const gripperFeatures = {
 //   },
 // };
 
+// this is only for OPENING gripper
 const actionTypes = {
   //delayType: merge(delayFeatures, basicActionData),
   moveGripperType: merge(gripperFeatures, basicActionData),
+  closeGripperType: merge(closeGripperFeatures, basicActionData), 
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),
