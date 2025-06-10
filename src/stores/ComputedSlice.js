@@ -670,10 +670,10 @@ const updateRobotScene = (useCompiledStore, useStore) => {
     // });
 
     if (compiledState) {
-        console.log("state ", state);
-        console.log("compiledState ", compiledState);
-        console.log("tfs ", tfs);
-        console.log("items ", items);
+        //console.log("state ", state);
+        //console.log("compiledState ", compiledState);
+        //console.log("tfs ", tfs);
+        //console.log("items ", items);
         stepsToAnimation(state, compiledState, tfs, items);
     }
 
