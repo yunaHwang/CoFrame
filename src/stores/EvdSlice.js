@@ -48,6 +48,12 @@ export const EvdSlice = (set, get) => ({
       //   icon: ProcessIconStyled,
       // },
       {
+        title: "Locations",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "placeType",
+        icon: WaypointIconStyled,
+      },
+      {
         title: "From/To Connectors",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "fromToType",

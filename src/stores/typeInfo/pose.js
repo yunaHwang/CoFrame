@@ -6,8 +6,11 @@ import './rotate.css'
 import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
+// TODO - update locationDoc to refer to from/to connector 
 const locationDoc = "Locations are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
 const waypointDoc = "Waypoints are positions and orientations that are used as parts of [Trajectories](trajectoryType), and unlike [Locations](fromToType), do not have inherent meaning other than to allow greater specificity of the manner with which the [Robot](robotAgentType) moves between a pair of locations."
+const placeDoc = "Places are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
+
 
 const poseFeatures = {
   type: TYPES.OBJECT,
@@ -48,21 +51,21 @@ const poseFeatures = {
       isList: false,
       fullWidth: true
     },
-    states: {
-      name: 'States',
-      type: SIMPLE_PROPERTY_TYPES.IGNORED,
-      default: {}
-    },
-    reachability: {
-      name: 'Reachability',
-      type: SIMPLE_PROPERTY_TYPES.IGNORED,
-      default: {}
-    },
+    // states: {
+    //   name: 'States',
+    //   type: SIMPLE_PROPERTY_TYPES.IGNORED,
+    //   default: {}
+    // },
+    // reachability: {
+    //   name: 'Reachability',
+    //   type: SIMPLE_PROPERTY_TYPES.IGNORED,
+    //   default: {}
+    // },
     compileFn: {
       default: COMPILE_FUNCTIONS.POSE
     },
     updateFields: {
-      default: ['position','rotation','states','reachability']
+      default: ['position','rotation']
     },
     singleton: {
       default: true
@@ -70,8 +73,19 @@ const poseFeatures = {
   }
 }
 
+// add new features for new type definition -> placeType
+
+const placeFeatures = {
+  name: 'Locations',
+  description: placeDoc,
+  referenceBlock: {
+    color: "#AD1FDE",
+    icon: WaypointIconStyled
+  }
+}
+
 const locationFeatures = {
-  name: 'Location',
+  name: 'From/To Connectors',
   description: locationDoc,
   referenceBlock: {
     color: "#8624E0",
@@ -90,3 +104,5 @@ const waypointFeatures = {
 
 export const fromToType = merge(locationFeatures, baseTypeData, poseFeatures);
 export const waypointType = merge(waypointFeatures, baseTypeData, poseFeatures);
+// added new Type
+export const placeType = merge(placeFeatures, baseTypeData, poseFeatures);
