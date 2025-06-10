@@ -65,6 +65,20 @@ const programFeatures = {
         "processWaitType",
         "moveTrajectoryType",
         "robotInitType",
+        //Not sure which one you need so I added all the type
+        "machineType",
+        "inputOutputType",
+        "processType", 
+        "locationType", 
+        "waypointType", 
+        "thingType",
+        "fixtureType",
+        "toolType",
+        "robotAgentType",
+        "humanAgentType",
+        "gripperType",
+        "graspPointType"
+
       ],
       default: [],
       isList: true,
