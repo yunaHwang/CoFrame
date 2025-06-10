@@ -13448,24 +13448,18 @@
     "type": "moveGripperType",
     "dataType": "INSTANCE",
     "properties": {
-      "description": "Adjust the gripper position",
-      "thing": "toolType-301d5880-00b2-44b3-b065-1c2b529f01e7",
-      "positionStart": 50,
-      "positionEnd": 10,
-      "speed": 20,
+      "description": "Fully open the gripper",
+      "thing": "",
       "compileFn": 9,
       "updateFields": [
-        "thing",
-        "positionStart",
-        "positionEnd",
-        "speed"
+        "thing"
       ],
       "status": "VALID",
       "pendingChanges": 0,
       "errorCode": null,
       "singleton": false
     },
-    "name": "Move Gripper",
+    "name": "Open Gripper",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
