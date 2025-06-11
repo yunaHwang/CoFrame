@@ -2821,9 +2821,9 @@
     "selected": false,
     "editing": false
   },
-  "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
-    "type": "locationType",
-    "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+  "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "toLocationType",
+    "id": "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "name": "To",
     "canDelete": true,
     "canEdit": true,
