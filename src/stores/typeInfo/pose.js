@@ -169,17 +169,18 @@ const locationFeatures = {
   instanceBlock: fromToInstanceBlock,
   properties: {
     description: { default: "some descriptor" },
-    // let's temporarily change this to thingType
-    thing: {
-      name: "Object",
-      accepts: ["thingType"],
+    // let's temporarily change this to thingType (worked)
+    // back to placeType
+    place: {
+      name: "Location",
+      accepts: ["placeType"],
       default: null,
       isList: false,
       nullValid: true,
     },
     compileFn: { default: COMPILE_FUNCTIONS.POSE },
     updateFields: {
-      default: ["thing"], // let's temporarily change this to thingType
+      default: ["place"], // let's temporarily change this to thingType -> back to placeType
     },
     singleton: {default: false}
   },
