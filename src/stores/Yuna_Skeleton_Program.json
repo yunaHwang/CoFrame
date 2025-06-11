@@ -2806,10 +2806,10 @@
     "canEdit": true,
     "properties": {
       "description": "Some descriptor string (optional)",
-      "place": null,
+      "thing": "",
       "compileFn": 7,
       "updateFields": [
-        "place"
+        "thing"
       ],
       "status": "VALID",
       "pendingChanges": 0,
@@ -2829,13 +2829,13 @@
     "canEdit": true,
     "properties": {
       "description": "Some descriptor string (optional)",
-      "place": null,
+      "thing": "",
       "status": "VALID",
       "pendingChanges": 0,
       "errorCode": null,
       "compileFn": 7,
       "updateFields": [
-        "place"
+        "thing"
       ],
       "singleton": true
     },

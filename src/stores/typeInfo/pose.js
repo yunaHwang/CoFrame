@@ -90,29 +90,29 @@ const placeFeatures = {
 }
 
 // //added...
-// const fromToInstanceBlock = {
-//   onCanvas: false,
-//   color: "#8624E0",  // same as your LocationIcon color
-//   icon: LocationIconStyled,
-//   extras: [
-//     //EXTRA_TYPES.LOCKED_INDICATOR,
-//     { 
-//       type: EXTRA_TYPES.INDICATOR_ICON,
-//       accessor: statusIcon,
-//       label: baseIndicatorLabelFn
-//     },
-//     {
-//       icon: FiMoreHorizontal,
-//       type: EXTRA_TYPES.DROPDOWN,
-//       contents: [
-//         EXTRA_TYPES.NAME_EDIT_TOGGLE,
-//         EXTRA_TYPES.DELETE_BUTTON,
-//         EXTRA_TYPES.DOC_TOGGLE,
-//         EXTRA_TYPES.SELECTION_TOGGLE
-//       ]
-//     }
-//   ]
-// };
+const fromToInstanceBlock = {
+  onCanvas: false,
+  color: "#8624E0",  // same as your LocationIcon color
+  icon: LocationIconStyled,
+  extras: [
+    //EXTRA_TYPES.LOCKED_INDICATOR,
+    { 
+      type: EXTRA_TYPES.INDICATOR_ICON,
+      accessor: statusIcon,
+      label: baseIndicatorLabelFn
+    },
+    {
+      icon: FiMoreHorizontal,
+      type: EXTRA_TYPES.DROPDOWN,
+      contents: [
+        EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        EXTRA_TYPES.DELETE_BUTTON,
+        EXTRA_TYPES.DOC_TOGGLE,
+        EXTRA_TYPES.SELECTION_TOGGLE
+      ]
+    }
+  ]
+};
 // // in tandem with the above code
 // const locationFeatures = {
 //   name: 'From/To Connectors',
@@ -166,19 +166,22 @@ const placeFeatures = {
 const locationFeatures = {
   name: "From/To Connectors",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  instanceBlock: fromToInstanceBlock,
   properties: {
     description: { default: "some descriptor" },
-    place: {
+    // let's temporarily change this to thingType
+    thing: {
       name: "Object",
-      accepts: ["placeType"],
+      accepts: ["thingType"],
       default: null,
       isList: false,
       nullValid: true,
     },
     compileFn: { default: COMPILE_FUNCTIONS.POSE },
     updateFields: {
-      default: ["place"],
+      default: ["thing"], // let's temporarily change this to thingType
     },
+    singleton: {default: false}
   },
   referenceBlock: {
     color: "#8624E0",
@@ -211,7 +214,18 @@ const waypointFeatures = {
 export const placeType = merge(placeFeatures, baseTypeData, poseFeatures
 );
 
-export const locationType = merge(locationFeatures, baseTypeData, poseFeatures);
+export const locationType = merge(
+  {},
+  poseFeatures,
+  baseTypeData,
+  {
+    ...locationFeatures,
+    type: TYPES.OBJECT,
+    instanceBlock: fromToInstanceBlock  // ✅ must not be null or incomplete
+  }
+);
+
+//export const locationType = merge(poseFeatures, baseTypeData, locationFeatures);
 
 // export const locationType = {
 //   ...poseFeatures,
