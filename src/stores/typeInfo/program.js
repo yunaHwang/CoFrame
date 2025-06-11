@@ -56,6 +56,8 @@ const programFeatures = {
       accepts: [
         "moveGripperType",
         "closeGripperType",
+        "stopStretchType",
+        "saveLogStretchType",
         "inputOutputType",
         "locationType", 
         "toLocationType",

@@ -3179,6 +3179,48 @@
     "selected": false,
     "editing": false
   },
+  "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "stopStretchType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stop whatever action Stretch was doing",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Stop Stretch Action",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+  "saveLogStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "saveLogStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "saveLogStretchType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Save Stretch log of whatever happened so far",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Save Stretch Log",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
   "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc": {
     "id": "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc",
     "type": "closeGripperType",

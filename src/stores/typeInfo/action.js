@@ -86,11 +86,36 @@ const gripperFeatures = {
     },
   },
 };
+
 const closeGripperFeatures = {
   name: "Close Gripper",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
     description: { default: "Clench the gripper" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
+const stopFeatures = {
+  name: "Stop Stretch Action",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stop whatever action Stretch was doing" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
+const saveLogFeatures = {
+  name: "Save Stretch Log",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Save Stretch log of whatever happened so far" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
       default: [],
@@ -204,6 +229,8 @@ const actionTypes = {
   //delayType: merge(delayFeatures, basicActionData),
   moveGripperType: merge(gripperFeatures, basicActionData),
   closeGripperType: merge(closeGripperFeatures, basicActionData), 
+  stopStretchType: merge(stopFeatures, basicActionData),
+  saveLogStretchType: merge(saveLogFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),
