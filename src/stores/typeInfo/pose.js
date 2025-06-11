@@ -91,6 +91,7 @@ const placeFeatures = {
 
 // //added...
 const fromInstanceBlock = {
+  hideNewPrefix: true,
   onCanvas: false,
   color: "#8624E0",  // same as your LocationIcon color
   icon: LocationIconStyled,
@@ -116,6 +117,7 @@ const fromInstanceBlock = {
 
 // //added...
 const toInstanceBlock = {
+  hideNewPrefix: true,
   onCanvas: false,
   color: "#8624E0",  // same as your LocationIcon color
   icon: LocationIconStyled,
