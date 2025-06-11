@@ -12,7 +12,7 @@ import "./rotate.css";
 import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-const trajectoryDoc = 'Trajectories are a collection of two [Locations](fromToType), and a set of optional intermediate [Waypoints](waypointType). They are used within the [Move Trajectory](moveTrajectoryType) action to move a [Robot](robotAgentType) from one location to another.';
+const trajectoryDoc = 'Trajectories are a collection of two [Locations](locationType), and a set of optional intermediate [Waypoints](waypointType). They are used within the [Move Trajectory](moveTrajectoryType) action to move a [Robot](robotAgentType) from one location to another.';
 
 const trajectoryFeatures = {
   name: "Trajectory",
@@ -65,7 +65,7 @@ const trajectoryFeatures = {
   properties: {
     startLocation: {
       name: "Start Location",
-      accepts: ["fromToType"],
+      accepts: ["locationType"],
       default: null,
       isList: false,
     },
@@ -77,7 +77,7 @@ const trajectoryFeatures = {
     },
     endLocation: {
       name: "End Location",
-      accepts: ["fromToType"],
+      accepts: ["locationType"],
       default: null,
       isList: false,
     },

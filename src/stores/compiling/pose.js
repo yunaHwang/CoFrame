@@ -40,6 +40,9 @@ export const poseCompiler = ({
   module,
   worldModel,
 }) => {
+
+  console.log("!!! what is the properties, ", data, properties);
+
   // Initialize status info
   let status = STATUS.VALID;
   let errorCode = null;

@@ -2797,72 +2797,53 @@
       "errorCode": null
     }
   },
-  "fromTo-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
-    "type": "fromToType",
-    "id": "fromTo-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
+ "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
+    "type": "locationType",
+    "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
+    "dataType": "INSTANCE",
     "name": "From",
     "canDelete": true,
     "canEdit": true,
     "properties": {
       "description": "Some descriptor string (optional)",
+      "place": null,
+      "compileFn": 7,
+      "updateFields": [
+        "place"
+      ],
       "status": "VALID",
       "pendingChanges": 0,
       "errorCode": null,
-      "compileFn": 7,
-      "updateFields": [
-        "position",
-        "rotation"
-      ],
-      "singleton": true,
-      "position": {
-        "x": -0.198,
-        "y": -0.556,
-        "z": 0.344
-      },
-      "rotation": {
-        "x": 36.26548241445869,
-        "y": 1.105647980744384,
-        "z": -95.24264055401277
-      },
-      "reachable": false
+      "singleton": true
     },
-    "dataType": "INSTANCE",
+    "refData": null,
+    "argumentBlockData": [],
     "selected": false,
     "editing": false
   },
-  "fromTo-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
-    "type": "fromToType",
-    "id": "fromTo-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+  "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "locationType",
+    "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "name": "To",
     "canDelete": true,
     "canEdit": true,
     "properties": {
       "description": "Some descriptor string (optional)",
+      "place": null,
       "status": "VALID",
       "pendingChanges": 0,
       "errorCode": null,
       "compileFn": 7,
       "updateFields": [
-        "position",
-        "rotation"
+        "place"
       ],
-      "singleton": true,
-      "position": {
-        "x": -0.532573544131117,
-        "y": -0.253692009472414,
-        "z": 0.30663445280619034
-      },
-      "rotation": {
-        "x": -91.00001306780176,
-        "y": 0.29289670623391584,
-        "z": -179.9948874244335
-      },
-      "reachable": false
+      "singleton": true
     },
     "dataType": "INSTANCE",
     "selected": false,
     "editing": false
   },
+
   "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
     "type": "placeType",
     "id": "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",

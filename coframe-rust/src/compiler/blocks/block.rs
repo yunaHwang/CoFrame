@@ -9,7 +9,7 @@ use crate::compiler::blocks::waypoint::WaypointBlock;
 pub enum Block {
     // InputOutput(InputOutputBlock),
     // Program(ProgramBlock),
-    #[serde(rename = "fromToType")]
+    #[serde(rename = "locationType")]
     Location(LocationBlock),
     #[serde(rename = "waypointType")]
     Waypoint(WaypointBlock),

@@ -23131,7 +23131,7 @@
             "status": "VALID",
             "errorCode": null
           },
-          "type": "fromToType",
+          "type": "locationType",
           "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c"
         },
         "waypoints": [
@@ -27850,7 +27850,7 @@
             "status": "VALID",
             "errorCode": null
           },
-          "type": "fromToType",
+          "type": "locationType",
           "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d"
         },
         "status": "VALID",
@@ -68359,7 +68359,7 @@
             "status": "VALID",
             "errorCode": null
           },
-          "type": "fromToType",
+          "type": "locationType",
           "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c"
         },
         "waypoints": [
@@ -73078,7 +73078,7 @@
             "status": "VALID",
             "errorCode": null
           },
-          "type": "fromToType",
+          "type": "locationType",
           "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d"
         },
         "status": "VALID",

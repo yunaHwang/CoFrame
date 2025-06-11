@@ -74,7 +74,7 @@ const swapLocations = (state, id) => {
   state.focus.forEach(entry => {
     if (!hasTrajectory && (state.programData[entry]?.type === 'trajectoryType' || state.programData[entry]?.type === 'moveTrajectoryType')) {
       hasTrajectory = true;
-    } else if (hasTrajectory && (state.programData[entry]?.type === 'fromToType' || state.programData[entry]?.type === 'waypointType')) {
+    } else if (hasTrajectory && (state.programData[entry]?.type === 'locationType' || state.programData[entry]?.type === 'waypointType')) {
       endingFocus = entry;
     }
   });
@@ -300,7 +300,7 @@ export const GuiSlice = (set, get) => ({
         // let graspObj = state.programData[graspId];
 
         // Create a location type
-        let newId = createNewInstance(state, "fromToType");
+        let newId = createNewInstance(state, "locationType");
         let worldPose = transform.world;
 
         // Update that location with the position of the grasp point

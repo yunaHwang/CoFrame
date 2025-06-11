@@ -4,7 +4,7 @@ import { COMPILE_FUNCTIONS, REFERENCEABLE_OBJECTS } from "../Constants";
 import { baseTypeData } from "./baseType";
 
 const humanAgentDoc = 'Human Agents represent the workers that cooperate with [Robots](robotAgentType) and [Machines](machineType), and interact with [Tools](toolType) to execute the given [Program](programType)';
-const gripperAgentDoc = 'The gripper is a part of the [Robot](robotAgentType) that can perform actions like [Move Gripper](moveGripperType), and represents the part of the robot that is matched to [Locations](fromToType) and [Waypoints](waypointType)';
+const gripperAgentDoc = 'The gripper is a part of the [Robot](robotAgentType) that can perform actions like [Move Gripper](moveGripperType), and represents the part of the robot that is matched to [Locations](locationType) and [Waypoints](waypointType)';
 const robotAgentDoc = 'Robot Agents are the physical robots/cobots that cooperate with [Humans](humanAgentType) and [Machines](machineType), and interact with [Tools](toolType) to execute the given [Program](programType)';
 
 const basicAgentData = {

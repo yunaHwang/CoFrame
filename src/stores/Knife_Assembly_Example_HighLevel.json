@@ -2798,7 +2798,7 @@
     }
   },
   "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
-    "type": "fromToType",
+    "type": "locationType",
     "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "name": "Initial Location",
     "canDelete": true,
@@ -5178,7 +5178,7 @@
     "editing": false
   },
   "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
-    "type": "fromToType",
+    "type": "locationType",
     "id": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
     "name": "Deposit Location",
     "canDelete": true,
@@ -7657,7 +7657,7 @@
     "editing": false
   },
   "location-47238d9d-5241-4bdb-8b29-877f78cb124d": {
-    "type": "fromToType",
+    "type": "locationType",
     "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "name": "Blade Fetch Location",
     "canDelete": true,
@@ -10212,9 +10212,9 @@
     "selected": false,
     "editing": false
   },
-  "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3": {
-    "id": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
-    "type": "fromToType",
+  "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3": {
+    "id": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
+    "type": "locationType",
     "dataType": "INSTANCE",
     "properties": {
       "status": "VALID",
@@ -21727,9 +21727,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-3ec3824c-366c-410e-85cd-815f27fa49f5",
+      "startLocation": "locationType-3ec3824c-366c-410e-85cd-815f27fa49f5",
       "waypoints": [],
-      "endLocation": "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
+      "endLocation": "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -21749,9 +21749,9 @@
     "argumentBlockData": [],
     "editing": false
   },
-  "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b": {
-    "id": "fromToType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
-    "type": "fromToType",
+  "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b": {
+    "id": "locationType-e78b6aaa-4d6a-43f0-8e7b-46e168e76c9b",
+    "type": "locationType",
     "ref": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "dataType": "REFERENCE",
     "name": "Blade Fetch Location",
@@ -21760,7 +21760,7 @@
     "editing": false,
     "selected": false,
     "refData": {
-      "type": "fromToType",
+      "type": "locationType",
       "id": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
       "name": "Blade Fetch Location",
       "canDelete": true,
@@ -22873,7 +22873,7 @@
       "textfield": "Perform a move trajectory from the transport jig location to the blade fetch location.",
       "condition": {
         "type": 10,
-        "startLocation": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+        "startLocation": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
         "endLocation": "location-47238d9d-5241-4bdb-8b29-877f78cb124d"
       },
       "example": [
@@ -22927,9 +22927,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-goal-transport",
+      "startLocation": "locationType-goal-transport",
       "waypoints": [],
-      "endLocation": "fromToType-goal-bladefetch",
+      "endLocation": "locationType-goal-bladefetch",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -22948,10 +22948,10 @@
     "docActive": false,
     "refData": null
   },
-  "fromToType-goal-transport": {
-    "id": "fromToType-goal-transport",
-    "type": "fromToType",
-    "ref": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+  "locationType-goal-transport": {
+    "id": "locationType-goal-transport",
+    "type": "locationType",
+    "ref": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
     "dataType": "REFERENCE",
     "name": "Initial Location",
     "canDelete": true,
@@ -22961,9 +22961,9 @@
     "docActive": false,
     "refData": {}
   },
-  "fromToType-goal-bladefetch": {
-    "id": "fromToType-goal-bladefetch",
-    "type": "fromToType",
+  "locationType-goal-bladefetch": {
+    "id": "locationType-goal-bladefetch",
+    "type": "locationType",
     "ref": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
@@ -23057,7 +23057,7 @@
       "condition": {
         "type": 10,
         "startLocation": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
-        "endLocation": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
+        "endLocation": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
       },
       "example": [
         "moveTrajectoryType-goal-move-blade-to-assembly"
@@ -23110,9 +23110,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-goal-sheathed-blade",
+      "startLocation": "locationType-goal-sheathed-blade",
       "waypoints": [],
-      "endLocation": "fromToType-goal-assembly-jig-blade",
+      "endLocation": "locationType-goal-assembly-jig-blade",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -23131,9 +23131,9 @@
     "docActive": false,
     "refData": null
   },
-  "fromToType-goal-sheathed-blade": {
-    "id": "fromToType-goal-sheathed-blade",
-    "type": "fromToType",
+  "locationType-goal-sheathed-blade": {
+    "id": "locationType-goal-sheathed-blade",
+    "type": "locationType",
     "ref": "location-47238d9d-5241-4bdb-8b29-877f78cb124d",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -23144,10 +23144,10 @@
     "docActive": false,
     "refData": {}
   },
-  "fromToType-goal-assembly-jig-blade": {
-    "id": "fromToType-goal-assembly-jig-blade",
-    "type": "fromToType",
-    "ref": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
+  "locationType-goal-assembly-jig-blade": {
+    "id": "locationType-goal-assembly-jig-blade",
+    "type": "locationType",
+    "ref": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
     "canDelete": true,
@@ -23205,8 +23205,8 @@
       "textfield": "Perform a move trajectory from the Handle 1 location to the assembly jig location.",
       "condition": {
         "type": 10,
-        "startLocation": "fromToType-handle1",
-        "endLocation": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
+        "startLocation": "locationType-handle1",
+        "endLocation": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
       },
       "example": [
         "moveTrajectoryType-goal-move-handle1-to-assembly"
@@ -23258,9 +23258,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-goal-handle1",
+      "startLocation": "locationType-goal-handle1",
       "waypoints": [],
-      "endLocation": "fromToType-goal-assembly-jig-handle1",
+      "endLocation": "locationType-goal-assembly-jig-handle1",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -23279,10 +23279,10 @@
     "docActive": false,
     "refData": null
   },
-  "fromToType-goal-handle1": {
-    "id": "fromToType-goal-handle1",
-    "type": "fromToType",
-    "ref": "fromToType-handle1",
+  "locationType-goal-handle1": {
+    "id": "locationType-goal-handle1",
+    "type": "locationType",
+    "ref": "locationType-handle1",
     "dataType": "REFERENCE",
     "name": "Initial Location",
     "canDelete": true,
@@ -23292,10 +23292,10 @@
     "docActive": false,
     "refData": {}
   },
-  "fromToType-goal-assembly-jig-handle1": {
-    "id": "fromToType-goal-assembly-jig-handle1",
-    "type": "fromToType",
-    "ref": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
+  "locationType-goal-assembly-jig-handle1": {
+    "id": "locationType-goal-assembly-jig-handle1",
+    "type": "locationType",
+    "ref": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
     "canDelete": true,
@@ -23319,8 +23319,8 @@
       "textfield": "Perform a move trajectory from the Handle 2 location to the assembly jig location.",
       "condition": {
         "type": 10,
-        "startLocation": "fromToType-handle1",
-        "endLocation": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
+        "startLocation": "locationType-handle1",
+        "endLocation": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3"
       },
       "example": [
         "moveTrajectoryType-goal-move-handle2-to-assembly"
@@ -23372,9 +23372,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-goal-handle2",
+      "startLocation": "locationType-goal-handle2",
       "waypoints": [],
-      "endLocation": "fromToType-goal-assembly-jig-handle2",
+      "endLocation": "locationType-goal-assembly-jig-handle2",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -23393,10 +23393,10 @@
     "docActive": false,
     "refData": null
   },
-  "fromToType-goal-handle2": {
-    "id": "fromToType-goal-handle2",
-    "type": "fromToType",
-    "ref": "fromToType-handle2",
+  "locationType-goal-handle2": {
+    "id": "locationType-goal-handle2",
+    "type": "locationType",
+    "ref": "locationType-handle2",
     "dataType": "REFERENCE",
     "name": "Initial Location",
     "canDelete": true,
@@ -23406,10 +23406,10 @@
     "docActive": false,
     "refData": {}
   },
-  "fromToType-goal-assembly-jig-handle2": {
-    "id": "fromToType-goal-assembly-jig-handle2",
-    "type": "fromToType",
-    "ref": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
+  "locationType-goal-assembly-jig-handle2": {
+    "id": "locationType-goal-assembly-jig-handle2",
+    "type": "locationType",
+    "ref": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
     "canDelete": true,
@@ -23467,7 +23467,7 @@
       "textfield": "Perform a move trajectory from the assembly jig location to the deposit location.",
       "condition": {
         "type": 10,
-        "startLocation": "fromToType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
+        "startLocation": "locationType-fd9c2bd0-0524-4c67-9367-6f65375652c3",
         "endLocation": "location-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0"
       },
       "example": [],
@@ -26466,9 +26466,9 @@
       "length": 0
     }
   },
-  "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed": {
-    "id": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
-    "type": "fromToType",
+  "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed": {
+    "id": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+    "type": "locationType",
     "dataType": "INSTANCE",
     "properties": {
       "status": "VALID",
@@ -29175,9 +29175,9 @@
     "selected": false,
     "docActive": false
   },
-  "fromToType-handle1": {
-    "id": "fromToType-handle1",
-    "type": "fromToType",
+  "locationType-handle1": {
+    "id": "locationType-handle1",
+    "type": "locationType",
     "dataType": "INSTANCE",
     "properties": {
       "status": "VALID",
@@ -31642,9 +31642,9 @@
     "selected": false,
     "docActive": false
   },
-  "fromToType-handle2": {
-    "id": "fromToType-handle2",
-    "type": "fromToType",
+  "locationType-handle2": {
+    "id": "locationType-handle2",
+    "type": "locationType",
     "dataType": "INSTANCE",
     "properties": {
       "status": "VALID",
@@ -33933,9 +33933,9 @@
     "type": "trajectoryType",
     "dataType": "INSTANCE",
     "properties": {
-      "startLocation": "fromToType-ef3b09c9-82c5-452c-a3b4-bc675eacd189",
+      "startLocation": "locationType-ef3b09c9-82c5-452c-a3b4-bc675eacd189",
       "waypoints": [],
-      "endLocation": "fromToType-373c12bd-87ca-46d7-84bc-4ae8b182fd59",
+      "endLocation": "locationType-373c12bd-87ca-46d7-84bc-4ae8b182fd59",
       "compileFn": 14,
       "updateFields": [
         "startLocation",
@@ -33954,9 +33954,9 @@
     "docActive": false,
     "refData": null
   },
-  "fromToType-ef3b09c9-82c5-452c-a3b4-bc675eacd189": {
-    "id": "fromToType-ef3b09c9-82c5-452c-a3b4-bc675eacd189",
-    "type": "fromToType",
+  "locationType-ef3b09c9-82c5-452c-a3b4-bc675eacd189": {
+    "id": "locationType-ef3b09c9-82c5-452c-a3b4-bc675eacd189",
+    "type": "locationType",
     "ref": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
     "dataType": "REFERENCE",
     "name": "Initial Location",
@@ -33966,7 +33966,7 @@
     "selected": false,
     "docActive": false,
     "refData": {
-      "type": "fromToType",
+      "type": "locationType",
       "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
       "name": "Initial Location",
       "canDelete": true,
@@ -36487,10 +36487,10 @@
       "editing": false
     }
   },
-  "fromToType-373c12bd-87ca-46d7-84bc-4ae8b182fd59": {
-    "id": "fromToType-373c12bd-87ca-46d7-84bc-4ae8b182fd59",
-    "type": "fromToType",
-    "ref": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+  "locationType-373c12bd-87ca-46d7-84bc-4ae8b182fd59": {
+    "id": "locationType-373c12bd-87ca-46d7-84bc-4ae8b182fd59",
+    "type": "locationType",
+    "ref": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
     "canDelete": true,
@@ -36499,8 +36499,8 @@
     "selected": false,
     "docActive": false,
     "refData": {
-      "id": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
-      "type": "fromToType",
+      "id": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+      "type": "locationType",
       "dataType": "INSTANCE",
       "properties": {
         "position": {
@@ -36826,10 +36826,10 @@
       "editing": false
     }
   },
-  "fromToType-3ec3824c-366c-410e-85cd-815f27fa49f5": {
-    "id": "fromToType-3ec3824c-366c-410e-85cd-815f27fa49f5",
-    "type": "fromToType",
-    "ref": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+  "locationType-3ec3824c-366c-410e-85cd-815f27fa49f5": {
+    "id": "locationType-3ec3824c-366c-410e-85cd-815f27fa49f5",
+    "type": "locationType",
+    "ref": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
     "dataType": "REFERENCE",
     "name": "Transport Jig",
     "canDelete": true,
@@ -36838,8 +36838,8 @@
     "selected": false,
     "docActive": false,
     "refData": {
-      "id": "fromToType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
-      "type": "fromToType",
+      "id": "locationType-99d8bcd3-e8d2-48d7-8261-a8d000e16fed",
+      "type": "locationType",
       "dataType": "INSTANCE",
       "properties": {
         "position": {
