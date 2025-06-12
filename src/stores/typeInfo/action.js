@@ -123,6 +123,25 @@ const saveLogFeatures = {
   },
 };
 
+const sayFeatures = {
+  name: "Stretch Say",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch says the utterance fed into as the argument" },
+    speech: {
+      name: "Speech Utterance",
+      accepts: ["speechType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: ["speech"],
+    },
+  },
+};
+
 // const machineInitFeatures = {
 //   name: "Machine Initialize",
 //   description: "An action that initializes the [Machine](machineType) for usage. This need only be done once per execution of the [Program](programType).",
@@ -231,6 +250,7 @@ const actionTypes = {
   closeGripperType: merge(closeGripperFeatures, basicActionData), 
   stopStretchType: merge(stopFeatures, basicActionData),
   saveLogStretchType: merge(saveLogFeatures, basicActionData),
+  sayType: merge(sayFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),

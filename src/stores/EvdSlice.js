@@ -71,6 +71,12 @@ export const EvdSlice = (set, get) => ({
         objectType: "thingType",
         icon: ThingIconStyled,
       },
+      {
+        title: "Speech Utterance",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "speechType",
+        icon: SkillIconStyled,
+      },
       // {
       //   title: "Tools",
       //   dataType: DATA_TYPES.REFERENCE,
@@ -99,6 +105,7 @@ export const EvdSlice = (set, get) => ({
           "closeGripperType",
           "stopStretchType",
           "saveLogStretchType",
+          "sayType",
           // "machineInitType",
           // "processStartType",
           // "processWaitType",

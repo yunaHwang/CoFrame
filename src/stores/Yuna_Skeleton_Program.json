@@ -2877,6 +2877,26 @@
     "selected": false,
     "editing": false
   },
+  "speechType-08892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "speechType",
+    "name": "'Stretch passing by, folks!'",
+    "id": "speechType-08892a7c1c1911ecbe2600155d1a70a2",
+    "canEdit": true,
+    "canDelete": true,
+    "properties": {
+      "compileFn": 14,
+      "updateFields": [
+      ],
+      "singleton": true,
+      "description": "",
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
   "thingType-98892a7c1c1911ecbe2600155d1a70a2": {
     "type": "thingType",
     "name": "Right Handle",
@@ -3266,6 +3286,29 @@
     "editing": false
   },
 
+  "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "sayType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch says the utterance fed into as the argument",
+      "speech": "",
+      "compileFn": 9,
+      "updateFields": [
+        "speech"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Stretch Say",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
  
   "shoulder_link": {
     "id": "shoulder_link",

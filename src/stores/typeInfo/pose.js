@@ -11,35 +11,6 @@ const locationDoc = "Locations are meaningful positions in the scene. For exampl
 const waypointDoc = "Waypoints are positions and orientations that are used as parts of [Trajectories](trajectoryType), and unlike [Locations](locationType), do not have inherent meaning other than to allow greater specificity of the manner with which the [Robot](robotAgentType) moves between a pair of locations."
 const placeDoc = "Places are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
 
-// const basicActionData = {
-//   type: TYPES.OBJECT,
-//   instanceBlock: {
-//     hideNewPrefix: true,
-//     onCanvas: false,
-//     color: "#629e6c",
-//     icon: PrimitiveIconStyled,
-//     extras: [
-//       // EXTRA_TYPES.LOCKED_INDICATOR,
-//       {
-//         type: EXTRA_TYPES.INDICATOR_ICON,
-//         accessor: statusIcon,
-//         label: baseIndicatorLabelFn,
-//       },
-//       EXTRA_TYPES.DOC_TOGGLE,
-//       {
-//         icon: FiMoreHorizontal,
-//         type: EXTRA_TYPES.DROPDOWN,
-//         contents: [
-//           EXTRA_TYPES.DELETE_BUTTON,
-//           EXTRA_TYPES.SELECTION_TOGGLE
-//         ],
-//       },
-//     ],
-//   },
-//   referenceBlock: null,
-//   ...baseTypeData
-// };
-
 
 const poseFeatures = {
   type: TYPES.OBJECT,
