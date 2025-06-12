@@ -37,20 +37,20 @@ export const ProgramTile = forwardRef((_,ref) => {
                         <Stack direction='row' gap={1} alignItems='center'>
                             <Box
                             sx = {{
-                                backgroundColor: '#E0FFFF', 
+                                backgroundColor: '#bf9264', 
                                 padding: '6px 12px',
-                                borderRadius: '4px'
+                                borderRadius: '2px'
                             }}
                             >
-                                Distance traveled: {distanceTravel} miles
+                                <Typography>Distance Traveled: {distanceTravel} miles</Typography>
                             </Box>
                             <Box
                             sx = {{
-                                backgroundColor: '#E0FFFF', 
+                                backgroundColor: '#f0f1c5', 
                                 padding: '6px 12px',
-                                borderRadius: '4px'
+                                borderRadius: '2px'
                             }}>
-                                Current batter level {batteryLevel}%
+                                <Typography>Current Battery Level {batteryLevel}%</Typography>
                             </Box>
                             {isProcessing && (
                                 <CircularProgress size={18} variant='indeterminate' color='primaryColor' />

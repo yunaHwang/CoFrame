@@ -247,10 +247,10 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
           borderRadius: 2,
           minWidth: 300,
           textAlign: 'center',
-          backgroundColor: '#E0FFFF'
+          backgroundColor: '#604652'
         }}
       >
-        <Typography variant="h6" sx={{ fontSize: '2.5 rem',color: 'black' }}>
+        <Typography variant="h6" sx={{ fontSize: '2.5 rem',color: 'white' }}>
           Your fallback program is safe. You are good to go.
         </Typography>
         <Button
@@ -260,7 +260,7 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
             setShowSuccess(false);
             setFallbackActions([]);
           }}
-          sx={{ minWidth: 100 }}
+          sx={{ minWidth: 100, backgroundColor: "#d29f80", '&:hover': {backgroundColor: "#97866a"}, }}
         >
           Great
         </Button>
