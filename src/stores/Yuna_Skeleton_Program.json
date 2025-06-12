@@ -3242,6 +3242,30 @@
     "argumentBlockData": [],
     "editing": false
   },
+
+    "moveForwardType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "moveForwardType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "moveForwardType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch moves forward by the amount of grid numbers provided as a parameter",
+      "direction": "",
+      "compileFn": 9,
+      "updateFields": [
+        "direction"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Move Forward",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
  
   "shoulder_link": {
     "id": "shoulder_link",

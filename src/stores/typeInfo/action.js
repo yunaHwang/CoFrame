@@ -142,6 +142,25 @@ const sayFeatures = {
   },
 };
 
+const moveForwardFeatures = {
+  name: "Move Forward",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch moves forward by the amount of grid numbers provided as a parameter" },
+    direction: {
+      name: "Grid Increments",
+      accepts: ["directionalityType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: ["direction"],
+    },
+  },
+};
+
 // const machineInitFeatures = {
 //   name: "Machine Initialize",
 //   description: "An action that initializes the [Machine](machineType) for usage. This need only be done once per execution of the [Program](programType).",
@@ -251,6 +270,7 @@ const actionTypes = {
   stopStretchType: merge(stopFeatures, basicActionData),
   saveLogStretchType: merge(saveLogFeatures, basicActionData),
   sayType: merge(sayFeatures, basicActionData),
+  moveForwardType: merge(moveForwardFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),
