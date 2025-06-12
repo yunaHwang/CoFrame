@@ -60,6 +60,7 @@ const programFeatures = {
         "saveLogStretchType",
         "sayType",
         "moveForwardType",
+        "rotateType",
         "inputOutputType",
         "locationType", 
         "toLocationType",

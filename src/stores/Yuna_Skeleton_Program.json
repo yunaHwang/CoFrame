@@ -3267,6 +3267,31 @@
     "editing": false
   },
  
+    "rotateType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "rotateType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "rotateType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch rotates x angles in y direction where x and y are provided as parameters",
+      "rotationMagnitude": "",
+      "angleDirection": "",
+      "compileFn": 9,
+      "updateFields": [
+        "rotationMagnitude", "angleDirection"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Rotate Stretch",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+
   "shoulder_link": {
     "id": "shoulder_link",
     "type": "linkType",

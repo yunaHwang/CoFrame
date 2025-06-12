@@ -46,6 +46,7 @@ export const EvdSlice = (set, get) => ({
           "saveLogStretchType",
           "sayType",
           "moveForwardType",
+          "rotateType",
         ],
         icon: PrimitiveIconStyled,
       },
