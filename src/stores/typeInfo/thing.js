@@ -34,38 +34,38 @@ const thingFeatures = {
       ]
     },
     properties: {
-      graspPoints: {
-        name: 'Grasp Points',
-        accepts: ['graspPointType'],
-        default: [],
-        isList: true
-      },
-      safe: {
-        name: 'Safe',
-        type: SIMPLE_PROPERTY_TYPES.IGNORED, 
-        default: false,
-        isList: false,
-        fullWidth: true
-      },
-      weight: {
-        name: 'Weight',
-        type: SIMPLE_PROPERTY_TYPES.IGNORED, 
-        default: 0,
-        isList: false,
-        fullWidth: true
-      },
-      mesh: {
-        name: 'Mesh',
-        type: SIMPLE_PROPERTY_TYPES.IGNORED,
-        default: "",
-        isList: false,
-        fullWidth: true
-      },
+      // graspPoints: {
+      //   name: 'Grasp Points',
+      //   accepts: ['graspPointType'],
+      //   default: [],
+      //   isList: true
+      // },
+      // safe: {
+      //   name: 'Safe',
+      //   type: SIMPLE_PROPERTY_TYPES.IGNORED, 
+      //   default: false,
+      //   isList: false,
+      //   fullWidth: true
+      // },
+      // weight: {
+      //   name: 'Weight',
+      //   type: SIMPLE_PROPERTY_TYPES.IGNORED, 
+      //   default: 0,
+      //   isList: false,
+      //   fullWidth: true
+      // },
+      // mesh: {
+      //   name: 'Mesh',
+      //   type: SIMPLE_PROPERTY_TYPES.IGNORED,
+      //   default: "",
+      //   isList: false,
+      //   fullWidth: true
+      // },
       compileFn: {
         default: COMPILE_FUNCTIONS.PROPERTY
       },
       updateFields: {
-        default: ['safe','weight','graspPoints']
+        default: []
       },
       singleton: {
         default: true

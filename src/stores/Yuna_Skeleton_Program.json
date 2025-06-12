@@ -2899,21 +2899,13 @@
   },
   "thingType-98892a7c1c1911ecbe2600155d1a70a2": {
     "type": "thingType",
-    "name": "Right Handle",
+    "name": "Delivery Object",
     "id": "thingType-98892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
     "properties": {
-      "graspPoints": [
-      ],
-      "safe": true,
-      "weight": 0.25,
-      "mesh": "handle_l",
       "compileFn": 14,
       "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
       ],
       "singleton": true,
       "description": "",
@@ -2925,146 +2917,7 @@
     "selected": false,
     "editing": false
   },
-  "thingType-98892b3a1c1911ecbe2600155d1a70a2": {
-    "type": "thingType",
-    "name": "Left Handle",
-    "id": "thingType-98892b3a1c1911ecbe2600155d1a70a2",
-    "canEdit": true,
-    "canDelete": true,
-    "properties": {
-      "graspPoints": [
-      ],
-      "safe": true,
-      "weight": 0.25,
-      "mesh": "handle_r",
-      "compileFn": 14,
-      "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
-      ],
-      "singleton": true,
-      "description": "",
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "dataType": "INSTANCE",
-    "selected": false,
-    "editing": false
-  },
-  "thingType-98892bd01c1911ecbe2600155d1a70a2": {
-    "type": "thingType",
-    "name": "Blade",
-    "id": "thingType-98892bd01c1911ecbe2600155d1a70a2",
-    "canEdit": true,
-    "canDelete": true,
-    "properties": {
-      "graspPoints": [
-      ],
-      "safe": false,
-      "weight": 1,
-      "mesh": "blade",
-      "compileFn": 14,
-      "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
-      ],
-      "singleton": true,
-      "description": "",
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": "MISSING_PARAMETER"
-    },
-    "dataType": "INSTANCE",
-    "selected": false,
-    "editing": false
-  },
-  "thingType-98892ce81c1911ecbe2600155d1a70a2": {
-    "type": "thingType",
-    "name": "Sheathed Blade",
-    "id": "thingType-98892ce81c1911ecbe2600155d1a70a2",
-    "canEdit": true,
-    "canDelete": true,
-    "properties": {
-      "graspPoints": [
-      ],
-      "safe": true,
-      "weight": 2,
-      "mesh": "blade_with_transport_jig",
-      "compileFn": 14,
-      "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
-      ],
-      "singleton": true,
-      "description": "",
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "dataType": "INSTANCE",
-    "selected": false,
-    "editing": false
-  },
-  "thingType-98892d7e1c1911ecbe2600155d1a70a2": {
-    "type": "thingType",
-    "name": "Knife",
-    "id": "thingType-98892d7e1c1911ecbe2600155d1a70a2",
-    "canEdit": true,
-    "canDelete": true,
-    "properties": {
-      "graspPoints": [
-      ],
-      "safe": false,
-      "weight": 1.5,
-      "mesh": "knife",
-      "compileFn": 14,
-      "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
-      ],
-      "singleton": true,
-      "description": "",
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "dataType": "INSTANCE",
-    "selected": false,
-    "editing": false
-  },
-  "thingType-98892e001c1911ecbe2600155d1a70a2": {
-    "type": "thingType",
-    "name": "Sheathed Knife",
-    "id": "thingType-98892e001c1911ecbe2600155d1a70a2",
-    "canEdit": true,
-    "canDelete": true,
-    "properties": {
-      "graspPoints": [
-      ],
-      "safe": false,
-      "weight": 2,
-      "mesh": "knife_with_transport_jig",
-      "compileFn": 14,
-      "updateFields": [
-        "safe",
-        "weight",
-        "graspPoints"
-      ],
-      "singleton": true,
-      "description": "",
-      "status": "PENDING",
-      "pendingChanges": 0,
-      "errorCode": null
-    },
-    "dataType": "INSTANCE",
-    "selected": false,
-    "editing": false
-  },
+
   "inputOutput-sefse456-ty56-234g-gh67-fth4567hfth7": {
     "type": "inputOutputType",
     "dataType": "INSTANCE",
