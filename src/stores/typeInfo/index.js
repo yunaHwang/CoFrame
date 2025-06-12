@@ -3,6 +3,7 @@ import { locationType, toLocationType, waypointType, placeType } from './pose';
 import { thingType } from './thing';
 // one new import coming here -> "speechType" + define 'say' under action.js (so it should be covered under actionTypes)
 import { speechType } from './speech';
+import { directionalityType } from './directionality';
 import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
 import { skillType } from './skill';
@@ -26,6 +27,7 @@ const mod = {
     placeType,
     thingType,
     speechType,
+    directionalityType,
     trajectoryType,
     hierarchicalType,
     skillType,

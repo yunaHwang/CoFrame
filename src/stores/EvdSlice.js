@@ -35,84 +35,53 @@ export const EvdSlice = (set, get) => ({
   programSpec: {
     drawers: [
       // Icon is FiGrid, otherwise no icons show in the drawer
-      // {
-      //   title: "Machines",
-      //   dataType: DATA_TYPES.REFERENCE,
-      //   objectType: "machineType",
-      //   icon: MachineIconStyled,
-      // },
-      // {
-      //   title: "Processes",
-      //   dataType: DATA_TYPES.REFERENCE,
-      //   objectType: "processType",
-      //   icon: ProcessIconStyled,
-      // },
       {
-        title: "Locations",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "placeType",
-        icon: WaypointIconStyled,
-      },
-      {
-        title: "From/To Connectors",
+        // in typeInfo > action.js > "moveGripperType"
+        title: "Actions",
         dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["locationType", "toLocationType"],
-        icon: LocationIconStyled,
+        objectTypes: [
+          "moveGripperType",
+          "closeGripperType",
+          "stopStretchType",
+          "saveLogStretchType",
+          "sayType",
+        ],
+        icon: PrimitiveIconStyled,
       },
-      // {
-      //   title: "Waypoints",
-      //   dataType: DATA_TYPES.REFERENCE,
-      //   objectType: "waypointType",
-      //   icon: WaypointIconStyled,
-      // },
+
       {
         title: "Things",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "thingType",
         icon: ThingIconStyled,
       },
+
       {
         title: "Speech Utterance",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "speechType",
         icon: SkillIconStyled,
       },
-      // {
-      //   title: "Tools",
-      //   dataType: DATA_TYPES.REFERENCE,
-      //   objectType: "toolType",
-      //   icon: ToolIconStyled,
-      // },
-      // {
-      //   title: "Containers",
-      //   dataType: DATA_TYPES.INSTANCE,
-      //   objectTypes: ["trajectoryType", "hierarchicalType", "skillType"],
-      //   icon: ContainerIconStyled,
-      // },
-      // {
-      //   title: "Skills",
-      //   dataType: DATA_TYPES.CALL,
-      //   objectType: "skillType",
-      //   icon: SkillIconStyled,
-      // },
+
       {
-        // in typeInfo > action.js > "moveGripperType"
-        title: "Actions",
+        title: "Directionality",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "directionalityType",
+        icon: ProcessIconStyled,
+      },
+
+      {
+        title: "From/To Connectors",
         dataType: DATA_TYPES.INSTANCE,
-        objectTypes: [
-          // "delayType",
-          "moveGripperType",
-          "closeGripperType",
-          "stopStretchType",
-          "saveLogStretchType",
-          "sayType",
-          // "machineInitType",
-          // "processStartType",
-          // "processWaitType",
-          // "moveTrajectoryType",
-          // "breakpointType",
-        ],
-        icon: PrimitiveIconStyled,
+        objectTypes: ["locationType", "toLocationType"],
+        icon: LocationIconStyled,
+      },
+
+      {
+        title: "Locations",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "placeType",
+        icon: WaypointIconStyled,
       },
     ],
     objectTypes: typeInfo,
