@@ -187,6 +187,30 @@ const rotateFeatures = {
   },
 };
 
+const slowerStretchFeatures = {
+  name: "Move Slower",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch moves 20% slower than default" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
+const fasterStretchFeatures = {
+  name: "Move Faster",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch moves 20% faster than default" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
 // const machineInitFeatures = {
 //   name: "Machine Initialize",
 //   description: "An action that initializes the [Machine](machineType) for usage. This need only be done once per execution of the [Program](programType).",
@@ -298,6 +322,8 @@ const actionTypes = {
   sayType: merge(sayFeatures, basicActionData),
   moveForwardType: merge(moveForwardFeatures, basicActionData),
   rotateType: merge(rotateFeatures, basicActionData),
+  slowerStretchType: merge(slowerStretchFeatures, basicActionData),
+  fasterStretchType: merge(fasterStretchFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),

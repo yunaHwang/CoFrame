@@ -47,6 +47,8 @@ export const EvdSlice = (set, get) => ({
           "sayType",
           "moveForwardType",
           "rotateType",
+          "slowerStretchType",
+          "fasterStretchType",
         ],
         icon: PrimitiveIconStyled,
       },

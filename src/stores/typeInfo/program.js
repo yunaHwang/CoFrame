@@ -61,6 +61,8 @@ const programFeatures = {
         "sayType",
         "moveForwardType",
         "rotateType",
+        "slowerStretchType",
+        "fasterStretchType",
         "inputOutputType",
         "locationType", 
         "toLocationType",

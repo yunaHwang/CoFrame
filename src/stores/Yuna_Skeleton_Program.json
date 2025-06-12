@@ -3291,7 +3291,48 @@
     "argumentBlockData": [],
     "editing": false
   },
-
+  "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "slowerStretchType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch moves 20% slower than default",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Move Slower",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+  "fasterStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "fasterStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "fasterStretchType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch moves 20% faster than default",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Move Faster",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
   "shoulder_link": {
     "id": "shoulder_link",
     "type": "linkType",

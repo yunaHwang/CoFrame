@@ -16,7 +16,7 @@ const speechFeatures = {
     description: speechDoc,
     referenceBlock: {
       onCanvas: false,
-      color: "#E08024",
+      color: "#62869e",
       icon: SkillIconStyled,
       extras: [
         EXTRA_TYPES.LOCKED_INDICATOR,
