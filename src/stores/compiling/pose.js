@@ -44,263 +44,263 @@ export const poseCompiler = ({
   console.log("!!! what is the properties, ", data, properties);
 
   // Initialize status info
-  let status = STATUS.VALID;
-  let errorCode = null;
+//   let status = STATUS.VALID;
+//   let errorCode = null;
 
-  Object.keys(properties.reachability).forEach(robot=>{
-    Object.keys(properties.reachability[robot]).forEach(gripper=>{
-      if (!properties.reachability[robot][gripper]) {
-        status = STATUS.WARN;
-        errorCode = ERROR.UNREACHABLE_POSE;
-      }
-    })
-  })
+//   Object.keys(properties.reachability).forEach(robot=>{
+//     Object.keys(properties.reachability[robot]).forEach(gripper=>{
+//       if (!properties.reachability[robot][gripper]) {
+//         status = STATUS.WARN;
+//         errorCode = ERROR.UNREACHABLE_POSE;
+//       }
+//     })
+//   })
 
-  if (Object.keys(properties?.states).length > 0 && properties?.position && properties?.rotation && Object.keys(properties?.reachability).length > 0) {
-    return {
-      goalPose:{position:properties.position,rotation:properties.rotation},
-      states:properties.states,
-      reachability:properties.reachability,
-      status,
-      errorCode,
-    };
-  }
+//   if (Object.keys(properties?.states).length > 0 && properties?.position && properties?.rotation && Object.keys(properties?.reachability).length > 0) {
+//     return {
+//       goalPose:{position:properties.position,rotation:properties.rotation},
+//       states:properties.states,
+//       reachability:properties.reachability,
+//       status,
+//       errorCode,
+//     };
+//   }
 
   
 
-  // Enumerate the robotAgentTypes/gripperTypes currently in the memo. This is technically unsafe,
-  // but we pre-process them beforehand so it is fine. We also always assume root execution
-  // (which is fine for robots/humans/grippers).
+//   // Enumerate the robotAgentTypes/gripperTypes currently in the memo. This is technically unsafe,
+//   // but we pre-process them beforehand so it is fine. We also always assume root execution
+//   // (which is fine for robots/humans/grippers).
 
-  console.log("running pose compiler");
-  let reachability = {};
-  let states = {};
+//   console.log("running pose compiler");
+//   let reachability = {};
+//   let states = {};
 
-  const grippers = Object.values(memo).filter((v) => v.type === "gripperType");
+//   const grippers = Object.values(memo).filter((v) => v.type === "gripperType");
 
-  const staticEnvironment = createStaticEnvironment(worldModel);
+//   const staticEnvironment = createStaticEnvironment(worldModel);
 
-  Object.values(memo)
-    .filter((v) => v.type === "robotAgentType")
-    .forEach((robot) => {
-      reachability[robot.id] = {};
-      states[robot.id] = {};
+//   Object.values(memo)
+//     .filter((v) => v.type === "robotAgentType")
+//     .forEach((robot) => {
+//       reachability[robot.id] = {};
+//       states[robot.id] = {};
 
-      // Retrieve the robot's position/orientation
-      const basePose = queryWorldPose(worldModel, robot.id);
+//       // Retrieve the robot's position/orientation
+//       const basePose = queryWorldPose(worldModel, robot.id);
 
-      // const quatLog = quaternionLog(basePose.rotation);
-      const baseEuler = eulerFromQuaternion(
-        [basePose.rotation.w, basePose.rotation.x, basePose.rotation.y, basePose.rotation.z],
-        "sxyz"
-      );
-      // console.log("euler",{basePose,baseEuler})
-      const rootBounds = [
-        { value: basePose.position.x, delta: 0.0 },
-        { value: basePose.position.y, delta: 0.0 },
-        { value: basePose.position.z, delta: 0.0 }, // Translational
-        { value: baseEuler[0], delta: 0.0 },
-        { value: baseEuler[1], delta: 0.0 },
-        { value: baseEuler[2], delta: 0.0 }, // Rotational
-      ];
-      const origin = {
-        translation: [
-          basePose.position.x,
-          basePose.position.y,
-          basePose.position.z,
-        ],
-        rotation: [
-          basePose.rotation.x,
-          basePose.rotation.y,
-          basePose.rotation.z,
-          basePose.rotation.w,
-        ],
-      };
+//       // const quatLog = quaternionLog(basePose.rotation);
+//       const baseEuler = eulerFromQuaternion(
+//         [basePose.rotation.w, basePose.rotation.x, basePose.rotation.y, basePose.rotation.z],
+//         "sxyz"
+//       );
+//       // console.log("euler",{basePose,baseEuler})
+//       const rootBounds = [
+//         { value: basePose.position.x, delta: 0.0 },
+//         { value: basePose.position.y, delta: 0.0 },
+//         { value: basePose.position.z, delta: 0.0 }, // Translational
+//         { value: baseEuler[0], delta: 0.0 },
+//         { value: baseEuler[1], delta: 0.0 },
+//         { value: baseEuler[2], delta: 0.0 }, // Rotational
+//       ];
+//       const origin = {
+//         translation: [
+//           basePose.position.x,
+//           basePose.position.y,
+//           basePose.position.z,
+//         ],
+//         rotation: [
+//           basePose.rotation.x,
+//           basePose.rotation.y,
+//           basePose.rotation.z,
+//           basePose.rotation.w,
+//         ],
+//       };
 
-      // Get a list of links in the robot;
-      const robotLinks = compiledMemo[robot.id][ROOT_PATH].linkInfo.map(
-        (link) => link.name
-      );
-      const urdf = compiledMemo[robot.id][ROOT_PATH].urdf;
-      const robotInitialJointState =
-        compiledMemo[robot.id][ROOT_PATH].initialJointState;
+//       // Get a list of links in the robot;
+//       const robotLinks = compiledMemo[robot.id][ROOT_PATH].linkInfo.map(
+//         (link) => link.name
+//       );
+//       const urdf = compiledMemo[robot.id][ROOT_PATH].urdf;
+//       const robotInitialJointState =
+//         compiledMemo[robot.id][ROOT_PATH].initialJointState;
 
-      const proximity = compiledMemo[robot.id][ROOT_PATH].proximity;
+//       const proximity = compiledMemo[robot.id][ROOT_PATH].proximity;
 
-      // Enumerate grippers and search for ones that are based on this robot.
-      grippers.forEach((gripper) => {
-        if (robotLinks.includes(gripper.properties.relativeTo)) {
-          // Check to see if there are previously calculated joint values for this pose.
-          const initialJointState = compiledMemo[data.id]?.[path]?.states[
-            robot.id
-          ]?.[gripper.id]?.joints
-            ? compiledMemo[data.id][path].states[robot.id][gripper.id].joints
-            : robotInitialJointState;
+//       // Enumerate grippers and search for ones that are based on this robot.
+//       grippers.forEach((gripper) => {
+//         if (robotLinks.includes(gripper.properties.relativeTo)) {
+//           // Check to see if there are previously calculated joint values for this pose.
+//           const initialJointState = compiledMemo[data.id]?.[path]?.states[
+//             robot.id
+//           ]?.[gripper.id]?.joints
+//             ? compiledMemo[data.id][path].states[robot.id][gripper.id].joints
+//             : robotInitialJointState;
 
-          // Set up the objectives based on the attachment link
-          const attachmentLink = gripper.properties.relativeTo;
-          // const objectives = {
-          //   eePosition: {
-          //     type: "PositionMatch",
-          //     name: "EE Position",
-          //     link: attachmentLink,
-          //     weight: 50,
-          //   },
-          //   eeRotation: {
-          //     type: "OrientationMatch",
-          //     name: "EE Rotation",
-          //     link: attachmentLink,
-          //     weight: 25,
-          //   },
-          //   collision: {
-          //     type: "CollisionAvoidance",
-          //     name: "Collision Avoidance",
-          //     weight: COLLISION_WEIGHT,
-          //   },
-          // midChain: {
-          //   type: "PositionMatch",
-          //   name: "Mid-Chain Up",
-          //   link: "wrist_1_link",
-          //   weight: 5,
-          // },
-          // smoothness: {
-          //   type: "SmoothnessMacro",
-          //   name: "General Smoothness",
-          //   weight: SMOOTHNESS_WEIGHT,
-          // },
-          // };
+//           // Set up the objectives based on the attachment link
+//           const attachmentLink = gripper.properties.relativeTo;
+//           // const objectives = {
+//           //   eePosition: {
+//           //     type: "PositionMatch",
+//           //     name: "EE Position",
+//           //     link: attachmentLink,
+//           //     weight: 50,
+//           //   },
+//           //   eeRotation: {
+//           //     type: "OrientationMatch",
+//           //     name: "EE Rotation",
+//           //     link: attachmentLink,
+//           //     weight: 25,
+//           //   },
+//           //   collision: {
+//           //     type: "CollisionAvoidance",
+//           //     name: "Collision Avoidance",
+//           //     weight: COLLISION_WEIGHT,
+//           //   },
+//           // midChain: {
+//           //   type: "PositionMatch",
+//           //   name: "Mid-Chain Up",
+//           //   link: "wrist_1_link",
+//           //   weight: 5,
+//           // },
+//           // smoothness: {
+//           //   type: "SmoothnessMacro",
+//           //   name: "General Smoothness",
+//           //   weight: SMOOTHNESS_WEIGHT,
+//           // },
+//           // };
 
-          // Find the position we need in the attachment link to match the desired pose gripper position
-          const goalPose = poseToGoalPosition(
-            worldModel,
-            gripper.id,
-            attachmentLink,
-            properties
-          );
-          // console.log('goal:',goalPose)
+//           // Find the position we need in the attachment link to match the desired pose gripper position
+//           const goalPose = poseToGoalPosition(
+//             worldModel,
+//             gripper.id,
+//             attachmentLink,
+//             properties
+//           );
+//           // console.log('goal:',goalPose)
 
-          // Construct the joint state information
-          let state = {};
+//           // Construct the joint state information
+//           let state = {};
 
-          // Construct the solver
-          // const initialState = { origin, joints: initialJointState, proximity };
-          let result = module.computePose(
-            urdf,
-            {
-              translation: [
-                goalPose.position.x,
-                goalPose.position.y,
-                goalPose.position.z,
-              ],
-              rotation: [
-                goalPose.rotation.x,
-                goalPose.rotation.y,
-                goalPose.rotation.z,
-                goalPose.rotation.w,
-              ],
-            },
-            origin,
-            attachmentLink,
-            staticEnvironment
-          );
+//           // Construct the solver
+//           // const initialState = { origin, joints: initialJointState, proximity };
+//           let result = module.computePose(
+//             urdf,
+//             {
+//               translation: [
+//                 goalPose.position.x,
+//                 goalPose.position.y,
+//                 goalPose.position.z,
+//               ],
+//               rotation: [
+//                 goalPose.rotation.x,
+//                 goalPose.rotation.y,
+//                 goalPose.rotation.z,
+//                 goalPose.rotation.w,
+//               ],
+//             },
+//             origin,
+//             attachmentLink,
+//             staticEnvironment
+//           );
 
-          if (result.code !== 'Success') {
-            status = STATUS.WARN;
-            errorCode = ERROR.UNREACHABLE_POSE;
-          }
+//           if (result.code !== 'Success') {
+//             status = STATUS.WARN;
+//             errorCode = ERROR.UNREACHABLE_POSE;
+//           }
 
-          reachability[robot.id][gripper.id] = result.code === 'Success';
-          // console.log(robot.properties.compiled[ROOT_PATH].linkParentMap);
-          states[robot.id][gripper.id] = likStateToData(
-            result.state,
-            robot.id,
-            compiledMemo[robot.id][ROOT_PATH].linkParentMap
-          );
-          // const solver = new module.Solver(
-          //   urdf,
-          //   objectives,
-          //   rootBounds,
-          //   staticEnvironment,
-          //   initialState,
-          //   5,
-          //   50
-          // );
+//           reachability[robot.id][gripper.id] = result.code === 'Success';
+//           // console.log(robot.properties.compiled[ROOT_PATH].linkParentMap);
+//           states[robot.id][gripper.id] = likStateToData(
+//             result.state,
+//             robot.id,
+//             compiledMemo[robot.id][ROOT_PATH].linkParentMap
+//           );
+//           // const solver = new module.Solver(
+//           //   urdf,
+//           //   objectives,
+//           //   rootBounds,
+//           //   staticEnvironment,
+//           //   initialState,
+//           //   5,
+//           //   50
+//           // );
 
-          // console.log('proximity',proximity)
+//           // console.log('proximity',proximity)
 
-          // // Construct the goals
-          // const pos = goalPose.position;
-          // const rot = goalPose.rotation;
-          // const goalQuat = new Quaternion(rot.x, rot.y, rot.z, rot.w);
-          // const goals = {
-          //   eePosition: { Translation: [pos.x, pos.y, pos.z] },
-          //   eeRotation: { Rotation: [rot.x, rot.y, rot.z, rot.w] },
-          //   midChain: { Translation: [0, 0, 1] },
-          // };
-          // let goalAchieved = false;
+//           // // Construct the goals
+//           // const pos = goalPose.position;
+//           // const rot = goalPose.rotation;
+//           // const goalQuat = new Quaternion(rot.x, rot.y, rot.z, rot.w);
+//           // const goals = {
+//           //   eePosition: { Translation: [pos.x, pos.y, pos.z] },
+//           //   eeRotation: { Rotation: [rot.x, rot.y, rot.z, rot.w] },
+//           //   midChain: { Translation: [0, 0, 1] },
+//           // };
+//           // let goalAchieved = false;
 
-          // let restarts = range(0, 1);
-          // let rounds = range(0, 10);
+//           // let restarts = range(0, 1);
+//           // let rounds = range(0, 10);
 
-          // restarts.some(() => {
-          //   // let currentTime = Date.now();
-          //   rounds.some(() => {
-          //     //console.log('Running Solve');
-          //     state = solver.solve(goals, {});
-          //     //console.log('Completed Solve')
-          //     const p = state.frames[attachmentLink].world.translation;
-          //     const r = state.frames[attachmentLink].world.rotation;
-          //     const achievedPos = { x: p[0], y: p[1], z: p[2] };
-          //     const achievedQuat = new Quaternion(r[0], r[1], r[2], r[3]);
-          //     const translationDistance = distance(achievedPos, pos);
-          //     const rotationalDistance = goalQuat.angleTo(achievedQuat);
-          //     // console.log({translationDistance,rotationalDistance})
-          //     if (
-          //       translationDistance < MAX_POSE_DISTANCE_DIFF &&
-          //       rotationalDistance < MAX_POSE_ROTATION_DIFF
-          //     ) {
-          //       goalAchieved = true;
-          //     }
-          //     // if (translationDistance < 0.01) {
-          //     //     goalAchieved = true
-          //     // }
-          //     return goalAchieved;
-          //   });
-          //   if (!goalAchieved) {
-          //     let newStart = sampleJoints(solver.joints);
-          //     // console.warn(newStart)
-          //     solver.reset({ origin, joints: newStart }, {});
-          //     console.log("resampled state", solver.currentState);
-          //   }
-          //   return goalAchieved;
-          // });
+//           // restarts.some(() => {
+//           //   // let currentTime = Date.now();
+//           //   rounds.some(() => {
+//           //     //console.log('Running Solve');
+//           //     state = solver.solve(goals, {});
+//           //     //console.log('Completed Solve')
+//           //     const p = state.frames[attachmentLink].world.translation;
+//           //     const r = state.frames[attachmentLink].world.rotation;
+//           //     const achievedPos = { x: p[0], y: p[1], z: p[2] };
+//           //     const achievedQuat = new Quaternion(r[0], r[1], r[2], r[3]);
+//           //     const translationDistance = distance(achievedPos, pos);
+//           //     const rotationalDistance = goalQuat.angleTo(achievedQuat);
+//           //     // console.log({translationDistance,rotationalDistance})
+//           //     if (
+//           //       translationDistance < MAX_POSE_DISTANCE_DIFF &&
+//           //       rotationalDistance < MAX_POSE_ROTATION_DIFF
+//           //     ) {
+//           //       goalAchieved = true;
+//           //     }
+//           //     // if (translationDistance < 0.01) {
+//           //     //     goalAchieved = true
+//           //     // }
+//           //     return goalAchieved;
+//           //   });
+//           //   if (!goalAchieved) {
+//           //     let newStart = sampleJoints(solver.joints);
+//           //     // console.warn(newStart)
+//           //     solver.reset({ origin, joints: newStart }, {});
+//           //     console.log("resampled state", solver.currentState);
+//           //   }
+//           //   return goalAchieved;
+//           // });
 
-          // if (!goalAchieved) {
-          //   status = STATUS.WARN;
-          //   errorCode = ERROR.UNREACHABLE_POSE;
-          // }
+//           // if (!goalAchieved) {
+//           //   status = STATUS.WARN;
+//           //   errorCode = ERROR.UNREACHABLE_POSE;
+//           // }
           
-          // console.log(states[robot.id][gripper.id])
-          // states[robot.id][gripper.id] = likStateToData(
-          //   state,
-          //   worldModel,
-          //   robot.id
-          // );
-          // delete solver;
-        }
-      });
-    });
+//           // console.log(states[robot.id][gripper.id])
+//           // states[robot.id][gripper.id] = likStateToData(
+//           //   state,
+//           //   worldModel,
+//           //   robot.id
+//           // );
+//           // delete solver;
+//         }
+//       });
+//     });
 
-  console.log("pose recalculation: ", { data, reachability, states });
+//   console.log("pose recalculation: ", { data, reachability, states });
 
-  const newCompiled = {
-    goalPose:{position:properties.position,rotation:properties.rotation},
-    states,
-    reachability,
-    status,
-    errorCode,
-    otherPropertyUpdates: {states, reachability}
-  };
+//   const newCompiled = {
+//     goalPose:{position:properties.position,rotation:properties.rotation},
+//     states,
+//     reachability,
+//     status,
+//     errorCode,
+//     otherPropertyUpdates: {states, reachability}
+//   };
 
-  return newCompiled;
-};
+//   return newCompiled;
+ };
