@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState, useRef} from "react";
 // import { FiSettings } from "react-icons/fi";
 import { ReviewTile } from "./components/Body/ReviewTile";
 import { SimulatorTile } from "./components/Body/SimulatorTile";
 import { ProgramTile } from "./components/Body/ProgramTile";
+import RobotWorld from "./components/Body/RobotWorld";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
 // import { Modals } from "./components/Modals";
@@ -16,7 +17,7 @@ import {
   THEME_ID,
 } from "@mui/material/styles";
 
-import { Drawer, Snackbar, Alert, AlertTitle, Stack } from "@mui/material";
+import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box } from "@mui/material";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import useMeasure from "react-use-measure";
 import useStore from "./stores/Store";
@@ -219,7 +220,27 @@ export default function App() {
                   }
                 }}
               >
-                <ProgramTile ref={editorRef} />
+                {/* <ProgramTile ref={editorRef} /> */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column", // stack vertically
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {/* header bar that takes 20 % of viewport height (or any size you like) */}
+                  <RobotWorld
+                    sx={{ height: "20vh", flexShrink: 0 /* never collapses */ }}
+                  />
+
+                  {/* editor fills the remaining space */}
+                  <ProgramTile
+                    ref={editorRef}
+                    style={{ flex: 1, minHeight: 0 /* allow flexbox to shrink */ }}
+                  />
+                </Box>
+
               </ReflexElement>
             )}
           </ReflexContainer>
@@ -261,7 +282,7 @@ export default function App() {
               )}
             </Alert>
           </Snackbar> */}
-          <Drawer
+          {/* <Drawer
             anchor="bottom"
             sx={{
               height: "20vh",
@@ -273,8 +294,8 @@ export default function App() {
             }}
             variant="persistent"
             open={visibleSteps && errorType === null}
-          >
-            <ParentSize>
+          > */}
+            {/* <ParentSize>
               {({ width, height }) =>
                 visibleSteps && errorType === null ? (
                   <TimelineGraph
@@ -289,8 +310,8 @@ export default function App() {
                   />
                 ) : null
               }
-            </ParentSize>
-          </Drawer>
+            </ParentSize> */}
+          {/* </Drawer> */}
         </Stack>
         <Detail />
         <SettingsModal />

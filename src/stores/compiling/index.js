@@ -168,7 +168,7 @@ const performUpdate = ({
   });
   // console.log('status',newCompiled.status)
   // console.log('memoizedData',memoizedData)
-  // console.log('newCompiled',newCompiled)
+  //console.log('newCompiled??',newCompiled)
   let newMemoizedData = lodash.merge({ properties: {} }, memoizedData);
   let newMemoizedCompiled = { [path]: {} };
 

@@ -106,9 +106,15 @@ export const EvdSlice = (set, get) => ({
   // A macro for updating the entire program from raw data
   addAgent: (data) =>
     set((state) => {
+
+      //added
+      const after = Object.keys(state.programData).concat(Object.keys(data));
+      console.log("catch every single drawer in UI? ", after);
+
       state.programData = { ...state.programData, ...data };
     }),
   replaceAgent: (newData) => set((state)=>{
+    console.log("or is it here replaceAgent? ", newData); // this shows up as soon the UI renders
     const agent = Object.values(newData).filter(d=>d.type==='robotAgentType')[0];
     // Delete any links, meshes, collisionBodies, collisionShapes that are associated with this agent
     Object.values(state.programData).forEach(value=>{
@@ -170,7 +176,7 @@ export const EvdSlice = (set, get) => ({
           return d;
         }
       });
-      // console.log(newData);
+      console.log("or is it here? ", newData);
       state.programData = newData;
       state.loaded = true;
       if (tabs) {
@@ -189,6 +195,7 @@ export const EvdSlice = (set, get) => ({
   updatePlanProcess: (newData, process) =>
     set((state) => {
       if (newData) {
+        console.log("this is newData, ", newData);
         let reviewableChanges = 0;
         // state.programData = lodash.merge(state.programData, newData);
         Object.keys(newData).forEach((entry) => {
@@ -219,6 +226,10 @@ export const EvdSlice = (set, get) => ({
     const { performCompileProcess } = Comlink.wrap(plannerWorker);
     get().updatePlanProcess(null, plannerWorker);
     const programData = get().programData;
+    console.log("what does this look like, ", programData); // this also shows as soon as the UI renders
+    // everytime a new block is added (transferBlock), then this gets updated, along with 
+    // log -> transferBlock, data, sourceInfo, destInfo, REPLANNING, starting plan processing, terminating current plan process,
+    // and then "what does this look like"
     console.log('step 1')
     const result = await performCompileProcess({
       programData,
