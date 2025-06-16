@@ -231,7 +231,8 @@ export default function App() {
                 >
                   {/* header bar that takes 20 % of viewport height (or any size you like) */}
                   <RobotWorld
-                    sx={{ height: "20vh", flexShrink: 0 /* never collapses */ }}
+                    cellSize = {1}
+                    sx={{ height: "30vh", flexShrink: 0 /* never collapses */ }}
                   />
 
                   {/* editor fills the remaining space */}
