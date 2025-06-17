@@ -67,7 +67,7 @@ export const ProgramTile = forwardRef((_,ref) => {
                 }
             >   
             <Box position="relative" style={{height: '100%'}} key={fallbackMode ? 'fallback' : 'normal'}>
-                <Environment store={useStore} highlightColor={highlightColor} snapToGrid={false} animateDrawer={true}/>
+                <Environment store={useStore} highlightColor={highlightColor} snapToGrid={false} animateDrawer={true} drawerWidth={325} />
                 {fallbackMode && batteryWarning && (
                         <Paper
                             sx={{   

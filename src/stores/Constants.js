@@ -83,7 +83,7 @@ export const DETAIL_TYPES = ['machineType', 'inputOutputType', 'processType', 'l
 export const TIMELINE_TYPES = ['programType', 'skillType', 'hierarchicalType', 'delayType',
                         'moveGripperType', 'machineInitType', 'processStartType', 
                         'processWaitType', 'processStopType', 'moveTrajectoryType',
-                        'goalProgramType'
+                        'goalProgramType', 'machineType', 'inputOutputType', 'processType', 'locationType', 'waypointType', 'thingType','fixtureType','toolType','robotAgentType','humanAgentType','gripperType','graspPointType'
                     ]
 export const PREVIEW_TYPES = [...TIMELINE_TYPES,'locationType','waypointType'];
 export const REFERENCEABLE_OBJECTS = ["machineType", "fixtureType", "linkType", "toolType", "robotAgentType", "humanAgentType", 'gripperType'];

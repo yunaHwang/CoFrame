@@ -27,7 +27,7 @@ import {
   Backdrop
 } from "@mui/material";
 import { createTheme, useTheme } from '@mui/material/styles';
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, useRef} from "react";
 import { ExpandCarrot } from "../Elements/ExpandCarrot";
 import frameStyles from "../../frameStyles";
 
@@ -36,12 +36,35 @@ import { MultiBackend } from 'react-dnd-multi-backend';
 import { HTML5toTouch } from 'rdndmb-html5-to-touch';
 import { useDrop } from 'react-dnd';
 import { TIMELINE_TYPES } from "../../stores/Constants";
+import { motion } from "framer-motion";
+const dropZoneVariants = {
+  default: {
+    scale: 1,
+    opacity: 1,
+  },
+  hover: {
+    scale: 1.02,
+    opacity: 0.95,
+    transition: { duration: 0.15 },
+  },
+};
+
+const indicatorVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: { 
+    scale: 1, 
+    opacity: 1,
+    transition: { duration: 0.2, ease: "easeOut" }
+  },
+};
 
 const FallbackDropArea = ({ onDrop, children, highlightColor }) => {
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: TIMELINE_TYPES,
-    drop: (item) => {
-      if (onDrop) onDrop(item);
+    drop: (item, monitor) => {
+      if (!monitor.didDrop() && onDrop) {
+        onDrop(item); 
+      }
       return { dropped: true };
     },
     collect: (monitor) => ({
@@ -74,8 +97,210 @@ const FallbackDropArea = ({ onDrop, children, highlightColor }) => {
   );
 };
 
-export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
+const UnifiedDropZone = ({ item, itemIndex, onDrop, highlightColor, handleActionRemove, totalItems }) => {
+  const theme = useTheme();
+  const [dropZone, setDropZone] = useState(null);
+  const dropRef = useRef(null);
 
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: TIMELINE_TYPES,
+    drop: (draggedItem, monitor) => {
+      //Mouse Calculation grab from open vp
+      const rect = dropRef.current?.getBoundingClientRect();
+      const clientOffset = monitor.getClientOffset();
+      
+      if (rect && clientOffset) {
+
+        const relativeY = clientOffset.y - rect.top;
+        const relativeX = clientOffset.x - rect.left;
+        
+        //Top 30%, middle 40%, bottom 30%, could be changed for more accurate
+        const THRESHOLD = 0.3;
+        const isTopThird = relativeY < rect.height * THRESHOLD;
+        const isBottomThird = relativeY > rect.height * (1 - THRESHOLD);
+        
+        let dropInfo;
+        if (isTopThird) {
+
+          dropInfo = { insertIndex: itemIndex, position: 'above' };
+          //console.log('Current index:', itemIndex);
+        } else if (isBottomThird) {
+
+          const insertIndex = itemIndex === totalItems - 1 ? totalItems : itemIndex + 1;
+          dropInfo = { insertIndex, position: 'below' };
+          //console.log('Current index', itemIndex, 'Insertion at', insertIndex);
+        } else {
+
+          if (Array.isArray(item)) {
+
+            const itemWidth = rect.width / item.length;
+            const actionIndex = Math.floor(relativeX / itemWidth);
+            const actionOffset = relativeX % itemWidth;
+            const isLeftSide = actionOffset < itemWidth / 2;
+            
+            dropInfo = { 
+              rowIndex: itemIndex,  
+              actionIndex: Math.max(0, Math.min(actionIndex, item.length - 1)), 
+              position: isLeftSide ? 'left' : 'right' 
+            };
+
+          } else {
+
+
+            const isLeftSide = relativeX < rect.width / 2;
+            dropInfo = { 
+              rowIndex: itemIndex, 
+              actionIndex: 0, 
+              position: isLeftSide ? 'left' : 'right' 
+            };
+          }
+        }
+        //console.log('----Debug DropInfo', dropInfo, 'itemIndex:', itemIndex);
+        onDrop(draggedItem, dropInfo);
+      }
+      return { dropped: true };
+    },
+
+    //Visual Feedback Side From Open-Vp
+    hover: (draggedItem, monitor) => { 
+      if (!dropRef.current) return;
+      const rect = dropRef.current.getBoundingClientRect();
+      const clientOffset = monitor.getClientOffset();
+      
+      if (clientOffset) {
+        const relativeY = clientOffset.y - rect.top;
+        const relativeX = clientOffset.x - rect.left;
+        
+        // Use same threshold as drop
+        const THRESHOLD = 0.3;
+        const isTopThird = relativeY < rect.height * THRESHOLD;
+        const isBottomThird = relativeY > rect.height * (1 - THRESHOLD);
+        
+        if (isTopThird) {
+          setDropZone('top');
+        } else if (isBottomThird) {
+          setDropZone('bottom');
+        } else {
+          const isLeftSide = relativeX < rect.width / 2;
+          setDropZone(isLeftSide ? 'left' : 'right');
+        }
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver({ shallow: true }),
+    }),
+  }), [itemIndex, totalItems, item]);
+
+//Added for Clear Indicator
+  React.useEffect(() => {
+    if (!isOver) setDropZone(null);
+  }, [isOver]);
+
+  drop(dropRef);
+
+  return (
+    <motion.div
+      ref={dropRef}
+      variants={dropZoneVariants}
+      animate={isOver ? "hover" : "default"}
+      style={{ padding: '8px 0' }}
+    >
+      <Box sx={{ position: 'relative'}}>     
+    {[
+        { zone: 'top', style: { top: -3, left: 0, right: 0, height: '3px' } },
+        { zone: 'bottom', style: { bottom: -3, left: 0, right: 0, height: '3px' } },
+        { zone: 'left', style: { left: -3, top: 0, bottom: 0, width: '3px' } },
+        { zone: 'right', style: { right: -3, top: 0, bottom: 0, width: '3px' } }
+      ].map(({ zone, style }) => (
+        <motion.div
+          key={zone}
+          variants={indicatorVariants}
+          animate={dropZone === zone ? 'visible' : 'hidden'}
+          style={{
+            position: 'absolute',
+            backgroundColor: highlightColor,
+            borderRadius: '2px',
+            zIndex: 10,
+            ...style
+          }}
+        />
+      ))}
+
+        {!Array.isArray(item) ? (
+          //This is the Area that need to be change from a written box, to the actual box, Using Paper and box as a example
+          <Paper
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              px: 1.5,
+              py: 0.75,
+              border: `1px solid ${highlightColor}`,
+              minHeight: 20,
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: 500,
+                flex: 1,
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                textAlign: 'center',
+              }}
+            >
+              {item.name}
+            </Typography>
+            <IconButton
+            //Hard coding a delete button
+              size="small"
+              onClick={() => handleActionRemove(item.id)}
+            >
+              <FiTrash2 size={14} />
+            </IconButton>
+          </Paper>
+        ) : (
+          <Stack direction="row" spacing={0.5} sx={{ minHeight: 40 }}>
+            {item.map((action, actionIndex) => (
+              <Paper
+                key={action.id}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  px: 1,
+                  py: 0.75,
+                  borderRadius: 1,
+                  border: `1px solid ${highlightColor}`,
+                  flex: 1
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontWeight: 500,
+                    flex: 1,
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    textAlign: 'center',
+                  }}
+                >
+                  {action.name}
+                </Typography>
+
+                <IconButton
+                  size="small"
+                  onClick={() => handleActionRemove(action.id)}
+                >
+                  <FiTrash2 size={14} />
+                </IconButton>
+              </Paper>
+            ))}
+          </Stack>
+        )}
+      </Box>
+    </motion.div>
+  );
+};
+
+export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
   const highlightColor = useStore(state => state.primaryColor,shallow);
   const [ref, bounds] = useMeasure();
   const [submit, setsubmit] = useState(false);
@@ -102,34 +327,103 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
   };
 
   //Handle Action Add
-  const handleActionDrop = useCallback((item) => {
+const handleActionDrop = useCallback((item, dropInfo = null) => {
     if (item && item.data) {
+      console.log("Dropped item:", item, "dropInfo:", dropInfo);
 
-      console.log("Dropped item received:", item);
-
-      setFallbackActions(prev => [...prev, { 
+      const newAction = { 
+        //Using id as Date just for now, don't sure how to implement the big block inside the fallback
         id: `action-${Date.now()}`, 
         type: item.data.type,
         data: item.data,
         name: item.data.name || item.data.type 
-      }]);
+      };
 
-      console.log("Dropped item received:", fallbackActions);
+      setFallbackActions(prev => {
+        if (!dropInfo) {
+          return [...prev, newAction];
+        }
+        const { insertIndex, position, rowIndex, actionIndex } = dropInfo;
+
+        if (position === 'above' || position === 'below') {
+          const newArray = [...prev];
+          newArray.splice(insertIndex, 0, newAction);
+          return newArray;
+        }
+
+
+        
+        if (position === 'left' || position === 'right') {
+          const newArray = [...prev];
+          const targetItem = newArray[rowIndex];
+
+          // ItemChecks
+          if (!Array.isArray(targetItem)) {
+            const parallelGroup = [targetItem];
+            
+            if (position === 'left') {
+              parallelGroup.unshift(newAction);
+            } else {
+              parallelGroup.push(newAction);
+            }
+            
+            newArray[rowIndex] = parallelGroup;
+            return newArray;
+          }
+          
+
+          if (targetItem.length >= 3) {
+            //console.log("System Realize FUll ");
+            return [...prev, newAction];
+          }
+
+          //Left or right Action
+          const updatedGroup = [...targetItem];
+          if (position === 'left') {
+            updatedGroup.splice(actionIndex, 0, newAction);
+          } else {
+            updatedGroup.splice(actionIndex + 1, 0, newAction);
+          }
+          
+          newArray[rowIndex] = updatedGroup;
+          return newArray;
+        }
+        return [...prev, newAction];
+      });
+
+      //console.log("Fallback actions:", fallbackActions);
     }
   }, []);
 
+
   // Handle removing an action
   const handleActionRemove = useCallback((id) => {
-    setFallbackActions(prev => prev.filter(action => action.id !== id));
+    setFallbackActions(prev => {
+      return prev.map(item => {
+        if (!Array.isArray(item)) {
+          return item.id === id ? null : item;
+        }
+        
+        const filteredGroup = item.filter(action => action.id !== id);
+        
+        if (filteredGroup.length === 1) {
+          return filteredGroup[0];
+        }
+        
+        if (filteredGroup.length === 0) {
+          return null;
+        }
+        
+        return filteredGroup;
+      }).filter(item => item !== null); 
+    });
   }, []);
   
-
-
   return (
     <Paper
       ref={ref}
       sx={{
-        width: reviewExpanded ? 300 : 50,
+        width: reviewExpanded ? 500 : 50,
         borderRadius: 0,
         padding: "5px",
         backgroundColor: "black",
@@ -172,32 +466,16 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
                     highlightColor={highlightColor}
                   >
                     {fallbackActions.length > 0 && (
-                      <Stack>
-                        {/* Setting a Place holder for the object Still trying to figure out how to appear like the action*/}
-                        {fallbackActions.map((action) => (
-                          <Box
-                            key={action.id}
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              p: 1,
-                              borderRadius: 1,
-                              border: `1px solid ${highlightColor}`,
-                              position: 'relative'
-                            }}
-                          >
-                            <Box/>
-                            <Typography sx={{ color: 'white'}}>{action.name}
-                            </Typography>
-                            <IconButton
-                              size="small"
-                              onClick={() => handleActionRemove(action.id)}
-                              sx={{ color: 'white' }}
-                            >
-                              <FiTrash2 size={16} />
-                            </IconButton>
-                          </Box>
+                      <Stack spacing={0}>
+                        {fallbackActions.map((item, itemIndex) => (
+                          <UnifiedDropZone
+                            key={Array.isArray(item) ? `group-${itemIndex}` : item.id}
+                            item={item}
+                            itemIndex={itemIndex}
+                            onDrop={handleActionDrop}
+                            highlightColor={highlightColor}
+                            handleActionRemove={handleActionRemove}
+                          />
                         ))}
                       </Stack>
                     )}
