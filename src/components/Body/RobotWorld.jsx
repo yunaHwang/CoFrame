@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
 import tabula from "../../assets/tabula_map_example.json";
+import house from "../../assets/house_grayscale.json";
 
-export default function RobotWorld({ map = tabula, cellSize = 4, sx = {} }) {
+export default function RobotWorld({ map = house, cellSize = 4, sx = {} }) {
   
     const canvasRef = useRef(null);
 
