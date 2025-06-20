@@ -11,6 +11,8 @@ import * as Comlink from "comlink";
 /* eslint-disable import/no-webpack-loader-syntax */
 import PlannerWorker from "./planner-worker?worker";
 
+import { sendProgramDataToFlask } from "./to_flask";   // ← new
+
 // const plannerWorkerUrl = new URL('./planner-worker.js',import.meta.url);
 // const workerInstance = new ComlinkWorker(plannerWorkerUrl,{});
 // console.warn('workerInstance',workerInstance)
@@ -30,10 +32,40 @@ import {
 const cleanedObjectType = (objectType) =>
   pick(objectType, ["name", "properties", "type"]);
 
+// const sendProgramDataToFlask = async (programData) => {
+//   console.log("Attempting to send programData:", programData);
+//   try {
+//     const res = await fetch("http://localhost:5000/receive_data", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ programData }),
+//     });
+//     const result = await res.json();
+//     console.log("Flask response:", result);
+//   } catch (err) {
+//     console.error("Error sending data to Flask:", err);
+//   }
+// };
+
+
 export const EvdSlice = (set, get) => ({
   solver: null,
   programSpec: {
     drawers: [
+      // {
+      //   // added for testing container logic
+      //   title: "Containers",
+      //   dataType: DATA_TYPES.INSTANCE,
+      //   objectTypes: ["skillType"],
+      //   icon: ContainerIconStyled,
+      // },
+      {
+        title: "Skills",
+        dataType: DATA_TYPES.INSTANCE,
+        objectTypes: ["skillType"],
+        icon: SkillIconStyled,
+      },
+
       // Icon is FiGrid, otherwise no icons show in the drawer
       {
         // in typeInfo > action.js > "moveGripperType"
@@ -106,13 +138,18 @@ export const EvdSlice = (set, get) => ({
   // A macro for updating the entire program from raw data
   addAgent: (data) =>
     set((state) => {
+    state.programData = { ...state.programData, ...data };
+    }, false, "addAgent",                         // ← Zustand action name
+    ) &&                                          // ← after-set side-effect
+    sendProgramDataToFlask(get().programData),    // flush & store Promise
+    // set((state) => {
 
-      //added
-      const after = Object.keys(state.programData).concat(Object.keys(data));
-      console.log("catch every single drawer in UI? ", after);
+    //   //added
+    //   const after = Object.keys(state.programData).concat(Object.keys(data));
+    //   console.log("catch every single drawer in UI? ", after);
 
-      state.programData = { ...state.programData, ...data };
-    }),
+    //   state.programData = { ...state.programData, ...data };
+    // }),
   replaceAgent: (newData) => set((state)=>{
     console.log("or is it here replaceAgent? ", newData); // this shows up as soon the UI renders
     const agent = Object.values(newData).filter(d=>d.type==='robotAgentType')[0];
@@ -230,6 +267,8 @@ export const EvdSlice = (set, get) => ({
     // everytime a new block is added (transferBlock), then this gets updated, along with 
     // log -> transferBlock, data, sourceInfo, destInfo, REPLANNING, starting plan processing, terminating current plan process,
     // and then "what does this look like"
+    await sendProgramDataToFlask(programData);
+    console.log('sent from React!')
     console.log('step 1')
     const result = await performCompileProcess({
       programData,
@@ -245,6 +284,9 @@ export const EvdSlice = (set, get) => ({
     for (const key in result.compiledData) {
       useCompiledStore.setState({[key]:result.compiledData[key]})
     }
+
+    //await sendProgramDataToFlask(programData);
+    //console.log("✅ Sent from React!");
   },
   processes: {},
   reviewableChanges: 0,

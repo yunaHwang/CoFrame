@@ -13,10 +13,10 @@ import { merge } from "lodash";
 
 const skillFeatures = {
   name: "Skill",
-  type: TYPES.FUNCTION,
+  type: TYPES.OBJECT,
   instanceBlock: {
-    hideNewPrefix: false,
-    onCanvas: true,
+    hideNewPrefix: true,
+    onCanvas: false,
     color: "#62869e",
     icon: SkillIconStyled,
     extras: [
@@ -45,56 +45,66 @@ const skillFeatures = {
       },
     ],
   },
-  callBlock: {
-    onCanvas: false,
-    color: "#62869e",
-    icon: SkillIconStyled,
-    extras: [
-      EXTRA_TYPES.LOCKED_INDICATOR,
-      {
-        icon: FiMoreHorizontal,
-        type: EXTRA_TYPES.DROPDOWN,
-        contents: [
-          {
-            type: EXTRA_TYPES.INDICATOR_ICON,
-            accessor: statusIcon,
-            label: "Status",
-          },
-          EXTRA_TYPES.SELECTION_TOGGLE,
-          EXTRA_TYPES.DELETE_BUTTON,
-          EXTRA_TYPES.DOC_TOGGLE
-        ],
-      },
-    ],
-  },
+  referenceBlock: null,
+  ...baseTypeData
+  // callBlock: {
+  //   onCanvas: false,
+  //   color: "#62869e",
+  //   icon: SkillIconStyled,
+  //   extras: [
+  //     EXTRA_TYPES.LOCKED_INDICATOR,
+  //     {
+  //       icon: FiMoreHorizontal,
+  //       type: EXTRA_TYPES.DROPDOWN,
+  //       contents: [
+  //         {
+  //           type: EXTRA_TYPES.INDICATOR_ICON,
+  //           accessor: statusIcon,
+  //           label: "Status",
+  //         },
+  //         EXTRA_TYPES.SELECTION_TOGGLE,
+  //         EXTRA_TYPES.DELETE_BUTTON,
+  //         EXTRA_TYPES.DOC_TOGGLE
+  //       ],
+  //     },
+  //   ],
+  // },
+  // properties: {
+  //   children: {
+  //     name: "Children",
+  //     accepts: [
+  //       "moveGripperType"
+  //     ],
+  //     default: [],
+  //     isList: true,
+  //     fullWidth: true,
+  //   },
+  //   compileFn: {
+  //     default: COMPILE_FUNCTIONS.SIMPLE,
+  //   },
+  //   updateFields: {
+  //     default: ["children"],
+  //   },
+  // },
+};
+
+const emptySkillFeatures = {
+  name: "New skill",
+  description: "some string",
   properties: {
+    description: { default: "some string" },
     children: {
       name: "Children",
-      accepts: [
-        "hierarchicalType",
-        "skillType",
-        "delayType",
-        "breakpointType",
-        "moveGripperType",
-        "machineInitType",
-        "processStartType",
-        "processStopType",
-        "processWaitType",
-        "moveTrajectoryType",
-        "moveUnplannedType",
-        "robotInitType",
-      ],
+      accepts: ["moveGripperType"],
       default: [],
       isList: true,
-      fullWidth: true,
+      nullValid: true,
     },
-    compileFn: {
-      default: COMPILE_FUNCTIONS.SIMPLE,
-    },
+    compileFn: { default: COMPILE_FUNCTIONS.SIMPLE },
     updateFields: {
       default: ["children"],
     },
   },
 };
 
-export const skillType = merge(skillFeatures, baseTypeData);
+export const skillType = merge(emptySkillFeatures, skillFeatures);

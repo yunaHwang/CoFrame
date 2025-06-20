@@ -5,6 +5,24 @@ import { generateUuid } from "./generateUuid";
 import { STATUS } from "./Constants";
 // import { FiUnderline } from "react-icons/fi";
 
+import { sendSourceDestInfoToFlask, waitForProgramFlush } from "./to_flask";
+
+
+// const sendSourceDestInfoToFlask = async (sourceInfo, destInfo) => {
+//   console.log("Sending new adds");
+//   try {
+//     const res = await fetch("http://localhost:5000/receive_source_dest", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ sourceInfo, destInfo }),
+//     });
+//     const result = await res.json();
+//     console.log("Flask response for sourceInfo, destInfo:", result);
+//   } catch (err) {
+//     console.error("Error sending data to Flask:", err);
+//   }
+// };
+
 // Credit: https://www.npmjs.com/package/lodash-move
 export function move(array, moveIndex, toIndex) {
   /* #move - Moves an array item from one position in an array to another.
@@ -382,14 +400,19 @@ export const ProgrammingSliceOverride = (set, get) => ({
       state.programData[id].properties.status = STATUS.PENDING;
       state.programData[id].properties.pendingChanges += 1;
     }),
-  transferBlock: (data, sourceInfo, destInfo) => {
+  transferBlock: async (data, sourceInfo, destInfo) => {
     console.log('transferBlock')
     // yuna added
     console.log('data', data);
     console.log('sourceInfo', sourceInfo);
     console.log('destInfo', destInfo);
+    //sendSourceDestInfoToFlask(sourceInfo, destInfo);
     ///////
     set((state) => applyTransfer(state, data, sourceInfo, destInfo));
+
+    await waitForProgramFlush();
+    await sendSourceDestInfoToFlask(sourceInfo, destInfo);
+    console.log('sourceInfo and destInfo also sent from React!');
   },
   deleteBlock: (data, parentId, fieldInfo) => {
     set((state) => {

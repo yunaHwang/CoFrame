@@ -71,7 +71,9 @@ const programFeatures = {
         "robotAgentType",
         "humanAgentType",
         "gripperType",
-        "graspPointType"
+        "graspPointType",
+        // add skillType
+        "skillType",
       ],
       default: [],
       isList: true,
