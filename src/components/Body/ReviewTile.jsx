@@ -37,6 +37,7 @@ import { HTML5toTouch } from 'rdndmb-html5-to-touch';
 import { useDrop } from 'react-dnd';
 import { TIMELINE_TYPES } from "../../stores/Constants";
 import { motion } from "framer-motion";
+import { ExternalBlock } from "open-vp";
 const dropZoneVariants = {
   default: {
     scale: 1,
@@ -92,6 +93,42 @@ const FallbackDropArea = ({ onDrop, children, highlightColor }) => {
         <Typography variant="body2" sx={{ color: '#999', textAlign: 'center' }}>
           Drag Actions Here
         </Typography>
+      )}
+    </div>
+  );
+};
+
+const FallbackBlock = ({ item, onDelete, highlightColor }) => {
+  return (
+    <div style={{ position: 'relative' }}>
+      <ExternalBlock
+        store={useStore}
+        data={item.data}
+        highlightColor={highlightColor || "#333333"}
+      />
+      
+      {/* The innear delet button not working using a outside block deletion */}
+      {onDelete && (
+        <IconButton
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          sx={{
+            position: 'absolute',
+            top: 4,
+            right: 4,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            color: 'white',
+            zIndex: 10,
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,0.9)',
+            }
+          }}
+        >
+          <FiTrash2 size={14} />
+        </IconButton>
       )}
     </div>
   );
@@ -212,86 +249,36 @@ const UnifiedDropZone = ({ item, itemIndex, onDrop, highlightColor, handleAction
         { zone: 'left', style: { left: -3, top: 0, bottom: 0, width: '3px' } },
         { zone: 'right', style: { right: -3, top: 0, bottom: 0, width: '3px' } }
       ].map(({ zone, style }) => (
-        <motion.div
-          key={zone}
-          variants={indicatorVariants}
-          animate={dropZone === zone ? 'visible' : 'hidden'}
-          style={{
-            position: 'absolute',
-            backgroundColor: highlightColor,
-            borderRadius: '2px',
-            zIndex: 10,
-            ...style
-          }}
-        />
-      ))}
+          <motion.div
+            key={zone}
+            variants={indicatorVariants}
+            animate={dropZone === zone ? 'visible' : 'hidden'}
+            style={{
+              position: 'absolute',
+              backgroundColor: highlightColor,
+              borderRadius: '2px',
+              zIndex: 10,
+              ...style
+            }}
+          />
+        ))}
 
         {!Array.isArray(item) ? (
-          //This is the Area that need to be change from a written box, to the actual box, Using Paper and box as a example
-          <Paper
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              px: 1.5,
-              py: 0.75,
-              border: `1px solid ${highlightColor}`,
-              minHeight: 20,
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: 500,
-                flex: 1,
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                textAlign: 'center',
-              }}
-            >
-              {item.name}
-            </Typography>
-            <IconButton
-            //Hard coding a delete button
-              size="small"
-              onClick={() => handleActionRemove(item.id)}
-            >
-              <FiTrash2 size={14} />
-            </IconButton>
-          </Paper>
+          <FallbackBlock
+            item={item}
+            onDelete={() => handleActionRemove(item.id)}
+            highlightColor={highlightColor}
+          />
         ) : (
           <Stack direction="row" spacing={0.5} sx={{ minHeight: 40 }}>
             {item.map((action, actionIndex) => (
-              <Paper
-                key={action.id}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  px: 1,
-                  py: 0.75,
-                  borderRadius: 1,
-                  border: `1px solid ${highlightColor}`,
-                  flex: 1
-                }}
-              >
-                <Typography
-                  variant="caption"
-                  sx={{
-                    fontWeight: 500,
-                    flex: 1,
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    textAlign: 'center',
-                  }}
-                >
-                  {action.name}
-                </Typography>
-
-                <IconButton
-                  size="small"
-                  onClick={() => handleActionRemove(action.id)}
-                >
-                  <FiTrash2 size={14} />
-                </IconButton>
-              </Paper>
+              <div key={action.id} style={{ flex: 1 }}>
+                <FallbackBlock
+                  item={action}
+                  highlightColor={highlightColor}
+                  onDelete={() => handleActionRemove(item.id)}
+                />
+              </div>
             ))}
           </Stack>
         )}
