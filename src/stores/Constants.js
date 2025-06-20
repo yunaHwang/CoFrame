@@ -90,7 +90,11 @@ export const TIMELINE_TYPES = [
 'rotateType',
 'slowerStretchType',
 'fasterStretchType',
-'speechType']
+'speechType',
+'thingType',
+'directionalityType',
+
+]
 export const PREVIEW_TYPES = [...TIMELINE_TYPES,'locationType','waypointType'];
 export const REFERENCEABLE_OBJECTS = ["machineType", "fixtureType", "linkType", "toolType", "robotAgentType", "humanAgentType", 'gripperType'];
 

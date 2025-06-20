@@ -266,6 +266,7 @@ export const EvdSlice = (set, get) => ({
       actionsData.forEach((raw, idx) => {
         const typeName = raw.type;
         console.log("what is the typeName here, ", typeName);
+        console.log("is this none, ", actionTypes[typeName]);
         if (!actionTypes[typeName]) return;          // ignore unknown types
 
         const actId  = generateUuid(typeName);

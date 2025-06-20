@@ -313,7 +313,7 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
     setTimeout(() => {
       setsubmit(false);
       setShowSuccess(true);
-      setFallbackActions([]);
+      //setFallbackActions([]); // this should not be here
       console.log("Fallback Action Submit", fallbackActions);
     }, 2000);
   };
@@ -531,13 +531,14 @@ const handleActionDrop = useCallback((item, dropInfo = null) => {
             // setFallbackActions([]);
 
             const skillName = `Skill ${new Date().toLocaleTimeString()}`;
+            console.log("do fallbackActions exist, ", fallbackActions);
             useStore.getState().addSkillWithActions(skillName, fallbackActions);
             useStore.getState().performCompileProcess();
 
             console.log("Newly Created skillName, ", skillName);
             // console.log("So, did this get added to ProgramData, ", programData); <- no this is an error
             const state = useStore.getState();          // grab a snapshot
-            console.log("ProgramData now has keys:", Object.keys(state.programData));
+            //console.log("ProgramData now has keys:", Object.keys(state.programData));
             console.log("Root children:", state.programData[Object.keys(state.programData).find(k => state.programData[k].type === "programType")]?.properties.children);
 
             setShowSuccess(false);
