@@ -94,8 +94,10 @@ const emptySkillFeatures = {
   properties: {
     description: { default: "some string" },
     children: {
-      name: "Children",
-      accepts: ["moveGripperType"],
+      name: "Sets of Actions",
+      accepts: ["moveGripperType", "closeGripperType", "stopStretchType", "saveLogStretchType",
+        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
+      ],
       default: [],
       isList: true,
       nullValid: true,
