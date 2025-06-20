@@ -4,6 +4,8 @@ import {pick, omit, mapValues} from "lodash";
 import { DATA_TYPES } from "open-vp";
 
 import typeInfo from "./typeInfo";
+import actionTypes from './typeInfo/action'; // using the unflattened version aha
+
 // import { performPoseProcess } from './planner-worker';
 import { instanceTemplateFromSpec } from "open-vp";
 import useCompiledStore from './CompiledStore';
@@ -11,7 +13,9 @@ import * as Comlink from "comlink";
 /* eslint-disable import/no-webpack-loader-syntax */
 import PlannerWorker from "./planner-worker?worker";
 
-import { sendProgramDataToFlask } from "./to_flask";   // ← new
+import { sendProgramDataToFlask } from "./to_flask"; 
+
+import { generateUuid } from "./generateUuid";
 
 // const plannerWorkerUrl = new URL('./planner-worker.js',import.meta.url);
 // const workerInstance = new ComlinkWorker(plannerWorkerUrl,{});
@@ -52,13 +56,6 @@ export const EvdSlice = (set, get) => ({
   solver: null,
   programSpec: {
     drawers: [
-      // {
-      //   // added for testing container logic
-      //   title: "Containers",
-      //   dataType: DATA_TYPES.INSTANCE,
-      //   objectTypes: ["skillType"],
-      //   icon: ContainerIconStyled,
-      // },
       {
         title: "Skills",
         dataType: DATA_TYPES.INSTANCE,
@@ -251,6 +248,53 @@ export const EvdSlice = (set, get) => ({
       state.processes.planProcess = process;
       // console.log(useCompiledStore.getState())
     }),
+
+  // adding new logic for adding the skill block with actions
+  addSkillWithActions: (skillName, actionsData) =>
+    set((state) => {
+      const skillId = generateUuid("skillType")
+      state.programData[skillId] = instanceTemplateFromSpec(
+      "skillType",
+      state.programSpec.objectTypes["skillType"],
+      false
+    );
+      state.programData[skillId].id        = skillId;
+      state.programData[skillId].name      = skillName || "New Skill";
+      state.programData[skillId].position  = { x: 200, y: 60 }; 
+      state.programData[skillId].properties.children = [];
+
+      actionsData.forEach((raw, idx) => {
+        const typeName = raw.type;
+        console.log("what is the typeName here, ", typeName);
+        if (!actionTypes[typeName]) return;          // ignore unknown types
+
+        const actId  = generateUuid(typeName);
+        const actObj = instanceTemplateFromSpec(
+          typeName,
+          state.programSpec.objectTypes[typeName],
+          false
+        );
+
+      Object.assign(actObj.properties, raw.data?.properties ?? {});
+
+      actObj.id       = actId;
+      actObj.name     = raw.name || actObj.name;
+      actObj.position = { x: 400, y: 60 + idx * 120 };
+
+      state.programData[actId] = actObj;
+      state.programData[skillId].properties.children.push(actId);
+    });
+
+      const root = Object.values(state.programData)
+        .find((b) => b.type === "programType");
+      if (root) {
+        root.properties.children ??= [];
+        root.properties.children.push(skillId);   //last in order
+      }
+
+      state.programData = { ...state.programData };
+  }, false, "addSkillWithActions"),
+
   performCompileProcess: async () => {
     console.log('starting plan processing')
     const currentProcess = get().processes.planProcess;
@@ -286,7 +330,7 @@ export const EvdSlice = (set, get) => ({
     }
 
     //await sendProgramDataToFlask(programData);
-    //console.log("✅ Sent from React!");
+    //console.log("Sent from React!");
   },
   processes: {},
   reviewableChanges: 0,

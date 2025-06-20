@@ -304,6 +304,11 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
 
   //PlaceHolder fot Submit Button
   const handleSubmit = () => {
+    if (fallbackActions.length === 0) return;
+    // const skillName = `Skill ${new Date().toLocaleTimeString()}`;
+    // useStore.getState().addSkillWithActions(skillName, fallbackActions);
+    // useStore.getState().performCompileProcess();
+
     setsubmit(true);
     setTimeout(() => {
       setsubmit(false);
@@ -522,6 +527,19 @@ const handleActionDrop = useCallback((item, dropInfo = null) => {
           variant="contained"
           color="success"
           onClick={() => {
+            // setShowSuccess(false);
+            // setFallbackActions([]);
+
+            const skillName = `Skill ${new Date().toLocaleTimeString()}`;
+            useStore.getState().addSkillWithActions(skillName, fallbackActions);
+            useStore.getState().performCompileProcess();
+
+            console.log("Newly Created skillName, ", skillName);
+            // console.log("So, did this get added to ProgramData, ", programData); <- no this is an error
+            const state = useStore.getState();          // grab a snapshot
+            console.log("ProgramData now has keys:", Object.keys(state.programData));
+            console.log("Root children:", state.programData[Object.keys(state.programData).find(k => state.programData[k].type === "programType")]?.properties.children);
+
             setShowSuccess(false);
             setFallbackActions([]);
           }}
