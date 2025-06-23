@@ -3,9 +3,14 @@ import React, { useState, useEffect } from "react";
 
 const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
   
+  const [orientation, setOrientation] = useState('E');
+  const directions = ['N', 'E', 'S', 'W'];
+
   const [pendingMove, setPendingMove] = useState(false);
+  const [pendingRotate, setPendingRotate] = useState (false);
 
   const [robotCoord, setRobotCoord] = useState(() => {
+
     const robotEntry = Object.entries(icons).find(([k, v]) => typeof v === 'string' && v.includes('robot'));
     if (robotEntry) {
       const [x, y] = robotEntry[0].split(',').map(Number);
@@ -18,6 +23,8 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
 
     const info = sourceInfo_to_pass?.data?.name;
+    
+    // 'Move Forward'
     if (info === 'Move Forward') {
     setPendingMove(true);
     return;
@@ -27,10 +34,37 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     const steps = match ? parseInt(match[1]) : 1;
     //console.log("how many steps, ",steps);
 
-    const newX = Math.min(robotCoord.x + steps, 9);
-    setRobotCoord({ x: newX, y: robotCoord.y });
+
+    let dx = 0, dy = 0;
+    if (orientation === 'N') dy = 1;
+    if (orientation === 'S') dy = -1;
+    if (orientation === 'E') dx = 1;
+    if (orientation === 'W') dx = -1;
+
+    const newX = Math.max(0, Math.min(robotCoord.x + dx * steps, 9));
+    const newY = Math.max(0, Math.min(robotCoord.y + dy * steps, 7));
+    setRobotCoord({ x: newX, y: newY });
+
 
     setPendingMove(false);
+    }
+
+    // 'Rotate'
+    if (info === 'Rotate Stretch') {
+      setPendingRotate(true);
+      return;
+    }
+    // TODO - tweak code so that regardless of either 'Direction' comes first or 'Angle' comes first
+    // it should defer any movement
+    if (pendingRotate && info?.includes('degrees') && robotCoord) {
+      return; //still pending because it's waiting for either clockwise or counterclockwise
+    }
+    if (pendingRotate && info?.includes('wise') && robotCoord) {
+      const isClockwise = info.toLowerCase().includes('clockwise');
+      const idx = directions.indexOf(orientation);
+      const newIdx = isClockwise ? (idx + 1) % 4 : (idx + 3) % 4; //clockwise first, if not, counter-clockwise
+      setOrientation(directions[newIdx]);
+      setPendingRotate(false);
     }
   }, [sourceInfo_to_pass]);
 
@@ -104,12 +138,22 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     };
   };
 
-  const iconStyle = {
-    width: '80%',
-    height: '80%',
-    objectFit: 'contain',
-    pointerEvents: 'none',
-  };
+  const iconStyle = (isRobot) => ({
+  width: '80%',
+  height: '80%',
+  objectFit: 'contain',
+  pointerEvents: 'none',
+  transform: isRobot
+    ? orientation === 'E'
+      ? 'rotate(0deg)'
+      : orientation === 'S'
+      ? 'rotate(90deg)'
+      : orientation === 'W'
+      ? 'rotate(180deg)'
+      : 'rotate(270deg)'
+    : undefined,
+});
+
 
   return (
     <div style={pageStyle}>
@@ -126,10 +170,6 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
           const y = 7 - Math.floor(idx / 10);
           const key = `${x},${y}`;
           const isHighlighted = highlightSet.has(key);
-          // const iconSrcOrNode =
-          //   robotCoord && robotCoord.x === x && robotCoord.y === y
-          //     ? Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'))
-          //     : icons[key];
 
           const robotImage = Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'));
           const robotKey = robotCoord ? `${robotCoord.x},${robotCoord.y}` : null;
@@ -146,7 +186,7 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
           {labelText && <span style={labelStyle}>{labelText}</span>}
           {iconSrcOrNode && (
                 typeof iconSrcOrNode === 'string' ? (
-                  <img src={iconSrcOrNode} alt="icon" style={iconStyle} />
+                  <img src={iconSrcOrNode} alt="icon" style={iconStyle(key === robotKey)} />
                 ) : (
                   <span style={iconStyle}>{iconSrcOrNode}</span>
                 )
