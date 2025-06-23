@@ -25,6 +25,7 @@ export const ProgramTile = forwardRef((_,ref) => {
     // console.log(visible)
 
     const displayDistance = Math.floor(distanceTravel / 8) * 8;
+    const displayBattery = Math.ceil(batteryLevel / 5) * 5;
 
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
@@ -53,7 +54,7 @@ export const ProgramTile = forwardRef((_,ref) => {
                                 padding: '6px 12px',
                                 borderRadius: '2px'
                             }}>
-                                <Typography style={{ color: 'white' }}>Current Battery Level {batteryLevel}%</Typography>
+                                <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
                             {isProcessing && (
                                 <CircularProgress size={18} variant='indeterminate' color='primaryColor' />

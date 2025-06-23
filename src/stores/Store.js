@@ -48,12 +48,12 @@ const store = (set, get) => ({
   // added to keep track of sourceInfo (aka the name of the action during transferblock) so that icons move
   lastSourceInfo: null,
   setLastSourceInfo: (info) => set({ lastSourceInfo: info }),
-  
+
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
   batteryWarning: true,
   setBatteryWarning: (value) => set({ batteryWarning: value }),
-  batteryLevel: 0,
+  batteryLevel: 100,
   setbatteryLevel: (value) => set({ batteryLevel: value }),
   distanceTravel: 0,
   setdistanceTravel: (value) => set({ distanceTravel: value }),

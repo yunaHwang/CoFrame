@@ -43,7 +43,7 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     if (pendingMove && info?.includes('grid') && robotCoord) {
     const match = info.match(/(\d+)/);
     const steps = match ? parseInt(match[1]) : 1;
-    //console.log("how many steps, ",steps);
+    console.log("how many steps, ",steps);
 
 
     let dx = 0, dy = 0;
@@ -56,10 +56,17 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     const newY = Math.max(0, Math.min(robotCoord.y + dy * steps, 7));
     setRobotCoord({ x: newX, y: newY });
 
+    // logic for travel distance
     const increment = steps * 1.6;
     const prevDist = useStore.getState().distanceTravel;
     useStore.getState().setdistanceTravel(prevDist + increment);
-    
+
+    // logic for battery level
+    const batteryDrop = steps * 1;
+    const prevBattery = useStore.getState().batteryLevel;
+    const newBattery = Math.max(0, prevBattery - batteryDrop);
+    useStore.getState().setbatteryLevel(newBattery);
+
     setPendingMove(false);
     }
 
