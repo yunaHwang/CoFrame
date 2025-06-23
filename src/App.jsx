@@ -113,6 +113,9 @@ export default function App() {
   const setViewMode = useStore((state) => state.setViewMode, shallow);
   const clearFocus = useStore((state) => state.clearFocus, shallow);
 
+  //added to keep track of sourceInfo
+  const sourceInfo_to_pass = useStore((s) => s.lastSourceInfo);
+
   const [editorRef, editorBounds] = useMeasure();
   const [simRef, simBounds] = useMeasure();
 
@@ -238,6 +241,7 @@ export default function App() {
                     color="#e0f0ff"
                     icons={icons}
                     labelsOverGrid={labelsOverGrid}
+                    sourceInfo_to_pass = {sourceInfo_to_pass}
                   />
 
                   {/* editor fills the remaining space */}

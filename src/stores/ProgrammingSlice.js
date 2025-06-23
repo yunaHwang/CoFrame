@@ -408,6 +408,7 @@ export const ProgrammingSliceOverride = (set, get) => ({
     console.log('destInfo', destInfo);
     //sendSourceDestInfoToFlask(sourceInfo, destInfo);
     ///////
+    set({ lastSourceInfo: sourceInfo });
     set((state) => applyTransfer(state, data, sourceInfo, destInfo));
 
     await waitForProgramFlush();

@@ -45,6 +45,10 @@ const store = (set, get) => ({
   ...RosSlice(set, get),
   ...ProgramStoreSlice(set, get),
 
+  // added to keep track of sourceInfo (aka the name of the action during transferblock) so that icons move
+  lastSourceInfo: null,
+  setLastSourceInfo: (info) => set({ lastSourceInfo: info }),
+  
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
   batteryWarning: true,
