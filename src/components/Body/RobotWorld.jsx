@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 
 
 const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
+  
+  const [pendingMove, setPendingMove] = useState(false);
+
   const [robotCoord, setRobotCoord] = useState(() => {
     const robotEntry = Object.entries(icons).find(([k, v]) => typeof v === 'string' && v.includes('robot'));
     if (robotEntry) {
@@ -12,10 +15,22 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
   });
 
   useEffect(() => {
-    //console.log("is sourceInfo being passed, ",sourceInfo_to_pass);
-    if (sourceInfo_to_pass?.data?.name === 'Move Forward' && robotCoord) {
-      const newX = Math.min(robotCoord.x + 1, 9);
-      setRobotCoord({ x: newX, y: robotCoord.y });
+    //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
+
+    const info = sourceInfo_to_pass?.data?.name;
+    if (info === 'Move Forward') {
+    setPendingMove(true);
+    return;
+    }
+    if (pendingMove && info?.includes('grid') && robotCoord) {
+    const match = info.match(/(\d+)/);
+    const steps = match ? parseInt(match[1]) : 1;
+    //console.log("how many steps, ",steps);
+
+    const newX = Math.min(robotCoord.x + steps, 9);
+    setRobotCoord({ x: newX, y: robotCoord.y });
+
+    setPendingMove(false);
     }
   }, [sourceInfo_to_pass]);
 
