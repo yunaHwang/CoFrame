@@ -3276,6 +3276,32 @@
     "argumentBlockData": [],
     "editing": false
   },
+
+  "handObjToType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "handobjToType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "handObjToType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch hands an object to a person",
+      "thing": "",
+      "person": "",
+      "compileFn": 9,
+      "updateFields": [
+        "thing", "person"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Hand Object to Person",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+
   "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
     "id": "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
     "type": "slowerStretchType",

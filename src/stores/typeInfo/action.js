@@ -99,6 +99,32 @@ const closeGripperFeatures = {
   },
 };
 
+const handObjToFeatures = {
+  name: "Hand Object to Person",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch hands an object to a person" },
+    thing: {
+      name: "Object",
+      accepts: ["thingType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    person: {
+      name: "Person",
+      accepts: ["personType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: ["thing", "person"],
+    },
+  },
+};
+
 const stopFeatures = {
   name: "Stop Stretch Action",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
@@ -344,6 +370,7 @@ const actionTypes = {
   slowerStretchType: merge(slowerStretchFeatures, basicActionData),
   fasterStretchType: merge(fasterStretchFeatures, basicActionData),
   lookForType: merge(lookForFeatures, basicActionData),
+  handObjToType: merge(handObjToFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),
