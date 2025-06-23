@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
-
+import useStore from "../../stores/Store";
 
 const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
   
@@ -56,7 +56,10 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     const newY = Math.max(0, Math.min(robotCoord.y + dy * steps, 7));
     setRobotCoord({ x: newX, y: newY });
 
-
+    const increment = steps * 1.6;
+    const prevDist = useStore.getState().distanceTravel;
+    useStore.getState().setdistanceTravel(prevDist + increment);
+    
     setPendingMove(false);
     }
 

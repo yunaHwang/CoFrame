@@ -1,4 +1,5 @@
 import React, {forwardRef} from 'react';
+import { useMemo } from 'react';
 import { Environment } from 'open-vp';
 import Tile from '../Elements/Tile';
 import useStore from '../../stores/Store';
@@ -22,6 +23,9 @@ export const ProgramTile = forwardRef((_,ref) => {
     // const [ref, bounds] = useMeasure();
 
     // console.log(visible)
+
+    const displayDistance = Math.floor(distanceTravel / 8) * 8;
+
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
 
@@ -41,7 +45,7 @@ export const ProgramTile = forwardRef((_,ref) => {
                                 borderRadius: '2px'
                             }}
                             >
-                                <Typography style={{ color: 'white' }}>Distance Traveled: {distanceTravel} miles</Typography>
+                                <Typography style={{ color: 'white' }}>Distance Traveled: {displayDistance} feet</Typography>
                             </Box>
                             <Box
                             sx = {{

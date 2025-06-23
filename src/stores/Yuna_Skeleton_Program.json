@@ -3170,7 +3170,7 @@
     "selected": false
   },
   "program-484de43e-adaa-4801-a23b-bca38e211365": {
-    "name": "Knife Assembly",
+    "name": "Day in the life of Stretch",
     "id": "program-484de43e-adaa-4801-a23b-bca38e211365",
     "type": "programType",
     "readonly": false,
@@ -4576,20 +4576,6 @@
         "x": -200.57106389986825,
         "y": -218.61264822134387,
         "zoom": 0.6809947299077733
-      }
-    },
-    {
-      "title": "Skills",
-      "id": "skills",
-      "visible": true,
-      "blocks": [
-        "skillType-1f4348c8-8b88-441d-95c9-dc9874848629",
-        "skillType-b359d032-0996-444e-8099-4790b97df79e"
-      ],
-      "viewport": {
-        "x": -129.72591034390405,
-        "y": 350.3869354800539,
-        "zoom": 0.7169776240079122
       }
     }
   ],
