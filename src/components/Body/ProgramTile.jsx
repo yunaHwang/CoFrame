@@ -33,24 +33,23 @@ export const ProgramTile = forwardRef((_,ref) => {
                 innerStyle={{height:'calc(100% - 55px)'}}
                 header={
                     <Stack direction='row' style={{paddingRight:'4px', alignContent:'center', justifyContent:'space-between'}}>
-                        <Typography style={{ margin: "10pt", color:'white'}}>Program Editor</Typography>
                         <Stack direction='row' gap={1} alignItems='center'>
                             <Box
                             sx = {{
-                                backgroundColor: '#bf9264', 
+                                backgroundColor: '#932848', 
                                 padding: '6px 12px',
                                 borderRadius: '2px'
                             }}
                             >
-                                <Typography>Distance Traveled: {distanceTravel} miles</Typography>
+                                <Typography style={{ color: 'white' }}>Distance Traveled: {distanceTravel} miles</Typography>
                             </Box>
                             <Box
                             sx = {{
-                                backgroundColor: '#f0f1c5', 
+                                backgroundColor: '#531629', 
                                 padding: '6px 12px',
                                 borderRadius: '2px'
                             }}>
-                                <Typography>Current Battery Level {batteryLevel}%</Typography>
+                                <Typography style={{ color: 'white' }}>Current Battery Level {batteryLevel}%</Typography>
                             </Box>
                             {isProcessing && (
                                 <CircularProgress size={18} variant='indeterminate' color='primaryColor' />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
 
 
 const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
@@ -18,6 +19,16 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     }
     return null;
   });
+
+  const getRotationTransform = () => {
+  switch (orientation) {
+    case 'N': return 'rotate(-90deg)';
+    case 'S': return 'rotate(90deg)';
+    case 'W': return 'rotate(180deg)';
+    default:  return ''; // E
+  }
+};
+
 
   useEffect(() => {
     //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
@@ -143,24 +154,19 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
   height: '80%',
   objectFit: 'contain',
   pointerEvents: 'none',
-  transform: isRobot
-    ? orientation === 'E'
-      ? 'rotate(0deg)'
-      : orientation === 'S'
-      ? 'rotate(90deg)'
-      : orientation === 'W'
-      ? 'rotate(180deg)'
-      : 'rotate(270deg)'
-    : undefined,
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: `translate(-50%, -50%) ${isRobot ? getRotationTransform() : ''}`,
 });
 
 
   return (
     <div style={pageStyle}>
       {labelsOverGrid.map(({ text, from, to }, i) => (
-        <div key={i} style={overlayLabelStyle(from, to)}>
+        <Typography key={i} style={overlayLabelStyle(from, to)}>
           {text}
-        </div>
+        </Typography>
       ))}
 
       <div style={gridStyle}>
@@ -180,15 +186,15 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
           return (
           <div key={idx} 
           style={{ ...cellStyle, height: CELL_SIZE, 
-                  backgroundColor: isHighlighted ? color : '#ffffff',}} 
+                  backgroundColor: isHighlighted ? color : '#ffffff', position: 'relative', }} 
                   data-x={x} data-y={y} >
-          <span style={coordStyle}>({x},{y})</span>
-          {labelText && <span style={labelStyle}>{labelText}</span>}
+          <Typography sx={coordStyle}>({x},{y})</Typography>
+          {labelText && <Typography sx={labelStyle}>{labelText}</Typography>}
           {iconSrcOrNode && (
                 typeof iconSrcOrNode === 'string' ? (
                   <img src={iconSrcOrNode} alt="icon" style={iconStyle(key === robotKey)} />
                 ) : (
-                  <span style={iconStyle}>{iconSrcOrNode}</span>
+                  <span style={iconStyle(key === robotKey)}>{iconSrcOrNode}</span>
                 )
               )}
           </div>
