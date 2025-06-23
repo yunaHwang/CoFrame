@@ -2,6 +2,7 @@ import { programType } from './program';
 import { locationType, toLocationType, waypointType, placeType } from './pose';
 import { thingType } from './thing';
 import { speechType } from './speech';
+import { personType } from './person';
 import { directionalityType } from './directionality';
 import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
@@ -26,6 +27,7 @@ const mod = {
     placeType,
     thingType,
     speechType,
+    personType,
     directionalityType,
     trajectoryType,
     hierarchicalType,

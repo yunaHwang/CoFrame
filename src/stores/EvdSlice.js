@@ -91,6 +91,13 @@ export const EvdSlice = (set, get) => ({
       },
 
       {
+        title: "People",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "personType",
+        icon: WaypointIconStyled,
+      },
+
+      {
         title: "Speech Utterance",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "speechType",
