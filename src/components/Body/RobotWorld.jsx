@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import useStore from "../../stores/Store";
 
-const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
+const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
   
   const [orientation, setOrientation] = useState('E');
   const directions = ['N', 'E', 'S', 'W'];
@@ -43,7 +43,7 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
     if (pendingMove && info?.includes('grid') && robotCoord) {
     const match = info.match(/(\d+)/);
     const steps = match ? parseInt(match[1]) : 1;
-    console.log("how many steps, ",steps);
+    //console.log("how many steps, ",steps);
 
 
     let dx = 0, dy = 0;
