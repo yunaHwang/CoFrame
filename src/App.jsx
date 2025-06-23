@@ -27,6 +27,13 @@ import "react-reflex/styles.css";
 import "./App.css";
 import { shallow } from "zustand/shallow";
 
+import robotPng from "./components/SimMapFlaticons/robot.png"
+import employeePng from "./components/SimMapFlaticons/employee.png"
+import chargingPng from "./components/SimMapFlaticons/charging_dock.png"
+import elderlyPng from "./components/SimMapFlaticons/elderly.png"
+import wrongObj from "./components/SimMapFlaticons/others_delivery.png"
+import correctObj from "./components/SimMapFlaticons/delivery_object.png"
+
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
   const viewMode = useStore((state) => state.viewMode, shallow);
@@ -165,12 +172,6 @@ export default function App() {
     },
   });
 
-  // const programRef = useRef();
-  // const simulationRef = useRef();
-
-  // const [open, setOpen] = useState(false);
-  // console.log(viewMode);
-
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
 
@@ -179,6 +180,16 @@ export default function App() {
                     [3,4],[3,5],[3,6],[3,7],[4,4],[4,5],[4,6],[4,7],
                     [5,4],[5,5],[5,6],[5,7],[6,4],[6,5],[6,6],[6,7],[7,4],[7,5],[7,6],[7,7],
                     [8,4],[8,5],[8,6],[8,7],[9,4],[9,5],[9,6],[9,7]];
+
+  // Icon setting
+  const icons = {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,6': wrongObj, '1,6': correctObj
+  };
+
+  // Label setting
+  const labelsOverGrid = [{ text: 'Activity area', from: [1, 2], to: [3, 2] },
+                      { text: 'Package room', from: [0, 7], to: [2, 7] },
+                      { text: 'Elderly room', from: [6, 3], to: [8, 3]}];
 
   return (
     
@@ -199,21 +210,6 @@ export default function App() {
             orientation="vertical"
             style={{ backgroundColor: "blue" }}
           >
-            {/* {showSim && (
-              <ReflexElement
-                // minSize={200}
-                onStopResize={(e) => {
-                  if (simBounds.width / editorBounds.width < 0.2) {
-                    console.log("setting to program", e);
-                    setViewMode("program");
-                  }
-                }}
-              >
-                <SimulatorTile ref={simRef} />
-              </ReflexElement>
-            )}
-            {viewMode === "default" && <ReflexSplitter />} */}
-
             {showEditor && (
               <ReflexElement
                 id="reflex-program"
@@ -226,7 +222,6 @@ export default function App() {
                   }
                 }}
               >
-                {/* <ProgramTile ref={editorRef} /> */}
                 <Box
                   sx={{
                     display: "flex",
@@ -238,89 +233,23 @@ export default function App() {
                   {/* header bar that takes 20 % of viewport height (or any size you like) */}
                   <RobotWorld
                     cellSize = {1}
-                    sx={{ height: "40vh", flexShrink: 0 /* never collapses */ }}
+                    sx={{ height: "40vh", flexShrink: 0 }}
                     highlight={hallways}
                     color="#e0f0ff"
+                    icons={icons}
+                    labelsOverGrid={labelsOverGrid}
                   />
 
                   {/* editor fills the remaining space */}
                   <ProgramTile
                     ref={editorRef}
-                    style={{ flex: 1, minHeight: 0 /* allow flexbox to shrink */ }}
+                    style={{ flex: 1, minHeight: 0 }}
                   />
                 </Box>
 
               </ReflexElement>
             )}
           </ReflexContainer>
-          {/* <Snackbar
-            open={errorType}
-            autoHideDuration={6000}
-            onClose={clearFocus}
-          >
-            <Alert
-              variant="filled"
-              severity="error"
-              sx={{ width: "100%" }}
-              onClose={clearFocus}
-            >
-              <AlertTitle>
-                {errorType === "traces"
-                  ? "No single trace is available to display"
-                  : "Selected action contains errors"}
-              </AlertTitle>
-              {errorType === "traces" ? (
-                <>
-                  <p>
-                    This is usually because you are attempting to visualize an
-                    action in a skill that is used multiple times.
-                  </p>
-                  <p>
-                    To visualize, you will need to visualize the skill-call
-                    instead.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>
-                    You likely have not parameterized all fields correctly, or
-                    are missing critical values.
-                  </p>
-                  <p>Consult the review panel for more suggestions.</p>
-                </>
-              )}
-            </Alert>
-          </Snackbar> */}
-          {/* <Drawer
-            anchor="bottom"
-            sx={{
-              height: "20vh",
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                height: "20vh",
-                boxSizing: "border-box",
-              },
-            }}
-            variant="persistent"
-            open={visibleSteps && errorType === null}
-          > */}
-            {/* <ParentSize>
-              {({ width, height }) =>
-                visibleSteps && errorType === null ? (
-                  <TimelineGraph
-                    width={width}
-                    height={height - 10}
-                    focusSteps={focusSteps}
-                    issue={
-                      issueData?.graphData?.isTimeseries
-                        ? issueData.graphData
-                        : null
-                    }
-                  />
-                ) : null
-              }
-            </ParentSize> */}
-          {/* </Drawer> */}
         </Stack>
         <Detail />
         <SettingsModal />
@@ -328,59 +257,3 @@ export default function App() {
   );
 }
 
-// const Content = () => (
-//   <>
-//     <motion.div
-//       variants={mainVariants}
-//       animate={visibleSteps ? "openDrawer" : "closedDrawer"}
-//       style={{
-//         flexDirection: "row",
-//         display: "flex",
-//       }}
-//     >
-//       <motion.div
-//         variants={leftVariants}
-//         animate={
-//           viewMode === "default" || viewMode === "sim" ? "visible" : "hidden"
-//         }
-//         style={{
-//           overflow: "hidden",
-//         }}
-//       ></motion.div>
-//       <motion.div
-//         layout
-//         variants={rightVariants}
-//         animate={
-//           viewMode === "default" || viewMode === "program"
-//             ? "visible"
-//             : "hidden"
-//         }
-//         style={{
-//           overflow: "hidden",
-//         }}
-//       >
-//         <ProgramTile visible />
-//       </motion.div>
-//     </motion.div>
-//     <motion.div
-//       variants={drawerVariants}
-//       animate={visibleSteps ? "openDrawer" : "closedDrawer"}
-//       style={{
-//         backgroundColor: "#444444",
-//         borderTop: `5px solid ${primaryColor}`,
-//       }}
-//     >
-//       <ParentSize>
-//         {({ width, height }) =>
-//           visibleSteps ? (
-//             <TimelineGraph
-//               width={width}
-//               height={height - 10}
-//               visible={visibleSteps}
-//             />
-//           ) : null
-//         }
-//       </ParentSize>
-//     </motion.div>
-//   </>
-// );
