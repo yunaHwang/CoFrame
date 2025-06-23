@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
   const [robotCoord, setRobotCoord] = useState(() => {
     const robotEntry = Object.entries(icons).find(([k, v]) => typeof v === 'string' && v.includes('robot'));
-    console.log("what is robotEntry, ",robotEntry);
     if (robotEntry) {
       const [x, y] = robotEntry[0].split(',').map(Number);
       return { x, y };
@@ -13,9 +12,8 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
   });
 
   useEffect(() => {
-    console.log("is sourceInfo being passed, ",sourceInfo_to_pass);
+    //console.log("is sourceInfo being passed, ",sourceInfo_to_pass);
     if (sourceInfo_to_pass?.data?.name === 'Move Forward' && robotCoord) {
-      console.log("does this hit Move Forward ");
       const newX = Math.min(robotCoord.x + 1, 9);
       setRobotCoord({ x: newX, y: robotCoord.y });
     }
@@ -113,10 +111,15 @@ const RobotWorld = ({ highlight = [], color = '#e0f0ff', icons = {}, labelsOverG
           const y = 7 - Math.floor(idx / 10);
           const key = `${x},${y}`;
           const isHighlighted = highlightSet.has(key);
-          const iconSrcOrNode =
-            robotCoord && robotCoord.x === x && robotCoord.y === y
-              ? Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'))
-              : icons[key];
+          // const iconSrcOrNode =
+          //   robotCoord && robotCoord.x === x && robotCoord.y === y
+          //     ? Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'))
+          //     : icons[key];
+
+          const robotImage = Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'));
+          const robotKey = robotCoord ? `${robotCoord.x},${robotCoord.y}` : null;
+          const iconSrcOrNode = key === robotKey ? robotImage : icons[key] === robotImage ? null : icons[key];
+
           const labelText = labelsOverGrid[key];
           
           return (
