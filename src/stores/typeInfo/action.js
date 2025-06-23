@@ -211,6 +211,25 @@ const fasterStretchFeatures = {
   },
 };
 
+const lookForFeatures = {
+  name: "Look For Object",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Activate vision sensor to specifically look for an object" },
+    thing: {
+      name: "Object",
+      accepts: ["thingType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: ["thing"],
+    },
+  },
+};
+
 // const machineInitFeatures = {
 //   name: "Machine Initialize",
 //   description: "An action that initializes the [Machine](machineType) for usage. This need only be done once per execution of the [Program](programType).",
@@ -324,6 +343,7 @@ const actionTypes = {
   rotateType: merge(rotateFeatures, basicActionData),
   slowerStretchType: merge(slowerStretchFeatures, basicActionData),
   fasterStretchType: merge(fasterStretchFeatures, basicActionData),
+  lookForType: merge(lookForFeatures, basicActionData),
   //machineInitType: merge(machineInitFeatures, basicActionData),
   //processStartType: merge(processStartFeatures, basicActionData),
   // processStopType: merge(processStopFeatures, basicActionData),

@@ -71,6 +71,7 @@ export const EvdSlice = (set, get) => ({
         objectTypes: [
           "moveGripperType",
           "closeGripperType",
+          "lookForType",
           "stopStretchType",
           "saveLogStretchType",
           "sayType",
@@ -83,7 +84,7 @@ export const EvdSlice = (set, get) => ({
       },
 
       {
-        title: "Things",
+        title: "Objects",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "thingType",
         icon: ThingIconStyled,

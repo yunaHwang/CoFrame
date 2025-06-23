@@ -74,6 +74,7 @@ const programFeatures = {
         "graspPointType",
         // add skillType
         "skillType",
+        "lookForType",
       ],
       default: [],
       isList: true,

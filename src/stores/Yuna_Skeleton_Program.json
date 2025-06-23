@@ -3139,6 +3139,30 @@
     "editing": false
   },
 
+  "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b0": {
+    "id": "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b0",
+    "type": "lookForType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Activate vision sensor to specifically look for an object",
+      "thing": "",
+      "compileFn": 9,
+      "updateFields": [
+        "thing"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Looke for Object",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+
   "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
     "id": "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
     "type": "sayType",
