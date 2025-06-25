@@ -185,6 +185,37 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                         </Paper>
                         )}
+                {battery5Warning && (
+                    <Paper
+                        sx={{ 
+                        position: 'absolute',
+                        top: '10%',
+                        left: '25%',
+                        backgroundColor: '#e53935',  
+                        color: 'white',
+                        p: '10px 16px',
+                        maxWidth: 400,
+                        display: 'flex',
+                        alignItems: 'center'
+                        }}
+                    >
+                        <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                        🚨 Critical Battery<br/>
+                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway.
+                        </Typography>
+                        <Button
+                        variant="contained"
+                        onClick={() => setBattery5Warning(false)}
+                        sx={{
+                            ml: 2,
+                            backgroundColor: 'rgba(0,0,0,0.2)',
+                            '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)' }
+                        }}
+                        >
+                        Acknowledge
+                        </Button>
+                    </Paper>
+)}
                 </Box>
 
             </Tile>
