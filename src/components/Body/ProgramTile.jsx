@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import { Environment } from 'open-vp';
 import Tile from '../Elements/Tile';
 import useStore from '../../stores/Store';
+import { useRef, useEffect } from 'react'; 
 import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
 //import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
@@ -18,6 +19,12 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const setBatteryWarning = useStore(state => state.setBatteryWarning, shallow);
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
+    const battery20Warning = useStore(s => s.battery20Warning,shallow);
+    const setBattery20Warning = useStore(s => s.setBattery20Warning,shallow);
+    const battery5Warning     = useStore(s => s.battery5Warning, shallow);
+    const setBattery5Warning  = useStore(s => s.setBattery5Warning,shallow);
+    const prevLevelRef = useRef(batteryLevel);
+
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
     // const [ref, bounds] = useMeasure();
 
@@ -29,6 +36,19 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const displayDistance = Math.floor(distanceTravel / 8) * 8;
     const displayBattery = Math.ceil(batteryLevel / 5) * 5;
+
+    useEffect(() => {
+    //console.log("why is not below 20? ", batteryLevel);
+    if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
+        setBattery20Warning(true);
+    }
+
+    if (prevLevelRef.current > 5 && batteryLevel <= 5) {
+        setBattery5Warning(true);
+    }
+
+    prevLevelRef.current = batteryLevel;
+    }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
 
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
@@ -96,7 +116,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             ))}
                             </Menu>
                         </Stack>
-                    //</Stack>
 
                 }
             >   
@@ -118,7 +137,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                         >
                             <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4}}>
                                 ⚠️ Warning <br />
-                                Your robot can go under 10% battery after traveling 10km. Keep this in mind when you are programming your robot.
+                                Keep in mind that the robot's battery is not permanent. 
                             </Typography>
                             <Button 
                                 variant="contained"
@@ -134,6 +153,38 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                         </Paper>
                     )}
+                
+                {battery20Warning && (
+                        <Paper
+                            sx={{ 
+                            position: 'absolute',
+                            top: '10%',
+                            left: '25%',
+                            backgroundColor: '#ffb74d',   
+                            color: 'black',
+                            p: '10px 16px',
+                            maxWidth: 400,
+                            display: 'flex',
+                            alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                            ⚠️ Battery Low<br/>
+                            Your robot is below 20%.  Consider heading back for a charge soon.
+                            </Typography>
+                            <Button
+                            variant="contained"
+                            onClick={() => setBattery20Warning(false)}
+                            sx={{
+                                ml: 2,
+                                backgroundColor: 'rgba(255,255,255,0.2)',
+                                '&:hover': { backgroundColor: 'rgba(255,255,255,0.3)' }
+                            }}
+                            >
+                            Got it
+                            </Button>
+                        </Paper>
+                        )}
                 </Box>
 
             </Tile>

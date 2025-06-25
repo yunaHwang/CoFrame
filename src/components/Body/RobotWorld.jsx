@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography } from "@mui/material";
 import useStore from "../../stores/Store";
 
@@ -10,28 +10,31 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
   const [pendingMove, setPendingMove] = useState(false);
   const [pendingRotate, setPendingRotate] = useState (false);
 
-  const [robotCoord, setRobotCoord] = useState(() => {
-
-    const robotEntry = Object.entries(icons).find(([k, v]) => typeof v === 'string' && v.includes('robot'));
-    if (robotEntry) {
-      const [x, y] = robotEntry[0].split(',').map(Number);
-      return { x, y };
-    }
-    return null;
-  });
-
-  useEffect(() => {
+  const startCoord = useMemo(() => {
     const entry = Object.entries(icons).find(
       ([, v]) => typeof v === "string" && v.includes("robot")
     );
-    if (entry) {
-      const [x, y] = entry[0].split(",").map(Number);
-      setRobotCoord({ x, y });
-      setOrientation("E");      
-      setPendingMove(false);    
-      setPendingRotate(false);
-    }
-  }, [icons]); 
+    if (!entry) return null;
+    const [x, y] = entry[0].split(",").map(Number);
+    return { x, y };
+  }, [icons]);
+
+  const [robotCoord, setRobotCoord] = useState(startCoord);
+
+  const prevStartRef = useRef(startCoord); 
+  useEffect(() => {
+    if (
+        !prevStartRef.current ||
+        prevStartRef.current.x !== startCoord?.x ||
+        prevStartRef.current.y !== startCoord?.y
+        ) {
+        prevStartRef.current = startCoord;
+        setRobotCoord(startCoord);
+        setOrientation("E");
+        setPendingMove(false);
+        setPendingRotate(false);
+        }
+        }, [startCoord]);  
 
   const getRotationTransform = () => {
   switch (orientation) {
@@ -47,6 +50,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
 
     const info = sourceInfo_to_pass?.data?.name;
+    console.log("what is info ",info);
     
     // 'Move Forward'
     if (info === 'Move Forward') {
@@ -75,7 +79,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     useStore.getState().setdistanceTravel(prevDist + increment);
 
     // logic for battery level
-    const batteryDrop = steps * 1;
+    const batteryDrop = steps * 1; // temp change to check 20% warning message
     const prevBattery = useStore.getState().batteryLevel;
     const newBattery = Math.max(0, prevBattery - batteryDrop);
     useStore.getState().setbatteryLevel(newBattery);
@@ -95,12 +99,13 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     }
     if (pendingRotate && info?.includes('wise') && robotCoord) {
       const isClockwise = info.toLowerCase().includes('clockwise');
+      console.log("isClockwise? ", isClockwise);
       const idx = directions.indexOf(orientation);
       const newIdx = isClockwise ? (idx + 1) % 4 : (idx + 3) % 4; //clockwise first, if not, counter-clockwise
       setOrientation(directions[newIdx]);
       setPendingRotate(false);
     }
-  }, [sourceInfo_to_pass]);
+  }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord]);
 
   // You can tweak these numbers to change cell size.
   const CELL_SIZE = 30;
