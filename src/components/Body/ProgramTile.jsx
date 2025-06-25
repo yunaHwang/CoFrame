@@ -1,10 +1,9 @@
-import React, {forwardRef} from 'react';
-import { useMemo } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Environment } from 'open-vp';
 import Tile from '../Elements/Tile';
 import useStore from '../../stores/Store';
-import { FiSettings, FiMaximize, FiMinimize } from "react-icons/fi";
-import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert} from '@mui/material';
+import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
+//import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
 
 export const ProgramTile = forwardRef((_,ref) => {
@@ -22,7 +21,11 @@ export const ProgramTile = forwardRef((_,ref) => {
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
     // const [ref, bounds] = useMeasure();
 
-    // console.log(visible)
+    const [scenario,  setScenario]  = useState('Scenario 1');
+    const [menuAnchor, setMenuAnchor] = useState(null);
+    const openMenu   = e => setMenuAnchor(e.currentTarget);
+    const closeMenu  = () => setMenuAnchor(null);
+    const pick       = label => { setScenario(label); closeMenu(); };
 
     const displayDistance = Math.floor(distanceTravel / 8) * 8;
     const displayBattery = Math.ceil(batteryLevel / 5) * 5;
@@ -37,7 +40,7 @@ export const ProgramTile = forwardRef((_,ref) => {
                 internalPaddingWidth={0}
                 innerStyle={{height:'calc(100% - 55px)'}}
                 header={
-                    <Stack direction='row' style={{paddingRight:'4px', alignContent:'center', justifyContent:'space-between'}}>
+                    <Stack direction='row' alignItems="center" justifyContent='space-between' sx={{ pr: '4px', width: '100%' }}>
                         <Stack direction='row' gap={1} alignItems='center'>
                             <Box
                             sx = {{
@@ -48,6 +51,7 @@ export const ProgramTile = forwardRef((_,ref) => {
                             >
                                 <Typography style={{ color: 'white' }}>Distance Traveled: {displayDistance} feet</Typography>
                             </Box>
+
                             <Box
                             sx = {{
                                 backgroundColor: '#531629', 
@@ -56,17 +60,43 @@ export const ProgramTile = forwardRef((_,ref) => {
                             }}>
                                 <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
-                            {isProcessing && (
-                                <CircularProgress size={18} variant='indeterminate' color='primaryColor' />
-                            )}
-                            <IconButton size='small' onClick={() => setViewMode(viewMode === 'default' ? 'program' : 'default')}>
-                                {viewMode === 'default' ? <FiMaximize /> : <FiMinimize />}
-                            </IconButton>
-                            <IconButton size='small' onClick={() => setActiveModal('settings')}>
-                                <FiSettings />
-                            </IconButton>
                         </Stack>
-                    </Stack>
+                            <Box
+                                sx={{
+                                    backgroundColor: '#E37383',
+                                    p: '6px 12px',
+                                    borderRadius: '2px',
+                                    cursor: 'pointer',
+                                    userSelect: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                }}
+                                onClick={openMenu}
+                                >
+                                <Typography sx={{ color: 'white' }}>{scenario}</Typography>
+                                <Typography sx={{ color: 'white' }}>▾</Typography> {/* ▼ or ▾ */}
+                            </Box>
+                            <Menu
+                                anchorEl={menuAnchor}
+                                open={Boolean(menuAnchor)}
+                                onClose={closeMenu} 
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                                transformOrigin={{ vertical: 'top',   horizontal: 'left' }}
+                            >
+                            {['Scenario 1', 'Scenario 2', 'Scenario 3', 'Scenario 4', 'Scenario 5']
+                            .map(label => (
+                                <MenuItem
+                                key={label}
+                                selected={label === scenario}
+                                onClick={() => pick(label)}
+                                >
+                                {label}
+                                </MenuItem>
+                            ))}
+                            </Menu>
+                        </Stack>
+                    //</Stack>
 
                 }
             >   
