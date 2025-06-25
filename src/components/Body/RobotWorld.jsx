@@ -20,6 +20,19 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     return null;
   });
 
+  useEffect(() => {
+    const entry = Object.entries(icons).find(
+      ([, v]) => typeof v === "string" && v.includes("robot")
+    );
+    if (entry) {
+      const [x, y] = entry[0].split(",").map(Number);
+      setRobotCoord({ x, y });
+      setOrientation("E");      
+      setPendingMove(false);    
+      setPendingRotate(false);
+    }
+  }, [icons]); 
+
   const getRotationTransform = () => {
   switch (orientation) {
     case 'N': return 'rotate(-90deg)';

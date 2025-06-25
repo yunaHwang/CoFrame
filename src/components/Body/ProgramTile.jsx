@@ -6,7 +6,7 @@ import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Sn
 //import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
 
-export const ProgramTile = forwardRef((_,ref) => {
+export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const highlightColor = useStore(state => state.primaryColor,shallow);
     const setViewMode = useStore(state => state.setViewMode,shallow);
@@ -25,7 +25,7 @@ export const ProgramTile = forwardRef((_,ref) => {
     const [menuAnchor, setMenuAnchor] = useState(null);
     const openMenu   = e => setMenuAnchor(e.currentTarget);
     const closeMenu  = () => setMenuAnchor(null);
-    const pick       = label => { setScenario(label); closeMenu(); };
+    const pick       = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
 
     const displayDistance = Math.floor(distanceTravel / 8) * 8;
     const displayBattery = Math.ceil(batteryLevel / 5) * 5;

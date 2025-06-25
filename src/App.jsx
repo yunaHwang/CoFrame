@@ -184,10 +184,23 @@ export default function App() {
                     [5,4],[5,5],[5,6],[5,7],[6,4],[6,5],[6,6],[6,7],[7,4],[7,5],[7,6],[7,7],
                     [8,4],[8,5],[8,6],[8,7],[9,4],[9,5],[9,6],[9,7]];
 
-  // Icon setting
-  const icons = {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObj, '1,6': correctObj
+  // Scenario setting
+  const [scenario, setScenario] = useState("Scenario 1");
+  const iconSets = {
+    "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,6': wrongObj, '1,6': correctObj},
+    "Scenario 2": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,6': wrongObj, '1,6': correctObj},
   };
+  const icons = iconSets[scenario] ?? {}; 
+  console.log("is it the right scenario, ",scenario);
+  console.log("does it print the right icons, ", icons);
+
+
+  // // Icon setting
+  // const icons = {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+  //               '0,6': wrongObj, '1,6': correctObj
+  // };
 
   // Label setting
   const labelsOverGrid = [{ text: 'Activity area', from: [1, 2], to: [3, 2] },
@@ -248,6 +261,7 @@ export default function App() {
                   <ProgramTile
                     ref={editorRef}
                     style={{ flex: 1, minHeight: 0 }}
+                    onScenarioChange={setScenario} 
                   />
                 </Box>
 
