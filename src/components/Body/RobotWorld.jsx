@@ -211,7 +211,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
           style={{ ...cellStyle, height: CELL_SIZE, 
                   backgroundColor: isHighlighted ? color : '#ffffff', position: 'relative', }} 
                   data-x={x} data-y={y} >
-          <Typography sx={coordStyle}>({x},{y})</Typography>
+          {/* <Typography sx={coordStyle}>({x},{y})</Typography> */}
           {labelText && <Typography sx={labelStyle}>{labelText}</Typography>}
           {iconSrcOrNode && (
                 typeof iconSrcOrNode === 'string' ? (

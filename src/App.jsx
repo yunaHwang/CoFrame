@@ -31,8 +31,10 @@ import robotPng from "./components/SimMapFlaticons/robot.png"
 import employeePng from "./components/SimMapFlaticons/employee.png"
 import chargingPng from "./components/SimMapFlaticons/charging_dock.png"
 import elderlyPng from "./components/SimMapFlaticons/elderly.png"
-import wrongObj from "./components/SimMapFlaticons/others_delivery.png"
-import correctObj from "./components/SimMapFlaticons/delivery_object.png"
+import wrongObjPng from "./components/SimMapFlaticons/others_delivery.png"
+import correctObjPng from "./components/SimMapFlaticons/delivery_object.png"
+import barrierPng from "./components/SimMapFlaticons/barrier.png"
+import cartPng from "./components/SimMapFlaticons/money.png"
 
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
@@ -188,13 +190,21 @@ export default function App() {
   const [scenario, setScenario] = useState("Scenario 1");
   const iconSets = {
     "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObj, '1,6': correctObj},
+                '0,6': wrongObjPng, '1,6': correctObjPng},
     "Scenario 2": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObj, '1,6': correctObj},
+                '0,6': wrongObjPng, '1,6': correctObjPng},
+    "Scenario 3": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,6': employeePng, '1,7': employeePng, '1,5': employeePng, '2,6': employeePng, '1,6': correctObjPng},
+    "Scenario 4": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,6': wrongObjPng, '1,6': correctObjPng},
+    "Scenario 5": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                '0,7': employeePng, '1,7': wrongObjPng, '1,5': wrongObjPng, '2,6': wrongObjPng, '0,6': wrongObjPng, '1,6': correctObjPng,
+                '4,0': barrierPng, '4,1': barrierPng, '4,2': barrierPng, '4,3': barrierPng,
+                '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
   };
   const icons = iconSets[scenario] ?? {}; 
-  console.log("is it the right scenario, ",scenario);
-  console.log("does it print the right icons, ", icons);
+  //console.log("is it the right scenario, ",scenario);
+  //console.log("does it print the right icons, ", icons);
 
 
   // // Icon setting
