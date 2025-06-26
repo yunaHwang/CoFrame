@@ -38,6 +38,9 @@ import { useDrop } from 'react-dnd';
 import { TIMELINE_TYPES } from "../../stores/Constants";
 import { motion } from "framer-motion";
 import { ExternalBlock } from "open-vp";
+
+import { sendFallbackActionsToFlask } from "../../stores/to_flask";
+
 const dropZoneVariants = {
   default: {
     scale: 1,
@@ -305,15 +308,15 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
   //PlaceHolder fot Submit Button
   const handleSubmit = () => {
     if (fallbackActions.length === 0) return;
-    // const skillName = `Skill ${new Date().toLocaleTimeString()}`;
-    // useStore.getState().addSkillWithActions(skillName, fallbackActions);
-    // useStore.getState().performCompileProcess();
 
     setsubmit(true);
+    sendFallbackActionsToFlask(fallbackActions)
+    .then(() => console.log("sent to Flask fallbacks"))
+    .catch(err => console.error("Flask send error fallbacks", err));
+
     setTimeout(() => {
       setsubmit(false);
       setShowSuccess(true);
-      //setFallbackActions([]); // this should not be here
       console.log("Fallback Action Submit", fallbackActions);
     }, 2000);
   };
