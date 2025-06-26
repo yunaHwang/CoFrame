@@ -3114,7 +3114,40 @@
   "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
     "type": "placeType",
     "id": "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
-    "name": "Delivery room",
+    "name": "Package room",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "compileFn": 7,
+      "updateFields": [
+        "position",
+        "rotation"
+      ],
+      "singleton": true,
+      "position": {
+        "x": -0.532573544131117,
+        "y": -0.253692009472414,
+        "z": 0.30663445280619034
+      },
+      "rotation": {
+        "x": -91.00001306780176,
+        "y": 0.29289670623391584,
+        "z": -179.9948874244335
+      },
+      "reachable": false
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad9": {
+    "type": "placeType",
+    "id": "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+    "name": "Activity Area",
     "canDelete": true,
     "canEdit": true,
     "properties": {
