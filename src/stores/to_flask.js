@@ -14,10 +14,10 @@ export function waitForProgramFlush() {
   return lastProgramFlush;                 // always the latest promise
 }
 
-export function sendSourceDestInfoToFlask(sourceInfo, destInfo) {
-  return fetch("http://localhost:5000/receive_source_dest", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sourceInfo, destInfo }),
-  });
-}
+// export function sendSourceDestInfoToFlask(sourceInfo, destInfo) {
+//   return fetch("http://localhost:5000/receive_source_dest", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ sourceInfo, destInfo }),
+//   });
+// }
