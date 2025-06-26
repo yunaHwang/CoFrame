@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography } from "@mui/material";
 import useStore from "../../stores/Store";
 
-const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
+const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
   
   const [orientation, setOrientation] = useState('E');
   const directions = ['N', 'E', 'S', 'W'];
@@ -108,7 +108,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
   }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord]);
 
   // You can tweak these numbers to change cell size.
-  const CELL_SIZE = 30;
+  //const CELL_SIZE = 30;
 
   const highlightSet = React.useMemo(() => {
     const pairs = highlight.map((p) => Array.isArray(p) ? p : [p.x, p.y]);
@@ -126,7 +126,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     width: '100%',
     maxWidth: '100%',
     gridTemplateColumns: 'repeat(10, 10%)',
-    gridTemplateRows: `repeat(8, ${CELL_SIZE}px)`,
+    gridTemplateRows: `repeat(8, ${cellSize}px)`,
   };
 
   const cellStyle = {
@@ -158,8 +158,8 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
     const [x2, y2] = to;
     const left = `${(Math.min(x1, x2) * 10)}%`;
     const width = `${(Math.abs(x2 - x1) + 1) * 10}%`;
-    const top = `${(7 - Math.max(y1, y2)) * CELL_SIZE}px`;
-    const height = `${(Math.abs(y2 - y1) + 1) * CELL_SIZE}px`;
+    const top = `${(7 - Math.max(y1, y2)) * cellSize}px`;
+    const height = `${(Math.abs(y2 - y1) + 1) * cellSize}px`;
     return {
       position: 'absolute',
       left,
@@ -213,7 +213,7 @@ const RobotWorld = ({ highlight = [], color = '#faeef2', icons = {}, labelsOverG
           
           return (
           <div key={idx} 
-          style={{ ...cellStyle, height: CELL_SIZE, 
+          style={{ ...cellStyle, height: cellSize, 
                   backgroundColor: isHighlighted ? color : '#ffffff', position: 'relative', }} 
                   data-x={x} data-y={y} >
           {/* <Typography sx={coordStyle}>({x},{y})</Typography> */}

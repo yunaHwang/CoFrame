@@ -17,7 +17,7 @@ import {
   THEME_ID,
 } from "@mui/material/styles";
 
-import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box } from "@mui/material";
+import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box, Divider } from "@mui/material";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import useMeasure from "react-use-measure";
 import useStore from "./stores/Store";
@@ -177,6 +177,43 @@ export default function App() {
     },
   });
 
+  const containerRef = useRef(null);
+  const [topHeight, setTopHeight] = useState(40);       // 40 vh start
+  const [dragging, setDragging] = useState(false);
+  const [containerTop, setContainerTop] = useState(0);
+  
+  const cellSize = Math.floor((topHeight / 100) * window.innerHeight / 8);
+
+  const startDrag = (e) => {
+    setDragging(true);
+    // snapshot the container's Y-position once
+    setContainerTop(containerRef.current.getBoundingClientRect().top);
+    e.preventDefault(); // stop text-selection cursor flashes
+  };
+
+  const doDrag = useCallback(
+    (e) => {
+      if (!dragging) return;
+      const newVh =
+        ((e.clientY - containerTop) / window.innerHeight) * 100;
+      setTopHeight(Math.max(10, Math.min(80, newVh)));
+    },
+    [dragging, containerTop]
+  );
+
+  const stopDrag = () => setDragging(false);
+
+  useEffect(() => {
+    if (dragging) {
+      window.addEventListener("mousemove", doDrag);
+      window.addEventListener("mouseup", stopDrag);
+      return () => {
+        window.removeEventListener("mousemove", doDrag);
+        window.removeEventListener("mouseup", stopDrag);
+      };
+    }
+  }, [dragging, doDrag]);
+
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
 
@@ -249,6 +286,7 @@ export default function App() {
                 }}
               >
                 <Box
+                  ref={containerRef}
                   sx={{
                     display: "flex",
                     flexDirection: "column", // stack vertically
@@ -256,15 +294,22 @@ export default function App() {
                     height: "100%",
                   }}
                 >
-                  {/* header bar that takes 20 % of viewport height (or any size you like) */}
-                  <RobotWorld
-                    cellSize = {1}
-                    sx={{ height: "40vh", flexShrink: 0 }}
-                    highlight={hallways}
-                    color="#faeef2"
-                    icons={icons}
-                    labelsOverGrid={labelsOverGrid}
-                    sourceInfo_to_pass = {sourceInfo_to_pass}
+                  <Box sx={{ height: `${topHeight}vh`, flexShrink: 0 }}>
+                    <RobotWorld
+                      cellSize = {cellSize}
+                      sx={{ height: "35vh", flexShrink: 0 }}
+                      highlight={hallways}
+                      color="#faeef2"
+                      icons={icons}
+                      labelsOverGrid={labelsOverGrid}
+                      sourceInfo_to_pass = {sourceInfo_to_pass}
+                    />
+                  </Box>
+
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ cursor: "row-resize", userSelect: "none" }}
+                    onMouseDown={startDrag}
                   />
 
                   {/* editor fills the remaining space */}
