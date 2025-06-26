@@ -3064,6 +3064,152 @@
     },
     "selected": false
   },
+  "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
+    "type": "locationType",
+    "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
+    "dataType": "INSTANCE",
+    "name": "From",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "place": "",
+      "compileFn": 7,
+      "updateFields": [
+        "place"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": true
+    },
+    "refData": null,
+    "argumentBlockData": [],
+    "selected": false,
+    "editing": false
+  },
+  "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "toLocationType",
+    "id": "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+    "name": "To",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "place": "",
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "compileFn": 7,
+      "updateFields": [
+        "place"
+      ],
+      "singleton": true
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+
+  "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "placeType",
+    "id": "place-c7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+    "name": "Delivery room",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "compileFn": 7,
+      "updateFields": [
+        "position",
+        "rotation"
+      ],
+      "singleton": true,
+      "position": {
+        "x": -0.532573544131117,
+        "y": -0.253692009472414,
+        "z": 0.30663445280619034
+      },
+      "rotation": {
+        "x": -91.00001306780176,
+        "y": 0.29289670623391584,
+        "z": -179.9948874244335
+      },
+      "reachable": false
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "place-a7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "placeType",
+    "id": "place-a7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+    "name": "Elderly room",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "compileFn": 7,
+      "updateFields": [
+        "position",
+        "rotation"
+      ],
+      "singleton": true,
+      "position": {
+        "x": -0.532573544131117,
+        "y": -0.253692009472414,
+        "z": 0.30663445280619034
+      },
+      "rotation": {
+        "x": -91.00001306780176,
+        "y": 0.29289670623391584,
+        "z": -179.9948874244335
+      },
+      "reachable": false
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "place-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
+    "type": "placeType",
+    "id": "place-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
+    "name": "Battery charging station",
+    "canDelete": true,
+    "canEdit": true,
+    "properties": {
+      "description": "Some descriptor string (optional)",
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "compileFn": 7,
+      "updateFields": [
+        "position",
+        "rotation"
+      ],
+      "singleton": true,
+      "position": {
+        "x": -0.532573544131117,
+        "y": -0.253692009472414,
+        "z": 0.30663445280619034
+      },
+      "rotation": {
+        "x": -91.00001306780176,
+        "y": 0.29289670623391584,
+        "z": -179.9948874244335
+      },
+      "reachable": false
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
   "program-484de43e-adaa-4801-a23b-bca38e211365": {
     "name": "Day in the life of Stretch",
     "id": "program-484de43e-adaa-4801-a23b-bca38e211365",
