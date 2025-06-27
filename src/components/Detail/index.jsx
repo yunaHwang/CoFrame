@@ -101,17 +101,13 @@ export const Detail = memo((_) => {
   );
   const setCaptureFocus = useStore((state) => state.setCaptureFocus, shallow);
 
-  const Icon = objectTypeInfo?.instanceBlock?.icon
-    ? objectTypeInfo.instanceBlock.icon
-    : objectTypeInfo?.referenceBlock?.icon
-    ? objectTypeInfo?.referenceBlock.icon
-    : FiSquare;
+  // const Icon = objectTypeInfo?.instanceBlock?.icon
+  //   ? objectTypeInfo.instanceBlock.icon
+  //   : objectTypeInfo?.referenceBlock?.icon
+  //   ? objectTypeInfo?.referenceBlock.icon
+  //   : FiSquare;
 
-  const objectColor = objectTypeInfo?.instanceBlock?.color
-    ? objectTypeInfo.instanceBlock.color
-    : objectTypeInfo?.referenceBlock?.color
-    ? objectTypeInfo?.referenceBlock.color
-    : "#333333";
+  const objectColor = "#333333";
 
   const deleteBlock = useStore((state) => state.deleteBlock, shallow);
   //console.log("item:", item);
@@ -157,7 +153,7 @@ export const Detail = memo((_) => {
             spacing={0.5}
           >
             <Stack direction="row" spacing={0.25}>
-              <Avatar
+              {/* <Avatar
                 variant="rounded"
                 style={{
                   backgroundColor: "#22222299",
@@ -169,9 +165,9 @@ export const Detail = memo((_) => {
                 }}
               >
                 <Icon />
-              </Avatar>
+              </Avatar> */}
 
-              <TextField
+              {/* <TextField
                 // label='Name'
                 size="small"
                 margin="none"
@@ -188,10 +184,13 @@ export const Detail = memo((_) => {
                     backgroundColor: "#22222299",
                   },
                 }}
-              />
+              /> */}
+                <Typography
+                sx={{ color: "white", m: "8px 0" }}
+                variant="subtitle1">{item.name}</Typography>
             </Stack>
 
-            <IconButton
+            {/* <IconButton
               onClick={() => {
                 clearFocus();
                 setCustomMoveHook(null);
@@ -199,7 +198,7 @@ export const Detail = memo((_) => {
               }}
             >
               <FiX />
-            </IconButton>
+            </IconButton> */}
           </Stack>
 
           {item.properties.status === STATUS.PENDING && (
