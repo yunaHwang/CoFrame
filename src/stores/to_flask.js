@@ -1,18 +1,37 @@
-// src/api.js
-let lastProgramFlush = Promise.resolve();   // shared Promise
+let staged = { programData: null, sourceInfo: null, destInfo: null };
+let lastFlush = Promise.resolve();  
 
-export function sendProgramDataToFlask(programData) {
-  lastProgramFlush = fetch("http://localhost:5000/receive_data", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ programData }),
-  });
-  return lastProgramFlush;                 // callers may await
+function flushIfReady() {
+  const { programData, sourceInfo, destInfo } = staged;
+  if (programData && sourceInfo && destInfo) {
+    lastFlush = fetch("http://localhost:5000/receive_data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(staged)
+    });
+  
+    staged = { programData: null, sourceInfo: null, destInfo: null };
+  }
+  return lastFlush;
 }
 
-export function waitForProgramFlush() {
-  return lastProgramFlush;                 // always the latest promise
-}
+export function stageProgramData(p)  { staged.programData = p;  return flushIfReady(); }
+export function stageSourceInfo(s)   { staged.sourceInfo  = s;  return flushIfReady(); }
+export function stageDestInfo(d)     { staged.destInfo    = d;  return flushIfReady(); }
+export function waitForFlush()       { return lastFlush; }
+
+// export function sendProgramDataToFlask(programData) {
+//   lastProgramFlush = fetch("http://localhost:5000/receive_data", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ programData }),
+//   });
+//   return lastProgramFlush;                 // callers may await
+// }
+
+// export function waitForProgramFlush() {
+//   return lastProgramFlush;                 // always the latest promise
+// }
 
 let lastFallbackFlush = Promise.resolve();
 

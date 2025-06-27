@@ -13,7 +13,8 @@ import * as Comlink from "comlink";
 /* eslint-disable import/no-webpack-loader-syntax */
 import PlannerWorker from "./planner-worker?worker";
 
-import { sendProgramDataToFlask } from "./to_flask"; 
+//import { sendProgramDataToFlask } from "./to_flask"; 
+import { stageProgramData } from "./to_flask";
 
 import { generateUuid } from "./generateUuid";
 
@@ -145,9 +146,9 @@ export const EvdSlice = (set, get) => ({
   addAgent: (data) =>
     set((state) => {
     state.programData = { ...state.programData, ...data };
-    }, false, "addAgent",                         // ← Zustand action name
-    ) &&                                          // ← after-set side-effect
-    sendProgramDataToFlask(get().programData),    // flush & store Promise
+    }, false, "addAgent"),                         // ← Zustand action name
+    // ) &&                                          // ← after-set side-effect
+    // sendProgramDataToFlask(get().programData),    // flush & store Promise
     // set((state) => {
 
     //   //added
@@ -157,7 +158,7 @@ export const EvdSlice = (set, get) => ({
     //   state.programData = { ...state.programData, ...data };
     // }),
   replaceAgent: (newData) => set((state)=>{
-    console.log("or is it here replaceAgent? ", newData); // this shows up as soon the UI renders
+    //console.log("or is it here replaceAgent? ", newData); // this shows up as soon the UI renders
     const agent = Object.values(newData).filter(d=>d.type==='robotAgentType')[0];
     // Delete any links, meshes, collisionBodies, collisionShapes that are associated with this agent
     Object.values(state.programData).forEach(value=>{
@@ -321,7 +322,9 @@ export const EvdSlice = (set, get) => ({
     // everytime a new block is added (transferBlock), then this gets updated, along with 
     // log -> transferBlock, data, sourceInfo, destInfo, REPLANNING, starting plan processing, terminating current plan process,
     // and then "what does this look like"
-    await sendProgramDataToFlask(programData);
+    //await sendProgramDataToFlask(programData);
+    await stageProgramData(programData);
+    
     console.log('sent from React!')
     console.log('step 1')
     const result = await performCompileProcess({

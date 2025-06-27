@@ -5,7 +5,8 @@ import { generateUuid } from "./generateUuid";
 import { STATUS } from "./Constants";
 // import { FiUnderline } from "react-icons/fi";
 
-//import { sendSourceDestInfoToFlask, waitForProgramFlush } from "./to_flask";
+//import { waitForProgramFlush } from "./to_flask";
+import { stageSourceInfo, stageDestInfo } from "./to_flask";
 
 
 // const sendSourceDestInfoToFlask = async (sourceInfo, destInfo) => {
@@ -411,8 +412,11 @@ export const ProgrammingSliceOverride = (set, get) => ({
     set({ lastSourceInfo: sourceInfo });
     set((state) => applyTransfer(state, data, sourceInfo, destInfo));
 
-    await waitForProgramFlush();
+    //await waitForProgramFlush();
     //await sendSourceDestInfoToFlask(sourceInfo, destInfo);
+    stageSourceInfo(sourceInfo);
+    stageDestInfo(destInfo);
+    
     console.log('sourceInfo and destInfo also sent from React!');
   },
   deleteBlock: (data, parentId, fieldInfo) => {
