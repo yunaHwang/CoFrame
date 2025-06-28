@@ -1,6 +1,6 @@
 import React from "react";
 import { FiTrash2 } from "react-icons/fi";
-import { Environment } from 'open-vp';
+import { Environment, DATA_TYPES } from 'open-vp';
 import { FiAlertCircle, FiCheckCircle, FiRefreshCcw, FiRefreshCw } from "react-icons/fi";
 import useStore from "../../stores/Store";
 import { shallow } from "zustand/shallow";
@@ -324,15 +324,46 @@ export const ReviewTile = memo(({ drawerOpen, fallbackMode }) => {
   //Handle Action Add
 const handleActionDrop = useCallback((item, dropInfo = null) => {
     if (item && item.data) {
-      console.log("Dropped item:", item, "dropInfo:", dropInfo);
+      console.log("Dropped item:", item);
+      console.log("show types, ", item.data.type, item.data.dataType);
 
-      const newAction = { 
-        //Using id as Date just for now, don't sure how to implement the big block inside the fallback
-        id: `action-${Date.now()}`, 
-        type: item.data.type,
-        data: item.data,
-        name: item.data.name || item.data.type 
+      const instanceData = {
+          ...item.data,
+          isSpawner: false,       // it’s now a real instance
+          onCanvas: true,         // let ExternalBlock render sockets
+        };
+
+      const defaultUpdateFields =
+        item.data.updateFields ??                                      // use instance's updateFields
+        item.typeSpec?.properties?.updateFields?.default ?? [];        // or fall back to schema default
+
+      const newAction = {
+        id: `action-${Date.now()}`,
+        type: instanceData.type,
+        name: instanceData.name || instanceData.type,
+
+        data: instanceData,     // <- use the modified copy
+        typeSpec: item.typeSpec, // you still need the schema
+        updateFields: defaultUpdateFields,
+        dataType: instanceData.dataType,   // keep REFERENCE vs INSTANCE
       };
+
+      // const defaultUpdateFields =
+      //   item.data.updateFields ??
+      //   item.typeSpec?.properties?.updateFields?.default ??
+      //   [];
+
+      // const newAction = { 
+      //   //Using id as Date just for now, don't sure how to implement the big block inside the fallback
+      //   id: `action-${Date.now()}`, 
+      //   type: item.data.type,
+      //   data: item.data,
+      //   typeSpec: item.typeSpec,  
+      //   name: item.data.name || item.data.type,
+      //   dataType: item.dataType === DATA_TYPES.REFERENCE,
+      //   updateFields: defaultUpdateFields
+      // };
+      console.log("what does this have in terms of attributes, ", newAction.data)
 
       setFallbackActions(prev => {
         if (!dropInfo) {
