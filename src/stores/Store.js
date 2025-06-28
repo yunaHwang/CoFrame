@@ -134,11 +134,20 @@ if (Object.keys(useStore.getState().programData).length === 0) {
   // Load all the programs
   useStore.getState().addProgramData("KnifeAssembly", KnifeAssembly, {});
   // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
-
-  // Set the starting program
-  useCompiledStore.setState({});
   useStore.getState().setData(KnifeAssembly);
+
+  // also start with empty skills block
+  const skillName    = `Action Cluster ${new Date().toLocaleTimeString()}`;
+  const emptyActions = [];      // nothing inside yet
+  useStore.getState().addSkillWithActions(skillName, emptyActions);
+  useCompiledStore.setState({});
   useStore.getState().performCompileProcess();
+
+  // ORIGINAL
+  // Set the starting program
+  // useCompiledStore.setState({});
+  // useStore.getState().setData(KnifeAssembly);
+  // useStore.getState().performCompileProcess();
   // useStore.persist.rehydrate()
 }
 

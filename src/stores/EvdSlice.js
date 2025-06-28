@@ -57,12 +57,12 @@ export const EvdSlice = (set, get) => ({
   solver: null,
   programSpec: {
     drawers: [
-      // {
-      //   title: "Action Clusters",
-      //   dataType: DATA_TYPES.INSTANCE,
-      //   objectTypes: ["skillType"],
-      //   icon: SkillIconStyled,
-      // },
+      {
+        title: "Action Clusters",
+        dataType: DATA_TYPES.INSTANCE,
+        objectTypes: ["skillType"],
+        icon: SkillIconStyled,
+      },
 
       // Icon is FiGrid, otherwise no icons show in the drawer
       {

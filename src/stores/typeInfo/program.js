@@ -74,7 +74,7 @@ const programFeatures = {
         "gripperType",
         "graspPointType",
         // add skillType
-        "skillType",
+        "skillType", // this is the action cluster
         "lookForType",
       ],
       default: [],
