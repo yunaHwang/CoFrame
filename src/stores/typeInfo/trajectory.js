@@ -25,12 +25,12 @@ const trajectoryFeatures = {
     icon: ContainerIconStyled,
     extras: [
       
-      {
-        type: EXTRA_TYPES.INDICATOR_ICON,
+      // {
+      //   type: EXTRA_TYPES.INDICATOR_ICON,
         
-        accessor: statusIcon,
-        label: baseIndicatorLabelFn,
-      },
+      //   accessor: statusIcon,
+      //   label: baseIndicatorLabelFn,
+      // },
       // EXTRA_TYPES.LOCKED_INDICATOR,
       EXTRA_TYPES.NAME_EDIT_TOGGLE,
       {

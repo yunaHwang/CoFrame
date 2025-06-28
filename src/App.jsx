@@ -178,7 +178,7 @@ export default function App() {
   });
 
   const containerRef = useRef(null);
-  const [topHeight, setTopHeight] = useState(40);       // 40 vh start
+  const [topHeight, setTopHeight] = useState(28);       // 28 vh start
   const [dragging, setDragging] = useState(false);
   const [containerTop, setContainerTop] = useState(0);
   
@@ -266,9 +266,9 @@ export default function App() {
             position: "fixed",
           }}
         >
-          {fallbackMode && (
+          {/* {fallbackMode && (
            <ReviewTile drawerOpen={visibleSteps && errorType === null} fallbackMode={fallbackMode} /> 
-           )}
+           )} */}
           <ReflexContainer
             orientation="vertical"
             style={{ backgroundColor: "blue" }}

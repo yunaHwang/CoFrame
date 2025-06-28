@@ -20,11 +20,11 @@ const programFeatures = {
     color: "#3f3f3f",
     icon: ContainerIconStyled,
     extras: [
-      {
-        type: EXTRA_TYPES.INDICATOR_ICON,
-        accessor: statusIcon,
-        label: baseIndicatorLabelFn,
-      },
+      // {
+      //   type: EXTRA_TYPES.INDICATOR_ICON,
+      //   accessor: statusIcon,
+      //   label: baseIndicatorLabelFn,
+      // },
       EXTRA_TYPES.DOC_TOGGLE,
       {
         icon: FiMoreHorizontal,

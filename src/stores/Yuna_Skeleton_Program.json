@@ -3064,30 +3064,7 @@
     },
     "selected": false
   },
-  "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c": {
-    "type": "locationType",
-    "id": "location-c540bea6-a0a8-40c2-8fcc-cb6ae772697c",
-    "dataType": "INSTANCE",
-    "name": "From",
-    "canDelete": true,
-    "canEdit": true,
-    "properties": {
-      "description": "Some descriptor string (optional)",
-      "place": "",
-      "compileFn": 7,
-      "updateFields": [
-        "place"
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": true
-    },
-    "refData": null,
-    "argumentBlockData": [],
-    "selected": false,
-    "editing": false
-  },
+
   "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
     "type": "toLocationType",
     "id": "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0",
@@ -3441,7 +3418,7 @@
       "angleDirection": "",
       "compileFn": 9,
       "updateFields": [
-        "rotationMagnitude", "angleDirection"
+       "angleDirection"
       ],
       "status": "VALID",
       "pendingChanges": 0,
@@ -3542,6 +3519,37 @@
       "null": null
     },
     "name": "New skill",
+    "canDelete": true,
+    "canEdit": true,
+    "editing": false,
+    "position": {
+      "x": 886.421666529694,
+      "y": -18.598759397165622
+    },
+    "arguments": [
+    ],
+    "refData": null,
+    "argumentBlockData": []
+  },
+  "concurrentType-2f4348c8-8b88-441d-95c9-dc9874848629": {
+    "id": "concurrentType-2f4348c8-8b88-441d-95c9-dc9874848629",
+    "type": "concurrentType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "children": [
+        
+      ],
+      "compileFn": 1,
+      "updateFields": [
+        "children"
+      ],
+      "description": "",
+      "status": "PENDING",
+      "errorCode": null,
+      "singleton": false,
+      "null": null
+    },
+    "name": "New set of concurrent actions",
     "canDelete": true,
     "canEdit": true,
     "editing": false,

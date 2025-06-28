@@ -12,7 +12,7 @@ import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
 const skillFeatures = {
-  name: "Skill",
+  //name: "Skill",
   type: TYPES.OBJECT,
   instanceBlock: {
     hideNewPrefix: true,
@@ -89,7 +89,28 @@ const skillFeatures = {
 };
 
 const emptySkillFeatures = {
-  name: "New skill",
+  name: "New Action Cluster",
+  description: "some string",
+  properties: {
+    description: { default: "some string" },
+    children: {
+      name: "Sets of Actions",
+      accepts: ["moveGripperType", "closeGripperType", "stopStretchType", "saveLogStretchType",
+        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
+      ],
+      default: [],
+      isList: true,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.SIMPLE },
+    updateFields: {
+      default: ["children"],
+    },
+  },
+};
+
+const emptyConcurrentFeatures = {
+  name: "New Concurrent Action Sets",
   description: "some string",
   properties: {
     description: { default: "some string" },
@@ -110,3 +131,4 @@ const emptySkillFeatures = {
 };
 
 export const skillType = merge(emptySkillFeatures, skillFeatures);
+export const concurrentType = merge(emptyConcurrentFeatures, skillFeatures);

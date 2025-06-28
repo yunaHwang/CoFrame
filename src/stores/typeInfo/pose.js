@@ -19,11 +19,11 @@ const poseFeatures = {
     onCanvas: false,
     extras: [
       EXTRA_TYPES.LOCKED_INDICATOR,
-      { 
-        type: EXTRA_TYPES.INDICATOR_ICON,
-        accessor: statusIcon,
-        label: baseIndicatorLabelFn
-      },
+      // { 
+      //   type: EXTRA_TYPES.INDICATOR_ICON,
+      //   accessor: statusIcon,
+      //   label: baseIndicatorLabelFn
+      // },
       {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
@@ -68,11 +68,11 @@ const fromInstanceBlock = {
   icon: LocationIconStyled,
   extras: [
     //EXTRA_TYPES.LOCKED_INDICATOR,
-    { 
-      type: EXTRA_TYPES.INDICATOR_ICON,
-      accessor: statusIcon,
-      label: baseIndicatorLabelFn
-    },
+    // { 
+    //   type: EXTRA_TYPES.INDICATOR_ICON,
+    //   accessor: statusIcon,
+    //   label: baseIndicatorLabelFn
+    // },
     {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,
@@ -94,11 +94,11 @@ const toInstanceBlock = {
   icon: LocationIconStyled,
   extras: [
     //EXTRA_TYPES.LOCKED_INDICATOR,
-    { 
-      type: EXTRA_TYPES.INDICATOR_ICON,
-      accessor: statusIcon,
-      label: baseIndicatorLabelFn
-    },
+    // { 
+    //   type: EXTRA_TYPES.INDICATOR_ICON,
+    //   accessor: statusIcon,
+    //   label: baseIndicatorLabelFn
+    // },
     {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,

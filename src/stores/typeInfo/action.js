@@ -17,11 +17,11 @@ const basicActionData = {
     icon: PrimitiveIconStyled,
     extras: [
       // EXTRA_TYPES.LOCKED_INDICATOR,
-      {
-        type: EXTRA_TYPES.INDICATOR_ICON,
-        accessor: statusIcon,
-        label: baseIndicatorLabelFn,
-      },
+      // {
+      //   type: EXTRA_TYPES.INDICATOR_ICON,
+      //   accessor: statusIcon,
+      //   label: baseIndicatorLabelFn,
+      // },
       EXTRA_TYPES.DOC_TOGGLE,
       {
         icon: FiMoreHorizontal,
@@ -192,13 +192,13 @@ const rotateFeatures = {
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
     description: { default: "Stretch rotates x angles in y direction where x and y are provided as parameters" },
-    rotationMagnitude: {
-      name: "Rotation Angle",
-      accepts: ["directionalityType"],
-      default: null,
-      isList: false,
-      nullValid: true,
-    },
+    // rotationMagnitude: {
+    //   name: "Rotation Angle",
+    //   accepts: ["directionalityType"],
+    //   default: null,
+    //   isList: false,
+    //   nullValid: true,
+    // },
     angleDirection: {
       name: "Rotation Direction",
       accepts: ["directionalityType"],
