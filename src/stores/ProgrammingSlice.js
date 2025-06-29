@@ -353,6 +353,10 @@ export const applyTransfer = (state, data, sourceInfo, destInfo) => {
         sourceInfo.idx,
         destInfo.idx
       );
+
+      ///// added
+      console.log("What is idx!!, ", sourceInfo.idx, destInfo.idx);
+
       state.programData[sourceInfo.parentId].properties.status = STATUS.PENDING;
       state.programData[sourceInfo.parentId].properties.pendingChanges += 1;
   } else {
@@ -407,6 +411,7 @@ export const ProgrammingSliceOverride = (set, get) => ({
     console.log('data', data);
     console.log('sourceInfo', sourceInfo);
     console.log('destInfo', destInfo);
+    console.log('types? ', typeof(destInfo));
     //sendSourceDestInfoToFlask(sourceInfo, destInfo);
     ///////
     set({ lastSourceInfo: sourceInfo });
