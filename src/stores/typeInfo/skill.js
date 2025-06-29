@@ -95,7 +95,7 @@ const emptySkillFeatures = {
     description: { default: "some string" },
     children: {
       name: "Sets of Actions",
-      accepts: ["moveGripperType", "closeGripperType", "stopStretchType", "saveLogStretchType",
+      accepts: ["moveGripperType", "closeGripperType", "lookForType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType"
       ],
       default: [],
@@ -116,7 +116,7 @@ const emptyConcurrentFeatures = {
     description: { default: "some string" },
     children: {
       name: "Sets of Actions",
-      accepts: ["moveGripperType", "closeGripperType", "stopStretchType", "saveLogStretchType",
+      accepts: ["moveGripperType", "closeGripperType", "lookForType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
       ],
       default: [],
