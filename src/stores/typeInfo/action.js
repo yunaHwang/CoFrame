@@ -68,11 +68,42 @@ const basicActionData = {
 //   },
 // };
 
-const gripperFeatures = {
-  name: "Open Gripper",
+// const gripperFeatures = {
+//   name: "Open Gripper",
+//   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+//   properties: {
+//     description: { default: "Fully open the gripper" },
+//     thing: {
+//       name: "Object",
+//       accepts: ["thingType"],
+//       default: null,
+//       isList: false,
+//       nullValid: true,
+//     },
+//     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+//     updateFields: {
+//       default: ["thing"],
+//     },
+//   },
+// };
+
+// const closeGripperFeatures = {
+//   name: "Close Gripper",
+//   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+//   properties: {
+//     description: { default: "Clench the gripper" },
+//     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+//     updateFields: {
+//       default: [],
+//     },
+//   },
+// };
+
+const grabFeatures = {
+  name: "Grab Object",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
-    description: { default: "Fully open the gripper" },
+    description: { default: "Grab an object using the gripper" },
     thing: {
       name: "Object",
       accepts: ["thingType"],
@@ -83,18 +114,6 @@ const gripperFeatures = {
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
       default: ["thing"],
-    },
-  },
-};
-
-const closeGripperFeatures = {
-  name: "Close Gripper",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
-  properties: {
-    description: { default: "Clench the gripper" },
-    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
-    updateFields: {
-      default: [],
     },
   },
 };
@@ -360,8 +379,9 @@ const lookForFeatures = {
 // this is only for OPENING gripper
 const actionTypes = {
   //delayType: merge(delayFeatures, basicActionData),
-  moveGripperType: merge(gripperFeatures, basicActionData),
-  closeGripperType: merge(closeGripperFeatures, basicActionData), 
+  //moveGripperType: merge(gripperFeatures, basicActionData),
+  //closeGripperType: merge(closeGripperFeatures, basicActionData), 
+  grabType: merge(grabFeatures, basicActionData),
   stopStretchType: merge(stopFeatures, basicActionData),
   saveLogStretchType: merge(saveLogFeatures, basicActionData),
   sayType: merge(sayFeatures, basicActionData),

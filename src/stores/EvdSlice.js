@@ -70,9 +70,10 @@ export const EvdSlice = (set, get) => ({
         title: "Actions",
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: [
-          "moveGripperType",
-          "closeGripperType",
-          "lookForType",
+          //"moveGripperType",
+          //"closeGripperType",
+          "grabType",
+          //"lookForType",
           "handObjToType",
           "stopStretchType",
           "saveLogStretchType",

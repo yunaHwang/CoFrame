@@ -3291,33 +3291,13 @@
     "argumentBlockData": [],
     "editing": false
   },
-  "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc": {
-    "id": "closeGripperType-cc66cf2d-fbf7-45eb-b428-9437900b80dc",
-    "type": "closeGripperType",
+ 
+  "grabType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "grabType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "grabType",
     "dataType": "INSTANCE",
     "properties": {
-      "description": "Clench the gripper",
-      "compileFn": 9,
-      "updateFields": [
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": false
-    },
-    "name": "Close Gripper",
-    "canDelete": true,
-    "canEdit": true,
-    "refData": null,
-    "argumentBlockData": [],
-    "editing": false
-  },
-  "moveGripperType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
-    "id": "moveGripperType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
-    "type": "moveGripperType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "description": "Fully open the gripper",
+      "description": "Grab an object using the gripper",
       "thing": "",
       "compileFn": 9,
       "updateFields": [
@@ -3328,7 +3308,7 @@
       "errorCode": null,
       "singleton": false
     },
-    "name": "Open Gripper",
+    "name": "Grab Object",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
@@ -3336,29 +3316,6 @@
     "editing": false
   },
 
-  "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b0": {
-    "id": "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b0",
-    "type": "lookForType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "description": "Activate vision sensor to specifically look for an object",
-      "thing": "",
-      "compileFn": 9,
-      "updateFields": [
-        "thing"
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": false
-    },
-    "name": "Looke for Object",
-    "canDelete": true,
-    "canEdit": true,
-    "refData": null,
-    "argumentBlockData": [],
-    "editing": false
-  },
 
   "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
     "id": "sayType-0ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
