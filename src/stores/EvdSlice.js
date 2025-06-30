@@ -73,6 +73,7 @@ export const EvdSlice = (set, get) => ({
           //"moveGripperType",
           //"closeGripperType",
           "grabType",
+          "placeAsideType",
           //"lookForType",
           "handObjToType",
           "stopStretchType",

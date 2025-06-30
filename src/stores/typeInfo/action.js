@@ -118,6 +118,25 @@ const grabFeatures = {
   },
 };
 
+const placeAsideFeatures = {
+  name: "Place Aside Object",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Place Aside an Object that is in the Robot's Way (adjacent coordinate)" },
+    thing: {
+      name: "Object",
+      accepts: ["thingType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: ["thing"],
+    },
+  },
+};
+
 const handObjToFeatures = {
   name: "Hand Object to Person",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
@@ -381,6 +400,7 @@ const actionTypes = {
   //delayType: merge(delayFeatures, basicActionData),
   //moveGripperType: merge(gripperFeatures, basicActionData),
   //closeGripperType: merge(closeGripperFeatures, basicActionData), 
+  placeAsideType: merge(placeAsideFeatures, basicActionData),
   grabType: merge(grabFeatures, basicActionData),
   stopStretchType: merge(stopFeatures, basicActionData),
   saveLogStretchType: merge(saveLogFeatures, basicActionData),
