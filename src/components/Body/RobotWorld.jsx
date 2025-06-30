@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
 
-const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, }) => {
+const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, scenario = "Scenario 1" }) => {
   
   const [orientation, setOrientation] = useState('E');
   const directions = ['N', 'E', 'S', 'W'];
 
   const [pendingMove, setPendingMove] = useState(false);
   const [pendingRotate, setPendingRotate] = useState (false);
+  const [pendingToConnector, setPendingToConnector] = useState(false);
+
+  const [showBatteryCharged, setShowBatteryCharged] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [showError, setShowError] = useState(false);  
 
   const startCoord = useMemo(() => {
     const entry = Object.entries(icons).find(
@@ -33,6 +38,10 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
         setOrientation("E");
         setPendingMove(false);
         setPendingRotate(false);
+        setPendingToConnector(false);
+        setShowBatteryCharged(false);
+        setShowError(false);
+        setErrorMessage(null);
         }
         }, [startCoord]);  
 
@@ -44,7 +53,122 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
     default:  return ''; // E
   }
 };
+  const moveToConnector = (targetCoords, location) => {
+      // Calculate distance traveled 
+      const dx = Math.abs(targetCoords.x - robotCoord.x);
+      const dy = Math.abs(targetCoords.y - robotCoord.y);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const increment = distance * 1.6;
+      
+      // Update robot position
+      setRobotCoord(targetCoords);
+      
+      // Update travel distance
+      const prevDist = useStore.getState().distanceTravel;
+      useStore.getState().setdistanceTravel(prevDist + increment);
+    
+      // Update battery level
+      const batteryDrop = distance * 1;
+      const prevBattery = useStore.getState().batteryLevel;
+      const newBattery = Math.max(0, prevBattery - batteryDrop);
+      useStore.getState().setbatteryLevel(newBattery);
+      
+      // BatteryCharging Special instruction
+      if (location === 'battery charging station') {
+        useStore.getState().setbatteryLevel(100);
+        useStore.getState().setdistanceTravel(0);
+        setShowBatteryCharged(true);
+      }
+      
+      checkForErrors(targetCoords, scenario);
+    };
+  
+  const getErrorCoordinates = (currentScenario) => {
+    //HardCode Each location
+    const coordinates = {
+      "Scenario 2": {
+        redAsterisks: [
+          [0,4], [0,5], [0,6],
+          [1,4], [1,5], [1,6], [1,7],
+          [2,4], [2,5], [2,6], [2,7]
+        ]
+      },
+      "Scenario 3": {
+        redAsterisks: [
+          [0,5], [0,4],
+          [1,4],
+          [2,4], [2,5], [2,7]
+        ]
+      },
+      "Scenario 4": {
+        redAsterisks: [
+          [1,6]
+        ]
+      },
+      "Scenario 5": {
+        redAsterisks: [
+          [5,0], [5,1], [5,2], [5,3],
+          [6,3],
+          [7,3],
+          [8,3],
+          [9,3]
+        ],
+        blueAsterisks: [
+          [0,5],
+          [1,4],
+          [2,4], [2,5], [2,7]
+        ]
+      }
+    };
+    
+    return coordinates[currentScenario] || { redAsterisks: [], blueAsterisks: [] };
+  };
 
+  const checkForErrors = (coords, currentScenario) => {
+    //console.log("Current Cord:", coords, "Current Scenario:", currentScenario);
+    
+    //Scenario1 don't have possible error
+    if (currentScenario === "Scenario 1") return;
+    
+    const { redAsterisks, blueAsterisks } = getErrorCoordinates(currentScenario);
+    
+    const isOnRedAsterisk = redAsterisks.some(([x, y]) => x === coords.x && y === coords.y);
+    
+    //Only Check for Scenario 5
+    const isOnBlueAsterisk = currentScenario === "Scenario 5" && 
+      blueAsterisks && blueAsterisks.some(([x, y]) => x === coords.x && y === coords.y);
+    
+    console.log("On red asterisk:", isOnRedAsterisk);
+    console.log("On blue asterisk:", isOnBlueAsterisk);
+    
+    if (isOnRedAsterisk) {
+      let message = "";
+      switch (currentScenario) {
+        case "Scenario 2":
+          message = "Robot sensor is broken and it can't find the package. Please program robot fallback actions.";
+          break;
+        case "Scenario 3":
+          message = "The package is blocked by other residents looking for their packages. Please program robot fallback actions.";
+          break;
+        case "Scenario 4":
+          message = "The package is too heavy and exceeds the robot payload. Please program robot fallback actions.";
+          break;
+        case "Scenario 5":
+          message = "The hallway is blocked by big carts and fences. The facility is ongoing some renovation. Please program robot fallback actions.";
+          break;
+        default:
+          return;
+      }
+      setErrorMessage(message);
+      setShowError(true);
+    }
+    
+    if (isOnBlueAsterisk) {
+      const message = "Other packages are blocking the package that the robot is looking for. Please program robot fallback actions."
+      setErrorMessage(message);
+      setShowError(true);
+    }
+  };
 
   useEffect(() => {
     //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
@@ -72,6 +196,7 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
     const newX = Math.max(0, Math.min(robotCoord.x + dx * steps, 9));
     const newY = Math.max(0, Math.min(robotCoord.y + dy * steps, 7));
     setRobotCoord({ x: newX, y: newY });
+    checkForErrors({ x: newX, y: newY }, scenario);
 
     // logic for travel distance
     const increment = steps * 1.6;
@@ -105,7 +230,34 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       setOrientation(directions[newIdx]);
       setPendingRotate(false);
     }
-  }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord]);
+
+    if(info === "To Connector"){
+      setPendingToConnector(true);
+      return;
+    }
+    if (pendingToConnector && robotCoord) {
+      if (info === "Package room") {
+        const targetCoords = { x: 2, y: 4 };
+        moveToConnector(targetCoords, 'package room');
+        setPendingToConnector(false);
+      }
+      else if (info === "Activity Area") {
+        const targetCoords = { x: 3, y: 2 };
+        moveToConnector(targetCoords, 'activity area');
+        setPendingToConnector(false);
+      }
+      else if (info === "Elderly room") {
+        const targetCoords = { x: 5, y: 3 };
+        moveToConnector(targetCoords, 'elderly room');
+        setPendingToConnector(false);
+      }
+      else if (info === "Battery charging station") {
+        const targetCoords = { x: 9, y: 7 };
+        moveToConnector(targetCoords, 'battery charging station');
+        setPendingToConnector(false);
+      }
+    }
+  }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord, scenario]);
 
   // You can tweak these numbers to change cell size.
   //const CELL_SIZE = 30;
@@ -196,7 +348,73 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
           {text}
         </Typography>
       ))}
-
+      
+      {showBatteryCharged && (
+        <Paper
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            backgroundColor: '#4caf50',
+            color: 'white',
+            padding: '10px 16px',
+            maxWidth: 400,
+            display: 'flex',
+            alignItems: 'center',
+            zIndex: 10
+          }}
+        >
+          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+            🔋 Battery is fully charged!
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => setShowBatteryCharged(false)}
+            sx={{
+              ml: 2,
+              backgroundColor: '#4caf50',
+              '&:hover': { backgroundColor: '#4caf50' }
+            }}
+          >
+            OK
+          </Button>
+        </Paper>
+      )}
+      
+      {showError && errorMessage && (
+        <Paper
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            backgroundColor: '#f44336',
+            color: 'white',
+            padding: '10px 16px',
+            maxWidth: 400,
+            display: 'flex',
+            alignItems: 'center',
+            zIndex: 10
+          }}
+        >
+          <Typography variant="body2" sx={{ fontWeight: 500, mb: 2 }}>
+            ⚠️ {errorMessage}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setShowError(false);
+              setErrorMessage(null);
+            }}
+            sx={{
+              backgroundColor: '#f44336',
+              '&:hover': { backgroundColor: '#f44336' }
+            }}
+          >
+            OK
+          </Button>
+        </Paper>
+      )}
+      
       <div style={gridStyle}>
         {Array.from({ length: 80 }).map((_, idx) => {
 
