@@ -56,13 +56,14 @@ export function stageDestInfo(dst) {
   return flushIfReady(id);
 }
 
-export function stageDelete(parentId) {
+export function stageDelete(parentId, data) {
   return fetch("http://localhost:5000/receive_data", {
     method : "POST",
     headers: { "Content-Type": "application/json" },
     body   : JSON.stringify({
       op       : "delete",
-      parentId
+      parentId,
+      data
     })
   });
 }
