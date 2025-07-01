@@ -226,7 +226,7 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       const isClockwise = info.toLowerCase().includes('clockwise');
       console.log("isClockwise? ", isClockwise);
       const idx = directions.indexOf(orientation);
-      const newIdx = isClockwise ? (idx + 1) % 4 : (idx + 3) % 4; //clockwise first, if not, counter-clockwise
+      const newIdx = isClockwise ? (idx + 3) % 4 : (idx + 1) % 4; //clockwise first, if not, counter-clockwise
       setOrientation(directions[newIdx]);
       setPendingRotate(false);
     }

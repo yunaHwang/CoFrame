@@ -3220,6 +3220,35 @@
     "selected": false,
     "editing": false
   },
+  "program-584de43e-adaa-4801-a23b-bca38e211365": {
+    "name": "Test",
+    "id": "program-584de43e-adaa-4801-a23b-bca38e211365",
+    "type": "programType",
+    "readonly": false,
+    "position": {
+      "x": -77,
+      "y": 84
+    },
+    "properties": {
+      "description": "The top-level program",
+      "children": [
+      ],
+      "compileFn": 1,
+      "updateFields": [
+        "children"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false,
+      "parameters": {}
+    },
+    "dataType": "INSTANCE",
+    "canDelete": false,
+    "canEdit": true,
+    "selected": false,
+    "editing": false
+  },
   "program-484de43e-adaa-4801-a23b-bca38e211365": {
     "name": "Day in the life of Stretch",
     "id": "program-484de43e-adaa-4801-a23b-bca38e211365",
@@ -4684,6 +4713,19 @@
       "visible": true,
       "blocks": [
         "program-484de43e-adaa-4801-a23b-bca38e211365"
+      ],
+      "viewport": {
+        "x": -200.57106389986825,
+        "y": -218.61264822134387,
+        "zoom": 0.6809947299077733
+      }
+    },
+    {
+      "title": "Test tab",
+      "id": "tests",
+      "visible": true,
+      "blocks": [
+        "program-584de43e-adaa-4801-a23b-bca38e211365"
       ],
       "viewport": {
         "x": -200.57106389986825,
