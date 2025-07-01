@@ -6,7 +6,7 @@ import { STATUS } from "./Constants";
 // import { FiUnderline } from "react-icons/fi";
 
 //import { waitForProgramFlush } from "./to_flask";
-import { stageSourceInfo, stageDestInfo } from "./to_flask";
+import { stageSourceInfo, stageDestInfo, stageDelete } from "./to_flask";
 
 
 // const sendSourceDestInfoToFlask = async (sourceInfo, destInfo) => {
@@ -408,10 +408,10 @@ export const ProgrammingSliceOverride = (set, get) => ({
   transferBlock: async (data, sourceInfo, destInfo) => {
     console.log('transferBlock')
     // yuna added
-    console.log('data', data);
+    //console.log('data', data);
     console.log('sourceInfo', sourceInfo);
     console.log('destInfo', destInfo);
-    console.log('types? ', typeof(destInfo));
+    //console.log('types? ', typeof(destInfo));
     //sendSourceDestInfoToFlask(sourceInfo, destInfo);
     ///////
     set({ lastSourceInfo: sourceInfo });
@@ -431,9 +431,16 @@ export const ProgrammingSliceOverride = (set, get) => ({
         ...t,
         blocks: t.blocks.filter((b) => b !== data.id),
       }));
+      //added
+      console.log("what is data here in deletion, ", data);
+      console.log("what is parentId here in deleton, ", parentId);
+
+      stageDelete(data, parentId);
+      //console.log("what is fieldInfo here in deletion, ", fieldInfo);
+
       state = deleteChildren(state, data, parentId, fieldInfo);
 
-      // Delete current blocka
+      // Delete current block
       state = deleteSelfBlock(state, data, parentId, fieldInfo);
       
       // Clear parent properties

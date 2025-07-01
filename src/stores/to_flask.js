@@ -1,9 +1,7 @@
-// ---------------------------------
-// Shared staging / flushing helper
-// ---------------------------------
+
 import { v4 as uuid } from "uuid";
 
-const bins = {};                       // {eventId: {p, s, d}}
+const bins = {};                       
 let   openId = null;                   // the "current" event bin
 let   lastFlush = Promise.resolve();
 
@@ -15,7 +13,7 @@ function currentId() {
   if (!openId || isBinComplete(openId)) {
     openId = newEventId();             // start a fresh bin
   }
-  bins[openId] ||= { programData:null, sourceInfo:null, destInfo:null };
+  bins[openId] ||= { op: "add", programData:null, sourceInfo:null, destInfo:null };
   return openId;
 }
 
@@ -27,7 +25,7 @@ function isBinComplete(id) {
 function flushIfReady(id) {
   const bin = bins[id];
   if (isBinComplete(id)) {
-    const payload = { ...bin };        // copy
+    const payload = { ...bin };        
     lastFlush = fetch("http://localhost:5000/receive_data", {
       method : "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,6 +54,18 @@ export function stageDestInfo(dst) {
   const id = currentId();
   bins[id].destInfo = dst;
   return flushIfReady(id);
+}
+
+export function stageDelete(data, parentId) {
+  return fetch("http://localhost:5000/receive_data", {
+    method : "POST",
+    headers: { "Content-Type": "application/json" },
+    body   : JSON.stringify({
+      op       : "delete",
+      data,
+      parentId
+    })
+  });
 }
 
 export function waitForFlush() {
