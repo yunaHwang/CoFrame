@@ -303,6 +303,7 @@ export default function App() {
                       icons={icons}
                       labelsOverGrid={labelsOverGrid}
                       sourceInfo_to_pass = {sourceInfo_to_pass}
+                      scenario={scenario} 
                     />
                   </Box>
 
