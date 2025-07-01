@@ -39,7 +39,7 @@ import { TIMELINE_TYPES } from "../../stores/Constants";
 import { motion } from "framer-motion";
 import { ExternalBlock } from "open-vp";
 
-import { sendFallbackActionsToFlask } from "../../stores/to_flask";
+//import { sendFallbackActionsToFlask } from "../../stores/to_flask";
 
 const dropZoneVariants = {
   default: {
