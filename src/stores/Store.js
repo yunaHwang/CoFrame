@@ -142,6 +142,11 @@ useStore.subscribe(
     // Fire once when each flag flips false → true
     if (curr.warn20 && !prev.warn20) {
       if (!store.batteryErrorBlockMade20) {
+        //added
+        // useStore.getState().addCheckpointBlock(20);
+        // useCompiledStore.setState({});
+        // useStore.getState().performCompileProcess();
+        
         useStore.getState().addBatteryBlock(20);
         store.batteryErrorBlockMade20 = true;
         useCompiledStore.setState({});
@@ -150,6 +155,11 @@ useStore.subscribe(
     }
     if (curr.warn5 && !prev.warn5) {
       if (!store.batteryErrorBlockMade5) {
+        //added
+        // useStore.getState().addCheckpointBlock(5);
+        // useCompiledStore.setState({});
+        // useStore.getState().performCompileProcess();
+
         useStore.getState().addBatteryBlock(5);
         store.batteryErrorBlockMade5 = true;
         useCompiledStore.setState({});

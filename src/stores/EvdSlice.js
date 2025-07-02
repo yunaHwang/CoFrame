@@ -260,8 +260,42 @@ export const EvdSlice = (set, get) => ({
       state.processes.planProcess = process;
       // console.log(useCompiledStore.getState())
     }),
+// adding new logic for battery checkpoint popping
+// huh i don't know why it hates this - TypeError: Cannot read properties of undefined (reading 'onCanvas')
+  addCheckpointBlock: (level /* 20 or 5 */) =>
+    set((state) => {
+      const batteryId   = generateUuid("batteryType");
 
-  // adding new logic for batteryblock popping
+      // Same template call you trust elsewhere
+      const batteryObj  = instanceTemplateFromSpec(
+        "batteryType",
+        state.programSpec.objectTypes["batteryType"],
+        false
+      );
+      console.log("what does batteryObj look like, ", batteryObj);
+
+      // Fill in the bits you care about
+      batteryObj.id       = batteryId;
+      batteryObj.name     =
+        level === 5 ? "Battery-Critical!" : "Battery-Low!";
+      batteryObj.position = { x: 250, y: 100 };          // tweak as you like
+      //batteryObj.onCanvas = false;
+      batteryObj.properties.children = [];               // starts empty
+
+      state.programData[batteryId] = batteryObj;
+
+      // Hook it into the root program node
+      const root = Object.values(state.programData)
+        .find((b) => b.type === "programType");
+      if (root) {
+        root.properties.children ??= [];
+        root.properties.children.push(batteryId);
+      }
+
+      state.programData = { ...state.programData };    // trigger re-render
+    }, false, "addCheckpointBlock"),
+
+  // adding new logic for battery fallback block popping
   addBatteryBlock: (level /* 20 or 5 */) =>
     set((state) => {
       const fallbackId   = generateUuid("fallbackType");
