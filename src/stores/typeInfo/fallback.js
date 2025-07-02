@@ -95,7 +95,7 @@ const emptyFallbackFeatures = {
     description: { default: "some string" },
     children: {
       name: "Sets of Fallback Actions",
-      accepts: ["grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
+      accepts: ["toLocationType", "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
       ],
       default: [],

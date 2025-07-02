@@ -68,6 +68,15 @@ export function stageDelete(parentId, data) {
   });
 }
 
+export function stageBatteryWarning(level, value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ op:"battery", level, value })
+  });
+}
+
+
 export function waitForFlush() {
   return lastFlush;
 }

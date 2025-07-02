@@ -6,6 +6,7 @@ import { useRef, useEffect } from 'react';
 import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
 //import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
+import { stageBatteryWarning } from "../../stores/to_flask";
 
 export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
@@ -37,6 +38,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
 
+    // useEffect for flipping the warnings 
     useEffect(() => {
     //console.log("why is not below 20? ", batteryLevel);
     if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
@@ -44,11 +46,19 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     }
 
     if (prevLevelRef.current > 5 && batteryLevel <= 5) {
+        setBattery20Warning(false); // make false the 20% battery warning
         setBattery5Warning(true);
     }
 
     prevLevelRef.current = batteryLevel;
     }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
+
+    // useEffect for sending the flipped warning signs 
+    useEffect(() => {
+    if (battery20Warning)  stageBatteryWarning(20, true);
+    if (battery5Warning)   stageBatteryWarning(5,  true);
+    }, [battery20Warning, battery5Warning]);
+
 
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
