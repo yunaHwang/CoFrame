@@ -34,8 +34,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const closeMenu  = () => setMenuAnchor(null);
     const pick       = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
 
-    const displayDistance = Math.floor(distanceTravel / 8) * 8;
-    const displayBattery = Math.ceil(batteryLevel / 5) * 5;
+    const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
+    const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
 
     useEffect(() => {
     //console.log("why is not below 20? ", batteryLevel);
@@ -95,7 +95,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 onClick={openMenu}
                                 >
                                 <Typography sx={{ color: 'white' }}>{scenario}</Typography>
-                                <Typography sx={{ color: 'white' }}>▾</Typography> {/* ▼ or ▾ */}
+                                <Typography sx={{ color: 'white' }}>▾</Typography> 
                             </Box>
                             <Menu
                                 anchorEl={menuAnchor}

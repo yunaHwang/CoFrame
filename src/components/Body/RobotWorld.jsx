@@ -62,15 +62,20 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       
       // Update robot position
       setRobotCoord(targetCoords);
-      
+      console.log("moveToConnector called with", targetCoords);
+
       // Update travel distance
       const prevDist = useStore.getState().distanceTravel;
       useStore.getState().setdistanceTravel(prevDist + increment);
     
       // Update battery level
-      const batteryDrop = distance * 1;
+      const batteryDrop = distance * 40; // 40 percent battery drop per step
+
+      console.log("increment and battery drop, ", increment, batteryDrop);
+
       const prevBattery = useStore.getState().batteryLevel;
       const newBattery = Math.max(0, prevBattery - batteryDrop);
+      console.log("what is newBattery, ", newBattery);
       useStore.getState().setbatteryLevel(newBattery);
       
       // BatteryCharging Special instruction
@@ -199,12 +204,17 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
     checkForErrors({ x: newX, y: newY }, scenario);
 
     // logic for travel distance
-    const increment = steps * 1.6;
+    //const increment = steps * 1.6;
+    const FEET_PER_STEP = 1.6;  
+    const increment      = steps * FEET_PER_STEP;
     const prevDist = useStore.getState().distanceTravel;
     useStore.getState().setdistanceTravel(prevDist + increment);
 
     // logic for battery level
-    const batteryDrop = steps * 1; // temp change to check 20% warning message
+    //const batteryDrop = steps * 1; // temp change to check 20% warning message
+    const BATTERY_DROP_PER_STEP = 40; 
+    const batteryDrop           = steps * BATTERY_DROP_PER_STEP;
+    
     const prevBattery = useStore.getState().batteryLevel;
     const newBattery = Math.max(0, prevBattery - batteryDrop);
     useStore.getState().setbatteryLevel(newBattery);
@@ -217,8 +227,6 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       setPendingRotate(true);
       return;
     }
-    // TODO - tweak code so that regardless of either 'Direction' comes first or 'Angle' comes first
-    // it should defer any movement
     if (pendingRotate && info?.includes('degrees') && robotCoord) {
       return; //still pending because it's waiting for either clockwise or counterclockwise
     }

@@ -3278,6 +3278,27 @@
     "selected": false,
     "editing": false
   },
+   "batteryType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "batteryType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "batteryType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Denote that there is battery shortage",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Battery Block",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
   "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
     "id": "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
     "type": "stopStretchType",

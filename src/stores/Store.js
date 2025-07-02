@@ -61,6 +61,11 @@ const store = (set, get) => ({
   setBattery5Warning: (v) => set({ battery5Warning: v }),
   distanceTravel: 0,
   setdistanceTravel: (value) => set({ distanceTravel: value }),
+  batteryErrorBlockMade20: false,
+  batteryErrorBlockMade5:  false,
+  setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
+  setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
+
   clock: new Timer(),
   playing: true,
   pause: () => {
@@ -125,6 +130,35 @@ useStore.subscribe(
   },
   { equalityFn: shallow }
 );
+
+useStore.subscribe(
+  state => ({  // selector returns *both* flags
+    warn20: state.battery20Warning,
+    warn5 : state.battery5Warning
+  }),
+  (curr, prev) => {
+    const store = useStore.getState();
+
+    // Fire once when each flag flips false → true
+    if (curr.warn20 && !prev.warn20) {
+      if (!store.batteryErrorBlockMade20) {
+        useStore.getState().addBatteryBlock(20);
+        store.batteryErrorBlockMade20 = true;
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }
+    }
+    if (curr.warn5 && !prev.warn5) {
+      if (!store.batteryErrorBlockMade5) {
+        useStore.getState().addBatteryBlock(5);
+        store.batteryErrorBlockMade5 = true;
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }
+    }
+  }
+);
+
 
 // Create subscribers for scene data
 computedSliceSubscribe(useStore);

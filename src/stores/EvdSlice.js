@@ -261,6 +261,68 @@ export const EvdSlice = (set, get) => ({
       // console.log(useCompiledStore.getState())
     }),
 
+  // adding new logic for batteryblock popping
+  // EvdSlice.js  (inside the slice definition)
+  addBatteryBlock: (level /* 20 or 5 */) =>
+    set((state) => {
+      const skillId   = generateUuid("skillType");
+
+      // Same template call you trust elsewhere
+      const skillObj  = instanceTemplateFromSpec(
+        "skillType",
+        state.programSpec.objectTypes["skillType"],
+        false
+      );
+
+      // Fill in the bits you care about
+      skillObj.id       = skillId;
+      skillObj.name     =
+        level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
+      skillObj.position = { x: 250, y: 100 };          // tweak as you like
+      skillObj.properties.children = [];               // starts empty
+
+      state.programData[skillId] = skillObj;
+
+      // Hook it into the root program node
+      const root = Object.values(state.programData)
+        .find((b) => b.type === "programType");
+      if (root) {
+        root.properties.children ??= [];
+        root.properties.children.push(skillId);
+      }
+
+      state.programData = { ...state.programData };    // trigger re-render
+    }, false, "addBatteryBlock"),
+
+
+  // addBatteryBlock: (level) =>
+  //   set((state) => {
+  //     const batteryId = generateUuid("batteryType")
+  //     const batteryObj = state.programData[batteryId] = instanceTemplateFromSpec(
+  //       "batteryType",
+  //       state.programSpec.objectTypes["batteryType"],
+  //       false
+  //     );
+
+  //     const label = level === 5 ? "Critical Battery Level"
+  //                              : "Low Battery Level";
+  //     batteryObj.id = batteryId;
+  //     batteryObj.name = label;
+  //     batteryObj.position = { x: 200, y: 60 }; 
+
+  //     state.programData[batteryId] = batteryObj;
+      
+  //     const root = Object.values(state.programData)
+  //       .find((b) => b.type === "programType");
+  //     if (root) {
+  //       root.properties.children ??= [];
+  //       root.properties.children.push(batteryId);   //last in order
+  //     }
+
+  //     state.programData = { ...state.programData };
+  //   }, false, "addBatteryErrorBlock"),
+  
+
   // adding new logic for adding the skill block with actions
   addSkillWithActions: (skillName, actionsData) =>
     set((state) => {
@@ -277,8 +339,8 @@ export const EvdSlice = (set, get) => ({
 
       actionsData.forEach((raw, idx) => {
         const typeName = raw.type;
-        console.log("what is the typeName here, ", typeName);
-        console.log("is this none, ", actionTypes[typeName]);
+        //console.log("what is the typeName here, ", typeName);
+        //console.log("is this none, ", actionTypes[typeName]);
         if (!actionTypes[typeName]) return;          // ignore unknown types
 
         const actId  = generateUuid(typeName);
