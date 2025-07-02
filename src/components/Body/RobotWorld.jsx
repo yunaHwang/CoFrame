@@ -212,9 +212,9 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
 
     // logic for battery level
     //const batteryDrop = steps * 1; // temp change to check 20% warning message
-    const BATTERY_DROP_PER_STEP = 40; 
+    const BATTERY_DROP_PER_STEP = 80; 
     const batteryDrop           = steps * BATTERY_DROP_PER_STEP;
-    
+
     const prevBattery = useStore.getState().batteryLevel;
     const newBattery = Math.max(0, prevBattery - batteryDrop);
     useStore.getState().setbatteryLevel(newBattery);

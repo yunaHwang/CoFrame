@@ -262,33 +262,32 @@ export const EvdSlice = (set, get) => ({
     }),
 
   // adding new logic for batteryblock popping
-  // EvdSlice.js  (inside the slice definition)
   addBatteryBlock: (level /* 20 or 5 */) =>
     set((state) => {
-      const skillId   = generateUuid("skillType");
+      const fallbackId   = generateUuid("fallbackType");
 
       // Same template call you trust elsewhere
-      const skillObj  = instanceTemplateFromSpec(
-        "skillType",
-        state.programSpec.objectTypes["skillType"],
+      const fallbackObj  = instanceTemplateFromSpec(
+        "fallbackType",
+        state.programSpec.objectTypes["fallbackType"],
         false
       );
 
       // Fill in the bits you care about
-      skillObj.id       = skillId;
-      skillObj.name     =
+      fallbackObj.id       = fallbackId;
+      fallbackObj.name     =
         level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
-      skillObj.position = { x: 250, y: 100 };          // tweak as you like
-      skillObj.properties.children = [];               // starts empty
+      fallbackObj.position = { x: 250, y: 100 };          // tweak as you like
+      fallbackObj.properties.children = [];               // starts empty
 
-      state.programData[skillId] = skillObj;
+      state.programData[fallbackId] = fallbackObj;
 
       // Hook it into the root program node
       const root = Object.values(state.programData)
         .find((b) => b.type === "programType");
       if (root) {
         root.properties.children ??= [];
-        root.properties.children.push(skillId);
+        root.properties.children.push(fallbackId);
       }
 
       state.programData = { ...state.programData };    // trigger re-render

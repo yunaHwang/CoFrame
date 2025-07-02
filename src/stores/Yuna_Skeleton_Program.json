@@ -3278,27 +3278,6 @@
     "selected": false,
     "editing": false
   },
-   "batteryType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
-    "id": "batteryType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
-    "type": "batteryType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "description": "Denote that there is battery shortage",
-      "compileFn": 9,
-      "updateFields": [
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": false
-    },
-    "name": "Battery Block",
-    "canDelete": true,
-    "canEdit": true,
-    "refData": null,
-    "argumentBlockData": [],
-    "editing": false
-  },
   "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
     "id": "stopStretchType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
     "type": "stopStretchType",
@@ -3531,7 +3510,38 @@
     "argumentBlockData": [],
     "editing": false
   },
-  "skillType-1f4348c8-8b88-441d-95c9-dc9874848629": {
+  "fallbackType-1f4348c8-8b88-441d-95c9-dc9874848629": {
+    "id": "fallbackType-1f4348c8-8b88-441d-95c9-dc9874848629",
+    "type": "fallbackType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "children": [
+        
+      ],
+      "compileFn": 1,
+      "updateFields": [
+        "children"
+      ],
+      "description": "",
+      "status": "PENDING",
+      "errorCode": null,
+      "singleton": false,
+      "null": null
+    },
+    "name": "",
+    "canDelete": true,
+    "canEdit": true,
+    "editing": false,
+    "position": {
+      "x": 886.421666529694,
+      "y": -18.598759397165622
+    },
+    "arguments": [
+    ],
+    "refData": null,
+    "argumentBlockData": []
+  },
+    "skillType-1f4348c8-8b88-441d-95c9-dc9874848629": {
     "id": "skillType-1f4348c8-8b88-441d-95c9-dc9874848629",
     "type": "skillType",
     "dataType": "INSTANCE",

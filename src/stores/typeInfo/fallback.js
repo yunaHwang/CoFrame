@@ -11,14 +11,14 @@ import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-const skillFeatures = {
+const fallbackFeatures = {
   //name: "Skill",
   type: TYPES.OBJECT,
   instanceBlock: {
     hideNewPrefix: true,
     onCanvas: false,
-    color: "#62869e",
-    icon: SkillIconStyled,
+    color: "#ffb74d",
+    icon: statusIcon,
     extras: [
       EXTRA_TYPES.LOCKED_INDICATOR,
       EXTRA_TYPES.NAME_EDIT_TOGGLE,
@@ -88,35 +88,13 @@ const skillFeatures = {
   // },
 };
 
-const emptySkillFeatures = {
-  name: "New Action Cluster",
+const emptyFallbackFeatures = {
+  name: "New Fallback Action Sets",
   description: "some string",
   properties: {
     description: { default: "some string" },
     children: {
-      name: "Sets of Actions",
-      accepts: [//"moveGripperType", "closeGripperType", 
-      "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType"
-      ],
-      default: [],
-      isList: true,
-      nullValid: true,
-    },
-    compileFn: { default: COMPILE_FUNCTIONS.SIMPLE },
-    updateFields: {
-      default: ["children"],
-    },
-  },
-};
-
-const emptyConcurrentFeatures = {
-  name: "New Concurrent Action Sets",
-  description: "some string",
-  properties: {
-    description: { default: "some string" },
-    children: {
-      name: "Sets of Actions",
+      name: "Sets of Fallback Actions",
       accepts: ["grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
       ],
@@ -130,9 +108,4 @@ const emptyConcurrentFeatures = {
     },
   },
 };
-
-
-
-export const skillType = merge(emptySkillFeatures, skillFeatures);
-export const concurrentType = merge(emptyConcurrentFeatures, skillFeatures);
-//export const fallbackType = merge(emptyFallbackFeatures, skillFeatures);
+export const fallbackType = merge(emptyFallbackFeatures, fallbackFeatures);

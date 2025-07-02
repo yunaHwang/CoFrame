@@ -7,7 +7,7 @@ import { directionalityType } from './directionality';
 import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
 import { skillType, concurrentType } from './skill';
-import { batteryType } from './battery';
+import { fallbackType } from './fallback';
 import { meshType } from './mesh';
 import { processType } from './process';
 import {inputOutputType} from './inputOutput';
@@ -30,11 +30,11 @@ const mod = {
     speechType,
     personType,
     directionalityType,
-    batteryType,
     trajectoryType,
     hierarchicalType,
     skillType,
     concurrentType,
+    fallbackType,
     meshType,
     processType,
     graspPointType,

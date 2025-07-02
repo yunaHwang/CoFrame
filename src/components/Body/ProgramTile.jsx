@@ -170,7 +170,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                         >
                             <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                             ⚠️ Battery Low<br/>
-                            Your robot is below 20%.  Consider heading back for a charge soon.
+                            Your robot is below 20% battery.  Consider heading back for a charge soon.
                             </Typography>
                             <Button
                             variant="contained"
