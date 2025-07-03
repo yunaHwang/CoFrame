@@ -3345,9 +3345,9 @@
     "editing": false
   },
 
-   "placeAsideType-5ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
-    "id": "placeAsideType-5ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
-    "type": "placeAsideType",
+   "putAsideType-5ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "putAsideType-5ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "putAsideType",
     "dataType": "INSTANCE",
     "properties": {
       "description": "Place Aside an Object that is in the Robot's Way (adjacent coordinate)",
@@ -3361,7 +3361,7 @@
       "errorCode": null,
       "singleton": false
     },
-    "name": "Place Aside Object",
+    "name": "Put Aside Object",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
