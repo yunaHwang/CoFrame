@@ -155,7 +155,7 @@ useStore.subscribe(
       console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
       if (!store.batteryErrorBlockMade20) {
         //added
-        // useStore.getState().addCheckpointBlock(20);
+        // useStore.getState().addCheckpointBlock(20, programId);
         // useCompiledStore.setState({});
         // useStore.getState().performCompileProcess();
         
@@ -168,7 +168,7 @@ useStore.subscribe(
     if (curr.warn5 && !prev.warn5) {
       if (!store.batteryErrorBlockMade5) {
         //added
-        // useStore.getState().addCheckpointBlock(5);
+        // useStore.getState().addCheckpointBlock(5, programId);
         // useCompiledStore.setState({});
         // useStore.getState().performCompileProcess();
 

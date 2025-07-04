@@ -253,8 +253,12 @@ export const EvdSlice = (set, get) => ({
     }),
 // adding new logic for battery checkpoint popping
 // huh i don't know why it hates this - TypeError: Cannot read properties of undefined (reading 'onCanvas')
-  addCheckpointBlock: (level /* 20 or 5 */) =>
+  addCheckpointBlock: (level, programId) =>
     set((state) => {
+      if (!programId) {
+      console.warn("addCheckpointBlock: no programId – skipping");
+      return;
+    }
       const batteryId   = generateUuid("batteryType");
 
       // Same template call you trust elsewhere
@@ -276,8 +280,7 @@ export const EvdSlice = (set, get) => ({
       state.programData[batteryId] = batteryObj;
 
       // Hook it into the root program node
-      const root = Object.values(state.programData)
-        .find((b) => b.type === "programType");
+      const root = state.programData[programId];
       if (root) {
         root.properties.children ??= [];
         root.properties.children.push(batteryId);
@@ -314,8 +317,6 @@ export const EvdSlice = (set, get) => ({
 
       // Hook it into the root program node
       const root = state.programData[programId];
-      // const root = Object.values(state.programData)
-      //   .find((b) => b.type === "programType"); // interestingly this goes into the first empty program, program-88
       if (root?.type === "programType") {
         root.properties.children ??= [];
         root.properties.children.push(fallbackId);

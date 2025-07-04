@@ -37,7 +37,7 @@ const batteryFeatures = {
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
     description: { default: "Denote that there is battery shortage" },
-    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    compileFn: { default: COMPILE_FUNCTIONS.SIMPLE },
     updateFields: {
       default: [],
     },
