@@ -11,20 +11,6 @@ import { stageSourceInfo, stageDestInfo, stageDelete } from "./to_flask";
 import actionTypes from './typeInfo/action'; // using the unflattened version aha
 
 
-// const sendSourceDestInfoToFlask = async (sourceInfo, destInfo) => {
-//   console.log("Sending new adds");
-//   try {
-//     const res = await fetch("http://localhost:5000/receive_source_dest", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ sourceInfo, destInfo }),
-//     });
-//     const result = await res.json();
-//     console.log("Flask response for sourceInfo, destInfo:", result);
-//   } catch (err) {
-//     console.error("Error sending data to Flask:", err);
-//   }
-// };
 
 // Credit: https://www.npmjs.com/package/lodash-move
 export function move(array, moveIndex, toIndex) {

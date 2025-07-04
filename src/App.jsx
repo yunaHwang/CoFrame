@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useState, useRef} from "react";
 // import { FiSettings } from "react-icons/fi";
 import { ReviewTile } from "./components/Body/ReviewTile";
-import { SimulatorTile } from "./components/Body/SimulatorTile";
 import { ProgramTile } from "./components/Body/ProgramTile";
 import RobotWorld from "./components/Body/RobotWorld";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
-// import { Modals } from "./components/Modals";
 import { Detail } from "./components/Detail";
 import { SettingsModal } from "./components/Settings";
-import TimelineGraph from "./components/TimelineGraph";
 
 import {
   ThemeProvider,
@@ -17,7 +13,7 @@ import {
   THEME_ID,
 } from "@mui/material/styles";
 
-import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box, Divider } from "@mui/material";
+import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box, Divider, Typography, IconButton } from "@mui/material";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import useMeasure from "react-use-measure";
 import useStore from "./stores/Store";
@@ -217,6 +213,9 @@ export default function App() {
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
 
+  const [showDrawer, setShowDrawer] = useState(true);
+
+
   // Hallway color cell highlighting
   const hallways = [[0,0],[0,1],[0,2],[0,3],[4,0],[4,1],[4,2],[4,3],[1,3],[2,3],[3,3],
                     [3,4],[3,5],[3,6],[3,7],[4,4],[4,5],[4,6],[4,7],
@@ -324,6 +323,28 @@ export default function App() {
               </ReflexElement>
             )}
           </ReflexContainer>
+
+          {showDrawer && <Drawer 
+            variant="permanent"
+            anchor= "right"
+            open={true} 
+            sx={{
+              flexShrink: 0,               // don’t let it collapse
+              "& .MuiDrawer-paper": {
+                width: '20vw',                // panel width
+                position: 'relative',
+                boxSizing: "border-box",
+                p: 2,                      // padding inside
+              },
+            }}>
+              <Box display="flex" alignItems="center" mb={1}>
+                <Typography variant="h6" sx={{ flexGrow: 1 }}> LTL Violations </Typography>
+
+                <IconButton onClick={() => setShowDrawer(false)}> x </IconButton>
+
+              </Box>
+          </Drawer>}
+            
         </Stack>
         <Detail />
         <SettingsModal />
