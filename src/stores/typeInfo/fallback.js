@@ -96,7 +96,7 @@ const emptyFallbackFeatures = {
     children: {
       name: "Sets of Fallback Actions",
       accepts: ["toLocationType", "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
+        "sayType", "moveForwardType", "rotateType", "skillType", "concurrentType"
       ],
       default: [],
       isList: true,

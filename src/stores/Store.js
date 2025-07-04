@@ -152,7 +152,7 @@ useStore.subscribe(
 
     // Fire once when each flag flips false → true
     if (curr.warn20 && !prev.warn20) {
-      console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
+      //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
       if (!store.batteryErrorBlockMade20) {
         //added
         // useStore.getState().addCheckpointBlock(20, programId);
