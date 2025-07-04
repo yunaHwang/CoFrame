@@ -151,7 +151,7 @@ const moveForwardFeatures = {
     description: { default: "Stretch moves forward by the amount of grid numbers provided as a parameter" },
     direction: {
       name: "Grid Increments",
-      accepts: ["directionalityType"],
+      accepts: ["movementType"],
       default: null,
       isList: false,
       nullValid: true,
@@ -170,14 +170,14 @@ const rotateFeatures = {
     description: { default: "Stretch rotates x angles in y direction where x and y are provided as parameters" },
     // rotationMagnitude: {
     //   name: "Rotation Angle",
-    //   accepts: ["directionalityType"],
+    //   accepts: ["movementType"],
     //   default: null,
     //   isList: false,
     //   nullValid: true,
     // },
     angleDirection: {
       name: "Rotation Direction",
-      accepts: ["directionalityType"],
+      accepts: ["movementType"],
       default: null,
       isList: false,
       nullValid: true,

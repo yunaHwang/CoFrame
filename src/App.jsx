@@ -178,7 +178,7 @@ export default function App() {
   });
 
   const containerRef = useRef(null);
-  const [topHeight, setTopHeight] = useState(28);       // 28 vh start
+  const [topHeight, setTopHeight] = useState(20);       // 20 vh start
   const [dragging, setDragging] = useState(false);
   const [containerTop, setContainerTop] = useState(0);
   

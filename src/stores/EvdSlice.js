@@ -51,31 +51,42 @@ export const EvdSlice = (set, get) => ({
       {
         title: "Action Clusters",
         dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["skillType"],
+        objectTypes: ["skillType", "concurrentType"],
         icon: SkillIconStyled,
       },
-
-      // Icon is FiGrid, otherwise no icons show in the drawer
       {
-        // in typeInfo > action.js > "moveGripperType"
+        title: "Action Macros",
+        dataType: DATA_TYPES.INSTANCE,
+        objectTypes: ["toLocationType"],
+        icon: ProcessIconStyled,
+      },
+      {
         title: "Actions",
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: [
-          //"moveGripperType",
-          //"closeGripperType",
-          "grabType",
-          "putAsideType",
-          //"lookForType",
-          "handObjToType",
-          "stopStretchType",
-          "saveLogStretchType",
-          "sayType",
           "moveForwardType",
           "rotateType",
-          "slowerStretchType",
-          "fasterStretchType",
+          "grabType",
+          "putAsideType",
+          "handObjToType",
+          "sayType",
+          "stopStretchType",
+          "saveLogStretchType",
         ],
         icon: PrimitiveIconStyled,
+      },
+      {
+        title: "Movement",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "movementType",
+        icon: WaypointIconStyled,
+      },
+
+      {
+        title: "Locations",
+        dataType: DATA_TYPES.REFERENCE,
+        objectType: "placeType",
+        icon: LocationIconStyled,
       },
 
       {
@@ -89,67 +100,27 @@ export const EvdSlice = (set, get) => ({
         title: "People",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "personType",
-        icon: WaypointIconStyled,
+        icon: ContainerIconStyled,
       },
 
       {
         title: "Speech Utterance",
         dataType: DATA_TYPES.REFERENCE,
         objectType: "speechType",
-        icon: SkillIconStyled,
+        icon: ToolIconStyled,
       },
 
-      {
-        title: "Directionality",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "directionalityType",
-        icon: ProcessIconStyled,
-      },
-
-      {
-        title: "Action Macros",
-        dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["toLocationType", "concurrentType"],
-        icon: LocationIconStyled,
-      },
-
-      {
-        title: "Locations",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "placeType",
-        icon: WaypointIconStyled,
-      },
     ],
     objectTypes: typeInfo,
   },
   programData: {},
-  // All the old stuff below
-  // data: {
-  //   "program-484de43e-adaa-4801-a23b-bca38e211365": {
-  //     "name": "Knife Assembly",
-  //     "editable": true,
-  //     "deleteable": false,
-  //     "description": "The top-level program",
-  //     "parameters": {},
-  //     "children": [],
-  //     "transform": { "x": 0, "y": 0 }
-  //   }
-  // },
+
   // A macro for updating the entire program from raw data
   addAgent: (data) =>
     set((state) => {
     state.programData = { ...state.programData, ...data };
     }, false, "addAgent"),                         // ← Zustand action name
-    // ) &&                                          // ← after-set side-effect
-    // sendProgramDataToFlask(get().programData),    // flush & store Promise
-    // set((state) => {
 
-    //   //added
-    //   const after = Object.keys(state.programData).concat(Object.keys(data));
-    //   console.log("catch every single drawer in UI? ", after);
-
-    //   state.programData = { ...state.programData, ...data };
-    // }),
   replaceAgent: (newData) => set((state)=>{
     //console.log("or is it here replaceAgent? ", newData); // this shows up as soon the UI renders
     const agent = Object.values(newData).filter(d=>d.type==='robotAgentType')[0];
@@ -252,7 +223,7 @@ export const EvdSlice = (set, get) => ({
       // console.log(useCompiledStore.getState())
     }),
 // adding new logic for battery checkpoint popping
-// huh i don't know why it hates this - TypeError: Cannot read properties of undefined (reading 'onCanvas')
+
   addCheckpointBlock: (level, programId) =>
     set((state) => {
       if (!programId) {
@@ -325,35 +296,6 @@ export const EvdSlice = (set, get) => ({
       state.programData = { ...state.programData };    // trigger re-render
     }, false, "addBatteryBlock"),
 
-
-  // addBatteryBlock: (level) =>
-  //   set((state) => {
-  //     const batteryId = generateUuid("batteryType")
-  //     const batteryObj = state.programData[batteryId] = instanceTemplateFromSpec(
-  //       "batteryType",
-  //       state.programSpec.objectTypes["batteryType"],
-  //       false
-  //     );
-
-  //     const label = level === 5 ? "Critical Battery Level"
-  //                              : "Low Battery Level";
-  //     batteryObj.id = batteryId;
-  //     batteryObj.name = label;
-  //     batteryObj.position = { x: 200, y: 60 }; 
-
-  //     state.programData[batteryId] = batteryObj;
-      
-  //     const root = Object.values(state.programData)
-  //       .find((b) => b.type === "programType");
-  //     if (root) {
-  //       root.properties.children ??= [];
-  //       root.properties.children.push(batteryId);   //last in order
-  //     }
-
-  //     state.programData = { ...state.programData };
-  //   }, false, "addBatteryErrorBlock"),
-  
-
   // adding new logic for adding the skill block with actions
   addSkillWithActions: (skillName, actionsData) =>
     set((state) => {
@@ -414,10 +356,6 @@ export const EvdSlice = (set, get) => ({
     get().updatePlanProcess(null, plannerWorker);
     const programData = get().programData;
     console.log("what does this look like, ", programData); // this also shows as soon as the UI renders
-    // everytime a new block is added (transferBlock), then this gets updated, along with 
-    // log -> transferBlock, data, sourceInfo, destInfo, REPLANNING, starting plan processing, terminating current plan process,
-    // and then "what does this look like"
-    //await sendProgramDataToFlask(programData);
     await stageProgramData(programData);
     
     console.log('sent from React!')
@@ -437,8 +375,6 @@ export const EvdSlice = (set, get) => ({
       useCompiledStore.setState({[key]:result.compiledData[key]})
     }
 
-    //await sendProgramDataToFlask(programData);
-    //console.log("Sent from React!");
   },
   processes: {},
   reviewableChanges: 0,

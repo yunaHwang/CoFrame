@@ -92,7 +92,7 @@ export const TIMELINE_TYPES = [
 'fasterStretchType',
 'speechType',
 'thingType',
-'directionalityType',
+'movementType',
 
 ]
 export const PREVIEW_TYPES = [...TIMELINE_TYPES,'locationType','waypointType'];

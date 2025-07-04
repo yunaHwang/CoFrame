@@ -1,5 +1,5 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { LocationIconStyled, WaypointIconStyled, statusIcon, PrimitiveIconStyled } from "./icons";
+import { ProcessIconStyled, LocationIconStyled, WaypointIconStyled, statusIcon, PrimitiveIconStyled } from "./icons";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { COMPILE_FUNCTIONS } from "../Constants";
 import './rotate.css'
@@ -91,7 +91,7 @@ const toInstanceBlock = {
   hideNewPrefix: true,
   onCanvas: false,
   color: "#8624E0",  // same as your LocationIcon color
-  icon: LocationIconStyled,
+  icon: ProcessIconStyled,
   extras: [
     //EXTRA_TYPES.LOCKED_INDICATOR,
     // { 

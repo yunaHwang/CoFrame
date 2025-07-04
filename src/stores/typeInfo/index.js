@@ -3,7 +3,7 @@ import { locationType, toLocationType, waypointType, placeType } from './pose';
 import { thingType } from './thing';
 import { speechType } from './speech';
 import { personType } from './person';
-import { directionalityType } from './directionality';
+import { movementType } from './movement';
 import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
 import { skillType, concurrentType } from './skill';
@@ -31,7 +31,7 @@ const mod = {
     speechType,
     batteryType,
     personType,
-    directionalityType,
+    movementType,
     trajectoryType,
     hierarchicalType,
     skillType,

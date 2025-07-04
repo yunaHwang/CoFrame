@@ -89,7 +89,7 @@ const skillFeatures = {
 };
 
 const emptySkillFeatures = {
-  name: "New Action Cluster",
+  name: "Sequential Action Cluster",
   description: "some string",
   properties: {
     description: { default: "some string" },
@@ -111,7 +111,7 @@ const emptySkillFeatures = {
 };
 
 const emptyConcurrentFeatures = {
-  name: "New Concurrent Action Sets",
+  name: "Concurrent Action Cluster",
   description: "some string",
   properties: {
     description: { default: "some string" },

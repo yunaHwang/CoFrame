@@ -2858,10 +2858,10 @@
     "selected": false,
     "editing": false
   },
-  "directionalityType-18892a7c1c1911ecbe2600155d1a70a2": {
-    "type": "directionalityType",
+  "movementType-18892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "movementType",
     "name": "1 grid",
-    "id": "directionalityType-18892a7c1c1911ecbe2600155d1a70a2",
+    "id": "movementType-18892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
     "properties": {
@@ -2878,10 +2878,10 @@
     "selected": false,
     "editing": false
   },
-  "directionalityType-08892a7c1c1911ecbe2600155d1a70a2": {
-    "type": "directionalityType",
+  "movementType-08892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "movementType",
     "name": "Clockwise",
-    "id": "directionalityType-08892a7c1c1911ecbe2600155d1a70a2",
+    "id": "movementType-08892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
     "properties": {
@@ -2898,10 +2898,10 @@
     "selected": false,
     "editing": false
   },
-    "directionalityType-28892a7c1c1911ecbe2600155d1a70a2": {
-    "type": "directionalityType",
+    "movementType-28892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "movementType",
     "name": "Counter-clockwise",
-    "id": "directionalityType-28892a7c1c1911ecbe2600155d1a70a2",
+    "id": "movementType-28892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
     "properties": {
@@ -2918,10 +2918,30 @@
     "selected": false,
     "editing": false
   },
-    "directionalityType-38892a7c1c1911ecbe2600155d1a70a2": {
-    "type": "directionalityType",
+    "movementType-38892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "movementType",
     "name": "90 degrees",
-    "id": "directionalityType-38892a7c1c1911ecbe2600155d1a70a2",
+    "id": "movementType-38892a7c1c1911ecbe2600155d1a70a2",
+    "canEdit": true,
+    "canDelete": true,
+    "properties": {
+      "compileFn": 14,
+      "updateFields": [
+      ],
+      "singleton": true,
+      "description": "",
+      "status": "PENDING",
+      "pendingChanges": 0,
+      "errorCode": null
+    },
+    "dataType": "INSTANCE",
+    "selected": false,
+    "editing": false
+  },
+  "thingType-08892a7c1c1911ecbe2600155d1a70a2": {
+    "type": "thingType",
+    "name": "Other Resident's Parcel",
+    "id": "thingType-08892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
     "properties": {
@@ -2940,7 +2960,7 @@
   },
   "thingType-98892a7c1c1911ecbe2600155d1a70a2": {
     "type": "thingType",
-    "name": "Delivery Object",
+    "name": "Target Parcel",
     "id": "thingType-98892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
@@ -3548,49 +3568,6 @@
       "singleton": false
     },
     "name": "Hand Object to Person",
-    "canDelete": true,
-    "canEdit": true,
-    "refData": null,
-    "argumentBlockData": [],
-    "editing": false
-  },
-
-  "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
-    "id": "slowerStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
-    "type": "slowerStretchType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "description": "Stretch moves 20% slower than default",
-      "compileFn": 9,
-      "updateFields": [
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": false
-    },
-    "name": "Move Slower",
-    "canDelete": true,
-    "canEdit": true,
-    "refData": null,
-    "argumentBlockData": [],
-    "editing": false
-  },
-  "fasterStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
-    "id": "fasterStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
-    "type": "fasterStretchType",
-    "dataType": "INSTANCE",
-    "properties": {
-      "description": "Stretch moves 20% faster than default",
-      "compileFn": 9,
-      "updateFields": [
-      ],
-      "status": "VALID",
-      "pendingChanges": 0,
-      "errorCode": null,
-      "singleton": false
-    },
-    "name": "Move Faster",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
