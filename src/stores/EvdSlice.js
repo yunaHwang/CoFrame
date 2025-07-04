@@ -37,26 +37,17 @@ import {
 const cleanedObjectType = (objectType) =>
   pick(objectType, ["name", "properties", "type"]);
 
-// const sendProgramDataToFlask = async (programData) => {
-//   console.log("Attempting to send programData:", programData);
-//   try {
-//     const res = await fetch("http://localhost:5000/receive_data", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ programData }),
-//     });
-//     const result = await res.json();
-//     console.log("Flask response:", result);
-//   } catch (err) {
-//     console.error("Error sending data to Flask:", err);
-//   }
-// };
-
 
 export const EvdSlice = (set, get) => ({
   solver: null,
   programSpec: {
     drawers: [
+      {
+        title: "Programs",
+        dataType: DATA_TYPES.INSTANCE,
+        objectTypes: ["programType"],
+        icon: MachineIconStyled,
+      },
       {
         title: "Action Clusters",
         dataType: DATA_TYPES.INSTANCE,

@@ -11,7 +11,7 @@ import { merge } from "lodash";
 const programDoc = `The Program is the main sequence of actions, such as [Hierarchicals](hierarchicalType), [Move Trajectory](moveTrajectoryType), or [Process Start](processStartType), and [Skills](skillType) that are executed by the [Robot](robotAgentType).`;
 
 const programFeatures = {
-  name: "Program",
+  name: "Day in the life of Stretch",
   type: TYPES.OBJECT,
   description: programDoc,
   instanceBlock: {
