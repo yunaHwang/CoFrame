@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
+import { stageBatteryWarning } from "../../stores/to_flask";
 
 const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, scenario = "Scenario 1" }) => {
   
@@ -84,6 +85,14 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       if (location === 'battery charging station') {
         useStore.getState().setbatteryLevel(100);
         useStore.getState().setdistanceTravel(0);
+
+        //added
+        useStore.getState().setBattery20Warning(false);
+        useStore.getState().setBattery5Warning(false);
+
+        stageBatteryWarning(20, false);
+        stageBatteryWarning(5,  false);
+
         setShowBatteryCharged(true);
       }
       
