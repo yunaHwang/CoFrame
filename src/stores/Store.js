@@ -74,6 +74,8 @@ const store = (set, get) => ({
   actionDeleted: false,
   setActionDeleted: (deleted) => set({ actionDeleted: deleted }),
 
+  currentProgramId: null,
+
   clock: new Timer(),
   playing: true,
   pause: () => {
@@ -146,16 +148,18 @@ useStore.subscribe(
   }),
   (curr, prev) => {
     const store = useStore.getState();
+    const programId = store.currentProgramId;
 
     // Fire once when each flag flips false → true
     if (curr.warn20 && !prev.warn20) {
+      console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
       if (!store.batteryErrorBlockMade20) {
         //added
         // useStore.getState().addCheckpointBlock(20);
         // useCompiledStore.setState({});
         // useStore.getState().performCompileProcess();
         
-        useStore.getState().addBatteryBlock(20);
+        useStore.getState().addBatteryBlock(20, programId);
         store.batteryErrorBlockMade20 = true;
         useCompiledStore.setState({});
         useStore.getState().performCompileProcess();
@@ -168,7 +172,7 @@ useStore.subscribe(
         // useCompiledStore.setState({});
         // useStore.getState().performCompileProcess();
 
-        useStore.getState().addBatteryBlock(5);
+        useStore.getState().addBatteryBlock(5, programId);
         store.batteryErrorBlockMade5 = true;
         useCompiledStore.setState({});
         useStore.getState().performCompileProcess();

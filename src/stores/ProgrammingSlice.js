@@ -8,6 +8,8 @@ import { STATUS } from "./Constants";
 //import { waitForProgramFlush } from "./to_flask";
 import { stageSourceInfo, stageDestInfo, stageDelete } from "./to_flask";
 
+import actionTypes from './typeInfo/action'; // using the unflattened version aha
+
 
 // const sendSourceDestInfoToFlask = async (sourceInfo, destInfo) => {
 //   console.log("Sending new adds");
@@ -416,13 +418,61 @@ export const ProgrammingSliceOverride = (set, get) => ({
     ///////
     set({ lastSourceInfo: sourceInfo });
     set((state) => applyTransfer(state, data, sourceInfo, destInfo));
+   
+    const store = get(); 
 
-    //await waitForProgramFlush();
-    //await sendSourceDestInfoToFlask(sourceInfo, destInfo);
+
+    const actionTypeSet = new Set(Object.keys(actionTypes));
+    const isAction = actionTypeSet.has(sourceInfo.data.type);
+    
+    // const programId = isAction
+    //   ? destInfo.parentId.parentId          // action → skill → program
+    //   : sourceInfo.parentId.parentId.parentId; // param -> action -> skill -> program
+
+    //console.log("so, what is programId correct, ", destInfo.parentId); //and then find the programData whose properties' children includes this parentId
+
+    // action -> skill -> program
+    const twoLevelProgramNode = Object.values(store.programData).find(
+      (node) =>
+        node.type === "programType" &&                        // only root programs
+        Array.isArray(node.properties?.children) &&
+        node.properties.children.includes(destInfo.parentId)  // ← match the skill id
+    );
+    const twoLevelId = twoLevelProgramNode ? twoLevelProgramNode.id : null;
+    console.log("when action, this should be programId, ", twoLevelId);
+
+    // param -> action -> skill -> program
+    const threeLevelProgramNode = Object.values(store.programData).find((program) => {
+  /* consider only program roots */
+      if (
+        program.type !== "programType" ||
+        !Array.isArray(program.properties?.children)
+      ) {
+        return false;
+      }
+
+      /* does ANY immediate child of this program (a “skill”) contain the action? */
+      return program.properties.children.some((child) => {
+        const skillNode = store.programData[child];
+        return (
+          skillNode &&
+          Array.isArray(skillNode.properties?.children) &&
+          skillNode.properties.children.includes(destInfo.parentId)
+        );
+      });
+    });
+
+    const threeLevelId = threeLevelProgramNode ? threeLevelProgramNode.id : null;
+    console.log("when param, this should be programId, ", threeLevelId);
+
+    const programId = twoLevelId || threeLevelId;
+    set({ currentProgramId: programId });
+
     stageSourceInfo(sourceInfo);
     stageDestInfo(destInfo);
     
     console.log('sourceInfo and destInfo also sent from React!');
+
   },
   deleteBlock: (data, parentId, fieldInfo) => {
     set((state) => {

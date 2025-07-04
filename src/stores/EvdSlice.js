@@ -287,8 +287,13 @@ export const EvdSlice = (set, get) => ({
     }, false, "addCheckpointBlock"),
 
   // adding new logic for battery fallback block popping
-  addBatteryBlock: (level /* 20 or 5 */) =>
+  addBatteryBlock: (level, programId) =>
     set((state) => {
+      if (!programId) {
+      console.warn("addBatteryBlock: no programId – skipping");
+      return;
+    }
+
       const fallbackId   = generateUuid("fallbackType");
 
       // Same template call you trust elsewhere
@@ -308,9 +313,10 @@ export const EvdSlice = (set, get) => ({
       state.programData[fallbackId] = fallbackObj;
 
       // Hook it into the root program node
-      const root = Object.values(state.programData)
-        .find((b) => b.type === "programType");
-      if (root) {
+      const root = state.programData[programId];
+      // const root = Object.values(state.programData)
+      //   .find((b) => b.type === "programType"); // interestingly this goes into the first empty program, program-88
+      if (root?.type === "programType") {
         root.properties.children ??= [];
         root.properties.children.push(fallbackId);
       }
