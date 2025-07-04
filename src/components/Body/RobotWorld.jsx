@@ -12,9 +12,11 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
   const [pendingToConnector, setPendingToConnector] = useState(false);
 
   const [showBatteryCharged, setShowBatteryCharged] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [showError, setShowError] = useState(false);  
-
+  const setErrorMessage = useStore(state => state.setErrorMessage);
+  const setShowError = useStore(state => state.setShowError);
+  const actionDeleted = useStore(state => state.actionDeleted);
+  const setActionDeleted = useStore(state => state.setActionDeleted); 
+  
   const startCoord = useMemo(() => {
     const entry = Object.entries(icons).find(
       ([, v]) => typeof v === "string" && v.includes("robot")
@@ -266,6 +268,21 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
       }
     }
   }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord, scenario]);
+  useEffect(() => {
+    //console.log("actionDeleted changed to:", actionDeleted);
+    
+    if (actionDeleted && startCoord) {
+      console.log("Action deleted, go back to ", startCoord);
+      
+      setRobotCoord(startCoord);
+      
+      setPendingMove(false);
+      setPendingRotate(false);
+      setPendingToConnector(false);
+      
+      setActionDeleted(false);
+    }
+  }, [actionDeleted, startCoord, setActionDeleted]);
 
   // You can tweak these numbers to change cell size.
   //const CELL_SIZE = 30;
@@ -389,39 +406,6 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
         </Paper>
       )}
       
-      {showError && errorMessage && (
-        <Paper
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            backgroundColor: '#f44336',
-            color: 'white',
-            padding: '10px 16px',
-            maxWidth: 400,
-            display: 'flex',
-            alignItems: 'center',
-            zIndex: 10
-          }}
-        >
-          <Typography variant="body2" sx={{ fontWeight: 500, mb: 2 }}>
-            ⚠️ {errorMessage}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setShowError(false);
-              setErrorMessage(null);
-            }}
-            sx={{
-              backgroundColor: '#f44336',
-              '&:hover': { backgroundColor: '#f44336' }
-            }}
-          >
-            OK
-          </Button>
-        </Paper>
-      )}
       
       <div style={gridStyle}>
         {Array.from({ length: 80 }).map((_, idx) => {

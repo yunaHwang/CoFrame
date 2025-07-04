@@ -435,7 +435,8 @@ export const ProgrammingSliceOverride = (set, get) => ({
       //console.log("what is data here in deletion, ", data);
       console.log("what is parentId here in deleton, ", parentId);
       console.log("what is data here, ",data);
-
+      state.actionDeleted = true;
+      
       stageDelete(parentId, data);
       //console.log("what is fieldInfo here in deletion, ", fieldInfo);
 

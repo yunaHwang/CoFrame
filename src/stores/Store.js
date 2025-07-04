@@ -66,6 +66,14 @@ const store = (set, get) => ({
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
 
+  errorMessage: null,
+  setErrorMessage: (message) => set({ errorMessage: message }),
+  showError: false,
+  setShowError: (show) => set({ showError: show }),
+
+  actionDeleted: false,
+  setActionDeleted: (deleted) => set({ actionDeleted: deleted }),
+
   clock: new Timer(),
   playing: true,
   pause: () => {

@@ -26,6 +26,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const setBattery5Warning  = useStore(s => s.setBattery5Warning,shallow);
     const prevLevelRef = useRef(batteryLevel);
 
+    const errorMessage = useStore(state => state.errorMessage, shallow);
+    const showError = useStore(state => state.showError, shallow);
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
     // const [ref, bounds] = useMeasure();
 
@@ -90,7 +92,19 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             }}>
                                 <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
-                        </Stack>
+                            </Stack>
+                            {showError && errorMessage && (
+                            <Box
+                            sx = {{
+                                backgroundColor: '#531629', 
+                                padding: '6px 12px',
+                                borderRadius: '2px'
+                            }}>
+                                <Typography style={{ color: 'white', fontSize: '15px' }}>
+                                ⚠️ {errorMessage}
+                                </Typography>
+                            </Box>
+                            )}
                             <Box
                                 sx={{
                                     backgroundColor: '#E37383',
