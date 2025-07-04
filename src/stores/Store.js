@@ -189,11 +189,11 @@ if (Object.keys(useStore.getState().programData).length === 0) {
   useStore.getState().setData(KnifeAssembly);
 
   // also start with empty skills block
-  const skillName    = `Action Cluster ${new Date().toLocaleTimeString()}`;
-  const emptyActions = [];      // nothing inside yet
-  useStore.getState().addSkillWithActions(skillName, emptyActions);
-  useCompiledStore.setState({});
-  useStore.getState().performCompileProcess();
+  // const skillName    = `Action Cluster ${new Date().toLocaleTimeString()}`;
+  // const emptyActions = [];      // nothing inside yet
+  // useStore.getState().addSkillWithActions(skillName, emptyActions);
+  // useCompiledStore.setState({});
+  // useStore.getState().performCompileProcess();
 
   // ORIGINAL
   // Set the starting program
