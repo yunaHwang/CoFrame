@@ -217,11 +217,17 @@ export default function App() {
   useEffect(() => {
     function handleFlush(json) {
       console.log("what is json.ltl_results, ", json.ltl_results)
-      const failed = (json.ltl_results ?? []).filter(r => !r.result);
-      if (failed.length) {
-        setViolationList(failed);
-        setShowDrawer(true);        // open panel
-      }
+
+      const raw = json?.ltl_results ?? [];
+
+      const failed = raw.filter(r => !r.result);
+      setViolationList(failed);
+      setShowDrawer(failed.length > 0);
+      
+      // if (failed.length) {
+      //   setViolationList(failed);
+      //   setShowDrawer(true);        // open panel
+      // }
     }
     subscribeFlush(handleFlush);
     return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
