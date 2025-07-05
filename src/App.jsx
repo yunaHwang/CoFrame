@@ -216,7 +216,8 @@ export default function App() {
 
   useEffect(() => {
     function handleFlush(json) {
-      console.log("what is json.ltl_results, ", json.ltl_results)
+      console.log("what is json.status, ", json.status);
+      console.log("what is json.ltl_results, ", json.ltl_results);
 
       const raw = json?.ltl_results ?? [];
 

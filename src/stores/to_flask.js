@@ -90,8 +90,14 @@ export function stageDelete(parentId, data) {
       parentId,
       data
     })
-  });
+  })
+    .then(r => r.json())          
+    .then(json => {
+      listeners.forEach(fn => fn(json));   
+      return json;                         // keep the Promise chain intact
+    });
 }
+
 
 export function stageBatteryWarning(level, value) {
   return fetch("http://localhost:5000/receive_data", {
