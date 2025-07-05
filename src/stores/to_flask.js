@@ -5,6 +5,10 @@ const bins = {};
 let   openId = null;                   // the "current" event bin
 let   lastFlush = Promise.resolve();
 
+const listeners = new Set();
+export function subscribeFlush(fn)   { listeners.add(fn); }
+export function unsubscribeFlush(fn) { listeners.delete(fn); }
+
 function newEventId() {
   return `${Date.now()}-${uuid()}`;
 }
@@ -22,22 +26,43 @@ function isBinComplete(id) {
   return b && b.programData && b.sourceInfo && b.destInfo;
 }
 
+// function flushIfReady(id) {
+//   const bin = bins[id];
+//   if (isBinComplete(id)) {
+//     const payload = { ...bin };        
+//     lastFlush = fetch("http://localhost:5000/receive_data", {
+//       method : "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body   : JSON.stringify(payload)
+//     });
+//     delete bins[id];                   // free memory
+//     if (openId === id) openId = null;  // reset for next event
+//   }
+//   return lastFlush;
+// }
 function flushIfReady(id) {
   const bin = bins[id];
   if (isBinComplete(id)) {
-    const payload = { ...bin };        
+    const payload = { ...bin };
     lastFlush = fetch("http://localhost:5000/receive_data", {
       method : "POST",
       headers: { "Content-Type": "application/json" },
       body   : JSON.stringify(payload)
-    });
-    delete bins[id];                   // free memory
-    if (openId === id) openId = null;  // reset for next event
+    })
+      .then(r => r.json())                 // parse once
+      .then(json => {
+        // notify every subscriber
+        listeners.forEach(fn => fn(json));
+        return json;                       // keep promise chain intact
+      });
+
+    delete bins[id];
+    if (openId === id) openId = null;
   }
   return lastFlush;
 }
 
-// ------------ public API -------------------
+
 export function stageProgramData(program) {
   const id = currentId();
   bins[id].programData = program;

@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState, useRef} from "react";
 // import { FiSettings } from "react-icons/fi";
-import { ReviewTile } from "./components/Body/ReviewTile";
+//import { ReviewTile } from "./components/Body/ReviewTile";
 import { ProgramTile } from "./components/Body/ProgramTile";
 import RobotWorld from "./components/Body/RobotWorld";
+import { subscribeFlush, unsubscribeFlush } from "./stores/to_flask";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
 import { Detail } from "./components/Detail";
 import { SettingsModal } from "./components/Settings";
@@ -199,6 +200,9 @@ export default function App() {
 
   const stopDrag = () => setDragging(false);
 
+  const [violationList, setViolationList] = useState([]);
+  const [showDrawer, setShowDrawer] = useState(true);
+
   useEffect(() => {
     if (dragging) {
       window.addEventListener("mousemove", doDrag);
@@ -210,10 +214,21 @@ export default function App() {
     }
   }, [dragging, doDrag]);
 
+  useEffect(() => {
+    function handleFlush(json) {
+      console.log("what is json.ltl_results, ", json.ltl_results)
+      const failed = (json.ltl_results ?? []).filter(r => !r.result);
+      if (failed.length) {
+        setViolationList(failed);
+        setShowDrawer(true);        // open panel
+      }
+    }
+    subscribeFlush(handleFlush);
+    return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
+  }, []);
+
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
-
-  const [showDrawer, setShowDrawer] = useState(true);
 
 
   // Hallway color cell highlighting
@@ -343,6 +358,18 @@ export default function App() {
                 <IconButton onClick={() => setShowDrawer(false)}> x </IconButton>
 
               </Box>
+
+              {violationList.length === 0 ? (
+                <Typography sx={{ mt: 2 }}>No violations</Typography>
+              ) : (
+                <Stack spacing={1} sx={{ mt: 2 }}>
+                  {violationList.map(v => (
+                    <Alert key={v.formula} severity="error" variant="outlined">
+                      <code>{v.formula}</code>
+                    </Alert>
+                  ))}
+                </Stack>
+              )}
           </Drawer>}
             
         </Stack>
