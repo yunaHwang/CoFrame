@@ -104,7 +104,22 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 ⚠️ {errorMessage}
                                 </Typography>
                             </Box>
+                            
                             )}
+                        {battery20Warning && (
+                            <Box
+                            sx = {{
+                                backgroundColor: '#f5c626', 
+                                padding: '6px 12px',
+                                borderRadius: '2px'
+                            }}>
+                                <Typography style={{ color: 'white', fontSize: '15px' }}>
+                                ⚠️ Battery Low
+                            Your robot is below 20% battery.  Consider heading back for a charge soon.
+                                </Typography>
+                            </Box>
+                
+                        )}
                             <Box
                                 sx={{
                                     backgroundColor: '#E37383',
@@ -178,37 +193,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                         </Paper>
                     )}
                 
-                {battery20Warning && (
-                        <Paper
-                            sx={{ 
-                            position: 'absolute',
-                            top: '10%',
-                            left: '25%',
-                            backgroundColor: '#ffb74d',   
-                            color: 'black',
-                            p: '10px 16px',
-                            maxWidth: 400,
-                            display: 'flex',
-                            alignItems: 'center'
-                            }}
-                        >
-                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                            ⚠️ Battery Low<br/>
-                            Your robot is below 20% battery.  Consider heading back for a charge soon.
-                            </Typography>
-                            <Button
-                            variant="contained"
-                            onClick={() => setBattery20Warning(false)}
-                            sx={{
-                                ml: 2,
-                                backgroundColor: 'rgba(255,255,255,0.2)',
-                                '&:hover': { backgroundColor: 'rgba(255,255,255,0.3)' }
-                            }}
-                            >
-                            Got it
-                            </Button>
-                        </Paper>
-                        )}
                 {battery5Warning && (
                     <Paper
                         sx={{ 
