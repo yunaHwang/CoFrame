@@ -201,7 +201,7 @@ export default function App() {
   const stopDrag = () => setDragging(false);
 
   const [violationList, setViolationList] = useState([]);
-  const [showDrawer, setShowDrawer] = useState(true);
+  const [showDrawer, setShowDrawer] = useState(false);
 
   useEffect(() => {
     if (dragging) {
@@ -339,7 +339,7 @@ export default function App() {
             )}
           </ReflexContainer>
 
-          {showDrawer && <Drawer 
+          {showDrawer ? (<Drawer 
             variant="permanent"
             anchor= "right"
             open={true} 
@@ -370,7 +370,24 @@ export default function App() {
                   ))}
                 </Stack>
               )}
-          </Drawer>}
+          </Drawer>) :
+          (
+            <Box
+              onClick={() => setShowDrawer(true)}
+              sx={{
+                width: 30,
+                cursor: "pointer",
+                userSelect: "none",
+                bgcolor: "grey.800",
+                color: "grey.100",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              &gt;
+            </Box>
+          )}
             
         </Stack>
         <Detail />
