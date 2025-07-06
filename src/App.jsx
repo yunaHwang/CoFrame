@@ -219,16 +219,11 @@ export default function App() {
       console.log("what is json.status, ", json.status);
       console.log("what is json.ltl_results, ", json.ltl_results);
 
-      const raw = json?.ltl_results ?? [];
+      const violations = json?.ltl_results ?? [];
 
-      const failed = raw.filter(r => !r.result);
-      setViolationList(failed);
-      setShowDrawer(failed.length > 0);
+      setViolationList(violations);
+      setShowDrawer(violations.length > 0);
       
-      // if (failed.length) {
-      //   setViolationList(failed);
-      //   setShowDrawer(true);        // open panel
-      // }
     }
     subscribeFlush(handleFlush);
     return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
@@ -370,9 +365,9 @@ export default function App() {
                 <Typography sx={{ mt: 2 }}>No violations</Typography>
               ) : (
                 <Stack spacing={1} sx={{ mt: 2 }}>
-                  {violationList.map(v => (
-                    <Alert key={v.formula} severity="error" variant="outlined">
-                      <code>{v.formula}</code>
+                  {violationList.map((text, idx) => (
+                    <Alert key={idx} severity="error" variant="outlined">
+                      {text}
                     </Alert>
                   ))}
                 </Stack>
