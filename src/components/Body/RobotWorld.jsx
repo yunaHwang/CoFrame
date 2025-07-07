@@ -3,21 +3,39 @@ import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
 import { stageBatteryWarning } from "../../stores/to_flask";
 
-const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = {}, labelsOverGrid = [], sourceInfo_to_pass = null, scenario = "Scenario 1" }) => {
-  
-  const [orientation, setOrientation] = useState('E');
-  const directions = ['N', 'E', 'S', 'W'];
+const FEET_PER_STEP         = 1.6;
+const BATTERY_DROP_PER_STEP = 80;          
 
-  const [pendingMove, setPendingMove] = useState(false);
-  const [pendingRotate, setPendingRotate] = useState (false);
-  const [pendingToConnector, setPendingToConnector] = useState(false);
 
-  const [showBatteryCharged, setShowBatteryCharged] = useState(false);
-  const setErrorMessage = useStore(state => state.setErrorMessage);
-  const setShowError = useStore(state => state.setShowError);
-  const actionDeleted = useStore(state => state.actionDeleted);
-  const setActionDeleted = useStore(state => state.setActionDeleted); 
-  
+const CHARGER_LABEL = "battery charging station";
+
+const RobotWorld = ({
+  cellSize        = 30,
+  highlight       = [],
+  color           = "#faeef2",
+  icons           = {},
+  labelsOverGrid  = [],
+  sourceInfo_to_pass = null,
+  scenario        = "Scenario 1",
+}) => {
+  // ──────────────────────────────
+  // Local UI state
+  // ──────────────────────────────
+  const [orientation, setOrientation] = useState("E");     // N, E, S, W
+  const [pendingMove,       setPendingMove]       = useState(false);
+  const [pendingRotate,     setPendingRotate]     = useState(false);
+  const [pendingToConnector,setPendingToConnector]= useState(false);
+  const [showBatteryCharged,setShowBatteryCharged]= useState(false);
+
+  const setErrorMessage  = useStore((s) => s.setErrorMessage);
+  const setShowError     = useStore((s) => s.setShowError);
+  const actionDeleted    = useStore((s) => s.actionDeleted);
+  const setActionDeleted = useStore((s) => s.setActionDeleted);
+  const { chargePending }= useStore();                    
+
+  // ──────────────────────────────
+  // Find first robot icon 
+  // ──────────────────────────────
   const startCoord = useMemo(() => {
     const entry = Object.entries(icons).find(
       ([, v]) => typeof v === "string" && v.includes("robot")
@@ -29,423 +47,292 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
 
   const [robotCoord, setRobotCoord] = useState(startCoord);
 
-  const prevStartRef = useRef(startCoord); 
+
+  const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
-        !prevStartRef.current ||
-        prevStartRef.current.x !== startCoord?.x ||
-        prevStartRef.current.y !== startCoord?.y
-        ) {
-        prevStartRef.current = startCoord;
-        setRobotCoord(startCoord);
-        setOrientation("E");
-        setPendingMove(false);
-        setPendingRotate(false);
-        setPendingToConnector(false);
-        setShowBatteryCharged(false);
-        setShowError(false);
-        setErrorMessage(null);
-        }
-        }, [startCoord]);  
+      !prevStartRef.current ||
+      prevStartRef.current.x !== startCoord?.x ||
+      prevStartRef.current.y !== startCoord?.y
+    ) {
+      prevStartRef.current = startCoord;
+      setRobotCoord(startCoord);
+      setOrientation("E");
+      setPendingMove(false);
+      setPendingRotate(false);
+      setPendingToConnector(false);
+      setShowBatteryCharged(false);
+      setShowError(false);
+      setErrorMessage(null);
+    }
+  }, [startCoord, setErrorMessage, setShowError]);
+
 
   const getRotationTransform = () => {
-  switch (orientation) {
-    case 'N': return 'rotate(-90deg)';
-    case 'S': return 'rotate(90deg)';
-    case 'W': return 'rotate(180deg)';
-    default:  return ''; // E
-  }
-};
-  const moveToConnector = (targetCoords, location) => {
-      // Calculate distance traveled 
-      const dx = Math.abs(targetCoords.x - robotCoord.x);
-      const dy = Math.abs(targetCoords.y - robotCoord.y);
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const increment = distance * 1.6;
-      
-      // Update robot position
-      setRobotCoord(targetCoords);
-      console.log("moveToConnector called with", targetCoords);
+    switch (orientation) {
+      case "N": return "rotate(-90deg)";
+      case "S": return "rotate(90deg)";
+      case "W": return "rotate(180deg)";
+      default : return "";   // E
+    }
+  };
 
-      // Update travel distance
-      const prevDist = useStore.getState().distanceTravel;
-      useStore.getState().setdistanceTravel(prevDist + increment);
-    
-      // Update battery level
-      const batteryDrop = distance * 40; // 40 percent battery drop per step
-
-      console.log("increment and battery drop, ", increment, batteryDrop);
-
-      const prevBattery = useStore.getState().batteryLevel;
-      const newBattery = Math.max(0, prevBattery - batteryDrop);
-      console.log("what is newBattery, ", newBattery);
-      useStore.getState().setbatteryLevel(newBattery);
-      
-      // BatteryCharging Special instruction
-      if (location === 'battery charging station') {
-        useStore.getState().setbatteryLevel(100);
-        useStore.getState().setdistanceTravel(0);
-
-        //added
-        useStore.getState().setBattery20Warning(false);
-        useStore.getState().setBattery5Warning(false);
-
-        stageBatteryWarning(20, false);
-        stageBatteryWarning(5,  false);
-
-        setShowBatteryCharged(true);
-      }
-      
-      checkForErrors(targetCoords, scenario);
-    };
   
+  const moveToConnector = (target, locationLabel) => {
+    // 1) distance / increment
+    const dx = Math.abs(target.x - robotCoord.x);
+    const dy = Math.abs(target.y - robotCoord.y);
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const increment = distance * FEET_PER_STEP;
+
+    // 2) update position
+    setRobotCoord(target);
+
+    // 3) travel 
+    const prevDist = useStore.getState().distanceTravel;
+    useStore.getState().setdistanceTravel(prevDist + increment);
+
+    // 4) battery drain – skip if docking
+    if (locationLabel.toLowerCase() !== CHARGER_LABEL) {
+      const drop = distance * BATTERY_DROP_PER_STEP;
+      const prev = useStore.getState().batteryLevel;
+      useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
+    } else {
+      // docking: battery refill comes from backend
+      useStore.getState().setdistanceTravel(0);
+    }
+
+    checkForErrors(target, scenario);
+  };
+
+ // Scenario-specific
   const getErrorCoordinates = (currentScenario) => {
-    //HardCode Each location
     const coordinates = {
-      "Scenario 2": {
-        redAsterisks: [
-          [0,4], [0,5], [0,6],
-          [1,4], [1,5], [1,6], [1,7],
-          [2,4], [2,5], [2,6], [2,7]
-        ]
-      },
-      "Scenario 3": {
-        redAsterisks: [
-          [0,5], [0,4],
-          [1,4],
-          [2,4], [2,5], [2,7]
-        ]
-      },
-      "Scenario 4": {
-        redAsterisks: [
-          [1,6]
-        ]
-      },
+      "Scenario 2": { redAsterisks: [[0,4],[0,5],[0,6],[1,4],[1,5],[1,6],[1,7],[2,4],[2,5],[2,6],[2,7]] },
+      "Scenario 3": { redAsterisks: [[0,5],[0,4],[1,4],[2,4],[2,5],[2,7]] },
+      "Scenario 4": { redAsterisks: [[1,6]] },
       "Scenario 5": {
-        redAsterisks: [
-          [5,0], [5,1], [5,2], [5,3],
-          [6,3],
-          [7,3],
-          [8,3],
-          [9,3]
-        ],
-        blueAsterisks: [
-          [0,5],
-          [1,4],
-          [2,4], [2,5], [2,7]
-        ]
+        redAsterisks: [[5,0],[5,1],[5,2],[5,3],[6,3],[7,3],[8,3],[9,3]],
+        blueAsterisks:[[0,5],[1,4],[2,4],[2,5],[2,7]]
       }
     };
-    
     return coordinates[currentScenario] || { redAsterisks: [], blueAsterisks: [] };
   };
 
   const checkForErrors = (coords, currentScenario) => {
-    //console.log("Current Cord:", coords, "Current Scenario:", currentScenario);
-    
-    //Scenario1 don't have possible error
     if (currentScenario === "Scenario 1") return;
-    
     const { redAsterisks, blueAsterisks } = getErrorCoordinates(currentScenario);
-    
-    const isOnRedAsterisk = redAsterisks.some(([x, y]) => x === coords.x && y === coords.y);
-    
-    //Only Check for Scenario 5
-    const isOnBlueAsterisk = currentScenario === "Scenario 5" && 
-      blueAsterisks && blueAsterisks.some(([x, y]) => x === coords.x && y === coords.y);
-    
-    console.log("On red asterisk:", isOnRedAsterisk);
-    console.log("On blue asterisk:", isOnBlueAsterisk);
-    
-    if (isOnRedAsterisk) {
-      let message = "";
-      switch (currentScenario) {
-        case "Scenario 2":
-          message = "Robot sensor is broken and it can't find the package. Please program robot fallback actions.";
-          break;
-        case "Scenario 3":
-          message = "The package is blocked by other residents looking for their packages. Please program robot fallback actions.";
-          break;
-        case "Scenario 4":
-          message = "The package is too heavy and exceeds the robot payload. Please program robot fallback actions.";
-          break;
-        case "Scenario 5":
-          message = "The hallway is blocked by big carts and fences. The facility is ongoing some renovation. Please program robot fallback actions.";
-          break;
-        default:
-          return;
-      }
-      setErrorMessage(message);
-      setShowError(true);
-    }
-    
-    if (isOnBlueAsterisk) {
-      const message = "Other packages are blocking the package that the robot is looking for. Please program robot fallback actions."
-      setErrorMessage(message);
+    const onRed  = redAsterisks.some(([x,y])=>x===coords.x&&y===coords.y);
+    const onBlue = currentScenario==="Scenario 5" &&
+                   blueAsterisks?.some(([x,y])=>x===coords.x&&y===coords.y);
+
+    if (onRed || onBlue) {
+      const messageMap = {
+        "Scenario 2":"Robot sensor is broken and it can't find the package. Please program robot fallback actions.",
+        "Scenario 3":"The package is blocked by other residents looking for their packages. Please program robot fallback actions.",
+        "Scenario 4":"The package is too heavy and exceeds the robot payload. Please program robot fallback actions.",
+        "Scenario 5": onRed
+          ? "The hallway is blocked by big carts and fences. The facility is undergoing renovation. Please program robot fallback actions."
+          : "Other packages are blocking the package that the robot is looking for. Please program robot fallback actions."
+      };
+      setErrorMessage(messageMap[currentScenario]);
       setShowError(true);
     }
   };
 
   useEffect(() => {
-    //console.log("is sourceInfo being passed, ",sourceInfo_to_pass?.data);
-
     const info = sourceInfo_to_pass?.data?.name;
-    console.log("what is info ",info);
-    
-    // 'Move Forward'
-    if (info === 'Move Forward') {
-    setPendingMove(true);
-    return;
-    }
-    if (pendingMove && info?.includes('grid') && robotCoord) {
-    const match = info.match(/(\d+)/);
-    const steps = match ? parseInt(match[1]) : 1;
-    //console.log("how many steps, ",steps);
+    if (!info || !robotCoord) return;
 
+    // ---- Move-Forward command ----
+    if (info === "Move Forward") { setPendingMove(true); return; }
+    if (pendingMove && info.includes("grid")) {
+      const steps = parseInt(info.match(/\d+/)?.[0] ?? "1", 10);
 
-    let dx = 0, dy = 0;
-    if (orientation === 'N') dy = 1;
-    if (orientation === 'S') dy = -1;
-    if (orientation === 'E') dx = 1;
-    if (orientation === 'W') dx = -1;
+      // compute new coord
+      let dx=0, dy=0;
+      if (orientation==="N") dy=1;
+      if (orientation==="S") dy=-1;
+      if (orientation==="E") dx=1;
+      if (orientation==="W") dx=-1;
+      const newX = Math.max(0, Math.min(robotCoord.x + dx*steps, 9));
+      const newY = Math.max(0, Math.min(robotCoord.y + dy*steps, 7));
+      setRobotCoord({x:newX,y:newY});
+      checkForErrors({x:newX,y:newY}, scenario);
 
-    const newX = Math.max(0, Math.min(robotCoord.x + dx * steps, 9));
-    const newY = Math.max(0, Math.min(robotCoord.y + dy * steps, 7));
-    setRobotCoord({ x: newX, y: newY });
-    checkForErrors({ x: newX, y: newY }, scenario);
+      // distance
+      useStore.getState().setdistanceTravel(
+        useStore.getState().distanceTravel + steps * FEET_PER_STEP
+      );
 
-    // logic for travel distance
-    //const increment = steps * 1.6;
-    const FEET_PER_STEP = 1.6;  
-    const increment      = steps * FEET_PER_STEP;
-    const prevDist = useStore.getState().distanceTravel;
-    useStore.getState().setdistanceTravel(prevDist + increment);
-
-    // logic for battery level
-    //const batteryDrop = steps * 1; // temp change to check 20% warning message
-    const BATTERY_DROP_PER_STEP = 80; 
-    const batteryDrop           = steps * BATTERY_DROP_PER_STEP;
-
-    const prevBattery = useStore.getState().batteryLevel;
-    const newBattery = Math.max(0, prevBattery - batteryDrop);
-    useStore.getState().setbatteryLevel(newBattery);
-
-    setPendingMove(false);
-    }
-
-    // 'Rotate'
-    if (info === 'Rotate Stretch') {
-      setPendingRotate(true);
+      // battery drain – freeze if charge pending
+      if (!chargePending) {
+        const drop = steps * BATTERY_DROP_PER_STEP;
+        const prev = useStore.getState().batteryLevel;
+        useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
+      }
+      setPendingMove(false);
       return;
     }
-    if (pendingRotate && info?.includes('degrees') && robotCoord) {
-      return; //still pending because it's waiting for either clockwise or counterclockwise
-    }
-    if (pendingRotate && info?.includes('wise') && robotCoord) {
-      const isClockwise = info.toLowerCase().includes('clockwise');
-      console.log("isClockwise? ", isClockwise);
-      const idx = directions.indexOf(orientation);
-      const newIdx = isClockwise ? (idx + 3) % 4 : (idx + 1) % 4; //clockwise first, if not, counter-clockwise
-      setOrientation(directions[newIdx]);
+
+    // ---- Rotate command ----
+    if (info === "Rotate Stretch") { setPendingRotate(true); return; }
+    if (pendingRotate && info.includes("wise")) {
+      const isClockwise = info.toLowerCase().includes("clockwise");
+      const dirs = ["N","E","S","W"];
+      const idx  = dirs.indexOf(orientation);
+      setOrientation(dirs[(idx + (isClockwise?3:1)) % 4]);
       setPendingRotate(false);
-    }
-
-    if(info === "To Connector"){
-      setPendingToConnector(true);
       return;
     }
-    if (pendingToConnector && robotCoord) {
-      if (info === "Package room") {
-        const targetCoords = { x: 2, y: 4 };
-        moveToConnector(targetCoords, 'package room');
-        setPendingToConnector(false);
-      }
-      else if (info === "Activity Area") {
-        const targetCoords = { x: 3, y: 2 };
-        moveToConnector(targetCoords, 'activity area');
-        setPendingToConnector(false);
-      }
-      else if (info === "Elderly room") {
-        const targetCoords = { x: 5, y: 3 };
-        moveToConnector(targetCoords, 'elderly room');
-        setPendingToConnector(false);
-      }
-      else if (info === "Battery charging station") {
-        const targetCoords = { x: 9, y: 7 };
-        moveToConnector(targetCoords, 'battery charging station');
+
+    // ---- To Connector command ----
+    if (info === "To Connector") { setPendingToConnector(true); return; }
+    if (pendingToConnector) {
+      const rooms = {
+        "Package room": {x:2,y:4},
+        "Activity Area":{x:3,y:2},
+        "Elderly room": {x:5,y:3},
+        "Battery charging station":{x:9,y:7}
+      };
+      const target = rooms[info];
+      if (target) {
+        moveToConnector(target, info);
         setPendingToConnector(false);
       }
     }
-  }, [sourceInfo_to_pass, pendingMove, pendingRotate, orientation, robotCoord, scenario]);
+  }, [
+    sourceInfo_to_pass,
+    pendingMove,
+    pendingRotate,
+    pendingToConnector,
+    orientation,
+    robotCoord,
+    scenario,
+    chargePending
+  ]);
+
+  // ──────────────────────────────
+  // Reset after delete
+  // ──────────────────────────────
   useEffect(() => {
-    //console.log("actionDeleted changed to:", actionDeleted);
-    
     if (actionDeleted && startCoord) {
-      console.log("Action deleted, go back to ", startCoord);
-      
       setRobotCoord(startCoord);
-      
       setPendingMove(false);
       setPendingRotate(false);
       setPendingToConnector(false);
-      
       setActionDeleted(false);
     }
   }, [actionDeleted, startCoord, setActionDeleted]);
 
-  // You can tweak these numbers to change cell size.
-  //const CELL_SIZE = 30;
+  // ──────────────────────────────
+  // Warning-flip + backend notify
+  // ──────────────────────────────
+  const batteryLevel          = useStore((s) => s.batteryLevel);
+  const setBattery20Warning   = useStore((s) => s.setBattery20Warning);
+  const setBattery5Warning    = useStore((s) => s.setBattery5Warning);
+  const prevLevelRef          = useRef(batteryLevel);
 
-  const highlightSet = React.useMemo(() => {
-    const pairs = highlight.map((p) => Array.isArray(p) ? p : [p.x, p.y]);
+  useEffect(() => {
+    if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
+      setBattery20Warning(true);
+    }
+    if (prevLevelRef.current > 5 && batteryLevel <= 5) {
+      setBattery20Warning(false);
+      setBattery5Warning(true);
+    }
+    prevLevelRef.current = batteryLevel;
+  }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
+
+  useEffect(() => {
+    const warn20 = useStore.getState().battery20Warning;
+    const warn5  = useStore.getState().battery5Warning;
+    if (warn20) stageBatteryWarning(20, true);
+    if (warn5 ) stageBatteryWarning(5, true);
+  }, [useStore((s)=>s.battery20Warning), useStore((s)=>s.battery5Warning)]);
+
+  // ──────────────────────────────
+  // Rendering 
+  // ──────────────────────────────
+  const highlightSet = useMemo(() => {
+    const pairs = highlight.map((p) => (Array.isArray(p) ? p : [p.x, p.y]));
     return new Set(pairs.map(([x, y]) => `${x},${y}`));
   }, [highlight]);
 
-  const pageStyle = {
-    minHeight: '40vh',
-    width: '100%',
-    backgroundColor: '#333333',
-  };
-
+  const pageStyle = { minHeight:"40vh", width:"100%", backgroundColor:"#333" };
   const gridStyle = {
-    display: 'grid',
-    width: '100%',
-    maxWidth: '100%',
-    gridTemplateColumns: 'repeat(10, 10%)',
-    gridTemplateRows: `repeat(8, ${cellSize}px)`,
+    display:"grid", width:"100%", maxWidth:"100%",
+    gridTemplateColumns:"repeat(10,10%)",
+    gridTemplateRows:`repeat(8,${cellSize}px)`
   };
-
   const cellStyle = {
-    backgroundColor: '#ffffff',
-    border: '1px solid #bbbbbb',
-    boxSizing: 'border-box',
+    backgroundColor:"#fff", border:"1px solid #bbb", boxSizing:"border-box"
   };
-
-  const coordStyle = {
-    fontSize: 10,
-    color: '#666',
-  };
-
   const labelStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    fontSize: 14,
-    color: '#999',
-    opacity: 0.6,
-    whiteSpace: 'nowrap',
-    pointerEvents: 'none',
-    zIndex: 1,
+    position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)",
+    fontSize:14, color:"#999", opacity:0.6, pointerEvents:"none", zIndex:1
   };
-
   const overlayLabelStyle = (from, to) => {
-    const [x1, y1] = from;
-    const [x2, y2] = to;
-    const left = `${(Math.min(x1, x2) * 10)}%`;
-    const width = `${(Math.abs(x2 - x1) + 1) * 10}%`;
-    const top = `${(7 - Math.max(y1, y2)) * cellSize}px`;
-    const height = `${(Math.abs(y2 - y1) + 1) * cellSize}px`;
+    const [x1,y1] = from, [x2,y2] = to;
     return {
-      position: 'absolute',
-      left,
-      top,
-      width,
-      height,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#999',
-      opacity: 0.5,
-      fontSize: 16,
-      pointerEvents: 'none',
-      zIndex: 5,
+      position:"absolute",
+      left:`${Math.min(x1,x2)*10}%`,
+      width:`${(Math.abs(x2-x1)+1)*10}%`,
+      top:`${(7-Math.max(y1,y2))*cellSize}px`,
+      height:`${(Math.abs(y2-y1)+1)*cellSize}px`,
+      display:"flex", alignItems:"center", justifyContent:"center",
+      color:"#999", opacity:0.5, fontSize:16, pointerEvents:"none", zIndex:5
     };
   };
-
-  const iconStyle = (isRobot) => ({
-  width: '80%',
-  height: '80%',
-  objectFit: 'contain',
-  pointerEvents: 'none',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: `translate(-50%, -50%) ${isRobot ? getRotationTransform() : ''}`,
-});
-
+  const iconStyle = (isRobot)=>({
+    width:"80%", height:"80%", objectFit:"contain", pointerEvents:"none",
+    position:"absolute", top:"50%", left:"50%",
+    transform:`translate(-50%,-50%) ${isRobot?getRotationTransform():""}`
+  });
 
   return (
     <div style={pageStyle}>
-      {labelsOverGrid.map(({ text, from, to }, i) => (
-        <Typography key={i} style={overlayLabelStyle(from, to)}>
-          {text}
-        </Typography>
+      {labelsOverGrid.map(({text,from,to},i)=>(
+        <Typography key={i} style={overlayLabelStyle(from,to)}>{text}</Typography>
       ))}
-      
+
       {showBatteryCharged && (
-        <Paper
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            backgroundColor: '#4caf50',
-            color: 'white',
-            padding: '10px 16px',
-            maxWidth: 400,
-            display: 'flex',
-            alignItems: 'center',
-            zIndex: 10
-          }}
-        >
-          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+        <Paper sx={{position:"absolute", top:"50%", left:"50%",
+          backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
+          maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
+          <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
             🔋 Battery is fully charged!
           </Typography>
-          <Button
-            variant="contained"
-            onClick={() => setShowBatteryCharged(false)}
-            sx={{
-              ml: 2,
-              backgroundColor: '#4caf50',
-              '&:hover': { backgroundColor: '#4caf50' }
-            }}
-          >
+          <Button variant="contained" onClick={()=>setShowBatteryCharged(false)}
+            sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
             OK
           </Button>
         </Paper>
       )}
-      
-      
+
       <div style={gridStyle}>
-        {Array.from({ length: 80 }).map((_, idx) => {
-
-          const x = idx % 10;                  
-          const y = 7 - Math.floor(idx / 10);
+        {Array.from({length:80}).map((_,idx)=>{
+          const x = idx % 10;
+          const y = 7 - Math.floor(idx/10);
           const key = `${x},${y}`;
-          const isHighlighted = highlightSet.has(key);
+          const isHL = highlightSet.has(key);
 
-          const robotImage = Object.values(icons).find((v) => typeof v === 'string' && v.includes('robot'));
+          const robotImg = Object.values(icons).find(v=>typeof v==="string" && v.includes("robot"));
           const robotKey = robotCoord ? `${robotCoord.x},${robotCoord.y}` : null;
-          const iconSrcOrNode = key === robotKey ? robotImage : icons[key] === robotImage ? null : icons[key];
+          const iconSrc = key===robotKey ? robotImg : icons[key]===robotImg ? null : icons[key];
+          const label   = labelsOverGrid[key];
 
-          const labelText = labelsOverGrid[key];
-          
           return (
-          <div key={idx} 
-          style={{ ...cellStyle, height: cellSize, 
-                  backgroundColor: isHighlighted ? color : '#ffffff', position: 'relative', }} 
-                  data-x={x} data-y={y} >
-          {/* <Typography sx={coordStyle}>({x},{y})</Typography> */}
-          {labelText && <Typography sx={labelStyle}>{labelText}</Typography>}
-          {iconSrcOrNode && (
-                typeof iconSrcOrNode === 'string' ? (
-                  <img src={iconSrcOrNode} alt="icon" style={iconStyle(key === robotKey)} />
-                ) : (
-                  <span style={iconStyle(key === robotKey)}>{iconSrcOrNode}</span>
-                )
+            <div key={idx} style={{...cellStyle,height:cellSize,
+              backgroundColor:isHL?color:"#fff", position:"relative"}} >
+              {label && <Typography sx={labelStyle}>{label}</Typography>}
+              {iconSrc && (
+                typeof iconSrc==="string"
+                  ? <img src={iconSrc} alt="icon" style={iconStyle(key===robotKey)} />
+                  : <span style={iconStyle(key===robotKey)}>{iconSrc}</span>
               )}
-          </div>
-        );
+            </div>
+          );
         })}
       </div>
     </div>
@@ -453,3 +340,4 @@ const RobotWorld = ({ cellSize = 30, highlight = [], color = '#faeef2', icons = 
 };
 
 export default RobotWorld;
+

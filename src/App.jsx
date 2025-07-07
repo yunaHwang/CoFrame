@@ -217,12 +217,29 @@ export default function App() {
   useEffect(() => {
     function handleFlush(json) {
       console.log("what is json.status, ", json.status);
-      console.log("what is json.ltl_results, ", json.ltl_results);
+      //console.log("what is json.ltl_results, ", json.ltl_results);
 
-      const violations = json?.ltl_results ?? [];
+      // const violations = json?.ltl_results ?? [];
 
+      // setViolationList(violations);
+      // setShowDrawer(violations.length > 0);
+
+      const violations = json?.violations ?? [];
       setViolationList(violations);
       setShowDrawer(violations.length > 0);
+
+      console.log("what is json.clean, ", json.clean);
+      console.log("what is json.charge_pending, ", json.charge_pending);
+
+      if (typeof json.charge_pending === "boolean") {
+        useStore.getState().setChargePending(json.charge_pending);
+      }
+      if (json.clean && useStore.getState().chargePending) {
+        useStore.getState().setbatteryLevel(100);       // animate gauge → 100 %
+        //should add about warnings?
+        useStore.getState().setChargePending(false);    // reset flag
+        useStore.getState().setShowBatteryCharged(true);
+      }
       
     }
     subscribeFlush(handleFlush);

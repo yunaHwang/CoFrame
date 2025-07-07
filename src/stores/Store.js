@@ -66,6 +66,9 @@ const store = (set, get) => ({
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
 
+  chargePending: false,
+  setChargePending: (v) => set({ chargePending: v }),
+
   errorMessage: null,
   setErrorMessage: (message) => set({ errorMessage: message }),
   showError: false,
@@ -160,7 +163,8 @@ useStore.subscribe(
         // useStore.getState().performCompileProcess();
         
         useStore.getState().addBatteryBlock(20, programId);
-        store.batteryErrorBlockMade20 = true;
+        //store.batteryErrorBlockMade20 = true;
+        useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
         useCompiledStore.setState({});
         useStore.getState().performCompileProcess();
       }
@@ -173,7 +177,8 @@ useStore.subscribe(
         // useStore.getState().performCompileProcess();
 
         useStore.getState().addBatteryBlock(5, programId);
-        store.batteryErrorBlockMade5 = true;
+        //store.batteryErrorBlockMade5 = true;
+        useStore.setState((s) => { s.batteryErrorBlockMade5 = true });
         useCompiledStore.setState({});
         useStore.getState().performCompileProcess();
       }
