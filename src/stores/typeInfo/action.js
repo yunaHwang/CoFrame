@@ -126,7 +126,7 @@ const saveLogFeatures = {
 };
 
 const sayFeatures = {
-  name: "Stretch Say",
+  name: "Say",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
     description: { default: "Stretch says the utterance fed into as the argument" },

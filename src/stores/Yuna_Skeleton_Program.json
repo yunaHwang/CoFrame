@@ -3493,7 +3493,7 @@
       "errorCode": null,
       "singleton": false
     },
-    "name": "Stretch Say",
+    "name": "Say",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
