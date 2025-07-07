@@ -118,7 +118,7 @@ const emptyConcurrentFeatures = {
     children: {
       name: "Sets of Actions",
       accepts: ["grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType"
+        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType"
       ],
       default: [],
       isList: true,
