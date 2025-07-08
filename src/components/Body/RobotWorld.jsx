@@ -33,6 +33,12 @@ const RobotWorld = ({
   const setShowError     = useStore((s) => s.setShowError);
   const actionDeleted    = useStore((s) => s.actionDeleted);
   const setActionDeleted = useStore((s) => s.setActionDeleted);
+
+  const deletedFieldInfo = useStore((s) => s.deletedFieldInfo);
+  const deletedParentInfo = useStore((s) => s.deletedParentInfo);
+  const setDeletedFieldInfo = useStore((s) => s.setDeletedFieldInfo);
+  const setDeletedParentInfo = useStore((s) => s.setDeletedParentInfo);
+
   const { chargePending }= useStore();                    
 
   // ──────────────────────────────
@@ -145,6 +151,7 @@ const RobotWorld = ({
   useEffect(() => {
     const info = sourceInfo_to_pass?.data?.name;
     if (!info || !robotCoord) return;
+    if (actionDeleted) {return; }
 
     // ---- Move-Forward command ----
     if (info === "Move Forward") { setPendingMove(true); return; }
@@ -211,22 +218,53 @@ const RobotWorld = ({
     orientation,
     robotCoord,
     scenario,
-    chargePending
+    chargePending,
+    actionDeleted
   ]);
 
   // ──────────────────────────────
   // Reset after delete
   // ──────────────────────────────
   useEffect(() => {
-    if (actionDeleted && startCoord) {
-      setRobotCoord(startCoord);
-      setPendingMove(false);
-      setPendingRotate(false);
-      setPendingToConnector(false);
-      setActionDeleted(false);
-    }
-  }, [actionDeleted, startCoord, setActionDeleted]);
-
+      if (actionDeleted && startCoord) {
+        console.log("Deletion - Field:", deletedFieldInfo);
+        console.log("Deletion - Parent:", deletedParentInfo);
+        
+        let keepMoveForward = false;
+        let keepToConnector = false;
+        
+        if (deletedParentInfo && deletedFieldInfo) {
+          if (deletedParentInfo.type === "moveForwardType" && 
+              deletedFieldInfo.value === "direction") {
+            keepMoveForward = true;
+          }
+          
+          if (deletedParentInfo.type === "toLocationType" && 
+              deletedFieldInfo.value === "place") { 
+            keepToConnector = true;
+          }
+        }
+        
+        setRobotCoord(startCoord);
+        setPendingMove(keepMoveForward);
+        setPendingRotate(false);
+        setPendingToConnector(keepToConnector);
+        if (keepMoveForward) {
+        useStore.getState().setLastSourceInfo({
+          data: { name: "Move Forward" }
+        });
+      }
+        if (keepToConnector) {
+        useStore.getState().setLastSourceInfo({
+          data: { name: "To Connector" }
+        });
+      }
+        setDeletedFieldInfo(null);
+        setDeletedParentInfo(null);
+        setActionDeleted(false);
+      }
+    }, [actionDeleted, startCoord, setActionDeleted, deletedFieldInfo, deletedParentInfo, setDeletedFieldInfo, setDeletedParentInfo]);
+    
   // ──────────────────────────────
   // Warning-flip + backend notify
   // ──────────────────────────────

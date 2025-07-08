@@ -65,6 +65,11 @@ const store = (set, get) => ({
   batteryErrorBlockMade5:  false,
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
+  
+  deletedFieldInfo: null,
+  deletedParentInfo: null,
+  setDeletedFieldInfo: (info) => set({ deletedFieldInfo: info }),
+  setDeletedParentInfo: (info) => set({ deletedParentInfo: info }),
 
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),
