@@ -69,6 +69,10 @@ const store = (set, get) => ({
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),
 
+  showBatteryCharged: false,
+  setShowBatteryCharged: (v) => set({ showBatteryCharged: v }),
+
+
   errorMessage: null,
   setErrorMessage: (message) => set({ errorMessage: message }),
   showError: false,

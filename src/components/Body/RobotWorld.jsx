@@ -25,7 +25,9 @@ const RobotWorld = ({
   const [pendingMove,       setPendingMove]       = useState(false);
   const [pendingRotate,     setPendingRotate]     = useState(false);
   const [pendingToConnector,setPendingToConnector]= useState(false);
-  const [showBatteryCharged,setShowBatteryCharged]= useState(false);
+
+  const showBatteryCharged  = useStore((s) => s.showBatteryCharged);
+  const setShowBatteryCharged = useStore((s) => s.setShowBatteryCharged);
 
   const setErrorMessage  = useStore((s) => s.setErrorMessage);
   const setShowError     = useStore((s) => s.setShowError);
