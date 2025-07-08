@@ -2799,7 +2799,7 @@
   },
   "speechType-08892a7c1c1911ecbe2600155d1a70a2": {
     "type": "speechType",
-    "name": "Broadcast Charger",
+    "name": "Hi! My name is Stretch. How can I help you?",
     "id": "speechType-08892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
