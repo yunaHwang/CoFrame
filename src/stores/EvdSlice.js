@@ -14,7 +14,7 @@ import * as Comlink from "comlink";
 import PlannerWorker from "./planner-worker?worker";
 
 //import { sendProgramDataToFlask } from "./to_flask"; 
-import { stageProgramData } from "./to_flask";
+import { stageProgramData, stageSourceInfo, stageDestInfo } from "./to_flask";
 
 import { generateUuid } from "./generateUuid";
 
@@ -292,6 +292,24 @@ export const EvdSlice = (set, get) => ({
         root.properties.children ??= [];
         root.properties.children.push(fallbackId);
       }
+
+      // Send this to backend as well so fallback blocks are associated with the program blocks
+      // const sourceInfo = { id: fallbackId, name: fallbackObj.name };
+      // const destInfo = { id: programId, name: root.name };
+
+      const sourceInfo = { 
+        id: fallbackId,
+        data: { id: fallbackId, name: fallbackObj.name }   // backend expects: sourceInfo["data"]["name"]
+      };
+
+      const destInfo = { 
+        id: programId,
+        parentId: programId       
+      };
+
+      stageProgramData(state.programData);
+      stageSourceInfo(sourceInfo);
+      stageDestInfo(destInfo);
 
       state.programData = { ...state.programData };    // trigger re-render
     }, false, "addBatteryBlock"),
