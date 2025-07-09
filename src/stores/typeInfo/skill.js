@@ -117,6 +117,12 @@ const emptyConcurrentFeatures = {
 
 
 
-export const skillType = merge(emptySkillFeatures, skillFeatures);
-export const concurrentType = merge(emptyConcurrentFeatures, skillFeatures);
+export const skillType = merge(emptySkillFeatures, skillFeatures, {
+  instanceBlock: { color: "#62869e" },           
+  referenceBlock: { color: "#62869e" }
+});
+export const concurrentType = merge(emptyConcurrentFeatures, skillFeatures, {
+  instanceBlock: { color: "#7e57c2" },            
+  referenceBlock: { color: "#7e57c2" }
+});
 //export const fallbackType = merge(emptyFallbackFeatures, skillFeatures);
