@@ -45,48 +45,32 @@ const skillFeatures = {
       },
     ],
   },
-  referenceBlock: null,
-  ...baseTypeData
-  // callBlock: {
-  //   onCanvas: false,
-  //   color: "#62869e",
-  //   icon: SkillIconStyled,
-  //   extras: [
-  //     EXTRA_TYPES.LOCKED_INDICATOR,
-  //     {
-  //       icon: FiMoreHorizontal,
-  //       type: EXTRA_TYPES.DROPDOWN,
-  //       contents: [
-  //         {
-  //           type: EXTRA_TYPES.INDICATOR_ICON,
-  //           accessor: statusIcon,
-  //           label: "Status",
-  //         },
-  //         EXTRA_TYPES.SELECTION_TOGGLE,
-  //         EXTRA_TYPES.DELETE_BUTTON,
-  //         EXTRA_TYPES.DOC_TOGGLE
-  //       ],
-  //     },
-  //   ],
-  // },
-  // properties: {
-  //   children: {
-  //     name: "Children",
-  //     accepts: [
-  //       "moveGripperType"
-  //     ],
-  //     default: [],
-  //     isList: true,
-  //     fullWidth: true,
-  //   },
-  //   compileFn: {
-  //     default: COMPILE_FUNCTIONS.SIMPLE,
-  //   },
-  //   updateFields: {
-  //     default: ["children"],
-  //   },
-  // },
-};
+  referenceBlock: {
+    onCanvas: false,           // don’t drop the template itself
+    color: "#62869e",
+    icon: SkillIconStyled,
+    extras: [
+      EXTRA_TYPES.LOCKED_INDICATOR,
+      EXTRA_TYPES.NAME_EDIT_TOGGLE,
+      {
+        icon: FiMoreHorizontal,
+        type: EXTRA_TYPES.DROPDOWN,
+        contents: [
+          EXTRA_TYPES.DELETE_BUTTON,
+          EXTRA_TYPES.DEBUG_TOGGLE,
+          EXTRA_TYPES.DOC_TOGGLE,
+          EXTRA_TYPES.SELECTION_TOGGLE
+        ]
+      }
+    ]
+  },
+  properties: {
+    compileFn:   { default: COMPILE_FUNCTIONS.PROPERTY },
+    updateFields:{ default: [] },
+    singleton:   { default: false }
+  },
+  //referenceBlock: null,
+  ...baseTypeData};
 
 const emptySkillFeatures = {
   name: "Sequential Action Cluster",
