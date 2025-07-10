@@ -291,11 +291,14 @@ export const EvdSlice = (set, get) => ({
       if (root?.type === "programType") {
         root.properties.children ??= [];
         root.properties.children.push(fallbackId);
+        //console.log("see root.properties.children to see how to get idx, ", root.properties.children);
       }
 
       // Send this to backend as well so fallback blocks are associated with the program blocks
       // const sourceInfo = { id: fallbackId, name: fallbackObj.name };
       // const destInfo = { id: programId, name: root.name };
+
+      const fallbackIdx = root.properties.children.length; // because it is just pushed?
 
       const sourceInfo = { 
         id: fallbackId,
@@ -304,7 +307,8 @@ export const EvdSlice = (set, get) => ({
 
       const destInfo = { 
         id: programId,
-        parentId: programId       
+        parentId: programId,
+        idx: fallbackIdx      
       };
 
       stageProgramData(state.programData);
