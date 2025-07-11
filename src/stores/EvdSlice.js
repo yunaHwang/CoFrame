@@ -35,6 +35,7 @@ import {
   ContainerIconStyled,
   ToolIconStyled,
   statusIcon,
+  FixtureIconStyled
 } from "./typeInfo/icons";
 
 const cleanedObjectType = (objectType) =>
@@ -55,7 +56,7 @@ export const EvdSlice = (set, get) => ({
         title: "Fallbacks",
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: ["fallbackType"],
-        icon: statusIcon,
+        icon: FixtureIconStyled,
       },
       {
         title: "Action Clusters",

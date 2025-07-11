@@ -1,5 +1,5 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { SkillIconStyled, statusIcon } from "./icons";
+import { SkillIconStyled, statusIcon, FixtureIconStyled } from "./icons";
 import {
   FiMoreHorizontal,
   FiAlertOctagon,
@@ -18,7 +18,7 @@ const fallbackFeatures = {
     hideNewPrefix: true,
     onCanvas: true,
     color: "#ffb74d",
-    icon: statusIcon,
+    icon: FixtureIconStyled,
     extras: [
       EXTRA_TYPES.LOCKED_INDICATOR,
       EXTRA_TYPES.NAME_EDIT_TOGGLE,
@@ -47,45 +47,6 @@ const fallbackFeatures = {
   },
   referenceBlock: null,
   ...baseTypeData
-  // callBlock: {
-  //   onCanvas: false,
-  //   color: "#62869e",
-  //   icon: SkillIconStyled,
-  //   extras: [
-  //     EXTRA_TYPES.LOCKED_INDICATOR,
-  //     {
-  //       icon: FiMoreHorizontal,
-  //       type: EXTRA_TYPES.DROPDOWN,
-  //       contents: [
-  //         {
-  //           type: EXTRA_TYPES.INDICATOR_ICON,
-  //           accessor: statusIcon,
-  //           label: "Status",
-  //         },
-  //         EXTRA_TYPES.SELECTION_TOGGLE,
-  //         EXTRA_TYPES.DELETE_BUTTON,
-  //         EXTRA_TYPES.DOC_TOGGLE
-  //       ],
-  //     },
-  //   ],
-  // },
-  // properties: {
-  //   children: {
-  //     name: "Children",
-  //     accepts: [
-  //       "moveGripperType"
-  //     ],
-  //     default: [],
-  //     isList: true,
-  //     fullWidth: true,
-  //   },
-  //   compileFn: {
-  //     default: COMPILE_FUNCTIONS.SIMPLE,
-  //   },
-  //   updateFields: {
-  //     default: ["children"],
-  //   },
-  // },
 };
 
 const emptyFallbackFeatures = {

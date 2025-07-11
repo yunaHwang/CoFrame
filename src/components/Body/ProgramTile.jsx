@@ -6,7 +6,11 @@ import { useRef, useEffect } from 'react';
 import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
 //import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
+
 import { stageBatteryWarning } from "../../stores/to_flask";
+
+import { FixtureIcon } from '../CustomIcons/Fixture';
+import Spotlight from './Spotlight';
 
 export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
@@ -40,6 +44,9 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
 
+    const tableIconRef = useRef(null);
+    const [showSpotlight, setShowSpotlight] = useState(false);
+
     // useEffect for flipping the warnings 
     useEffect(() => {
     //console.log("why is not below 20? ", batteryLevel);
@@ -61,9 +68,22 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     if (battery5Warning)   stageBatteryWarning(5,  true);
     }, [battery20Warning, battery5Warning]);
 
+    useEffect(() => {
+    // Show the spotlight 1 second after render (or whenever you want)
+    const timer = setTimeout(() => setShowSpotlight(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+    
 
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
+
+            {battery20Warning && (
+                <Spotlight message="This is where you can get more fallback containers.." />
+            )}
+            {/* {showSpotlight && (
+                <Spotlight targetRef={tableIconRef} message="This is where you can get more fallback containers." />
+            )} */}
 
             <Tile
                 style={{ height: '100%'}}
@@ -106,20 +126,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Box>
                             
                             )}
-                        {battery20Warning && (
-                            <Box
-                            sx = {{
-                                backgroundColor: '#f5c626', 
-                                padding: '6px 12px',
-                                borderRadius: '2px'
-                            }}>
-                                <Typography style={{ color: 'white', fontSize: '15px' }}>
-                                ⚠️ Battery Low
-                            Your robot is below 20% battery.  Consider heading back for a charge soon.
-                                </Typography>
-                            </Box>
-                
-                        )}
+            
                             <Box
                                 sx={{
                                     backgroundColor: '#E37383',
@@ -192,6 +199,40 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                         </Paper>
                     )}
+
+                {battery20Warning && (
+                                <Paper
+                                    sx={{ 
+                                        position: 'absolute',
+                                        top: '10%',
+                                        left: '25%',
+                                        backgroundColor: '#ffb74d',  
+                                        color: 'black',
+                                        p: '10px 16px',
+                                        maxWidth: 400,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                <Typography style={{ color: 'white', fontSize: '15px' }}>
+                                ⚠️ Battery Low
+                            Your robot is below 20% battery. You don't want the robot to turn off and stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
+                                </Typography>
+                                <Button 
+                                variant="contained"
+                                onClick={() => setBattery20Warning(false)}
+                                sx={{ 
+                                    backgroundColor: '#ffb74d',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(146, 45, 45, 0.3)'
+                                    }
+                                }}
+                            >
+                                Noted
+                            </Button>
+                            </Paper>
+                
+                        )}
                 
                 {battery5Warning && (
                     <Paper
