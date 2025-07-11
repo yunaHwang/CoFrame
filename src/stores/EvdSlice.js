@@ -8,6 +8,8 @@ import actionTypes from './typeInfo/action'; // using the unflattened version ah
 
 // import { performPoseProcess } from './planner-worker';
 import { instanceTemplateFromSpec } from "open-vp";
+//import { CANVAS } from "@people_and_robots/open-core";
+
 import useCompiledStore from './CompiledStore';
 import * as Comlink from "comlink";
 /* eslint-disable import/no-webpack-loader-syntax */
@@ -32,6 +34,7 @@ import {
   WaypointIconStyled,
   ContainerIconStyled,
   ToolIconStyled,
+  statusIcon,
 } from "./typeInfo/icons";
 
 const cleanedObjectType = (objectType) =>
@@ -47,6 +50,12 @@ export const EvdSlice = (set, get) => ({
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: ["programType"],
         icon: MachineIconStyled,
+      },
+      {
+        title: "Fallbacks",
+        dataType: DATA_TYPES.INSTANCE,
+        objectTypes: ["fallbackType"],
+        icon: statusIcon,
       },
       {
         title: "Action Clusters",
@@ -310,6 +319,24 @@ export const EvdSlice = (set, get) => ({
         parentId: programId,
         idx: fallbackIdx      
       };
+
+      const fallbackIdOutside = generateUuid("fallbackType");
+      const fallbackObjOutside = instanceTemplateFromSpec(
+        "fallbackType",
+        state.programSpec.objectTypes["fallbackType"],
+        false
+      );
+      fallbackObjOutside.id = fallbackIdOutside;
+      fallbackObjOutside.name = level === 5
+        ? "Battery-Critical Fallback (Outside)"
+        : "Battery-Low Fallback (Outside)";
+      //fallbackObjOutside.regionInfo = { parentId: CANVAS };
+      fallbackObjOutside.regionInfo = { parentId: "canvas" };
+      fallbackObjOutside.position = { x: 600, y: 100 };  // Place it somewhere else
+      fallbackObjOutside.properties.children = [];
+      fallbackObjOutside.onCanvas = true;  // Used to render on canvas
+
+      state.programData[fallbackIdOutside] = fallbackObjOutside;
 
       stageProgramData(state.programData);
       stageSourceInfo(sourceInfo);
