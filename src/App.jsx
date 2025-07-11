@@ -217,6 +217,7 @@ export default function App() {
   useEffect(() => {
     function handleFlush(json) {
       console.log("what is json.status, ", json.status);
+      console.log("what is json, ", json);
       //console.log("what is json.ltl_results, ", json.ltl_results);
 
       // const violations = json?.ltl_results ?? [];
@@ -224,9 +225,13 @@ export default function App() {
       // setViolationList(violations);
       // setShowDrawer(violations.length > 0);
 
-      const violations = json?.violations ?? [];
+      const violations = json?.violations ??
+        json?.ltl_results?.violations ??
+        [];
+      
       setViolationList(violations);
       setShowDrawer(violations.length > 0);
+      console.log("violations, ", violations)
 
       console.log("what is json.clean, ", json.clean);
       console.log("what is json.charge_pending, ", json.charge_pending);

@@ -104,7 +104,11 @@ export function stageBatteryWarning(level, value) {
     method:"POST",
     headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({ op:"battery", level, value })
-  });
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));   // 🔥 manually call the flush listeners
+      return json;
+    });
 }
 
 
