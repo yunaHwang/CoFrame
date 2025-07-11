@@ -38,13 +38,13 @@ import cartPng from "./components/SimMapFlaticons/money.png"
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
   const viewMode = useStore((state) => state.viewMode, shallow);
-  const visibleSteps = useStore(
-    (state) =>
-      state.focus.some((focusItem) =>
-        TIMELINE_TYPES.includes(state.programData[focusItem]?.type)
-      ),
-    shallow
-  );
+  // const visibleSteps = useStore(
+  //   (state) =>
+  //     state.focus.some((focusItem) =>
+  //       TIMELINE_TYPES.includes(state.programData[focusItem]?.type)
+  //     ),
+  //   shallow
+  // );
   const focusData = useStore(
     (state) => state.focus.map((f) => state.programData[f]),
     shallow
@@ -77,39 +77,39 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const [focusSteps, errorType] = useCompiledStore(
-    useCallback(
-      (state) => {
-        let steps = [];
-        let errorType = null;
-        if (!visibleSteps) {
-          return [steps, errorType];
-        }
-        focusData.some((f) => {
-          if (
-            [STATUS.VALID, STATUS.PENDING, STATUS.WARN].includes(
-              f?.properties?.status
-            ) &&
-            TIMELINE_TYPES.includes(f.type)
-          ) {
-            if (state[f.id] && Object.keys(state[f.id]).length === 1) {
-              steps = state[f.id][Object.keys(state[f.id])[0]]?.steps;
-              return true;
-            } else {
-              errorType = "traces";
-              return false;
-            }
-          } else {
-            errorType = "invalid";
-            return false;
-          }
-        });
-        return [steps, errorType];
-      },
-      [focusData, visibleSteps]
-    ),
-    shallow
-  );
+  // const [focusSteps, errorType] = useCompiledStore(
+  //   useCallback(
+  //     (state) => {
+  //       let steps = [];
+  //       let errorType = null;
+  //       if (!visibleSteps) {
+  //         return [steps, errorType];
+  //       }
+  //       focusData.some((f) => {
+  //         if (
+  //           [STATUS.VALID, STATUS.PENDING, STATUS.WARN].includes(
+  //             f?.properties?.status
+  //           ) &&
+  //           TIMELINE_TYPES.includes(f.type)
+  //         ) {
+  //           if (state[f.id] && Object.keys(state[f.id]).length === 1) {
+  //             steps = state[f.id][Object.keys(state[f.id])[0]]?.steps;
+  //             return true;
+  //           } else {
+  //             errorType = "traces";
+  //             return false;
+  //           }
+  //         } else {
+  //           errorType = "invalid";
+  //           return false;
+  //         }
+  //       });
+  //       return [steps, errorType];
+  //     },
+  //     [focusData, visibleSteps]
+  //   ),
+  //   shallow
+  // );
 
   const setViewMode = useStore((state) => state.setViewMode, shallow);
   const clearFocus = useStore((state) => state.clearFocus, shallow);

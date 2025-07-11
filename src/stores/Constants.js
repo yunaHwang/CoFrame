@@ -79,7 +79,7 @@ export const ROOT_BOUNDS = [
     {value:0.0,delta:0.0},{value:0.0,delta:0.0},{value:0.0,delta:0.0}  // Rotational
 ]
 
-export const DETAIL_TYPES = ['machineType', 'inputOutputType', 'processType', 'locationType', 'waypointType', 'thingType','fixtureType','toolType','robotAgentType','humanAgentType','gripperType','graspPointType']
+export const DETAIL_TYPES = ['machineType', 'inputOutputType', 'processType', 'locationType', 'waypointType', 'thingType','fixtureType','toolType','robotAgentType','humanAgentType','gripperType','graspPointType',"fallbackType"]
 export const TIMELINE_TYPES = [
 'moveGripperType',
 'closeGripperType',
@@ -93,9 +93,10 @@ export const TIMELINE_TYPES = [
 'speechType',
 'thingType',
 'movementType',
+"fallbackType",
 
 ]
-export const PREVIEW_TYPES = [...TIMELINE_TYPES,'locationType','waypointType'];
+export const PREVIEW_TYPES = [...TIMELINE_TYPES,'locationType','waypointType', "fallbackType"];
 export const REFERENCEABLE_OBJECTS = ["machineType", "fixtureType", "linkType", "toolType", "robotAgentType", "humanAgentType", 'gripperType'];
 
 export const PREPROCESS_TYPES = [

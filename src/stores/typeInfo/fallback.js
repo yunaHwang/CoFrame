@@ -63,6 +63,23 @@ const emptyFallbackFeatures = {
       isList: true,
       nullValid: true,
     },
+    errorType: {
+      name: "Error names",
+      default: [],
+      type: SIMPLE_PROPERTY_TYPES.IGNORED,
+      default: null,
+      nullValid: true
+    },
+    // fallbackFor:{
+    //   name: "Fallback Trigger",
+    //   default: null,
+    //   type: TYPES.OBJECT,
+    //   nullValid: true,
+    //   properties: {
+    //     errorType: { type: TYPES.STRING, nullValid: true },
+    //     contextId: { type: TYPES.STRING, nullValid: true },
+    //   }
+    // },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
       default: ["children"],

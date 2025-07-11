@@ -232,43 +232,7 @@ export const EvdSlice = (set, get) => ({
       state.processes.planProcess = process;
       // console.log(useCompiledStore.getState())
     }),
-// adding new logic for battery checkpoint popping
 
-  addCheckpointBlock: (level, programId) =>
-    set((state) => {
-      if (!programId) {
-      console.warn("addCheckpointBlock: no programId – skipping");
-      return;
-    }
-      const batteryId   = generateUuid("batteryType");
-
-      // Same template call you trust elsewhere
-      const batteryObj  = instanceTemplateFromSpec(
-        "batteryType",
-        state.programSpec.objectTypes["batteryType"],
-        false
-      );
-      console.log("what does batteryObj look like, ", batteryObj);
-
-      // Fill in the bits you care about
-      batteryObj.id       = batteryId;
-      batteryObj.name     =
-        level === 5 ? "Battery-Critical!" : "Battery-Low!";
-      batteryObj.position = { x: 250, y: 100 };          // tweak as you like
-      //batteryObj.onCanvas = false;
-      batteryObj.properties.children = [];               // starts empty
-
-      state.programData[batteryId] = batteryObj;
-
-      // Hook it into the root program node
-      const root = state.programData[programId];
-      if (root) {
-        root.properties.children ??= [];
-        root.properties.children.push(batteryId);
-      }
-
-      state.programData = { ...state.programData };    // trigger re-render
-    }, false, "addCheckpointBlock"),
 
   // adding new logic for battery fallback block popping
   addBatteryBlock: (level, programId) =>
@@ -287,12 +251,16 @@ export const EvdSlice = (set, get) => ({
         false
       );
 
-      // Fill in the bits you care about
       fallbackObj.id       = fallbackId;
       fallbackObj.name     =
         level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
-      fallbackObj.position = { x: 250, y: 100 };          // tweak as you like
+      fallbackObj.position = { x: 250, y: 100 };          
       fallbackObj.properties.children = [];               // starts empty
+
+      fallbackObj.properties.errorType = [ "battery20Warning" 
+        // TODO: should read directly from backend?
+      ];
+      console.log("this is is fallbackObj, ", fallbackObj);
 
       state.programData[fallbackId] = fallbackObj;
 
@@ -320,24 +288,6 @@ export const EvdSlice = (set, get) => ({
         parentId: programId,
         idx: fallbackIdx      
       };
-
-      const fallbackIdOutside = generateUuid("fallbackType");
-      const fallbackObjOutside = instanceTemplateFromSpec(
-        "fallbackType",
-        state.programSpec.objectTypes["fallbackType"],
-        false
-      );
-      fallbackObjOutside.id = fallbackIdOutside;
-      fallbackObjOutside.name = level === 5
-        ? "Battery-Critical Fallback (Outside)"
-        : "Battery-Low Fallback (Outside)";
-      //fallbackObjOutside.regionInfo = { parentId: CANVAS };
-      fallbackObjOutside.regionInfo = { parentId: "canvas" };
-      fallbackObjOutside.position = { x: 600, y: 100 };  // Place it somewhere else
-      fallbackObjOutside.properties.children = [];
-      fallbackObjOutside.onCanvas = true;  // Used to render on canvas
-
-      state.programData[fallbackIdOutside] = fallbackObjOutside;
 
       stageProgramData(state.programData);
       stageSourceInfo(sourceInfo);

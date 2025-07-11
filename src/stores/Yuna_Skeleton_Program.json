@@ -3582,9 +3582,10 @@
       "children": [
         
       ],
+      "errorType": [],
       "compileFn": 1,
       "updateFields": [
-        "children"
+        "children", "errorType"
       ],
       "description": "",
       "status": "PENDING",
