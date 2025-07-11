@@ -78,6 +78,7 @@ const programFeatures = {
         "skillType", // this is the action cluster
         "concurrentType",
         // "lookForType",
+        "fallbackType"
       ],
       default: [],
       isList: true,

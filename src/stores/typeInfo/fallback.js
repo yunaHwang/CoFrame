@@ -16,7 +16,7 @@ const fallbackFeatures = {
   type: TYPES.OBJECT,
   instanceBlock: {
     hideNewPrefix: true,
-    onCanvas: true,
+    onCanvas: false,
     color: "#ffb74d",
     icon: FixtureIconStyled,
     extras: [

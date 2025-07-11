@@ -14,6 +14,8 @@ import {
   THEME_ID,
 } from "@mui/material/styles";
 
+import { Tabs, Tab } from "@mui/material";
+
 import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box, Divider, Typography, IconButton } from "@mui/material";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import useMeasure from "react-use-measure";
@@ -203,6 +205,8 @@ export default function App() {
   const [violationList, setViolationList] = useState([]);
   const [showDrawer, setShowDrawer] = useState(false);
 
+  const [drawerTab, setDrawerTab] = useState("ltl");
+
   useEffect(() => {
     if (dragging) {
       window.addEventListener("mousemove", doDrag);
@@ -363,7 +367,7 @@ export default function App() {
             )}
           </ReflexContainer>
 
-          {showDrawer ? (<Drawer 
+          {/* {showDrawer ? (<Drawer 
             variant="permanent"
             anchor= "right"
             open={true} 
@@ -394,7 +398,75 @@ export default function App() {
                   ))}
                 </Stack>
               )}
-          </Drawer>) :
+          </Drawer>) : */}
+          {showDrawer ? 
+          (<Drawer
+            variant="permanent"
+            anchor="right"
+            open={true}
+            sx={{
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: "22vw",
+                position: "relative",
+                boxSizing: "border-box",
+                p: 0,
+              },
+            }}>
+              <Box>
+                <Tabs
+                  value={drawerTab}
+                  onChange={(e, val) => setDrawerTab(val)}
+                  variant="fullWidth"
+                >
+                  <Tab value="ltl" label="LTL Violations" />
+                  <Tab value="fallbacks" label="Fallbacks" />
+                </Tabs>
+
+                <Box sx={{ p: 2 }}>
+                  {drawerTab === "ltl" && (
+                    <>
+                      <Box display="flex" alignItems="center" mb={1}>
+                        <Typography variant="h6" sx={{ flexGrow: 1 }}>LTL Violations</Typography>
+                        <IconButton onClick={() => setShowDrawer(false)}>x</IconButton>
+                      </Box>
+
+                      {violationList.length === 0 ? (
+                        <Typography sx={{ mt: 2 }}>No violations</Typography>
+                      ) : (
+                        <Stack spacing={1} sx={{ mt: 2 }}>
+                          {violationList.map((text, idx) => (
+                            <Alert key={idx} severity="error" variant="outlined">
+                              {text}
+                            </Alert>
+                          ))}
+                        </Stack>
+                      )}
+                    </>
+                  )}
+
+                  {drawerTab === "fallbacks" && (
+                    <>
+                      <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
+                      <Stack spacing={1}>
+                        {useStore.getState().fallback2components &&
+                          Object.keys(useStore.getState().fallback2components)
+                            .sort()
+                            .map((fbId, idx) => (
+                              <Box key={fbId} sx={{ p: 1, bgcolor: "grey.900", borderRadius: 1 }}>
+                                <Typography variant="body2">
+                                  {idx + 1}. {fbId}
+                                </Typography>
+                              </Box>
+                            ))}
+                      </Stack>
+                    </>
+                  )}
+                </Box>
+              </Box>
+
+
+          </Drawer>) : 
           (
             <Box
               onClick={() => setShowDrawer(true)}
