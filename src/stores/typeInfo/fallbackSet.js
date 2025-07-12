@@ -11,13 +11,12 @@ import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-const fallbackFeatures = {
-  //name: "Skill",
+const fallbackSetFeatures = {
   type: TYPES.OBJECT,
   instanceBlock: {
     hideNewPrefix: true,
     onCanvas: false,
-    color: "##b86e2d",
+    color: "#fcd49d",
     icon: FixtureIconStyled,
     extras: [
       EXTRA_TYPES.LOCKED_INDICATOR,
@@ -49,31 +48,24 @@ const fallbackFeatures = {
   ...baseTypeData
 };
 
-const emptyFallbackFeatures = {
-  name: "New Fallback Action Sets",
+const emptyFallbackSetFeatures = {
+  name: "New Priority Fallback Sets",
   description: "some string",
   properties: {
     description: { default: "some string" },
     children: {
-      name: "Sets of Fallback Actions",
-      accepts: ["toLocationType", "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "skillType", "concurrentType"
+      name: "Fallbacks",
+      accepts: ["fallbackType"
       ],
       default: [],
       isList: true,
       nullValid: true,
     },
-    errorType: {
-      name: "Error names",
-      default: [],
-      type: SIMPLE_PROPERTY_TYPES.IGNORED,
-      default: null,
-      nullValid: true
-    },
+
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
       default: ["children"],
     },
   },
 };
-export const fallbackType = merge(emptyFallbackFeatures, fallbackFeatures);
+export const fallbackSetType = merge(emptyFallbackSetFeatures, fallbackSetFeatures);

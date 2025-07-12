@@ -8,6 +8,7 @@ import { trajectoryType } from './trajectory';
 import { hierarchicalType } from './hierarchical';
 import { skillType, concurrentType } from './skill';
 import { fallbackType } from './fallback';
+import { fallbackSetType } from "./fallbackSet";
 import { batteryType } from './battery';
 import { meshType } from './mesh';
 import { processType } from './process';
@@ -37,6 +38,7 @@ const mod = {
     skillType,
     concurrentType,
     fallbackType,
+    fallbackSetType, 
     meshType,
     processType,
     graspPointType,

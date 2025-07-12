@@ -232,6 +232,73 @@ export const EvdSlice = (set, get) => ({
       state.processes.planProcess = process;
       // console.log(useCompiledStore.getState())
     }),
+  addBatterySetBlock: (level, programId) => 
+    set((state) => {
+      if (!programId) {
+        console.warn("addBatterySetBlock: no programId - skipping");
+        return;
+      }
+
+      const fallbackSetId = generateUuid("fallbackSetType");
+      const fallbackId = generateUuid("fallbackType");
+
+      const fallbackSetObj = instanceTemplateFromSpec(
+        "fallbackSetType",
+        state.programSpec.objectTypes["fallbackSetType"],
+        false
+      );
+      const fallbackObj = instanceTemplateFromSpec(
+        "fallbackType",
+        state.programSpec.objectTypes["fallbackType"],
+        false
+      );
+
+      fallbackSetObj.id = fallbackSetId;
+      fallbackObj.id = fallbackId;
+
+      fallbackSetObj.name = level === 5 ? "Priority list of fallbacks (battery 5%)" : "Priority list of fallbacks (battery 20%)";
+      fallbackObj.name = level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
+
+      fallbackSetObj.position = { x: 250, y: 100 };  
+      fallbackObj.position = { x: 250, y: 180 };  
+
+      fallbackObj.properties.children = [];
+      // fallbackSetObj.properties.children = [fallbackObj];
+      
+      state.programData[fallbackId] = fallbackObj;
+      state.programData[fallbackSetId] = fallbackSetObj;
+
+      console.log("this is fallbackSetObj, ", fallbackSetObj);
+
+
+      // Hook it into the root program node
+      const root = state.programData[programId];
+      if (root?.type === "programType") {
+        root.properties.children ??= [];
+        root.properties.children.push(fallbackSetId);
+        //console.log("see root.properties.children to see how to get idx, ", root.properties.children);
+      }
+      fallbackSetObj.properties.children = [fallbackId];
+
+      const fallbackSetIdx = root.properties.children.length; // because it is just pushed?
+
+      const sourceInfo = { 
+        id: fallbackSetId,
+        data: { id: fallbackSetId, name: fallbackSetObj.name }   // backend expects: sourceInfo["data"]["name"]
+      };
+
+      const destInfo = { 
+        id: programId,
+        parentId: programId,
+        idx: fallbackSetIdx      
+      };
+
+      stageProgramData(state.programData);
+      stageSourceInfo(sourceInfo);
+      stageDestInfo(destInfo);
+
+      state.programData = { ...state.programData };    // trigger re-render
+    }, false, "addBatterySetBlock"),
 
 
   // adding new logic for battery fallback block popping
