@@ -5,7 +5,7 @@ import { stageBatteryWarning } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          
-
+// const BATTERY_DROP_PER_STEP = 8;//Mason Test         
 
 const CHARGER_LABEL = "battery charging station";
 
@@ -39,6 +39,14 @@ const RobotWorld = ({
   const setDeletedFieldInfo = useStore((s) => s.setDeletedFieldInfo);
   const setDeletedParentInfo = useStore((s) => s.setDeletedParentInfo);
 
+  // ────────────────────────────────────
+  // Responsibile For Action Tracking
+  // ────────────────────────────────────
+  const [actionTracking, setActionTracking] = useState([]);
+  const lastTransfer = useStore((s) => s.lastTransfer);
+  const programData = useStore((s) => s.programData);
+  const deletedData = useStore((s) => s.deletedData);
+
   const { chargePending }= useStore();                    
 
   // ──────────────────────────────
@@ -53,9 +61,124 @@ const RobotWorld = ({
     return { x, y };
   }, [icons]);
 
-  const [robotCoord, setRobotCoord] = useState(startCoord);
+  // ──────────────────────────────
+  // Calculate movement from action tracking
+  // ──────────────────────────────
+  const calculatedMovement = useMemo(() => {
+    const totalX = actionTracking.reduce((sum, action) => sum + action.xMovement, 0);
+    const totalY = actionTracking.reduce((sum, action) => sum + action.yMovement, 0);
+    const totalBattery = actionTracking.reduce((sum, action) => sum + action.batteryMovement, 0);
+    const totalDistance = actionTracking.reduce((sum, action) => sum + action.distanceMovement, 0);
+    
+    return { 
+      xMovement: totalX, 
+      yMovement: totalY, 
+      batteryMovement: totalBattery, 
+      distanceMovement: totalDistance 
+    };
+  }, [actionTracking]);
 
+  const robotCoord = useMemo(() => {
+    if (!startCoord) return null;
+    
+    const newX = Math.max(0, Math.min(startCoord.x + calculatedMovement.xMovement, 9));
+    const newY = Math.max(0, Math.min(startCoord.y + calculatedMovement.yMovement, 7));
+    
+    return { x: newX, y: newY };
+  }, [startCoord, calculatedMovement]);
 
+  const calculateActionMovement = (actionType, parameterValue = null, actionOrientation = "E") => {
+    const moves = { batteryMovement: 0, distanceMovement: 0, xMovement: 0, yMovement: 0 };
+    
+    if (actionType === "moveForwardType") {
+      const steps = parameterValue ? parseInt(parameterValue.match(/\d+/)?.[0] ?? "1", 10) : 0; 
+      moves.batteryMovement = steps * BATTERY_DROP_PER_STEP;
+      moves.distanceMovement = steps * FEET_PER_STEP;
+      
+      // Calculate x/y movement based on orientation
+      if (actionOrientation === "N") moves.yMovement = steps;
+      else if (actionOrientation === "S") moves.yMovement = -steps;
+      else if (actionOrientation === "E") moves.xMovement = steps;
+      else if (actionOrientation === "W") moves.xMovement = -steps;
+      
+    } else if (actionType === "toLocationType") {
+        const rooms = {
+        "Package room": {x:2,y:4},
+        "Activity Area":{x:3,y:2},
+        "Elderly room": {x:5,y:3},
+        "Battery charging station":{x:9,y:7}
+      };
+
+      if (parameterValue && rooms[parameterValue]) {
+        const target = rooms[parameterValue];
+        const currentPos = robotCoord || startCoord;
+        
+        const dx = target.x - currentPos.x;
+        const dy = target.y - currentPos.y;
+        //Calulate line distance
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        moves.batteryMovement = parameterValue.toLowerCase() !== CHARGER_LABEL
+        ? distance * BATTERY_DROP_PER_STEP : 0;
+        moves.distanceMovement = distance * FEET_PER_STEP;
+        moves.xMovement = dx;
+        moves.yMovement = dy;
+      }
+      // If no parameter, moves remain 0
+    }
+    
+    return moves;
+  };
+  const addActionToTracking = (actionId, actionType) => {
+    const moves = calculateActionMovement(actionType, null, orientation);
+    const newAction = {
+      id: actionId,
+      batteryMovement: moves.batteryMovement,
+      distanceMovement: moves.distanceMovement,
+      xMovement: moves.xMovement,
+      yMovement: moves.yMovement,
+      children: []
+    };
+    
+    setActionTracking(prev => [...prev, newAction]);
+    console.log(`Added action ${actionId} to tracking:`, moves);
+  };
+  
+  const removeActionFromTracking = (actionId) => {
+    setActionTracking(prev => {
+      const actionToRemove = prev.find(action => action.id === actionId);
+      if (actionToRemove) {
+        console.log(`Removed action ${actionId} from tracking.`)
+      }
+      return prev.filter(action => action.id !== actionId);
+    });
+  };
+
+  const addParameterToAction = (actionId, parameterId, parameterValue) => {
+    setActionTracking(prev => prev.map(action => {
+      if (action.id === actionId) {
+        const actionData = programData[actionId];
+        if (actionData) {
+          
+          const updatedChildren = [...action.children, parameterId];
+          
+          const newMovement = calculateActionMovement(actionData.type, parameterValue, orientation);
+          
+          console.log(`Added parameter ${parameterId} to action ${actionId}:`, newMovement);
+          
+          return {
+            ...action,
+            children: updatedChildren,
+            batteryMovement: newMovement.batteryMovement,
+            distanceMovement: newMovement.distanceMovement,
+            xMovement: newMovement.xMovement,
+            yMovement: newMovement.yMovement
+          };
+        }
+      }
+      return action;
+    }));
+  };
   const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
@@ -64,7 +187,6 @@ const RobotWorld = ({
       prevStartRef.current.y !== startCoord?.y
     ) {
       prevStartRef.current = startCoord;
-      setRobotCoord(startCoord);
       setOrientation("E");
       setPendingMove(false);
       setPendingRotate(false);
@@ -72,8 +194,11 @@ const RobotWorld = ({
       setShowBatteryCharged(false);
       setShowError(false);
       setErrorMessage(null);
+      setActionTracking([]);
     }
   }, [startCoord, setErrorMessage, setShowError]);
+
+
 
 
   const getRotationTransform = () => {
@@ -86,32 +211,6 @@ const RobotWorld = ({
   };
 
   
-  const moveToConnector = (target, locationLabel) => {
-    // 1) distance / increment
-    const dx = Math.abs(target.x - robotCoord.x);
-    const dy = Math.abs(target.y - robotCoord.y);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const increment = distance * FEET_PER_STEP;
-
-    // 2) update position
-    setRobotCoord(target);
-
-    // 3) travel 
-    const prevDist = useStore.getState().distanceTravel;
-    useStore.getState().setdistanceTravel(prevDist + increment);
-
-    // 4) battery drain – skip if docking
-    if (locationLabel.toLowerCase() !== CHARGER_LABEL) {
-      const drop = distance * BATTERY_DROP_PER_STEP;
-      const prev = useStore.getState().batteryLevel;
-      useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
-    } else {
-      // docking: battery refill comes from backend
-      useStore.getState().setdistanceTravel(0);
-    }
-
-    checkForErrors(target, scenario);
-  };
 
  // Scenario-specific
   const getErrorCoordinates = (currentScenario) => {
@@ -147,123 +246,243 @@ const RobotWorld = ({
       setShowError(true);
     }
   };
+  const lastProcessedTransfer = useRef(null);
+    
+  // ──────────────────────────────
+  // Handle Addition
+  // ──────────────────────────────
 
   useEffect(() => {
-    const info = sourceInfo_to_pass?.data?.name;
-    if (!info || !robotCoord) return;
-    if (actionDeleted) {return; }
-
-    // ---- Move-Forward command ----
-    if (info === "Move Forward") { setPendingMove(true); return; }
-    if (pendingMove && info.includes("grid")) {
-      const steps = parseInt(info.match(/\d+/)?.[0] ?? "1", 10);
-
-      // compute new coord
-      let dx=0, dy=0;
-      if (orientation==="N") dy=1;
-      if (orientation==="S") dy=-1;
-      if (orientation==="E") dx=1;
-      if (orientation==="W") dx=-1;
-      const newX = Math.max(0, Math.min(robotCoord.x + dx*steps, 9));
-      const newY = Math.max(0, Math.min(robotCoord.y + dy*steps, 7));
-      setRobotCoord({x:newX,y:newY});
-      checkForErrors({x:newX,y:newY}, scenario);
-
-      // distance
-      useStore.getState().setdistanceTravel(
-        useStore.getState().distanceTravel + steps * FEET_PER_STEP
-      );
-
-      // battery drain – freeze if charge pending
-      if (!chargePending) {
-        const drop = steps * BATTERY_DROP_PER_STEP;
-        const prev = useStore.getState().batteryLevel;
-        useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
-      }
-      setPendingMove(false);
-      return;
-    }
-
-    // ---- Rotate command ----
-    if (info === "Rotate Stretch") { setPendingRotate(true); return; }
-    if (pendingRotate && info.includes("wise")) {
-      const isClockwise = info.toLowerCase().includes("clockwise");
-      const dirs = ["N","E","S","W"];
-      const idx  = dirs.indexOf(orientation);
-      setOrientation(dirs[(idx + (isClockwise?3:1)) % 4]);
-      setPendingRotate(false);
-      return;
-    }
-
-    // ---- To Connector command ----
-    if (info === "To Connector") { setPendingToConnector(true); return; }
-    if (pendingToConnector) {
-      const rooms = {
-        "Package room": {x:2,y:4},
-        "Activity Area":{x:3,y:2},
-        "Elderly room": {x:5,y:3},
-        "Battery charging station":{x:9,y:7}
-      };
-      const target = rooms[info];
-      if (target) {
-        moveToConnector(target, info);
-        setPendingToConnector(false);
+    if (!lastTransfer || lastTransfer.timestamp === lastProcessedTransfer.current) return;
+    
+    lastProcessedTransfer.current = lastTransfer.timestamp;
+    
+    console.log('Console Received:', lastTransfer);
+    
+    const { data, sourceInfo, destInfo } = lastTransfer;
+    
+    // Check if this is an action being added
+    if (data.type === "moveForwardType" || data.type === "toLocationType") {
+      // Get the actual spawned block ID
+      const parentData = programData[destInfo.parentId];
+      const actualBlockId = parentData?.properties?.children?.[destInfo.idx];
+      
+      if (actualBlockId) {
+        addActionToTracking(actualBlockId, data.type);
       }
     }
-  }, [
-    sourceInfo_to_pass,
-    pendingMove,
-    pendingRotate,
-    pendingToConnector,
-    orientation,
-    robotCoord,
-    scenario,
-    chargePending,
-    actionDeleted
-  ]);
+    
+    // Check if this is a parameter being added to an action
+    else if (data.type === "movementType" && destInfo.parentId) {
+      // This would be a grid action
+      const parameterValue = data.name; 
+      const parameterId = data.ref;
+      addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+    }
+    
+    else if (data.type === "placeType" && destInfo.parentId) {
+      // This would be a placeLocation
+      const parameterValue = data.name;
+      const parameterId = data.ref;
+      addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+    }
+    
+  }, [lastTransfer, programData]);
 
   // ──────────────────────────────
-  // Reset after delete
+  // Handle deletions
   // ──────────────────────────────
   useEffect(() => {
-      if (actionDeleted && startCoord) {
-        console.log("Deletion - Field:", deletedFieldInfo);
-        console.log("Deletion - Parent:", deletedParentInfo);
-        
-        let keepMoveForward = false;
-        let keepToConnector = false;
-        
-        if (deletedParentInfo && deletedFieldInfo) {
-          if (deletedParentInfo.type === "moveForwardType" && 
-              deletedFieldInfo.value === "direction") {
-            keepMoveForward = true;
-          }
+    if (actionDeleted && deletedFieldInfo && deletedParentInfo) {
+      console.log("Deletion - Field:", deletedFieldInfo);
+      console.log("Deletion - Parent:", deletedParentInfo);
+      
+      // Case 1: Deleting an action where field name is "Children" which is a action 
+      if (deletedFieldInfo.name === "Children" && deletedFieldInfo.isList) {
+        // Use the deletedData to get the exact action ID that was deleted
+        if (deletedData && deletedData.id) {
+          const deletedActionId = deletedData.id;
+          console.log("Action deletion detected. Deleted :", deletedActionId);
+          console.log("Current tracking:", actionTracking.map(a => a.id));
           
-          if (deletedParentInfo.type === "toLocationType" && 
-              deletedFieldInfo.value === "place") { 
-            keepToConnector = true;
-          }
+          removeActionFromTracking(deletedActionId);
         }
+      }
+      
+      // Case 2: Deleting a parameter from Move Forward action
+      else if (deletedFieldInfo.name === "Grid Increments" && deletedFieldInfo.value === "direction") {
+        const actionId = deletedParentInfo.id;
+        //console.log("Looking for Move Forward parameter to delete from action:", actionId);
         
-        setRobotCoord(startCoord);
-        setPendingMove(keepMoveForward);
-        setPendingRotate(false);
-        setPendingToConnector(keepToConnector);
-        if (keepMoveForward) {
-        useStore.getState().setLastSourceInfo({
-          data: { name: "Move Forward" }
-        });
+        // Find the action in our tracking and remove ALL its children since parameter is being deleted
+        setActionTracking(prev => prev.map(action => {
+          if (action.id === actionId) {
+            return {
+              ...action,
+              children: [], 
+              batteryMovement: 0, 
+              distanceMovement: 0,
+              xMovement: 0,
+              yMovement: 0
+            };
+          }
+          return action;
+        }));
       }
-        if (keepToConnector) {
-        useStore.getState().setLastSourceInfo({
-          data: { name: "To Connector" }
-        });
+      
+      // Case 3: Deleting a parameter from To Connector action
+      else if (deletedFieldInfo.name === "Location" && deletedFieldInfo.value === "place") {
+        const actionId = deletedParentInfo.id;
+        
+        setActionTracking(prev => prev.map(action => {
+          if (action.id === actionId) {
+            return {
+              ...action,
+              children: [], 
+              batteryMovement: 0, 
+              distanceMovement: 0,
+              xMovement: 0,
+              yMovement: 0
+            };
+          }
+          return action;
+        }));
       }
-        setDeletedFieldInfo(null);
-        setDeletedParentInfo(null);
-        setActionDeleted(false);
-      }
-    }, [actionDeleted, startCoord, setActionDeleted, deletedFieldInfo, deletedParentInfo, setDeletedFieldInfo, setDeletedParentInfo]);
+      //Case 2 and 3 could be merge but keeping for clearity
+      
+      // Reset deletion flags
+      setDeletedFieldInfo(null);
+      setDeletedParentInfo(null);
+      setActionDeleted(false);
+    }
+  }, [actionDeleted, deletedFieldInfo, deletedParentInfo, setActionDeleted, setDeletedFieldInfo, setDeletedParentInfo, programData, actionTracking]);
+  
+  // ──────────────────────────────
+  // Check for errors when robot position changes
+  // ──────────────────────────────
+  useEffect(() => {
+    if (robotCoord) {
+      checkForErrors(robotCoord, scenario);
+    }
+  }, [robotCoord, scenario]);
+
+
+  // useEffect(() => {
+  //   const info = sourceInfo_to_pass?.data?.name;
+  //   if (!info || !robotCoord) return;
+  //   if (actionDeleted) {return; }
+
+  //   // ---- Move-Forward command ----
+  //   if (info === "Move Forward") { setPendingMove(true); return; }
+  //   if (pendingMove && info.includes("grid")) {
+  //     const steps = parseInt(info.match(/\d+/)?.[0] ?? "1", 10);
+
+  //     // compute new coord
+  //     let dx=0, dy=0;
+  //     if (orientation==="N") dy=1;
+  //     if (orientation==="S") dy=-1;
+  //     if (orientation==="E") dx=1;
+  //     if (orientation==="W") dx=-1;
+  //     const newX = Math.max(0, Math.min(robotCoord.x + dx*steps, 9));
+  //     const newY = Math.max(0, Math.min(robotCoord.y + dy*steps, 7));
+  //     setRobotCoord({x:newX,y:newY});
+  //     checkForErrors({x:newX,y:newY}, scenario);
+
+  //     // distance
+  //     useStore.getState().setdistanceTravel(
+  //       useStore.getState().distanceTravel + steps * FEET_PER_STEP
+  //     );
+
+  //     // battery drain – freeze if charge pending
+  //     if (!chargePending) {
+  //       const drop = steps * BATTERY_DROP_PER_STEP;
+  //       const prev = useStore.getState().batteryLevel;
+  //       useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
+  //     }
+  //     setPendingMove(false);
+  //     return;
+  //   }
+
+  //   // ---- Rotate command ----
+  //   if (info === "Rotate Stretch") { setPendingRotate(true); return; }
+  //   if (pendingRotate && info.includes("wise")) {
+  //     const isClockwise = info.toLowerCase().includes("clockwise");
+  //     const dirs = ["N","E","S","W"];
+  //     const idx  = dirs.indexOf(orientation);
+  //     setOrientation(dirs[(idx + (isClockwise?3:1)) % 4]);
+  //     setPendingRotate(false);
+  //     return;
+  //   }
+
+  //   // ---- To Connector command ----
+  //   if (info === "To Connector") { setPendingToConnector(true); return; }
+  //   if (pendingToConnector) {
+  //     const rooms = {
+  //       "Package room": {x:2,y:4},
+  //       "Activity Area":{x:3,y:2},
+  //       "Elderly room": {x:5,y:3},
+  //       "Battery charging station":{x:9,y:7}
+  //     };
+  //     const target = rooms[info];
+  //     if (target) {
+  //       moveToConnector(target, info);
+  //       setPendingToConnector(false);
+  //     }
+  //   }
+  // }, [
+  //   sourceInfo_to_pass,
+  //   pendingMove,
+  //   pendingRotate,
+  //   pendingToConnector,
+  //   orientation,
+  //   robotCoord,
+  //   scenario,
+  //   chargePending,
+  //   actionDeleted
+  // ]);
+
+  // // ──────────────────────────────
+  // // Reset after delete
+  // // ──────────────────────────────
+  // useEffect(() => {
+  //     if (actionDeleted && startCoord) {
+  //       console.log("Deletion - Field:", deletedFieldInfo);
+  //       console.log("Deletion - Parent:", deletedParentInfo);
+        
+  //       let keepMoveForward = false;
+  //       let keepToConnector = false;
+        
+  //       if (deletedParentInfo && deletedFieldInfo) {
+  //         if (deletedParentInfo.type === "moveForwardType" && 
+  //             deletedFieldInfo.value === "direction") {
+  //           keepMoveForward = true;
+  //         }
+          
+  //         if (deletedParentInfo.type === "toLocationType" && 
+  //             deletedFieldInfo.value === "place") { 
+  //           keepToConnector = true;
+  //         }
+  //       }
+        
+  //       setRobotCoord(startCoord);
+  //       setPendingMove(keepMoveForward);
+  //       setPendingRotate(false);
+  //       setPendingToConnector(keepToConnector);
+  //       if (keepMoveForward) {
+  //       useStore.getState().setLastSourceInfo({
+  //         data: { name: "Move Forward" }
+  //       });
+  //     }
+  //       if (keepToConnector) {
+  //       useStore.getState().setLastSourceInfo({
+  //         data: { name: "To Connector" }
+  //       });
+  //     }
+  //       setDeletedFieldInfo(null);
+  //       setDeletedParentInfo(null);
+  //       setActionDeleted(false);
+  //     }
+  //   }, [actionDeleted, startCoord, setActionDeleted, deletedFieldInfo, deletedParentInfo, setDeletedFieldInfo, setDeletedParentInfo]);
     
   // ──────────────────────────────
   // Warning-flip + backend notify
@@ -290,6 +509,23 @@ const RobotWorld = ({
     if (warn20) stageBatteryWarning(20, true);
     if (warn5 ) stageBatteryWarning(5, true);
   }, [useStore((s)=>s.battery20Warning), useStore((s)=>s.battery5Warning)]);
+  useEffect(() => {
+  const totalBatteryUsed = calculatedMovement.batteryMovement;
+  const totalDistance = calculatedMovement.distanceMovement;
+
+  const newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);
+  
+  useStore.getState().setbatteryLevel(newBatteryLevel);
+  useStore.getState().setdistanceTravel(totalDistance);
+  
+}, [calculatedMovement]);
+  //Quick Debug
+  // useEffect(() => {
+  //   console.log("Action Tracking Array:", actionTracking);
+  //   console.log("Start Position:", startCoord);
+  //   console.log("Calculated Movement:", calculatedMovement);
+  //   console.log("Robot Location:", robotCoord);
+  // }, [actionTracking, startCoord, calculatedMovement, robotCoord]);
 
   // ──────────────────────────────
   // Rendering 
@@ -380,4 +616,3 @@ const RobotWorld = ({
 };
 
 export default RobotWorld;
-

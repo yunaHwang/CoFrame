@@ -47,6 +47,7 @@ const store = (set, get) => ({
 
   // added to keep track of sourceInfo (aka the name of the action during transferblock) so that icons move
   lastSourceInfo: null,
+  lastTransfer: null,
   setLastSourceInfo: (info) => set({ lastSourceInfo: info }),
 
   fallbackMode: false,
@@ -66,8 +67,11 @@ const store = (set, get) => ({
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
   
+  
   deletedFieldInfo: null,
   deletedParentInfo: null,
+  deletedData: null,
+  deletedData: (info) => set({ deletedData: info }),
   setDeletedFieldInfo: (info) => set({ deletedFieldInfo: info }),
   setDeletedParentInfo: (info) => set({ deletedParentInfo: info }),
 

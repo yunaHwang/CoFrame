@@ -34,6 +34,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const showError = useStore(state => state.showError, shallow);
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
     // const [ref, bounds] = useMeasure();
+    const [errorHistory, setErrorHistory] = useState([]);
 
     const [scenario,  setScenario]  = useState('Scenario 1');
     const [menuAnchor, setMenuAnchor] = useState(null);
@@ -43,7 +44,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
-
+    // const displayDistance = Math.floor(distanceTravel / 1) * 1; // Mason Test
+    // const displayBattery = Math.ceil(batteryLevel / 1) * 1; // Mason Test
     const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
 
@@ -51,16 +53,16 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     useEffect(() => {
     //console.log("why is not below 20? ", batteryLevel);
     if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
-        setBattery20Warning(true);
+        setErrorHistory(prev => ['Battery Low', ...prev]);
     }
 
     if (prevLevelRef.current > 5 && batteryLevel <= 5) {
-        setBattery20Warning(false); // make false the 20% battery warning
-        setBattery5Warning(true);
+        setErrorHistory(prev => ['Battery Critical', ...prev]);
+
     }
 
     prevLevelRef.current = batteryLevel;
-    }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
+    }, [batteryLevel]);
 
     // useEffect for sending the flipped warning signs 
     useEffect(() => {
@@ -73,6 +75,12 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const timer = setTimeout(() => setShowSpotlight(true), 1000);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+  // Simulate multiple errors for testing
+  setTimeout(() => {
+    setErrorHistory(['Battery Critical', 'Battery Low', 'Battery Low', 'Battery Critical', 'Battery Low']);
+  }, 500);
+}, []);
     
 
     return (
@@ -124,8 +132,32 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 ⚠️ {errorMessage}
                                 </Typography>
                             </Box>
-                            
                             )}
+                            {errorHistory.length > 0 && (
+                            <Box sx={{ 
+                                display: 'flex',
+                                gap: 1,
+                                overflowX: 'auto',
+                                maxWidth: '300px',
+                                '&::-webkit-scrollbar': { height: 7 },
+                                '&::-webkit-scrollbar-thumb': { backgroundColor: 'white', borderRadius: 5 }
+                            }}>
+                            {errorHistory.map((error, index) => (
+                                <Box key={index} sx={{
+                                    backgroundColor: '#ffb74d',
+                                    color: 'white',
+                                    padding: '6px 12px',
+                                    borderRadius: '2px',
+                                    minWidth: 'fit-content',
+                                    fontSize: '15px'                               
+                                    }}>
+                                {error}
+                                </Box>
+                            ))}
+                            </Box>
+                        )}
+                
+                            
             
                             <Box
                                 sx={{
@@ -199,8 +231,9 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                         </Paper>
                     )}
+                    
 
-                {battery20Warning && (
+                {/* {battery20Warning && (
                                 <Paper
                                     sx={{ 
                                         position: 'absolute',
@@ -232,9 +265,9 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                             </Paper>
                 
-                        )}
+                        )} */}
                 
-                {battery5Warning && (
+                {/* {battery5Warning && (
                     <Paper
                         sx={{ 
                         position: 'absolute',
@@ -264,7 +297,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                         Acknowledge
                         </Button>
                     </Paper>
-)}
+)} */}
                 </Box>
 
             </Tile>

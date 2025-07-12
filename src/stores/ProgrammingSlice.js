@@ -399,6 +399,7 @@ export const ProgrammingSliceOverride = (set, get) => ({
     //console.log('data', data);
     console.log('sourceInfo', sourceInfo);
     console.log('destInfo', destInfo);
+    set({ lastTransfer: { data, sourceInfo, destInfo, timestamp: Date.now() } });
     //console.log('types? ', typeof(destInfo));
     //sendSourceDestInfoToFlask(sourceInfo, destInfo);
     ///////
@@ -474,7 +475,7 @@ export const ProgrammingSliceOverride = (set, get) => ({
       state.actionDeleted = true;
       state.deletedFieldInfo = fieldInfo;
       state.deletedParentInfo = parentId ? state.programData[parentId] : null;
-      
+      state.deletedData = data;
       stageDelete(parentId, data);
       //console.log("what is fieldInfo here in deletion, ", fieldInfo);
 
