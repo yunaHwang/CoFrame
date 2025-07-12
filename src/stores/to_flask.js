@@ -1,6 +1,8 @@
 
 import { v4 as uuid } from "uuid";
 
+import useStore from "./Store";
+
 const bins = {};                       
 let   openId = null;                   // the "current" event bin
 let   lastFlush = Promise.resolve();
@@ -82,13 +84,16 @@ export function stageDestInfo(dst) {
 }
 
 export function stageDelete(parentId, data) {
+  const programData = useStore.getState().programData;
+
   return fetch("http://localhost:5000/receive_data", {
     method : "POST",
     headers: { "Content-Type": "application/json" },
     body   : JSON.stringify({
       op       : "delete",
       parentId,
-      data
+      data,
+      programData
     })
   })
     .then(r => r.json())          

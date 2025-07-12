@@ -75,12 +75,12 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const timer = setTimeout(() => setShowSpotlight(true), 1000);
     return () => clearTimeout(timer);
   }, []);
-  useEffect(() => {
-  // Simulate multiple errors for testing
-  setTimeout(() => {
-    setErrorHistory(['Battery Critical', 'Battery Low', 'Battery Low', 'Battery Critical', 'Battery Low']);
-  }, 500);
-}, []);
+//   useEffect(() => {
+//   // Simulate multiple errors for testing
+//   setTimeout(() => {
+//     setErrorHistory(['Battery Critical', 'Battery Low', 'Battery Low', 'Battery Critical', 'Battery Low']);
+//   }, 500);
+// }, []);
     
 
     return (
