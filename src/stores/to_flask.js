@@ -111,7 +111,7 @@ export function stageBatteryWarning(level, value) {
     body:JSON.stringify({ op:"battery", level, value })
   }).then(r => r.json())
     .then(json => {
-      listeners.forEach(fn => fn(json));   // 🔥 manually call the flush listeners
+      listeners.forEach(fn => fn(json));   
       return json;
     });
 }
