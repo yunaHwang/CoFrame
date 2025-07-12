@@ -205,6 +205,8 @@ export default function App() {
   const [violationList, setViolationList] = useState([]);
   const [showDrawer, setShowDrawer] = useState(false);
 
+  const [fallbackSetList, setFallbackSetList] = useState([]);
+
   const [drawerTab, setDrawerTab] = useState("ltl");
 
   useEffect(() => {
@@ -248,6 +250,17 @@ export default function App() {
         //should add about warnings?
         useStore.getState().setChargePending(false);    // reset flag
         useStore.getState().setShowBatteryCharged(true);
+      }
+      // for fallback set displays
+      if (json.fallbackSetId && json.fallbacks) {
+        const fallbackNames = json.fallbackNames || {};
+        setFallbackSetList((prevList) => {
+          const existing = prevList.filter(set => set.fallbackSetId !== json.fallbackSetId);
+          return [...existing, {
+            fallbackSetId: json.fallbackSetId,
+            fallbacks: json.fallbacks
+          }];
+        });
       }
       
     }
@@ -445,7 +458,7 @@ export default function App() {
                     </>
                   )}
 
-                  {drawerTab === "fallbacks" && (
+                  {/* {drawerTab === "fallbacks" && (
                     <>
                       <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
                       <Stack spacing={1}>
@@ -461,7 +474,35 @@ export default function App() {
                             ))}
                       </Stack>
                     </>
-                  )}
+                  )} */}
+
+                  {drawerTab === "fallbacks" && (
+                  <>
+                    <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
+                    {fallbackSetList.length > 0 ? (
+                      <Stack spacing={2}>
+                        {fallbackSetList.map((set, idx) => (
+                          <Box key={set.fallbackSetId} sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
+                            <Typography variant="subtitle2" gutterBottom>
+                              {idx + 1}. {useStore.getState().programData?.[set.fallbackSetId]?.name || set.fallbackSetId}
+                            </Typography>
+
+                            <Stack spacing={0.5} sx={{ pl: 1 }}>
+                              {set.fallbacks.map((fbId, i) => (
+                                <Typography key={fbId} variant="body2">
+                                  ↳ {set.fallbackNames?.[fbId] || useStore.getState().programData?.[fbId]?.name || fbId}
+                                </Typography>
+                              ))}
+                            </Stack>
+                          </Box>
+                        ))}
+                      </Stack>
+                    ) : (
+                      <Typography sx={{ mt: 1 }}>No fallbacks currently active. Not in error mode</Typography>
+                    )}
+                  </>
+                )}
+
                 </Box>
               </Box>
 
