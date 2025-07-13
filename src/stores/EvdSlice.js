@@ -240,6 +240,7 @@ export const EvdSlice = (set, get) => ({
       }
 
       const fallbackSetId = generateUuid("fallbackSetType");
+      console.log("this is the fallbackSetId created. Check if match with program2actions and fallbackSet2fallback", fallbackSetId);
       const fallbackId = generateUuid("fallbackType");
 
       const fallbackSetObj = instanceTemplateFromSpec(

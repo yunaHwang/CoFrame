@@ -6,6 +6,8 @@ import {
   FiThumbsUp,
   FiAlertTriangle,
   FiRefreshCw,
+  FiEdit2
+  //FaPencilAlt
 } from "react-icons/fi";
 import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
@@ -20,27 +22,27 @@ const fallbackFeatures = {
     color: "##b86e2d",
     icon: FixtureIconStyled,
     extras: [
-      EXTRA_TYPES.LOCKED_INDICATOR,
-      EXTRA_TYPES.NAME_EDIT_TOGGLE,
+      // EXTRA_TYPES.LOCKED_INDICATOR,
+      EXTRA_TYPES.SELECTION_TOGGLE,
       {
-        icon: FiMoreHorizontal,
+        icon: FiEdit2,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
           EXTRA_TYPES.NAME_EDIT_TOGGLE,
-          EXTRA_TYPES.SELECTION_TOGGLE,
-          EXTRA_TYPES.DELETE_BUTTON,
-          EXTRA_TYPES.LOCKED_INDICATOR,
-          EXTRA_TYPES.DOC_TOGGLE,
-          {
-            type: EXTRA_TYPES.ADD_ARGUMENT_GROUP,
-            allowed: [
-              "machineType",
-              "locationType",
-              "thingType",
-              "toolType",
-              "trajectoryType",
-            ],
-          },
+          // EXTRA_TYPES.SELECTION_TOGGLE,
+          // EXTRA_TYPES.DELETE_BUTTON,
+          // EXTRA_TYPES.LOCKED_INDICATOR,
+          // EXTRA_TYPES.DOC_TOGGLE,
+          // {
+          //   type: EXTRA_TYPES.ADD_ARGUMENT_GROUP,
+          //   allowed: [
+          //     "machineType",
+          //     "locationType",
+          //     "thingType",
+          //     "toolType",
+          //     "trajectoryType",
+          //   ],
+          // },
         ],
       },
     ],

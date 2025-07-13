@@ -258,7 +258,8 @@ export default function App() {
           const existing = prevList.filter(set => set.fallbackSetId !== json.fallbackSetId);
           return [...existing, {
             fallbackSetId: json.fallbackSetId,
-            fallbacks: json.fallbacks
+            fallbacks: json.fallbacks,
+            fallbackNames: json.fallbackNames,
           }];
         });
       }
@@ -490,7 +491,7 @@ export default function App() {
                             <Stack spacing={0.5} sx={{ pl: 1 }}>
                               {set.fallbacks.map((fbId, i) => (
                                 <Typography key={fbId} variant="body2">
-                                  ↳ {set.fallbackNames?.[fbId] || useStore.getState().programData?.[fbId]?.name || fbId}
+                                  ↳ {useStore.getState().programData?.[fbId]?.name || fbId}
                                 </Typography>
                               ))}
                             </Stack>
