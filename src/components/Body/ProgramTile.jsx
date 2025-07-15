@@ -42,6 +42,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const closeMenu  = () => setMenuAnchor(null);
     const pick       = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
 
+    const robotOrientation = useStore(state => state.robotOrientation || "E", shallow);
+
     const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
     // const displayDistance = Math.floor(distanceTravel / 1) * 1; // Mason Test
@@ -49,6 +51,15 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
 
+    const getRobotFacingDisplay = () => {
+        const facingMap = {
+            "N": "↑ North",
+            "E": "→ East", 
+            "S": "↓ South",
+            "W": "← West"
+        };
+    return facingMap[robotOrientation] || "→ East";
+};
     // useEffect for flipping the warnings 
     useEffect(() => {
     //console.log("why is not below 20? ", batteryLevel);
@@ -120,6 +131,14 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             }}>
                                 <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
+                            <Box 
+                            sx={{ 
+                                backgroundColor: '#2d5a87', 
+                                padding: '6px 12px', 
+                                borderRadius: '2px' 
+                                }}>
+                                <Typography style={{ color: 'white' }}>Robot Facing: {getRobotFacingDisplay()}</Typography>
+                            </Box>
                             </Stack>
                             {showError && errorMessage && (
                             <Box
@@ -138,7 +157,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 display: 'flex',
                                 gap: 1,
                                 overflowX: 'auto',
-                                maxWidth: '300px',
+                                maxWidth: '800px',
                                 '&::-webkit-scrollbar': { height: 7 },
                                 '&::-webkit-scrollbar-thumb': { backgroundColor: 'white', borderRadius: 5 }
                             }}>
@@ -149,7 +168,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                     padding: '6px 12px',
                                     borderRadius: '2px',
                                     minWidth: 'fit-content',
-                                    fontSize: '15px'                               
+                                    fontSize: '19px'                               
                                     }}>
                                 {error}
                                 </Box>

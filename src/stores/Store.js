@@ -74,6 +74,8 @@ const store = (set, get) => ({
   deletedData: (info) => set({ deletedData: info }),
   setDeletedFieldInfo: (info) => set({ deletedFieldInfo: info }),
   setDeletedParentInfo: (info) => set({ deletedParentInfo: info }),
+  robotOrientation: "E", 
+  setRobotOrientation: (orientation) => set({ robotOrientation: orientation }),
 
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),

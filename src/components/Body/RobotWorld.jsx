@@ -124,7 +124,13 @@ const RobotWorld = ({
         moves.xMovement = dx;
         moves.yMovement = dy;
       }
-      // If no parameter, moves remain 0
+    } else if (actionType === "rotateType") {
+      if (parameterValue) {
+        moves.batteryMovement = 0; 
+        moves.distanceMovement = 0; 
+        moves.xMovement = 0; 
+        moves.yMovement = 0; 
+      }
     }
     
     return moves;
@@ -153,6 +159,25 @@ const RobotWorld = ({
       return prev.filter(action => action.id !== actionId);
     });
   };
+  const updateRobotOrientation = (rotationDirection) => {
+    const directions = ["N", "E", "S", "W"]; 
+    const currentIndex = directions.indexOf(orientation);
+    
+    let newIndex;
+    if (rotationDirection === "Clockwise") {
+      newIndex = (currentIndex + 1) % 4;
+    } else if (rotationDirection === "Counter-clockwise") {
+      newIndex = (currentIndex + 3) % 4; 
+    } else if (rotationDirection === "90 degrees") {
+      newIndex = (currentIndex + 1) % 4; 
+    } else {
+      return; 
+    }
+    
+    const newOrientation = directions[newIndex];
+    setOrientation(newOrientation);
+    useStore.getState().setRobotOrientation?.(newOrientation);
+  };
 
   const addParameterToAction = (actionId, parameterId, parameterValue) => {
     setActionTracking(prev => prev.map(action => {
@@ -161,6 +186,10 @@ const RobotWorld = ({
         if (actionData) {
           
           const updatedChildren = [...action.children, parameterId];
+
+          if (actionData.type === "rotateType") {
+            updateRobotOrientation(parameterValue);
+          }
           
           const newMovement = calculateActionMovement(actionData.type, parameterValue, orientation);
           
@@ -188,6 +217,7 @@ const RobotWorld = ({
     ) {
       prevStartRef.current = startCoord;
       setOrientation("E");
+      useStore.getState().setRobotOrientation?.("E");
       setPendingMove(false);
       setPendingRotate(false);
       setPendingToConnector(false);
@@ -262,7 +292,7 @@ const RobotWorld = ({
     const { data, sourceInfo, destInfo } = lastTransfer;
     
     // Check if this is an action being added
-    if (data.type === "moveForwardType" || data.type === "toLocationType") {
+    if (data.type === "moveForwardType" || data.type === "toLocationType" || data.type === "rotateType") {
       // Get the actual spawned block ID
       const parentData = programData[destInfo.parentId];
       const actualBlockId = parentData?.properties?.children?.[destInfo.idx];
@@ -272,16 +302,21 @@ const RobotWorld = ({
       }
     }
     
-    // Check if this is a parameter being added to an action
     else if (data.type === "movementType" && destInfo.parentId) {
-      // This would be a grid action
-      const parameterValue = data.name; 
-      const parameterId = data.ref;
-      addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+      const parentAction = programData[destInfo.parentId];
+      
+      if (parentAction?.type === "moveForwardType") {
+        const parameterValue = data.name; 
+        const parameterId = data.ref;
+        addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+      } else if (parentAction?.type === "rotateType") {
+        const parameterValue = data.name;
+        const parameterId = data.ref;
+        addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+      }
     }
     
     else if (data.type === "placeType" && destInfo.parentId) {
-      // This would be a placeLocation
       const parameterValue = data.name;
       const parameterId = data.ref;
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
@@ -304,7 +339,10 @@ const RobotWorld = ({
           const deletedActionId = deletedData.id;
           console.log("Action deletion detected. Deleted :", deletedActionId);
           console.log("Current tracking:", actionTracking.map(a => a.id));
-          
+        if (deletedData.type === "rotateType") {
+            setOrientation("E");
+            useStore.getState().setRobotOrientation?.("E");
+          }
           removeActionFromTracking(deletedActionId);
         }
       }
@@ -348,6 +386,25 @@ const RobotWorld = ({
           return action;
         }));
       }
+      else if (deletedFieldInfo.name === "Rotation Direction" && deletedFieldInfo.value === "angleDirection") {
+        const actionId = deletedParentInfo.id;
+          setOrientation("E");
+          useStore.getState().setRobotOrientation?.("E");
+        
+        setActionTracking(prev => prev.map(action => {
+          if (action.id === actionId) {
+            return {
+              ...action,
+              children: [], 
+              batteryMovement: 0, 
+              distanceMovement: 0,
+              xMovement: 0,
+              yMovement: 0
+            };
+          }
+          return action;
+        }));
+      }
       //Case 2 and 3 could be merge but keeping for clearity
       
       // Reset deletion flags
@@ -355,8 +412,7 @@ const RobotWorld = ({
       setDeletedParentInfo(null);
       setActionDeleted(false);
     }
-  }, [actionDeleted, deletedFieldInfo, deletedParentInfo, setActionDeleted, setDeletedFieldInfo, setDeletedParentInfo, programData, actionTracking]);
-  
+  }, [actionDeleted, deletedFieldInfo, deletedParentInfo, deletedData, setActionDeleted, setDeletedFieldInfo, setDeletedParentInfo, programData, actionTracking]);  
   // ──────────────────────────────
   // Check for errors when robot position changes
   // ──────────────────────────────
@@ -504,21 +560,27 @@ const RobotWorld = ({
   }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
 
   useEffect(() => {
-    const warn20 = useStore.getState().battery20Warning;
-    const warn5  = useStore.getState().battery5Warning;
-    if (warn20) stageBatteryWarning(20, true);
-    if (warn5 ) stageBatteryWarning(5, true);
-  }, [useStore((s)=>s.battery20Warning), useStore((s)=>s.battery5Warning)]);
-  useEffect(() => {
-  const totalBatteryUsed = calculatedMovement.batteryMovement;
-  const totalDistance = calculatedMovement.distanceMovement;
+    const totalBatteryUsed = calculatedMovement.batteryMovement;
+    const totalDistance = calculatedMovement.distanceMovement;
 
-  const newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);
-  
-  useStore.getState().setbatteryLevel(newBatteryLevel);
-  useStore.getState().setdistanceTravel(totalDistance);
-  
-}, [calculatedMovement]);
+    const hasChargedAction = actionTracking.some(action => {
+      const actionData = programData[action.id];
+      return actionData?.type === "toLocationType" && 
+            action.children.length > 0 && 
+            programData[action.children[0]]?.name === "Battery charging station";
+    });
+
+    let newBatteryLevel;
+    if (hasChargedAction) {
+      newBatteryLevel = 100;  
+    } else {
+      newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);  
+    }
+    
+    useStore.getState().setbatteryLevel(newBatteryLevel);
+    useStore.getState().setdistanceTravel(totalDistance);
+    
+  }, [calculatedMovement, actionTracking, programData]);
   //Quick Debug
   // useEffect(() => {
   //   console.log("Action Tracking Array:", actionTracking);
