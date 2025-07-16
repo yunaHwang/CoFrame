@@ -564,22 +564,40 @@ const RobotWorld = ({
     const totalBatteryUsed = calculatedMovement.batteryMovement;
     const totalDistance = calculatedMovement.distanceMovement;
 
-    const hasChargedAction = actionTracking.some(action => {
-      const actionData = programData[action.id];
-      return actionData?.type === "toLocationType" && 
-            action.children.length > 0 && 
-            programData[action.children[0]]?.name === "Battery charging station";
-    });
+    // const hasChargedAction = actionTracking.some(action => {
+    //   const actionData = programData[action.id];
+    //   return actionData?.type === "toLocationType" && 
+    //         action.children.length > 0 && 
+    //         programData[action.children[0]]?.name === "Battery charging station";
+    // });
 
-    let newBatteryLevel;
-    if (hasChargedAction) {
-      newBatteryLevel = 100;  
-    } else {
-      newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);  
-    }
-    
+    const chargePending = useStore.getState().chargePending;
+    const clean = useStore.getState().clean;
+
+    const batteryResetActionCount = useStore.getState().batteryResetActionCount ?? 0;
+    const postChargeActions = actionTracking.slice(batteryResetActionCount);
+    const postChargeBatteryUsed = postChargeActions.reduce((sum, a) => sum + a.batteryMovement, 0);
+    console.log("postChargeActions, postChargeBatteryUsed, ", postChargeActions, postChargeBatteryUsed);
+
+    const newBatteryLevel = Math.max(0, 100 - postChargeBatteryUsed);
     useStore.getState().setbatteryLevel(newBatteryLevel);
     useStore.getState().setdistanceTravel(totalDistance);
+
+    // let newBatteryLevel;
+
+    // const chargePending = useStore.getState().chargePending;
+    // console.log("chargePending, ", chargePending);
+    // const clean = useStore.getState().clean;
+    // console.log("clean, ", clean);
+
+    // if (hasChargedAction && !chargePending && clean) {
+    //   newBatteryLevel = 100;  
+    // } else {
+    //   newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);  
+    // }
+    
+    // useStore.getState().setbatteryLevel(newBatteryLevel);
+    // useStore.getState().setdistanceTravel(totalDistance);
     
   }, [calculatedMovement, actionTracking, programData]);
   //Quick Debug
@@ -635,7 +653,7 @@ const RobotWorld = ({
         <Typography key={i} style={overlayLabelStyle(from,to)}>{text}</Typography>
       ))}
 
-      {showBatteryCharged && (
+      {/* {showBatteryCharged && (
         <Paper sx={{position:"absolute", top:"50%", left:"50%",
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
@@ -647,7 +665,7 @@ const RobotWorld = ({
             OK
           </Button>
         </Paper>
-      )}
+      )} */}
 
       <div style={gridStyle}>
         {Array.from({length:80}).map((_,idx)=>{

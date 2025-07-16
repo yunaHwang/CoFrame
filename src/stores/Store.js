@@ -77,6 +77,9 @@ const store = (set, get) => ({
   robotOrientation: "E", 
   setRobotOrientation: (orientation) => set({ robotOrientation: orientation }),
 
+  clean: true,
+  setClean: (v) => set({clean: v}),
+  
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),
 

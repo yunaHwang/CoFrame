@@ -61,19 +61,19 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     return facingMap[robotOrientation] || "→ East";
 };
     // useEffect for flipping the warnings 
-    useEffect(() => {
-    //console.log("why is not below 20? ", batteryLevel);
-    if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
-        setErrorHistory(prev => ['Battery Low', ...prev]);
-    }
+    // useEffect(() => {
+    // //console.log("why is not below 20? ", batteryLevel);
+    // if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
+    //     setErrorHistory(prev => ['Battery Low', ...prev]);
+    // }
 
-    if (prevLevelRef.current > 5 && batteryLevel <= 5) {
-        setErrorHistory(prev => ['Battery Critical', ...prev]);
+    // if (prevLevelRef.current > 5 && batteryLevel <= 5) {
+    //     setErrorHistory(prev => ['Battery Critical', ...prev]);
 
-    }
+    // }
 
-    prevLevelRef.current = batteryLevel;
-    }, [batteryLevel]);
+    // prevLevelRef.current = batteryLevel;
+    // }, [batteryLevel]);
 
     // useEffect for sending the flipped warning signs 
     useEffect(() => {
@@ -152,7 +152,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 </Typography>
                             </Box>
                             )}
-                            {errorHistory.length > 0 && (
+                            {/* {errorHistory.length > 0 && (
                             <Box sx={{ 
                                 display: 'flex',
                                 gap: 1,
@@ -174,7 +174,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 </Box>
                             ))}
                             </Box>
-                        )}
+                        )} */}
                 
                             
             

@@ -245,11 +245,20 @@ export default function App() {
       if (typeof json.charge_pending === "boolean") {
         useStore.getState().setChargePending(json.charge_pending);
       }
-      if (json.clean && useStore.getState().chargePending) {
+      if (typeof json.clean === "boolean") {
+        useStore.getState().setClean(json.clean);
+      }
+      if (useStore.getState().clean && !useStore.getState().chargePending) {
         useStore.getState().setbatteryLevel(100);       // animate gauge → 100 %
         //should add about warnings?
         useStore.getState().setChargePending(false);    // reset flag
         useStore.getState().setShowBatteryCharged(true);
+
+        setTimeout(() => {
+      const actionCount = useStore.getState().actionTracking?.length ?? 0;
+      useStore.getState().setBatteryResetActionCount(actionCount);
+      console.log("[RESET COUNT SET]", actionCount);
+    }, 0);
       }
       // for fallback set displays
       if (json.fallbackSetId && json.fallbacks) {
