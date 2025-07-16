@@ -419,40 +419,46 @@ export const ProgrammingSliceOverride = (set, get) => ({
     //console.log("so, what is programId correct, ", destInfo.parentId); //and then find the programData whose properties' children includes this parentId
 
     // action -> skill -> program
-    const twoLevelProgramNode = Object.values(store.programData).find(
-      (node) =>
-        node.type === "programType" &&                        // only root programs
-        Array.isArray(node.properties?.children) &&
-        node.properties.children.includes(destInfo.parentId)  // ← match the skill id
-    );
-    const twoLevelId = twoLevelProgramNode ? twoLevelProgramNode.id : null;
-    console.log("when action, this should be programId, ", twoLevelId);
+  //   
 
-    // param -> action -> skill -> program
-    const threeLevelProgramNode = Object.values(store.programData).find((program) => {
-  /* consider only program roots */
-      if (
-        program.type !== "programType" ||
-        !Array.isArray(program.properties?.children)
-      ) {
-        return false;
+    function findEnclosingProgramId(startFromId, programData) {
+      const visited = new Set();
+      const parentMap = {};
+
+      // Reverse-map: child → parent
+      for (const [id, node] of Object.entries(programData)) {
+        const children = node.properties?.children || [];
+        for (const child of children) {
+          parentMap[child] = id;
+        }
       }
 
-      /* does ANY immediate child of this program (a “skill”) contain the action? */
-      return program.properties.children.some((child) => {
-        const skillNode = store.programData[child];
-        return (
-          skillNode &&
-          Array.isArray(skillNode.properties?.children) &&
-          skillNode.properties.children.includes(destInfo.parentId)
-        );
-      });
-    });
+      // Start from the immediate container of the thing being inserted
+      const startNode = programData[startFromId];
+        if (startNode?.type === "programType") {
+          return startFromId;
+        }
 
-    const threeLevelId = threeLevelProgramNode ? threeLevelProgramNode.id : null;
-    console.log("when param, this should be programId, ", threeLevelId);
+      let current = startFromId;
+      console.log("current, ", current);
 
-    const programId = twoLevelId || threeLevelId;
+      while (current && !visited.has(current)) {
+        visited.add(current);
+        const parentId = parentMap[current];
+        const parentNode = programData[parentId];
+
+        if (parentNode?.type === "programType") {
+          return parentId;
+        }
+
+        current = parentId;
+      }
+
+      return null;
+    };
+    const programId = findEnclosingProgramId(destInfo.parentId, store.programData);
+    console.log("does this always print out the right programId, ", programId);
+
     set({ currentProgramId: programId });
 
     stageSourceInfo(sourceInfo);

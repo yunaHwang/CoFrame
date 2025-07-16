@@ -544,6 +544,7 @@ const RobotWorld = ({
   // Warning-flip + backend notify
   // ──────────────────────────────
   const batteryLevel          = useStore((s) => s.batteryLevel);
+  //console.log("is batteryLevel just not working, ", batteryLevel);
   const setBattery20Warning   = useStore((s) => s.setBattery20Warning);
   const setBattery5Warning    = useStore((s) => s.setBattery5Warning);
   const prevLevelRef          = useRef(batteryLevel);

@@ -169,6 +169,11 @@ useStore.subscribe(
     const programId = store.currentProgramId;
 
     // Fire once when each flag flips false → true
+    // console.log("curr.warn20", curr.warn20);
+    // console.log("prev.warn20", prev.warn20);
+    // console.log("curr.warn5", curr.warn5);
+    // console.log("prev.warn5", prev.warn5);
+
     if (curr.warn20 && !prev.warn20) {
       //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
       if (!store.batteryErrorBlockMade20) {
