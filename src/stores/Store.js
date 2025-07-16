@@ -68,6 +68,7 @@ const store = (set, get) => ({
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
   
   
+  
   deletedFieldInfo: null,
   deletedParentInfo: null,
   deletedData: null,
@@ -79,7 +80,7 @@ const store = (set, get) => ({
 
   clean: true,
   setClean: (v) => set({clean: v}),
-  
+
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),
 
