@@ -87,6 +87,12 @@ const store = (set, get) => ({
   showBatteryCharged: false,
   setShowBatteryCharged: (v) => set({ showBatteryCharged: v }),
 
+  actionTracking: [],
+  setActionTracking: (val) => set({ actionTracking: val }),
+
+  batteryResetActionCount: 0,
+  setBatteryResetActionCount: (val) => set({ batteryResetActionCount: val }),
+
 
   errorMessage: null,
   setErrorMessage: (message) => set({ errorMessage: message }),

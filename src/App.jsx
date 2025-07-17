@@ -248,14 +248,37 @@ export default function App() {
       if (typeof json.clean === "boolean") {
         useStore.getState().setClean(json.clean);
       }
-      if (useStore.getState().clean && useStore.getState().chargePending) {
-        useStore.getState().setbatteryLevel(100);       // animate gauge → 100 %
-        //should add about warnings?
-        useStore.getState().setChargePending(false);    // reset flag
-        useStore.getState().setShowBatteryCharged(true);
+      
+
+      if (json.clean === true && json.charge_pending === false) {
+
+        setTimeout(() => {
+          const battery20 = useStore.getState().battery20Warning;
+          const battery5 = useStore.getState().battery5Warning;
+          const hadWarning = battery20 || battery5;
+
+          console.log("battery20Warning evolution, ", battery20);
+          console.log("hadWarning, ", hadWarning);
+
+          if (!hadWarning) return;
+
+          const trackingSnapshot = [...useStore.getState().actionTracking];
+          console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
+          useStore.getState().setbatteryLevel(100);
+          useStore.getState().setChargePending(false);
+          useStore.getState().setShowBatteryCharged(true);
+          useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
+          
+          useStore.getState().setBattery20Warning(false);
+          useStore.getState().setBattery5Warning(false);
+        }, 100);
+        
+
+        }
+        
 
         
-      }
+      
       // for fallback set displays
       if (json.fallbackSetId && json.fallbacks) {
         const fallbackNames = json.fallbackNames || {};
