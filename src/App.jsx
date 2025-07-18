@@ -226,12 +226,7 @@ export default function App() {
     function handleFlush(json) {
       console.log("what is json.status, ", json.status);
       console.log("what is json, ", json);
-      //console.log("what is json.ltl_results, ", json.ltl_results);
 
-      // const violations = json?.ltl_results ?? [];
-
-      // setViolationList(violations);
-      // setShowDrawer(violations.length > 0);
 
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
@@ -278,33 +273,6 @@ export default function App() {
 
         }
         
-
-        
-      
-      // for fallback set displays
-      // if (json.fallbackSetId && json.fallbacks) {
-      //   const fallbackNames = json.fallbackNames || {};
-      //   setFallbackSetList((prevList) => {
-
-      //     const existingIndex = prevList.findIndex(set => set.fallbackSetId === json.fallbackSetId);
-      //     const updatedSet = {
-      //       fallbackSetId: json.fallbackSetId,
-      //       fallbacks: json.fallbacks,
-      //       fallbackNames: json.fallbackNames || {},
-      //     };
-
-      //     if (existingIndex !== -1) {
-      //       // Replace at the same index
-      //       const newList = [...prevList];
-      //       newList[existingIndex] = updatedSet;
-      //       return newList;
-      //     } else {
-      //       // Add to end
-      //       return [...prevList, updatedSet];
-      //     }
-      //   });
-      // }
-
       if (Array.isArray(json.fallbackSetSignals)) {
         for (const signalBlock of json.fallbackSetSignals) {
           const {
@@ -374,14 +342,7 @@ export default function App() {
                 '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
   };
   const icons = iconSets[scenario] ?? {}; 
-  //console.log("is it the right scenario, ",scenario);
-  //console.log("does it print the right icons, ", icons);
 
-
-  // // Icon setting
-  // const icons = {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-  //               '0,6': wrongObj, '1,6': correctObj
-  // };
 
   // Label setting
   const labelsOverGrid = [{ text: 'Activity area', from: [1, 2], to: [3, 2] },
@@ -400,9 +361,6 @@ export default function App() {
             position: "fixed",
           }}
         >
-          {/* {fallbackMode && (
-           <ReviewTile drawerOpen={visibleSteps && errorType === null} fallbackMode={fallbackMode} /> 
-           )} */}
           <ReflexContainer
             orientation="vertical"
             style={{ backgroundColor: "blue" }}
@@ -559,27 +517,13 @@ export default function App() {
                                     <Box component="img" src={arrowPng} alt="↓" sx={{ height: 24, width: 24, mt: 0.5, mb: 0.5 }} />
                                     )}
                                     </React.Fragment>
-                                // <Typography key={fbId} variant="body2">
-                                //   {/* ↳ {useStore.getState().programData?.[fbId]?.name || fbId} */}
-                                //   <>
-                                //   <Typography variant="body2" sx={{ lineHeight: 1 }}>
-                                //     |
-                                //   </Typography>
-                                //   <Typography variant="body2" sx={{ lineHeight: 1 }}>
-                                //     V
-                                //   </Typography>
-                                //   <Typography variant="body2">
-                                //     {useStore.getState().programData?.[fbId]?.name || fbId}
-                                //   </Typography>
-                                // </>
-                                // </Typography>
                               ))}
                             </Stack>
                           </Box>
                         ))}
                       </Stack>
                     ) : (
-                      <Typography sx={{ mt: 1 }}>No fallbacks currently active. No errors as of now.</Typography>
+                      <Typography sx={{ mt: 1 }}>No robot failures right now. No fallbacks currently active.</Typography>
                     )}
                   </>
                 )}
