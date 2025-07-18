@@ -283,12 +283,28 @@ export default function App() {
       if (json.fallbackSetId && json.fallbacks) {
         const fallbackNames = json.fallbackNames || {};
         setFallbackSetList((prevList) => {
-          const existing = prevList.filter(set => set.fallbackSetId !== json.fallbackSetId);
-          return [...existing, {
+          // const existing = prevList.filter(set => set.fallbackSetId !== json.fallbackSetId);
+          // return [...existing, {
+          //   fallbackSetId: json.fallbackSetId,
+          //   fallbacks: json.fallbacks,
+          //   fallbackNames: json.fallbackNames,
+          // }];
+          const existingIndex = prevList.findIndex(set => set.fallbackSetId === json.fallbackSetId);
+          const updatedSet = {
             fallbackSetId: json.fallbackSetId,
             fallbacks: json.fallbacks,
-            fallbackNames: json.fallbackNames,
-          }];
+            fallbackNames: json.fallbackNames || {},
+          };
+
+          if (existingIndex !== -1) {
+            // Replace at the same index
+            const newList = [...prevList];
+            newList[existingIndex] = updatedSet;
+            return newList;
+          } else {
+            // Add to end
+            return [...prevList, updatedSet];
+          }
         });
       }
       
