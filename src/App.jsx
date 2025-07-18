@@ -282,28 +282,63 @@ export default function App() {
         
       
       // for fallback set displays
-      if (json.fallbackSetId && json.fallbacks) {
-        const fallbackNames = json.fallbackNames || {};
-        setFallbackSetList((prevList) => {
+      // if (json.fallbackSetId && json.fallbacks) {
+      //   const fallbackNames = json.fallbackNames || {};
+      //   setFallbackSetList((prevList) => {
 
-          const existingIndex = prevList.findIndex(set => set.fallbackSetId === json.fallbackSetId);
-          const updatedSet = {
-            fallbackSetId: json.fallbackSetId,
-            fallbacks: json.fallbacks,
-            fallbackNames: json.fallbackNames || {},
-          };
+      //     const existingIndex = prevList.findIndex(set => set.fallbackSetId === json.fallbackSetId);
+      //     const updatedSet = {
+      //       fallbackSetId: json.fallbackSetId,
+      //       fallbacks: json.fallbacks,
+      //       fallbackNames: json.fallbackNames || {},
+      //     };
 
-          if (existingIndex !== -1) {
-            // Replace at the same index
-            const newList = [...prevList];
-            newList[existingIndex] = updatedSet;
-            return newList;
-          } else {
-            // Add to end
-            return [...prevList, updatedSet];
-          }
-        });
+      //     if (existingIndex !== -1) {
+      //       // Replace at the same index
+      //       const newList = [...prevList];
+      //       newList[existingIndex] = updatedSet;
+      //       return newList;
+      //     } else {
+      //       // Add to end
+      //       return [...prevList, updatedSet];
+      //     }
+      //   });
+      // }
+
+      if (Array.isArray(json.fallbackSetSignals)) {
+        for (const signalBlock of json.fallbackSetSignals) {
+          const {
+            fallbackSetId,
+            fallbacks,
+            fallbackNames,
+            actionSignals,
+            errorType
+          } = signalBlock;
+
+          setFallbackSetList(prevList => {
+            const existingIndex = prevList.findIndex(
+              set => set.fallbackSetId === fallbackSetId && set.errorType === errorType
+            );
+
+            const updatedSet = {
+              fallbackSetId,
+              errorType,
+              fallbacks,
+              fallbackNames,
+              actionSignals,
+            };
+
+            if (existingIndex !== -1) {
+              const newList = [...prevList];
+              newList[existingIndex] = updatedSet;
+              return newList;
+            } else {
+              return [...prevList, updatedSet];
+            }
+          });
+        }
       }
+
       
     }
     subscribeFlush(handleFlush);
@@ -424,38 +459,7 @@ export default function App() {
             )}
           </ReflexContainer>
 
-          {/* {showDrawer ? (<Drawer 
-            variant="permanent"
-            anchor= "right"
-            open={true} 
-            sx={{
-              flexShrink: 0,               // don’t let it collapse
-              "& .MuiDrawer-paper": {
-                width: '20vw',                // panel width
-                position: 'relative',
-                boxSizing: "border-box",
-                p: 2,                      // padding inside
-              },
-            }}>
-              <Box display="flex" alignItems="center" mb={1}>
-                <Typography variant="h6" sx={{ flexGrow: 1 }}> LTL Violations </Typography>
-
-                <IconButton onClick={() => setShowDrawer(false)}> x </IconButton>
-
-              </Box>
-
-              {violationList.length === 0 ? (
-                <Typography sx={{ mt: 2 }}>No violations</Typography>
-              ) : (
-                <Stack spacing={1} sx={{ mt: 2 }}>
-                  {violationList.map((text, idx) => (
-                    <Alert key={idx} severity="error" variant="outlined">
-                      {text}
-                    </Alert>
-                  ))}
-                </Stack>
-              )}
-          </Drawer>) : */}
+          
           {showDrawer ? 
           (<Drawer
             variant="permanent"
@@ -502,23 +506,6 @@ export default function App() {
                     </>
                   )}
 
-                  {/* {drawerTab === "fallbacks" && (
-                    <>
-                      <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
-                      <Stack spacing={1}>
-                        {useStore.getState().fallback2components &&
-                          Object.keys(useStore.getState().fallback2components)
-                            .sort()
-                            .map((fbId, idx) => (
-                              <Box key={fbId} sx={{ p: 1, bgcolor: "grey.900", borderRadius: 1 }}>
-                                <Typography variant="body2">
-                                  {idx + 1}. {fbId}
-                                </Typography>
-                              </Box>
-                            ))}
-                      </Stack>
-                    </>
-                  )} */}
 
                   {drawerTab === "fallbacks" && (
                   <>
@@ -526,9 +513,11 @@ export default function App() {
                     {fallbackSetList.length > 0 ? (
                       <Stack spacing={2}>
                         {fallbackSetList.map((set, idx) => (
-                          <Box key={set.fallbackSetId} sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
+                          <Box key={`${set.fallbackSetId}-${set.errorType}`} 
+                                sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
                               {idx + 1}. {useStore.getState().programData?.[set.fallbackSetId]?.name || set.fallbackSetId}
+                              <em style={{ fontSize: "0.8em", color: "lightgray" }}>({set.errorType})</em>
                             </Typography>
 
                             <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
@@ -536,6 +525,7 @@ export default function App() {
 
                                 <React.Fragment key={fbId}>
                                     <Box
+                                      key={fbId}
                                       sx={{
                                         px: 2,
                                         py: 1,
@@ -550,7 +540,19 @@ export default function App() {
                                         {useStore.getState().programData?.[fbId]?.name || fbId}
                                       </Typography>
 
-
+                                      <Box
+                                        sx={{
+                                          width: 12,
+                                          height: 12,
+                                          borderRadius: "50%",
+                                          bgcolor:
+                                            set.actionSignals?.[fbId] === "red"
+                                              ? "red"
+                                              : set.actionSignals?.[fbId] === "green"
+                                              ? "green"
+                                              : "gold",
+                                        }}
+                                      />
                                     </Box>
 
                                     {i < set.fallbacks.length - 1 && (
