@@ -35,6 +35,8 @@ import correctObjPng from "./components/SimMapFlaticons/delivery_object.png"
 import barrierPng from "./components/SimMapFlaticons/barrier.png"
 import cartPng from "./components/SimMapFlaticons/money.png"
 
+import arrowPng from "./components/FallbackIcons/arrow.png"
+
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
   const viewMode = useStore((state) => state.viewMode, shallow);
@@ -283,12 +285,7 @@ export default function App() {
       if (json.fallbackSetId && json.fallbacks) {
         const fallbackNames = json.fallbackNames || {};
         setFallbackSetList((prevList) => {
-          // const existing = prevList.filter(set => set.fallbackSetId !== json.fallbackSetId);
-          // return [...existing, {
-          //   fallbackSetId: json.fallbackSetId,
-          //   fallbacks: json.fallbacks,
-          //   fallbackNames: json.fallbackNames,
-          // }];
+
           const existingIndex = prevList.findIndex(set => set.fallbackSetId === json.fallbackSetId);
           const updatedSet = {
             fallbackSetId: json.fallbackSetId,
@@ -312,6 +309,8 @@ export default function App() {
     subscribeFlush(handleFlush);
     return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
   }, []);
+
+  console.log("what is fallbackSetList, ", fallbackSetList);
 
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
@@ -532,18 +531,53 @@ export default function App() {
                               {idx + 1}. {useStore.getState().programData?.[set.fallbackSetId]?.name || set.fallbackSetId}
                             </Typography>
 
-                            <Stack spacing={0.5} sx={{ pl: 1 }}>
+                            <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
                               {set.fallbacks.map((fbId, i) => (
-                                <Typography key={fbId} variant="body2">
-                                  ↳ {useStore.getState().programData?.[fbId]?.name || fbId}
-                                </Typography>
+
+                                <React.Fragment key={fbId}>
+                                    <Box
+                                      sx={{
+                                        px: 2,
+                                        py: 1,
+                                        bgcolor: "grey.800",
+                                        borderRadius: 1,
+                                        border: "1px solid grey",
+                                        minWidth: "80%",
+                                        textAlign: "center",
+                                      }}>
+
+                                      <Typography variant="body2">
+                                        {useStore.getState().programData?.[fbId]?.name || fbId}
+                                      </Typography>
+
+
+                                    </Box>
+
+                                    {i < set.fallbacks.length - 1 && (
+                                    <Box component="img" src={arrowPng} alt="↓" sx={{ height: 24, width: 24, mt: 0.5, mb: 0.5 }} />
+                                    )}
+                                    </React.Fragment>
+                                // <Typography key={fbId} variant="body2">
+                                //   {/* ↳ {useStore.getState().programData?.[fbId]?.name || fbId} */}
+                                //   <>
+                                //   <Typography variant="body2" sx={{ lineHeight: 1 }}>
+                                //     |
+                                //   </Typography>
+                                //   <Typography variant="body2" sx={{ lineHeight: 1 }}>
+                                //     V
+                                //   </Typography>
+                                //   <Typography variant="body2">
+                                //     {useStore.getState().programData?.[fbId]?.name || fbId}
+                                //   </Typography>
+                                // </>
+                                // </Typography>
                               ))}
                             </Stack>
                           </Box>
                         ))}
                       </Stack>
                     ) : (
-                      <Typography sx={{ mt: 1 }}>No fallbacks currently active. Not in error mode</Typography>
+                      <Typography sx={{ mt: 1 }}>No fallbacks currently active. No errors as of now.</Typography>
                     )}
                   </>
                 )}
