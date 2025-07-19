@@ -449,7 +449,7 @@ export default function App() {
                   onChange={(e, val) => setDrawerTab(val)}
                   variant="fullWidth"
                 >
-                  <Tab value="ltl" label="LTL Violations" />
+                  <Tab value="ltl" label="Detected Issues" />
                   <Tab value="fallbacks" label="Fallbacks" />
                 </Tabs>
 
@@ -548,15 +548,15 @@ export default function App() {
                                       border = "#fdd835";
                                     } else if (isInThisSet) {
                                       if (fallbackSignal === "green") {
-                                        explanation = "This fallback behavior has been satisfied successfully.";
+                                        explanation = "Issue resolved. You successfully programmed the fallback.";
                                         bgcolor = "#e0f2f1"; // light green-ish
                                         border = "#4caf50";
                                       } else if (fallbackSignal === "red") {
-                                        explanation = "This fallback behavior did not satisfy the required condition.";
+                                        explanation = "This fallback behavior does not satisfy the required condition for solving the robot failure. Check the 'Detected Issues' tab to see what went wrong and how to fix it.";
                                         bgcolor = "#fcebea"; // red
                                         border = "#f5c6cb";
                                       } else {
-                                        explanation = "Fallback path in progress. Keep adding steps to handle the failure.";
+                                        explanation = "This fallback behavior is not wrong but it did not resolve the issue. For hints, check the 'Detected Issues' tab.";
                                         bgcolor = "#fff9c4"; // yellow
                                         border = "#fdd835";
                                       }
