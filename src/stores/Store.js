@@ -103,6 +103,9 @@ const store = (set, get) => ({
   setActionDeleted: (deleted) => set({ actionDeleted: deleted }),
 
   currentProgramId: null,
+  currentFallbackTypeId: null,
+  setCurrentFallbackTypeId: (id) => set({ currentFallbackTypeId: id }),
+
 
   clock: new Timer(),
   playing: true,

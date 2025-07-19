@@ -245,6 +245,12 @@ export default function App() {
       if (typeof json.clean === "boolean") {
         useStore.getState().setClean(json.clean);
       }
+
+      if (typeof json.currentFallbackTypeId === "string") {
+        useStore.getState().setCurrentFallbackTypeId(json.currentFallbackTypeId);
+      }
+
+
       
 
       if (json.clean === true && json.charge_pending === false) {
@@ -349,6 +355,11 @@ export default function App() {
                       { text: 'Package room', from: [0, 7], to: [2, 7] },
                       { text: 'Elderly room', from: [6, 3], to: [8, 3]}];
 
+  // Current FallbackType setting for explanation generation                    
+  const currentFallbackTypeId = useStore((s) => s.currentFallbackTypeId);
+  console.log("what is currentFallbackTypeId," ,currentFallbackTypeId);
+
+
   return (
     
       <ThemeProvider theme={muiTheme}>
@@ -446,7 +457,7 @@ export default function App() {
                   {drawerTab === "ltl" && (
                     <>
                       <Box display="flex" alignItems="center" mb={1}>
-                        <Typography variant="h6" sx={{ flexGrow: 1 }}>LTL Violations</Typography>
+                        <Typography variant="h6" sx={{ flexGrow: 1 }}>Detected Issues</Typography>
                         <IconButton onClick={() => setShowDrawer(false)}>x</IconButton>
                       </Box>
 
@@ -475,7 +486,6 @@ export default function App() {
                                 sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
                               {idx + 1}. {useStore.getState().programData?.[set.fallbackSetId]?.name || set.fallbackSetId}
-                              <em style={{ fontSize: "0.8em", color: "lightgray" }}>({set.errorType})</em>
                             </Typography>
 
                             <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
@@ -492,6 +502,7 @@ export default function App() {
                                         border: "1px solid grey",
                                         minWidth: "80%",
                                         textAlign: "center",
+                                        position: "relative",
                                       }}>
 
                                       <Typography variant="body2">
@@ -500,6 +511,9 @@ export default function App() {
 
                                       <Box
                                         sx={{
+                                          position: "absolute",
+                                          bottom: 6,
+                                          left: 6,
                                           width: 12,
                                           height: 12,
                                           borderRadius: "50%",
@@ -518,7 +532,65 @@ export default function App() {
                                     )}
                                     </React.Fragment>
                               ))}
+
+                              {(() => {
+                                    const hasFallbacks = set.fallbacks.length > 0;
+                                    const isInThisSet = set.fallbacks.includes(currentFallbackTypeId);
+                                    const fallbackSignal = isInThisSet ? set.actionSignals?.[currentFallbackTypeId] : null;
+
+                                    let explanation = null;
+                                    let bgcolor = "";
+                                    let border = "";
+
+                                    if (!hasFallbacks) {
+                                      explanation = "No fallback actions yet. Add some actions to handle this failure.";
+                                      bgcolor = "#fff9c4";  // yellow
+                                      border = "#fdd835";
+                                    } else if (isInThisSet) {
+                                      if (fallbackSignal === "green") {
+                                        explanation = "This fallback behavior has been satisfied successfully.";
+                                        bgcolor = "#e0f2f1"; // light green-ish
+                                        border = "#4caf50";
+                                      } else if (fallbackSignal === "red") {
+                                        explanation = "This fallback behavior did not satisfy the required condition.";
+                                        bgcolor = "#fcebea"; // red
+                                        border = "#f5c6cb";
+                                      } else {
+                                        explanation = "Fallback path in progress. Keep adding steps to handle the failure.";
+                                        bgcolor = "#fff9c4"; // yellow
+                                        border = "#fdd835";
+                                      }
+                                    } 
+
+                                    return explanation ? (
+                                      <Box
+                                        sx={{
+                                          mt: 2,
+                                          p: 2,
+                                          bgcolor,
+                                          border: `1px solid ${border}`,
+                                          borderRadius: 2,
+                                          minWidth: "80%",
+                                          textAlign: "left"
+                                        }}
+                                      >
+                                      <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                          color:
+                                            bgcolor === "#fcebea"
+                                              ? "#b71c1c"
+                                              : bgcolor === "#e0f2f1"
+                                              ? "#1b5e20"
+                                              : "#9e8600",
+                                          fontWeight: 600
+                                        }}
+                                      >
+                                        {explanation}
+                                      </Typography>
+                                    </Box>): null;})()}
                             </Stack>
+
                           </Box>
                         ))}
                       </Stack>
