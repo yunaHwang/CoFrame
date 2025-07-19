@@ -283,6 +283,7 @@ export default function App() {
         for (const signalBlock of json.fallbackSetSignals) {
           const {
             fallbackSetId,
+            fallbackSetName,
             fallbacks,
             fallbackNames,
             actionSignals,
@@ -296,6 +297,7 @@ export default function App() {
 
             const updatedSet = {
               fallbackSetId,
+              fallbackSetName,
               errorType,
               fallbacks,
               fallbackNames,
@@ -485,7 +487,7 @@ export default function App() {
                           <Box key={`${set.fallbackSetId}-${set.errorType}`} 
                                 sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
-                              {idx + 1}. {useStore.getState().programData?.[set.fallbackSetId]?.name || set.fallbackSetId}
+                              {idx + 1}. {set.fallbackSetName || set.fallbackSetId}
                             </Typography>
 
                             <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
@@ -506,7 +508,7 @@ export default function App() {
                                       }}>
 
                                       <Typography variant="body2">
-                                        {useStore.getState().programData?.[fbId]?.name || fbId}
+                                        {set.fallbackNames[i] || fbId}
                                       </Typography>
 
                                       <Box
@@ -542,11 +544,27 @@ export default function App() {
                                     let bgcolor = "";
                                     let border = "";
 
-                                    if (!hasFallbacks) {
-                                      explanation = "No fallback actions yet. Add some actions to handle this failure.";
-                                      bgcolor = "#fff9c4";  // yellow
-                                      border = "#fdd835";
-                                    } else if (isInThisSet) {
+                                    // if (!hasFallbacks) {
+                                    //   explanation = "No fallback actions yet. Add some actions to handle this failure.";
+                                    //   bgcolor = "#fff9c4";  // yellow
+                                    //   border = "#fdd835";
+                                    // } else if (isInThisSet) {
+                                    //   if (fallbackSignal === "green") {
+                                    //     explanation = "Issue resolved. You successfully programmed the fallback.";
+                                    //     bgcolor = "#e0f2f1"; // light green-ish
+                                    //     border = "#4caf50";
+                                    //   } else if (fallbackSignal === "red") {
+                                    //     explanation = "This fallback behavior does not satisfy the required condition for solving the robot failure. Check the 'Detected Issues' tab to see what went wrong and how to fix it.";
+                                    //     bgcolor = "#fcebea"; // red
+                                    //     border = "#f5c6cb";
+                                    //   } else {
+                                    //     explanation = "This fallback behavior is not wrong but it did not resolve the issue. For hints, check the 'Detected Issues' tab.";
+                                    //     bgcolor = "#fff9c4"; // yellow
+                                    //     border = "#fdd835";
+                                    //   }
+                                    // } 
+
+                                    if (isInThisSet) {
                                       if (fallbackSignal === "green") {
                                         explanation = "Issue resolved. You successfully programmed the fallback.";
                                         bgcolor = "#e0f2f1"; // light green-ish
@@ -556,7 +574,7 @@ export default function App() {
                                         bgcolor = "#fcebea"; // red
                                         border = "#f5c6cb";
                                       } else {
-                                        explanation = "This fallback behavior is not wrong but it did not resolve the issue. For hints, check the 'Detected Issues' tab.";
+                                        explanation = "No effective fallback actions yet. You haven’t added any, or the ones you’ve added didn’t resolve the issue. Check the 'Detected Issues' tab for hints.";
                                         bgcolor = "#fff9c4"; // yellow
                                         border = "#fdd835";
                                       }
