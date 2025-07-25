@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useRef} from "react";
 // import { FiSettings } from "react-icons/fi";
 //import { ReviewTile } from "./components/Body/ReviewTile";
 import { ProgramTile } from "./components/Body/ProgramTile";
-import RobotWorld from "./components/Body/RobotWorld";
+import SimTile from "./components/Body/SimTile";
 import { subscribeFlush, unsubscribeFlush } from "./stores/to_flask";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
 import { Detail } from "./components/Detail";
@@ -399,11 +399,11 @@ export default function App() {
                   }}
                 >
                   <Box sx={{ height: `${topHeight}vh`, flexShrink: 0 }}>
-                    <RobotWorld
+                    <SimTile
                       cellSize = {cellSize}
                       sx={{ height: "35vh", flexShrink: 0 }}
                       highlight={hallways}
-                      color="#f9f8fc"
+                      color="#fffefa"
 
                       icons={icons}
                       labelsOverGrid={labelsOverGrid}

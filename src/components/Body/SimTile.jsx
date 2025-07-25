@@ -9,7 +9,7 @@ const BATTERY_DROP_PER_STEP = 80;
 
 const CHARGER_LABEL = "battery charging station";
 
-const RobotWorld = ({
+const SimTile = ({
   cellSize        = 30,
   highlight       = [],
   color           = "#faeef2",
@@ -922,4 +922,4 @@ function hexToRgba(hex, alpha = 1) {
   );
 };
 
-export default RobotWorld;
+export default SimTile;
