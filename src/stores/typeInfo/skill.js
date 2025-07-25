@@ -20,27 +20,27 @@ const skillFeatures = {
     color: "#62869e",
     icon: SkillIconStyled,
     extras: [
-      EXTRA_TYPES.LOCKED_INDICATOR,
-      EXTRA_TYPES.NAME_EDIT_TOGGLE,
+      // EXTRA_TYPES.LOCKED_INDICATOR,
+      // EXTRA_TYPES.NAME_EDIT_TOGGLE,
       {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
           EXTRA_TYPES.NAME_EDIT_TOGGLE,
           EXTRA_TYPES.SELECTION_TOGGLE,
-          EXTRA_TYPES.DELETE_BUTTON,
-          EXTRA_TYPES.LOCKED_INDICATOR,
-          EXTRA_TYPES.DOC_TOGGLE,
-          {
-            type: EXTRA_TYPES.ADD_ARGUMENT_GROUP,
-            allowed: [
-              "machineType",
-              "locationType",
-              "thingType",
-              "toolType",
-              "trajectoryType",
-            ],
-          },
+          // EXTRA_TYPES.DELETE_BUTTON,
+          // EXTRA_TYPES.LOCKED_INDICATOR,
+          // EXTRA_TYPES.DOC_TOGGLE,
+          // {
+          //   type: EXTRA_TYPES.ADD_ARGUMENT_GROUP,
+          //   allowed: [
+          //     "machineType",
+          //     "locationType",
+          //     "thingType",
+          //     "toolType",
+          //     "trajectoryType",
+          //   ],
+          // },
         ],
       },
     ],
@@ -50,15 +50,15 @@ const skillFeatures = {
     color: "#62869e",
     icon: SkillIconStyled,
     extras: [
-      EXTRA_TYPES.LOCKED_INDICATOR,
-      EXTRA_TYPES.NAME_EDIT_TOGGLE,
+      // EXTRA_TYPES.LOCKED_INDICATOR,
+      // EXTRA_TYPES.NAME_EDIT_TOGGLE,
       {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
-          EXTRA_TYPES.DELETE_BUTTON,
-          EXTRA_TYPES.DEBUG_TOGGLE,
-          EXTRA_TYPES.DOC_TOGGLE,
+          // EXTRA_TYPES.DELETE_BUTTON,
+          // EXTRA_TYPES.DEBUG_TOGGLE,
+          // EXTRA_TYPES.DOC_TOGGLE,
           EXTRA_TYPES.SELECTION_TOGGLE
         ]
       }
@@ -74,9 +74,9 @@ const skillFeatures = {
 
 const emptySkillFeatures = {
   name: "Sequential Action Cluster",
-  description: "some string",
+  description: "A cluster of actions that will be executed sequentially, one-by-one",
   properties: {
-    description: { default: "some string" },
+    description: { default: "A cluster of actions that will be executed sequentially, one-by-one" },
     children: {
       name: "Actions",
       accepts: [//"moveGripperType", "closeGripperType", 
@@ -96,9 +96,9 @@ const emptySkillFeatures = {
 
 const emptyConcurrentFeatures = {
   name: "Concurrent Action Cluster",
-  description: "some string",
+  description: "A cluster of actions that will be executed all at the same time. This may include the robot moving its body while saying something.",
   properties: {
-    description: { default: "some string" },
+    description: { default: "A cluster of actions that will be executed all at the same time. This may include the robot moving its body while saying something."},
     children: {
       name: "Actions",
       accepts: ["grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",

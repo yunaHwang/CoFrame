@@ -18,20 +18,20 @@ const movementFeatures = {
       onCanvas: false,
       color: "#a83832",
       icon: WaypointIconStyled,
-      extras: [
-        EXTRA_TYPES.LOCKED_INDICATOR,
-        EXTRA_TYPES.NAME_EDIT_TOGGLE,
-        {
-          icon: FiMoreHorizontal,
-          type: EXTRA_TYPES.DROPDOWN,
-          contents: [
-            EXTRA_TYPES.DELETE_BUTTON,
-            EXTRA_TYPES.DEBUG_TOGGLE,
-            EXTRA_TYPES.DOC_TOGGLE,
-            EXTRA_TYPES.SELECTION_TOGGLE
-          ]
-        }
-      ]
+      // extras: [
+      //   // EXTRA_TYPES.LOCKED_INDICATOR,
+      //   // EXTRA_TYPES.NAME_EDIT_TOGGLE,
+      //   {
+      //     icon: FiMoreHorizontal,
+      //     type: EXTRA_TYPES.DROPDOWN,
+      //     contents: [
+      //       EXTRA_TYPES.DELETE_BUTTON,
+      //       EXTRA_TYPES.DEBUG_TOGGLE,
+      //       EXTRA_TYPES.DOC_TOGGLE,
+      //       EXTRA_TYPES.SELECTION_TOGGLE
+      //     ]
+      //   }
+      // ]
     },
     properties: {
       compileFn: {

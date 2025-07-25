@@ -53,7 +53,7 @@ export const EvdSlice = (set, get) => ({
         icon: MachineIconStyled,
       },
       {
-        title: "Fallbacks",
+        title: "Fallback Behaviors",
         dataType: DATA_TYPES.INSTANCE,
         objectTypes: ["fallbackType"],
         icon: FixtureIconStyled,

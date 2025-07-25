@@ -1,5 +1,5 @@
 import { programType } from './program';
-import { locationType, toLocationType, waypointType, placeType } from './pose';
+import { toLocationType, placeType } from './pose';
 import { thingType } from './thing';
 import { speechType } from './speech';
 import { personType } from './person';
@@ -24,9 +24,8 @@ import { goalProgramType } from './goalProgram';
 const mod = { 
     inputOutputType,
     programType,
-    locationType,
     toLocationType,
-    waypointType,
+    // waypointType,
     placeType,
     thingType,
     speechType,

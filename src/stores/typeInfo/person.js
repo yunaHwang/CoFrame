@@ -5,8 +5,7 @@ import { COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-//TODO - fix
-const personDoc = `Things are the parts that are created, consumed, or modified through the course of the [Program](programType) through the use of [Machines](machineType), and moved around by the robot with [Move Trajectory Primitives](moveTrajectoryType).
+const personDoc = `Person(s) is/are people in the environment
 `
 
 const personFeatures = {
@@ -19,15 +18,15 @@ const personFeatures = {
       color: "#AD1FDE",
       icon: WaypointIconStyled,
       extras: [
-        EXTRA_TYPES.LOCKED_INDICATOR,
+        // EXTRA_TYPES.LOCKED_INDICATOR,
         EXTRA_TYPES.NAME_EDIT_TOGGLE,
         {
           icon: FiMoreHorizontal,
           type: EXTRA_TYPES.DROPDOWN,
           contents: [
-            EXTRA_TYPES.DELETE_BUTTON,
-            EXTRA_TYPES.DEBUG_TOGGLE,
-            EXTRA_TYPES.DOC_TOGGLE,
+            // EXTRA_TYPES.DELETE_BUTTON,
+            // EXTRA_TYPES.DEBUG_TOGGLE,
+            // EXTRA_TYPES.DOC_TOGGLE,
             EXTRA_TYPES.SELECTION_TOGGLE
           ]
         }

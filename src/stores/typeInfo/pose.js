@@ -18,7 +18,7 @@ const poseFeatures = {
   referenceBlock: {
     onCanvas: false,
     extras: [
-      EXTRA_TYPES.LOCKED_INDICATOR,
+      // EXTRA_TYPES.LOCKED_INDICATOR,
       // { 
       //   type: EXTRA_TYPES.INDICATOR_ICON,
       //   accessor: statusIcon,
@@ -28,9 +28,9 @@ const poseFeatures = {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
-          EXTRA_TYPES.NAME_EDIT_TOGGLE,
-          EXTRA_TYPES.DELETE_BUTTON,
-          EXTRA_TYPES.DOC_TOGGLE,
+          // EXTRA_TYPES.NAME_EDIT_TOGGLE,
+          // EXTRA_TYPES.DELETE_BUTTON,
+          // EXTRA_TYPES.DOC_TOGGLE,
           EXTRA_TYPES.SELECTION_TOGGLE
         ]
       }
@@ -77,9 +77,9 @@ const fromInstanceBlock = {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,
       contents: [
-        EXTRA_TYPES.NAME_EDIT_TOGGLE,
-        EXTRA_TYPES.DELETE_BUTTON,
-        EXTRA_TYPES.DOC_TOGGLE,
+        // EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        // EXTRA_TYPES.DELETE_BUTTON,
+        // EXTRA_TYPES.DOC_TOGGLE,
         EXTRA_TYPES.SELECTION_TOGGLE
       ]
     }
@@ -103,9 +103,9 @@ const toInstanceBlock = {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,
       contents: [
-        EXTRA_TYPES.NAME_EDIT_TOGGLE,
-        EXTRA_TYPES.DELETE_BUTTON,
-        EXTRA_TYPES.DOC_TOGGLE,
+        // EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        // EXTRA_TYPES.DELETE_BUTTON,
+        // EXTRA_TYPES.DOC_TOGGLE,
         EXTRA_TYPES.SELECTION_TOGGLE
       ]
     }
@@ -142,7 +142,7 @@ const locationFeatures = {
 
 // this is for to
 const toLocationFeatures = {
-  name: "To Connector",
+  name: "To",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   instanceBlock: toInstanceBlock,
   properties: {
