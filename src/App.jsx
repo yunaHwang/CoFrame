@@ -403,7 +403,8 @@ export default function App() {
                       cellSize = {cellSize}
                       sx={{ height: "35vh", flexShrink: 0 }}
                       highlight={hallways}
-                      color="#faeef2"
+                      color="#f9f8fc"
+
                       icons={icons}
                       labelsOverGrid={labelsOverGrid}
                       sourceInfo_to_pass = {sourceInfo_to_pass}

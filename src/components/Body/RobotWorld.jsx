@@ -739,6 +739,13 @@ const RobotWorld = ({
     },
   ];
 
+  const roomColorMap = {
+  "Package room": "#eeecf2",
+  "Activity area": "#fdf6f0",
+  "Elderly room": "#eef3f9"
+};
+
+
   const getCellBorders = (x, y) => {
     const borders = {};
 
@@ -753,27 +760,45 @@ const RobotWorld = ({
 
       // Top border
       if (y === maxY && x >= minX && x <= maxX) {
-        borders.borderTop = "1.5px solid black";
+        borders.borderTop = "1.5px solid rgba(0, 0, 0, 0.5)";
       }
 
       // Bottom border
       if (y === minY && x >= minX && x <= maxX) {
-        borders.borderBottom = "1.5px solid black";
+        borders.borderBottom = "1.5px solid rgba(0, 0, 0, 0.5)";
       }
 
       // Left border
       if (x === minX && y >= minY && y <= maxY) {
-        borders.borderLeft = "1.5px solid black";
+        borders.borderLeft = "1.5px solid rgba(0, 0, 0, 0.5)";
       }
 
       // Right border
       if (x === maxX && y >= minY && y <= maxY) {
-        borders.borderRight = "1.5px solid black";
+        borders.borderRight = "1.5px solid rgba(0, 0, 0, 0.5)";
       }
     }
 
     return borders;
 };
+
+  const getRoomColor = (x, y) => {
+  for (const { from, to, name } of roomRects) {
+    const [x1, y1] = from;
+    const [x2, y2] = to;
+
+    const minX = Math.min(x1, x2);
+    const maxX = Math.max(x1, x2);
+    const minY = Math.min(y1, y2);
+    const maxY = Math.max(y1, y2);
+
+    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+      return roomColorMap[name] || null;
+    }
+  }
+  return null;
+};
+
 
 
   const highlightSet = useMemo(() => {
@@ -788,11 +813,17 @@ const RobotWorld = ({
     gridTemplateRows:`repeat(8,${cellSize}px)`
   };
   const cellStyle = {
-    backgroundColor:"#fff", border:"1px solid #bbb", boxSizing:"border-box"
+    backgroundColor:"#fff", 
+    // border:"1px solid #ddd", 
+    borderTop: "1px solid #ddd",
+    borderBottom: "1px solid #ddd",
+    borderLeft: "1px solid #ddd",
+    borderRight: "1px solid #ddd",
+    boxSizing:"border-box"
   };
   const labelStyle = {
     position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)",
-    fontSize:14, color:"#999", opacity:0.6, pointerEvents:"none", zIndex:1
+    fontSize:14, color:"#999", opacity:0.8, pointerEvents:"none", zIndex:1
   };
   const overlayLabelStyle = (from, to) => {
     const [x1,y1] = from, [x2,y2] = to;
@@ -803,13 +834,15 @@ const RobotWorld = ({
       top:`${(7-Math.max(y1,y2))*cellSize}px`,
       height:`${(Math.abs(y2-y1)+1)*cellSize}px`,
       display:"flex", alignItems:"center", justifyContent:"center",
-      color:"#999", opacity:0.5, fontSize:16, pointerEvents:"none", zIndex:5
+      color:"#999", opacity:0.8, fontSize:18, pointerEvents:"none", zIndex:5
     };
   };
   const iconStyle = (isRobot)=>({
     width:"80%", height:"80%", objectFit:"contain", pointerEvents:"none",
     position:"absolute", top:"50%", left:"50%",
-    transform:`translate(-50%,-50%) ${isRobot?getRotationTransform():""}`
+    transform:`translate(-50%,-50%) ${isRobot?getRotationTransform():""}`,
+    filter: "drop-shadow(1px 1px 2px rgba(0,0,0,0.2))"
+
   });
 
   return (
@@ -852,7 +885,7 @@ const RobotWorld = ({
               style={{
                 ...cellStyle,
                 height: cellSize,
-                backgroundColor: isHL ? color : "#fff",
+                backgroundColor: isHL ? color : getRoomColor(x, y) || "#fff",
                 position: "relative",
                 ...getCellBorders(x, y),  // adds the thick borders
               }}
