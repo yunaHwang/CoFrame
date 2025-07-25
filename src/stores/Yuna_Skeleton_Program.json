@@ -2940,7 +2940,7 @@
   },
   "thingType-08892a7c1c1911ecbe2600155d1a70a2": {
     "type": "thingType",
-    "name": "Other Resident's Parcel",
+    "name": "Other Parcel",
     "id": "thingType-08892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,

@@ -68,6 +68,7 @@ const programFeatures = {
         // "inputOutputType",
         // "locationType", 
         "toLocationType",
+        "putAsideType",
         // "thingType",
         // "speechType",
         // "robotAgentType",
