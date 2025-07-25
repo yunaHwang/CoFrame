@@ -726,30 +726,49 @@ const RobotWorld = ({
       name: "Package room",
       from: [0, 4],  // bottom-left
       to: [2, 7],    // top-right
+      borderColor: "purple",
     },
     {
       name: "Activity area",
       from: [1, 0],  // bottom-left
       to: [3, 2],    // top-right 
+      borderColor: "goldenrod",
     },
     {
       name: "Elderly room",
       from: [5, 0],  // bottom-left
       to: [9, 3],    // top-right 
+      borderColor: "steelblue",
     },
   ];
 
   const roomColorMap = {
-  "Package room": "#eeecf2",
+  "Package room": "#e8e1f5",
   "Activity area": "#fdf6f0",
   "Elderly room": "#eef3f9"
 };
 
+function hexToRgba(hex, alpha = 1) {
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+
+
 
   const getCellBorders = (x, y) => {
-    const borders = {};
+    const defaultBorder = "1px solid rgba(200, 200, 200, 0.4)";
+    const borders = {
+    borderTop: defaultBorder,
+    borderBottom: defaultBorder,
+    borderLeft: defaultBorder,
+    borderRight: defaultBorder,
+  };
 
-    for (const { from, to } of roomRects) {
+    for (const { from, to, borderColor } of roomRects) {
       const [x1, y1] = from;
       const [x2, y2] = to;
 
@@ -758,24 +777,26 @@ const RobotWorld = ({
       const minY = Math.min(y1, y2);
       const maxY = Math.max(y1, y2);
 
+
+
       // Top border
       if (y === maxY && x >= minX && x <= maxX) {
-        borders.borderTop = "1.5px solid rgba(0, 0, 0, 0.5)";
+        borders.borderTop = `2.5px solid ${borderColor}`;
       }
 
       // Bottom border
       if (y === minY && x >= minX && x <= maxX) {
-        borders.borderBottom = "1.5px solid rgba(0, 0, 0, 0.5)";
+        borders.borderBottom = `2.5px solid ${borderColor}`;
       }
 
       // Left border
       if (x === minX && y >= minY && y <= maxY) {
-        borders.borderLeft = "1.5px solid rgba(0, 0, 0, 0.5)";
+        borders.borderLeft = `2.5px solid ${borderColor}`;
       }
 
       // Right border
       if (x === maxX && y >= minY && y <= maxY) {
-        borders.borderRight = "1.5px solid rgba(0, 0, 0, 0.5)";
+        borders.borderRight = `2.5px solid ${borderColor}`;
       }
     }
 
@@ -815,10 +836,6 @@ const RobotWorld = ({
   const cellStyle = {
     backgroundColor:"#fff", 
     // border:"1px solid #ddd", 
-    borderTop: "1px solid #ddd",
-    borderBottom: "1px solid #ddd",
-    borderLeft: "1px solid #ddd",
-    borderRight: "1px solid #ddd",
     boxSizing:"border-box"
   };
   const labelStyle = {
