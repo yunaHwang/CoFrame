@@ -56,7 +56,7 @@ const emptyFallbackSetFeatures = {
   properties: {
     description: { default: "some string" },
     children: {
-      name: "Fallbacks",
+      name: "Different Fallback Behaviors",
       accepts: ["fallbackType"
       ],
       default: [],

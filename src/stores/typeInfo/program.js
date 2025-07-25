@@ -8,7 +8,7 @@ import "./rotate.css";
 import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-const programDoc = `The Program is the main sequence of actions, such as [Hierarchicals](hierarchicalType), [Move Trajectory](moveTrajectoryType), or [Process Start](processStartType), and [Skills](skillType) that are executed by the [Robot](robotAgentType).`;
+const programDoc = `A Program consists of actions, action clusters, and fallback behaviors`;
 
 const programFeatures = {
   name: "Day in the life of Stretch",
@@ -25,19 +25,19 @@ const programFeatures = {
       //   accessor: statusIcon,
       //   label: baseIndicatorLabelFn,
       // },
-      EXTRA_TYPES.DOC_TOGGLE,
+      // EXTRA_TYPES.DOC_TOGGLE,
       {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
           EXTRA_TYPES.NAME_EDIT_TOGGLE,
-          EXTRA_TYPES.LOCKED_INDICATOR,
+          // EXTRA_TYPES.LOCKED_INDICATOR,
           EXTRA_TYPES.SELECTION_TOGGLE,
-          {
-            type: EXTRA_TYPES.INDICATOR_TEXT,
-            accessor: (data) => data.properties.children.length,
-            label: "Size",
-          },
+          // {
+          //   type: EXTRA_TYPES.INDICATOR_TEXT,
+          //   accessor: (data) => data.properties.children.length,
+          //   label: "Size",
+          // },
         ],
       }
     ],
@@ -65,15 +65,15 @@ const programFeatures = {
         "rotateType",
         "slowerStretchType",
         "fasterStretchType",
-        "inputOutputType",
-        "locationType", 
+        // "inputOutputType",
+        // "locationType", 
         "toLocationType",
-        "thingType",
-        "speechType",
-        "robotAgentType",
-        "humanAgentType",
-        "gripperType",
-        "graspPointType",
+        // "thingType",
+        // "speechType",
+        // "robotAgentType",
+        // "humanAgentType",
+        // "gripperType",
+        // "graspPointType",
         // add skillType
         "skillType", // this is the action cluster
         "concurrentType",

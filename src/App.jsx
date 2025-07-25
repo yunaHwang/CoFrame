@@ -209,7 +209,6 @@ export default function App() {
 
   const [fallbackSetList, setFallbackSetList] = useState([]);
 
-  const [drawerTab, setDrawerTab] = useState("ltl");
 
   useEffect(() => {
     if (dragging) {
@@ -445,46 +444,37 @@ export default function App() {
                 p: 0,
               },
             }}>
-              <Box>
-                <Tabs
-                  value={drawerTab}
-                  onChange={(e, val) => setDrawerTab(val)}
-                  variant="fullWidth"
-                >
-                  <Tab value="ltl" label="Detected Issues" />
-                  <Tab value="fallbacks" label="Fallbacks" />
-                </Tabs>
+              <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 4 }}>
 
-                <Box sx={{ p: 2 }}>
-                  {drawerTab === "ltl" && (
-                    <>
-                      <Box display="flex" alignItems="center" mb={1}>
-                        <Typography variant="h6" sx={{ flexGrow: 1 }}>Detected Issues</Typography>
-                        <IconButton onClick={() => setShowDrawer(false)}>x</IconButton>
-                      </Box>
+                {/* Detected Issues Stack */}
+                <Box>
+                  <Box display="flex" alignItems="center" mb={1}>
+                    <Typography variant="h6" sx={{ flexGrow: 1 }}>Detected Issues</Typography>
+                    <IconButton onClick={() => setShowDrawer(false)}>&gt;</IconButton>
+                  </Box>
 
-                      {violationList.length === 0 ? (
-                        <Typography sx={{ mt: 2 }}>No violations</Typography>
-                      ) : (
-                        <Stack spacing={1} sx={{ mt: 2 }}>
-                          {violationList.map((text, idx) => (
-                            <Alert key={idx} severity="error" variant="outlined">
-                              {text}
-                            </Alert>
-                          ))}
-                        </Stack>
-                      )}
-                    </>
+                  {violationList.length === 0 ? (
+                    <Typography sx={{ mt: 2 }}>No violations</Typography>
+                  ) : (
+                    <Stack spacing={1} sx={{ mt: 2 }}>
+                      {violationList.map((text, idx) => (
+                        <Alert key={idx} severity="error" variant="outlined">
+                          {text}
+                        </Alert>
+                      ))}
+                    </Stack>
                   )}
+                </Box>
 
+                <Divider sx={{ borderColor: "grey.700" }} />
 
-                  {drawerTab === "fallbacks" && (
-                  <>
-                    <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
-                    {fallbackSetList.length > 0 ? (
-                      <Stack spacing={2}>
-                        {fallbackSetList.map((set, idx) => (
-                          <Box key={`${set.fallbackSetId}-${set.errorType}`} 
+                {/* Fallback sets Stack */}
+                <Box>
+                  <Typography variant="h6" gutterBottom>Fallback Sets</Typography>
+                  {fallbackSetList.length > 0 ? (
+                    <Stack spacing={2}>
+                      {fallbackSetList.map((set, idx) => (
+                        <Box key={`${set.fallbackSetId}-${set.errorType}`} 
                                 sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
                               {idx + 1}. {set.fallbackSetName || set.fallbackSetId}
@@ -544,26 +534,6 @@ export default function App() {
                                     let bgcolor = "";
                                     let border = "";
 
-                                    // if (!hasFallbacks) {
-                                    //   explanation = "No fallback actions yet. Add some actions to handle this failure.";
-                                    //   bgcolor = "#fff9c4";  // yellow
-                                    //   border = "#fdd835";
-                                    // } else if (isInThisSet) {
-                                    //   if (fallbackSignal === "green") {
-                                    //     explanation = "Issue resolved. You successfully programmed the fallback.";
-                                    //     bgcolor = "#e0f2f1"; // light green-ish
-                                    //     border = "#4caf50";
-                                    //   } else if (fallbackSignal === "red") {
-                                    //     explanation = "This fallback behavior does not satisfy the required condition for solving the robot failure. Check the 'Detected Issues' tab to see what went wrong and how to fix it.";
-                                    //     bgcolor = "#fcebea"; // red
-                                    //     border = "#f5c6cb";
-                                    //   } else {
-                                    //     explanation = "This fallback behavior is not wrong but it did not resolve the issue. For hints, check the 'Detected Issues' tab.";
-                                    //     bgcolor = "#fff9c4"; // yellow
-                                    //     border = "#fdd835";
-                                    //   }
-                                    // } 
-
                                     if (isInThisSet) {
                                       if (fallbackSignal === "green") {
                                         explanation = "Issue resolved. You successfully programmed the fallback.";
@@ -610,15 +580,13 @@ export default function App() {
                             </Stack>
 
                           </Box>
-                        ))}
-                      </Stack>
-                    ) : (
-                      <Typography sx={{ mt: 1 }}>No robot failures right now. No fallbacks currently active.</Typography>
-                    )}
-                  </>
-                )}
-
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Typography sx={{ mt: 1 }}>No robot failures right now. No fallbacks currently active.</Typography>
+                  )}
                 </Box>
+
               </Box>
 
 

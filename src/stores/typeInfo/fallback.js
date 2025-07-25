@@ -52,12 +52,12 @@ const fallbackFeatures = {
 };
 
 const emptyFallbackFeatures = {
-  name: "New Fallback Action Sets",
+  name: "New Fallback Behaviors",
   description: "some string",
   properties: {
     description: { default: "some string" },
     children: {
-      name: "Sets of Fallback Actions",
+      name: "Fallback Behavior",
       accepts: ["toLocationType", "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "skillType", "concurrentType"
       ],
