@@ -45,10 +45,6 @@ const RobotWorld = ({
   //const [actionTracking, setActionTracking] = useState([]);
 
   const actionTracking = useStore((s) => s.actionTracking);
-  //const setActionTracking = useStore((s) => s.setActionTracking);
-  // console.log("🧪 actionTracking before reduce:", actionTracking);
-  // console.log("🧪 typeof actionTracking:", typeof actionTracking);
-  // console.log("🧪 isArray:", Array.isArray(actionTracking));
 
   const lastTransfer = useStore((s) => s.lastTransfer);
   const programData = useStore((s) => s.programData);
@@ -723,6 +719,63 @@ const RobotWorld = ({
   // ──────────────────────────────
   // Rendering 
   // ──────────────────────────────
+
+  // Define rectangular regions for each room
+  const roomRects = [
+    {
+      name: "Package room",
+      from: [0, 4],  // bottom-left
+      to: [2, 7],    // top-right
+    },
+    {
+      name: "Activity area",
+      from: [1, 0],  // bottom-left
+      to: [3, 2],    // top-right 
+    },
+    {
+      name: "Elderly room",
+      from: [5, 0],  // bottom-left
+      to: [9, 3],    // top-right 
+    },
+  ];
+
+  const getCellBorders = (x, y) => {
+    const borders = {};
+
+    for (const { from, to } of roomRects) {
+      const [x1, y1] = from;
+      const [x2, y2] = to;
+
+      const minX = Math.min(x1, x2);
+      const maxX = Math.max(x1, x2);
+      const minY = Math.min(y1, y2);
+      const maxY = Math.max(y1, y2);
+
+      // Top border
+      if (y === maxY && x >= minX && x <= maxX) {
+        borders.borderTop = "1.5px solid black";
+      }
+
+      // Bottom border
+      if (y === minY && x >= minX && x <= maxX) {
+        borders.borderBottom = "1.5px solid black";
+      }
+
+      // Left border
+      if (x === minX && y >= minY && y <= maxY) {
+        borders.borderLeft = "1.5px solid black";
+      }
+
+      // Right border
+      if (x === maxX && y >= minY && y <= maxY) {
+        borders.borderRight = "1.5px solid black";
+      }
+    }
+
+    return borders;
+};
+
+
   const highlightSet = useMemo(() => {
     const pairs = highlight.map((p) => (Array.isArray(p) ? p : [p.x, p.y]));
     return new Set(pairs.map(([x, y]) => `${x},${y}`));
@@ -792,8 +845,19 @@ const RobotWorld = ({
           const label   = labelsOverGrid[key];
 
           return (
-            <div key={idx} style={{...cellStyle,height:cellSize,
-              backgroundColor:isHL?color:"#fff", position:"relative"}} >
+            // <div key={idx} style={{...cellStyle,height:cellSize,
+            //   backgroundColor:isHL?color:"#fff", position:"relative"}} >
+            <div
+              key={idx}
+              style={{
+                ...cellStyle,
+                height: cellSize,
+                backgroundColor: isHL ? color : "#fff",
+                position: "relative",
+                ...getCellBorders(x, y),  // adds the thick borders
+              }}
+            >
+
               {label && <Typography sx={labelStyle}>{label}</Typography>}
               {iconSrc && (
                 typeof iconSrc==="string"
