@@ -29,8 +29,8 @@ const fallbackFeatures = {
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
           EXTRA_TYPES.NAME_EDIT_TOGGLE,
-          // EXTRA_TYPES.SELECTION_TOGGLE,
-          // EXTRA_TYPES.DELETE_BUTTON,
+          EXTRA_TYPES.SELECTION_TOGGLE,
+          EXTRA_TYPES.DELETE_BUTTON,
           // EXTRA_TYPES.LOCKED_INDICATOR,
           // EXTRA_TYPES.DOC_TOGGLE,
           // {

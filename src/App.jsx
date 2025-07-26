@@ -584,7 +584,7 @@ export default function App() {
                       ))}
                     </Stack>
                   ) : (
-                    <Typography sx={{ mt: 1 }}>No robot failures right now. No fallbacks currently active.</Typography>
+                    <Typography sx={{ mt: 1 }}> No fallback behaviors are currently active.</Typography>
                   )}
                 </Box>
 

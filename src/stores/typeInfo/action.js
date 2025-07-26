@@ -27,7 +27,7 @@ const basicActionData = {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
-          // EXTRA_TYPES.DELETE_BUTTON,
+          EXTRA_TYPES.DELETE_BUTTON,
           // EXTRA_TYPES.NAME_EDIT_TOGGLE,
           EXTRA_TYPES.SELECTION_TOGGLE
         ],

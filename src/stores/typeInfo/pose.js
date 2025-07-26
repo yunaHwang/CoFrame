@@ -28,8 +28,8 @@ const poseFeatures = {
         icon: FiMoreHorizontal,
         type: EXTRA_TYPES.DROPDOWN,
         contents: [
-          // EXTRA_TYPES.NAME_EDIT_TOGGLE,
-          // EXTRA_TYPES.DELETE_BUTTON,
+          EXTRA_TYPES.NAME_EDIT_TOGGLE,
+          EXTRA_TYPES.DELETE_BUTTON,
           // EXTRA_TYPES.DOC_TOGGLE,
           EXTRA_TYPES.SELECTION_TOGGLE
         ]
@@ -77,8 +77,8 @@ const fromInstanceBlock = {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,
       contents: [
-        // EXTRA_TYPES.NAME_EDIT_TOGGLE,
-        // EXTRA_TYPES.DELETE_BUTTON,
+        EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        EXTRA_TYPES.DELETE_BUTTON,
         // EXTRA_TYPES.DOC_TOGGLE,
         EXTRA_TYPES.SELECTION_TOGGLE
       ]
@@ -103,8 +103,8 @@ const toInstanceBlock = {
       icon: FiMoreHorizontal,
       type: EXTRA_TYPES.DROPDOWN,
       contents: [
-        // EXTRA_TYPES.NAME_EDIT_TOGGLE,
-        // EXTRA_TYPES.DELETE_BUTTON,
+        EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        EXTRA_TYPES.DELETE_BUTTON,
         // EXTRA_TYPES.DOC_TOGGLE,
         EXTRA_TYPES.SELECTION_TOGGLE
       ]
