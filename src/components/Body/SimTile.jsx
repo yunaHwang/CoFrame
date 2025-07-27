@@ -134,6 +134,14 @@ const SimTile = ({
         moves.xMovement = 0; 
         moves.yMovement = 0; 
       }
+      else if (actionType === "grabType" || actionType === "putAsideType" || actionType === "handObjToType") {
+        moves.batteryMovement = 0;
+        moves.distanceMovement = 0; 
+        moves.xMovement = 0;
+        moves.yMovement = 0;
+        //Todo Animation
+      }
+      
     }
     
     return moves;
@@ -336,7 +344,7 @@ const SimTile = ({
     const { data, sourceInfo, destInfo } = lastTransfer;
     
     // Check if this is an action being added
-    if (data.type === "moveForwardType" || data.type === "toLocationType" || data.type === "rotateType" || data.type === "sayType") {
+    if (data.type === "moveForwardType" || data.type === "toLocationType" || data.type === "rotateType" || data.type === "sayType" || data.type === "grabType" || data.type === "putAsideType" || data.type === "handObjToType" ) {
       // Get the actual spawned block ID
       const parentData = programData[destInfo.parentId];
       const actualBlockId = parentData?.properties?.children?.[destInfo.idx];
@@ -372,6 +380,7 @@ const SimTile = ({
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
     }
     
+    
   }, [lastTransfer, programData]);
 
   // ──────────────────────────────
@@ -389,6 +398,10 @@ const SimTile = ({
           const deletedActionId = deletedData.id;
           console.log("Action deletion detected. Deleted :", deletedActionId);
           console.log("Current tracking:", actionTracking.map(a => a.id));
+        if (deletedData.type === "grabType" || deletedData.type === "putAsideType" || deletedData.type === "handObjToType") {
+          console.log(`Object action deleted: ${deletedData.type}`);
+          //TODO Animation Removal
+           }
         if (deletedData.type === "rotateType") {
             setOrientation("E");
             useStore.getState().setRobotOrientation?.("E");
@@ -706,15 +719,19 @@ const SimTile = ({
     
   }, [calculatedMovement, actionTracking, programData]);
   //Quick Debug
-  // useEffect(() => {
-  //   console.log("Action Tracking Array:", actionTracking);
-  //   console.log("Start Position:", startCoord);
-  //   console.log("Calculated Movement:", calculatedMovement);
-  //   console.log("Robot Location:", robotCoord);
-  // }, [actionTracking, startCoord, calculatedMovement, robotCoord]);
+  useEffect(() => {
+    console.log("Action Tracking Array:", actionTracking);
+    console.log("Start Position:", startCoord);
+    console.log("Calculated Movement:", calculatedMovement);
+    console.log("Robot Location:", robotCoord);
+    console.log("programData", programData)
+    console.log("lastTransfer", lastTransfer)
+
+  }, [actionTracking, startCoord, calculatedMovement, robotCoord]);
+
 
 //   useEffect(() => {
-//   console.log("📊 actionTracking changed:", actionTracking);
+//   console.log("actionTracking changed:", actionTracking);
 // }, [actionTracking]);
   // ──────────────────────────────
   // Rendering 
