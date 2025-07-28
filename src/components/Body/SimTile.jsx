@@ -253,6 +253,7 @@ const SimTile = ({
       useStore.getState().setActionTracking([]);
 
       const globalBattery = useStore.getState().globalBatteryLevel;
+      console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery);
       useStore.getState().setbatteryLevel(globalBattery);
 
 
@@ -697,6 +698,9 @@ const SimTile = ({
 
     const globalBattery = useStore.getState().globalBatteryLevel ?? 100;
     const newBatteryLevel = Math.max(0, globalBattery - postChargeBatteryUsed);
+    console.log("what is globalBattery, postChargeBatteryUsed, ", globalBattery, postChargeBatteryUsed);
+    console.log("what is newBattery here and does it have to do with the jump, ", newBatteryLevel);
+
     useStore.getState().setbatteryLevel(newBatteryLevel);
     //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(totalDistance);

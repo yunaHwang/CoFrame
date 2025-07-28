@@ -20,7 +20,7 @@ const movementFeatures = {
       icon: WaypointIconStyled,
       extras: [
         // EXTRA_TYPES.LOCKED_INDICATOR,
-        // EXTRA_TYPES.NAME_EDIT_TOGGLE,
+        EXTRA_TYPES.NAME_EDIT_TOGGLE,
         {
           icon: FiMoreHorizontal,
           type: EXTRA_TYPES.DROPDOWN,
