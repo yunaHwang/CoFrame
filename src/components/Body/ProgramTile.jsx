@@ -140,7 +140,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 <Typography style={{ color: 'white' }}>Robot Facing: {getRobotFacingDisplay()}</Typography>
                             </Box>
                             </Stack>
-                            {showError && errorMessage && (
+                            {/* {showError && errorMessage && (
                             <Box
                             sx = {{
                                 backgroundColor: '#531629', 
@@ -151,7 +151,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 ⚠️ {errorMessage}
                                 </Typography>
                             </Box>
-                            )}
+                            )} */}
                             {/* {errorHistory.length > 0 && (
                             <Box sx={{ 
                                 display: 'flex',

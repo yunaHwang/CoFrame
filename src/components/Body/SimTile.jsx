@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
-import { stageBatteryWarning } from "../../stores/to_flask";
+import { stageScenario2SensorError } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          
@@ -50,7 +50,9 @@ const SimTile = ({
   const programData = useStore((s) => s.programData);
   const deletedData = useStore((s) => s.deletedData);
 
-  const { chargePending }= useStore();                    
+  const { chargePending }= useStore();     
+  
+  const lastScenario2Signal = useRef(null);
 
   // ──────────────────────────────
   // Find first robot icon 
@@ -167,14 +169,7 @@ const SimTile = ({
   };
   
   const removeActionFromTracking = (actionId) => {
-  //   setActionTracking(prev => {
-  //     const actionToRemove = prev.find(action => action.id === actionId);
-  //     if (actionToRemove) {
-  //       console.log(`Removed action ${actionId} from tracking.`)
-  //     }
-  //     return prev.filter(action => action.id !== actionId);
-  //   });
-  // };
+
       const prev = useStore.getState().actionTracking;
       const actionToRemove = prev.find(action => action.id === actionId);
       if (actionToRemove) {
@@ -231,35 +226,9 @@ const SimTile = ({
     });
     useStore.getState().setActionTracking(updated);
 
-    // setActionTracking(prev => prev.map(action => {
-    //   if (action.id === actionId) {
-    //     const actionData = programData[actionId];
-    //     if (actionData) {
-          
-    //       const updatedChildren = [...action.children, parameterId];
-
-    //       if (actionData.type === "rotateType") {
-    //         updateRobotOrientation(parameterValue);
-    //       }
-          
-    //       const newMovement = calculateActionMovement(actionData.type, parameterValue, orientation);
-          
-    //       console.log(`Added parameter ${parameterId} to action ${actionId}:`, newMovement);
-          
-    //       return {
-    //         ...action,
-    //         children: updatedChildren,
-    //         batteryMovement: newMovement.batteryMovement,
-    //         distanceMovement: newMovement.distanceMovement,
-    //         xMovement: newMovement.xMovement,
-    //         yMovement: newMovement.yMovement
-    //       };
-    //     }
-    //   }
-    //   return action;
-    // }
-  //));
+    
   };
+
   const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
@@ -326,7 +295,26 @@ const SimTile = ({
       };
       setErrorMessage(messageMap[currentScenario]);
       setShowError(true);
+
+
+    if (currentScenario === "Scenario 2") {
+      if (onRed && lastScenario2Signal.current !== true) {
+        console.log("Scenario 2 sensor error has occurred.");
+        stageScenario2SensorError(true);
+        lastScenario2Signal.current = true;
+      } else if (!onRed && lastScenario2Signal.current !== false) {
+        stageScenario2SensorError(false);
+        lastScenario2Signal.current = false;
+      }
     }
+
+  } 
+  // else {
+  //   // If previously in red and now moved out → clear error
+  //   if (currentScenario === "Scenario 2") {
+  //     stageScenario2SensorError(false);  // Send resolution to backend
+  //   }
+  // }
   };
   const lastProcessedTransfer = useRef(null);
     

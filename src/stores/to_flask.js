@@ -28,20 +28,7 @@ function isBinComplete(id) {
   return b && b.programData && b.sourceInfo && b.destInfo;
 }
 
-// function flushIfReady(id) {
-//   const bin = bins[id];
-//   if (isBinComplete(id)) {
-//     const payload = { ...bin };        
-//     lastFlush = fetch("http://localhost:5000/receive_data", {
-//       method : "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body   : JSON.stringify(payload)
-//     });
-//     delete bins[id];                   // free memory
-//     if (openId === id) openId = null;  // reset for next event
-//   }
-//   return lastFlush;
-// }
+
 function flushIfReady(id) {
   const bin = bins[id];
   if (isBinComplete(id)) {
@@ -112,6 +99,18 @@ export function stageBatteryWarning(level, value) {
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));   
+      return json;
+    });
+}
+
+export function stageScenario2SensorError(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario2_error", value })
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
       return json;
     });
 }
