@@ -249,17 +249,15 @@ export default function App() {
         useStore.getState().setCurrentFallbackTypeId(json.currentFallbackTypeId);
       }
 
+      if (
+        json.clean === true && json.charge_pending === false && 
+        (json.status === "added" || json.status === "deleted")) {
 
-      
-
-      if (json.clean === true && json.charge_pending === false) {
-
-        setTimeout(() => {
           const battery20 = useStore.getState().battery20Warning;
           const battery5 = useStore.getState().battery5Warning;
           const hadWarning = battery20 || battery5;
 
-          console.log("battery20Warning evolution, ", battery20);
+          console.log("battery20Warning evolution, ", battery20, json);
           console.log("hadWarning, ", hadWarning);
 
           if (!hadWarning) return;
@@ -273,7 +271,30 @@ export default function App() {
           
           useStore.getState().setBattery20Warning(false);
           useStore.getState().setBattery5Warning(false);
-        }, 100);
+
+          //console.log("what is this json that i am seeing here, ", json);
+
+        // setTimeout(() => {
+        //   const battery20 = useStore.getState().battery20Warning;
+        //   const battery5 = useStore.getState().battery5Warning;
+        //   const hadWarning = battery20 || battery5;
+
+        //   console.log("battery20Warning evolution, ", battery20, json);
+        //   console.log("hadWarning, ", hadWarning);
+
+        //   if (!hadWarning) return;
+
+        //   const trackingSnapshot = [...useStore.getState().actionTracking];
+        //   console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
+        //   useStore.getState().setbatteryLevel(100);
+        //   useStore.getState().setChargePending(false);
+        //   useStore.getState().setShowBatteryCharged(true);
+        //   useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
+          
+        //   useStore.getState().setBattery20Warning(false);
+        //   useStore.getState().setBattery5Warning(false);
+        // }, 100);
+
         
 
         }

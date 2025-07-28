@@ -722,7 +722,7 @@ const SimTile = ({
     // useStore.getState().setdistanceTravel(totalDistance);
     
   }, [calculatedMovement, actionTracking, programData]);
-  //Quick Debug
+  
   useEffect(() => {
     console.log("Action Tracking Array:", actionTracking);
     console.log("Start Position:", startCoord);
