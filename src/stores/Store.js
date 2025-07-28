@@ -52,16 +52,24 @@ const store = (set, get) => ({
 
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
+
+  globalBatteryLevel: 100,
+  setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
+
   batteryWarning: true,
   setBatteryWarning: (value) => set({ batteryWarning: value }),
+
   batteryLevel: 100,
   setbatteryLevel: (value) => set({ batteryLevel: value }),
+  
   battery20Warning: false,
   battery5Warning: false,
   setBattery20Warning: (v) => set({ battery20Warning: v }),
   setBattery5Warning: (v) => set({ battery5Warning: v }),
+
   distanceTravel: 0,
   setdistanceTravel: (value) => set({ distanceTravel: value }),
+
   batteryErrorBlockMade20: false,
   batteryErrorBlockMade5:  false,
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),

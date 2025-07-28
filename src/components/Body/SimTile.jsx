@@ -235,7 +235,12 @@ const SimTile = ({
       !prevStartRef.current ||
       prevStartRef.current.x !== startCoord?.x ||
       prevStartRef.current.y !== startCoord?.y
-    ) {
+    ) 
+    {
+
+      const currentBattery = useStore.getState().batteryLevel;
+      useStore.getState().setGlobalBatteryLevel(currentBattery);
+
       prevStartRef.current = startCoord;
       setOrientation("E");
       useStore.getState().setRobotOrientation?.("E");
@@ -246,6 +251,11 @@ const SimTile = ({
       setShowError(false);
       setErrorMessage(null);
       useStore.getState().setActionTracking([]);
+
+      const globalBattery = useStore.getState().globalBatteryLevel;
+      useStore.getState().setbatteryLevel(globalBattery);
+
+
     }
   }, [startCoord, setErrorMessage, setShowError]);
 
@@ -685,8 +695,10 @@ const SimTile = ({
     const postChargeBatteryUsed = postChargeActions.reduce((sum, a) => sum + a.batteryMovement, 0);
     console.log("batteryResetActionCount, postChargeActions, postChargeBatteryUsed, ", batteryResetActionCount, postChargeActions, postChargeBatteryUsed);
 
-    const newBatteryLevel = Math.max(0, 100 - postChargeBatteryUsed);
+    const globalBattery = useStore.getState().globalBatteryLevel ?? 100;
+    const newBatteryLevel = Math.max(0, globalBattery - postChargeBatteryUsed);
     useStore.getState().setbatteryLevel(newBatteryLevel);
+    //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(totalDistance);
 
     // let newBatteryLevel;
