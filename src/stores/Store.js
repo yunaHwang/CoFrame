@@ -74,6 +74,8 @@ const store = (set, get) => ({
   batteryErrorBlockMade5:  false,
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
+  scenario2ErrorBlockMade: false,
+  setScenario2ErrorBlockMade: (v) => set({ scenario2ErrorBlockMade: v }),
   
   
   
@@ -183,17 +185,26 @@ useStore.subscribe(
 useStore.subscribe(
   state => ({  // selector returns *both* flags
     warn20: state.battery20Warning,
-    warn5 : state.battery5Warning
+    warn5 : state.battery5Warning,
+    scenario2Sensor: state.scenario2ErrorBlockMade,
   }),
   (curr, prev) => {
     const store = useStore.getState();
     const programId = store.currentProgramId;
+    console.log("current programId, ", programId);
 
-    // Fire once when each flag flips false → true
-    // console.log("curr.warn20", curr.warn20);
-    // console.log("prev.warn20", prev.warn20);
-    // console.log("curr.warn5", curr.warn5);
-    // console.log("prev.warn5", prev.warn5);
+    if (!programId) return; 
+
+    console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
+    console.log("prev.scenario2Sensor", prev.scenario2Sensor);
+    console.log("store.scenario2ErrorBlockMade, ", store.scenario2ErrorBlockMade);
+
+    if (curr.scenario2Sensor && !prev.scenario2Sensor) {
+        useStore.getState().addScenario2ErrorSetBlock(programId);
+        console.log("this is done");
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }
 
     if (curr.warn20 && !prev.warn20) {
       //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);

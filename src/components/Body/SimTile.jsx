@@ -312,9 +312,11 @@ const SimTile = ({
       if (onRed && lastScenario2Signal.current !== true) {
         console.log("Scenario 2 sensor error has occurred.");
         stageScenario2SensorError(true);
+        useStore.getState().setScenario2ErrorBlockMade(true);
         lastScenario2Signal.current = true;
       } else if (!onRed && lastScenario2Signal.current !== false) {
         stageScenario2SensorError(false);
+        useStore.getState().setScenario2ErrorBlockMade(false);
         lastScenario2Signal.current = false;
       }
     }

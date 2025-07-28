@@ -232,6 +232,69 @@ export const EvdSlice = (set, get) => ({
       state.processes.planProcess = process;
       // console.log(useCompiledStore.getState())
     }),
+  addScenario2ErrorSetBlock: (programId) =>
+    set((state) => {
+      // if (!programId) {
+      //   console.warn("addScenario2ErrorSetBlock: no programId - skipping");
+      //   return;
+      // }
+
+      const fallbackSetId = generateUuid("fallbackSetType");
+      const fallbackId = generateUuid("fallbackType");
+
+      const fallbackSetObj = instanceTemplateFromSpec(
+        "fallbackSetType",
+        state.programSpec.objectTypes["fallbackSetType"],
+        false
+      );
+      const fallbackObj = instanceTemplateFromSpec(
+        "fallbackType",
+        state.programSpec.objectTypes["fallbackType"],
+        false
+      );
+
+      fallbackSetObj.id = fallbackSetId;
+      fallbackObj.id = fallbackId;
+
+      fallbackSetObj.name = "Priority list of fallbacks (sensor error)";
+      fallbackObj.name = "Sensor-Error Fallback";
+
+      fallbackSetObj.position = { x: 250, y: 100 };
+      fallbackObj.position = { x: 250, y: 180 };
+
+      fallbackObj.properties.children = [];
+
+      state.programData[fallbackId] = fallbackObj;
+      state.programData[fallbackSetId] = fallbackSetObj;
+
+      console.log("programId in evd, ", programId);
+      const root = state.programData[programId];
+      if (root?.type === "programType") {
+        root.properties.children ??= [];
+        root.properties.children.push(fallbackSetId);
+      }
+      fallbackSetObj.properties.children = [fallbackId];
+
+      const fallbackSetIdx = root.properties.children.length;
+
+      const sourceInfo = {
+        id: fallbackSetId,
+        data: { id: fallbackSetId, name: fallbackSetObj.name },
+      };
+
+      const destInfo = {
+        id: programId,
+        parentId: programId,
+        idx: fallbackSetIdx,
+      };
+
+      stageProgramData(state.programData);
+      stageSourceInfo(sourceInfo);
+      stageDestInfo(destInfo);
+
+      state.programData = { ...state.programData }; // force re-render
+    }, false, "addScenario2ErrorSetBlock"),
+
   addBatterySetBlock: (level, programId) => 
     set((state) => {
       if (!programId) {
@@ -303,113 +366,113 @@ export const EvdSlice = (set, get) => ({
 
 
   // adding new logic for battery fallback block popping
-  addBatteryBlock: (level, programId) =>
-    set((state) => {
-      if (!programId) {
-      console.warn("addBatteryBlock: no programId – skipping");
-      return;
-    }
+  // addBatteryBlock: (level, programId) =>
+  //   set((state) => {
+  //     if (!programId) {
+  //     console.warn("addBatteryBlock: no programId – skipping");
+  //     return;
+  //   }
 
-      const fallbackId   = generateUuid("fallbackType");
+  //     const fallbackId   = generateUuid("fallbackType");
 
-      // Same template call you trust elsewhere
-      const fallbackObj  = instanceTemplateFromSpec(
-        "fallbackType",
-        state.programSpec.objectTypes["fallbackType"],
-        false
-      );
+  //     // Same template call you trust elsewhere
+  //     const fallbackObj  = instanceTemplateFromSpec(
+  //       "fallbackType",
+  //       state.programSpec.objectTypes["fallbackType"],
+  //       false
+  //     );
 
-      fallbackObj.id       = fallbackId;
-      fallbackObj.name     =
-        level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
-      fallbackObj.position = { x: 250, y: 100 };          
-      fallbackObj.properties.children = [];               // starts empty
+  //     fallbackObj.id       = fallbackId;
+  //     fallbackObj.name     =
+  //       level === 5 ? "Battery-Critical Fallback" : "Battery-Low Fallback";
+  //     fallbackObj.position = { x: 250, y: 100 };          
+  //     fallbackObj.properties.children = [];               // starts empty
 
-      fallbackObj.properties.errorType = [ "battery20Warning" 
-        // TODO: should read directly from backend?
-      ];
-      console.log("this is is fallbackObj, ", fallbackObj);
+  //     fallbackObj.properties.errorType = [ "battery20Warning" 
+  //       // TODO: should read directly from backend?
+  //     ];
+  //     console.log("this is is fallbackObj, ", fallbackObj);
 
-      state.programData[fallbackId] = fallbackObj;
+  //     state.programData[fallbackId] = fallbackObj;
 
-      // Hook it into the root program node
-      const root = state.programData[programId];
-      if (root?.type === "programType") {
-        root.properties.children ??= [];
-        root.properties.children.push(fallbackId);
-        //console.log("see root.properties.children to see how to get idx, ", root.properties.children);
-      }
+  //     // Hook it into the root program node
+  //     const root = state.programData[programId];
+  //     if (root?.type === "programType") {
+  //       root.properties.children ??= [];
+  //       root.properties.children.push(fallbackId);
+  //       //console.log("see root.properties.children to see how to get idx, ", root.properties.children);
+  //     }
 
-      // Send this to backend as well so fallback blocks are associated with the program blocks
-      // const sourceInfo = { id: fallbackId, name: fallbackObj.name };
-      // const destInfo = { id: programId, name: root.name };
+  //     // Send this to backend as well so fallback blocks are associated with the program blocks
+  //     // const sourceInfo = { id: fallbackId, name: fallbackObj.name };
+  //     // const destInfo = { id: programId, name: root.name };
 
-      const fallbackIdx = root.properties.children.length; // because it is just pushed?
+  //     const fallbackIdx = root.properties.children.length; // because it is just pushed?
 
-      const sourceInfo = { 
-        id: fallbackId,
-        data: { id: fallbackId, name: fallbackObj.name }   // backend expects: sourceInfo["data"]["name"]
-      };
+  //     const sourceInfo = { 
+  //       id: fallbackId,
+  //       data: { id: fallbackId, name: fallbackObj.name }   // backend expects: sourceInfo["data"]["name"]
+  //     };
 
-      const destInfo = { 
-        id: programId,
-        parentId: programId,
-        idx: fallbackIdx      
-      };
+  //     const destInfo = { 
+  //       id: programId,
+  //       parentId: programId,
+  //       idx: fallbackIdx      
+  //     };
 
-      stageProgramData(state.programData);
-      stageSourceInfo(sourceInfo);
-      stageDestInfo(destInfo);
+  //     stageProgramData(state.programData);
+  //     stageSourceInfo(sourceInfo);
+  //     stageDestInfo(destInfo);
 
-      state.programData = { ...state.programData };    // trigger re-render
-    }, false, "addBatteryBlock"),
+  //     state.programData = { ...state.programData };    // trigger re-render
+  //   }, false, "addBatteryBlock"),
 
-  // adding new logic for adding the skill block with actions
-  addSkillWithActions: (skillName, actionsData) =>
-    set((state) => {
-      const skillId = generateUuid("skillType")
-      state.programData[skillId] = instanceTemplateFromSpec(
-      "skillType",
-      state.programSpec.objectTypes["skillType"],
-      false
-    );
-      state.programData[skillId].id        = skillId;
-      state.programData[skillId].name      = skillName || "New Skill";
-      state.programData[skillId].position  = { x: 200, y: 60 }; 
-      state.programData[skillId].properties.children = [];
+  // // adding new logic for adding the skill block with actions
+  // addSkillWithActions: (skillName, actionsData) =>
+  //   set((state) => {
+  //     const skillId = generateUuid("skillType")
+  //     state.programData[skillId] = instanceTemplateFromSpec(
+  //     "skillType",
+  //     state.programSpec.objectTypes["skillType"],
+  //     false
+  //   );
+  //     state.programData[skillId].id        = skillId;
+  //     state.programData[skillId].name      = skillName || "New Skill";
+  //     state.programData[skillId].position  = { x: 200, y: 60 }; 
+  //     state.programData[skillId].properties.children = [];
 
-      actionsData.forEach((raw, idx) => {
-        const typeName = raw.type;
-        //console.log("what is the typeName here, ", typeName);
-        //console.log("is this none, ", actionTypes[typeName]);
-        if (!actionTypes[typeName]) return;          // ignore unknown types
+  //     actionsData.forEach((raw, idx) => {
+  //       const typeName = raw.type;
+  //       //console.log("what is the typeName here, ", typeName);
+  //       //console.log("is this none, ", actionTypes[typeName]);
+  //       if (!actionTypes[typeName]) return;          // ignore unknown types
 
-        const actId  = generateUuid(typeName);
-        const actObj = instanceTemplateFromSpec(
-          typeName,
-          state.programSpec.objectTypes[typeName],
-          false
-        );
+  //       const actId  = generateUuid(typeName);
+  //       const actObj = instanceTemplateFromSpec(
+  //         typeName,
+  //         state.programSpec.objectTypes[typeName],
+  //         false
+  //       );
 
-      Object.assign(actObj.properties, raw.data?.properties ?? {});
+  //     Object.assign(actObj.properties, raw.data?.properties ?? {});
 
-      actObj.id       = actId;
-      actObj.name     = raw.name || actObj.name;
-      actObj.position = { x: 400, y: 60 + idx * 120 };
+  //     actObj.id       = actId;
+  //     actObj.name     = raw.name || actObj.name;
+  //     actObj.position = { x: 400, y: 60 + idx * 120 };
 
-      state.programData[actId] = actObj;
-      state.programData[skillId].properties.children.push(actId);
-    });
+  //     state.programData[actId] = actObj;
+  //     state.programData[skillId].properties.children.push(actId);
+  //   });
 
-      const root = Object.values(state.programData)
-        .find((b) => b.type === "programType");
-      if (root) {
-        root.properties.children ??= [];
-        root.properties.children.push(skillId);   //last in order
-      }
+  //     const root = Object.values(state.programData)
+  //       .find((b) => b.type === "programType");
+  //     if (root) {
+  //       root.properties.children ??= [];
+  //       root.properties.children.push(skillId);   //last in order
+  //     }
 
-      state.programData = { ...state.programData };
-  }, false, "addSkillWithActions"),
+  //     state.programData = { ...state.programData };
+  // }, false, "addSkillWithActions"),
 
   performCompileProcess: async () => {
     console.log('starting plan processing')
