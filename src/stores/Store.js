@@ -195,40 +195,52 @@ useStore.subscribe(
 
     if (!programId) return; 
 
+    let added = false;
+
+    console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
+    console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
+
     console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
     console.log("prev.scenario2Sensor", prev.scenario2Sensor);
     console.log("store.scenario2ErrorBlockMade, ", store.scenario2ErrorBlockMade);
 
-    if (curr.scenario2Sensor && !prev.scenario2Sensor) {
-        useStore.getState().addScenario2ErrorSetBlock(programId);
-        console.log("this is done");
-        useCompiledStore.setState({});
-        useStore.getState().performCompileProcess();
-      }
-
-    if (curr.warn20 && !prev.warn20) {
+    // BATTERY ERROR should always precede any other errors
+      if (curr.warn20 && !prev.warn20) {
       //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
-      if (!store.batteryErrorBlockMade20) {
+        if (!store.batteryErrorBlockMade20) {
 
-        
-        useStore.getState().addBatterySetBlock(20, programId);
-        //store.batteryErrorBlockMade20 = true;
-        useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
-        useCompiledStore.setState({});
-        useStore.getState().performCompileProcess();
+          
+          useStore.getState().addBatterySetBlock(20, programId);
+          //store.batteryErrorBlockMade20 = true;
+          useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
+          added = true;
+        }
       }
-    }
-    if (curr.warn5 && !prev.warn5) {
-      if (!store.batteryErrorBlockMade5) {
+
+      if (curr.warn5 && !prev.warn5) {
+        if (!store.batteryErrorBlockMade5) {
 
 
-        useStore.getState().addBatterySetBlock(5, programId);
-        //store.batteryErrorBlockMade5 = true;
-        useStore.setState((s) => { s.batteryErrorBlockMade5 = true });
-        useCompiledStore.setState({});
-        useStore.getState().performCompileProcess();
+          useStore.getState().addBatterySetBlock(5, programId);
+          //store.batteryErrorBlockMade5 = true;
+          useStore.setState((s) => { s.batteryErrorBlockMade5 = true });
+          added = true;
+          console.log("this battery5 block is done");
+        }
       }
-    }
+
+      if (curr.scenario2Sensor && !prev.scenario2Sensor) {
+          useStore.getState().addScenario2ErrorSetBlock(programId);
+          console.log("this is done");
+          added = true;
+        }
+
+      if (added) {
+        useCompiledStore.setState({});
+        store.performCompileProcess();
+      }
+
+
   }
 );
 
