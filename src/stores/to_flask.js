@@ -114,6 +114,28 @@ export function stageScenario2SensorError(value) {
       return json;
     });
 }
+export function stageScenario3PersonBlockError(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario3_error", value })
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
+      return json;
+    });
+}
+export function stageScenario4HeavyError(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario4_error", value })
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
+      return json;
+    });
+}
 
 
 export function waitForFlush() {

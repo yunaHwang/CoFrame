@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
-import { stageScenario2SensorError } from "../../stores/to_flask";
+import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          
@@ -308,6 +308,7 @@ const SimTile = ({
       setShowError(true);
 
 
+    // Scenario 2 error to backend
     if (currentScenario === "Scenario 2") {
       if (onRed && lastScenario2Signal.current !== true) {
         console.log("Scenario 2 sensor error has occurred.");
@@ -317,6 +318,34 @@ const SimTile = ({
       } else if (!onRed && lastScenario2Signal.current !== false) {
         stageScenario2SensorError(false);
         useStore.getState().setScenario2ErrorBlockMade(false);
+        lastScenario2Signal.current = false;
+      }
+    }
+
+    // Scenario 3 error to backend
+    else if (currentScenario === "Scenario 3") {
+      if (onRed && lastScenario2Signal.current !== true) {
+        console.log("Scenario 3 sensor error has occurred.");
+        stageScenario3PersonBlockError(true);
+        useStore.getState().setScenario3ErrorBlockMade(true);
+        lastScenario2Signal.current = true;
+      } else if (!onRed && lastScenario2Signal.current !== false) {
+        stageScenario3SensorError(false);
+        useStore.getState().setScenario3ErrorBlockMade(false);
+        lastScenario2Signal.current = false;
+      }
+    }
+
+    // Scenario 4 error to backend
+    else if (currentScenario === "Scenario 4") {
+      if (onRed && lastScenario2Signal.current !== true) {
+        console.log("Scenario 4 sensor error has occurred.");
+        stageScenario4HeavyError(true);
+        useStore.getState().setScenario4ErrorBlockMade(true);
+        lastScenario2Signal.current = true;
+      } else if (!onRed && lastScenario2Signal.current !== false) {
+        stageScenario4SensorError(false);
+        useStore.getState().setScenario4ErrorBlockMade(false);
         lastScenario2Signal.current = false;
       }
     }

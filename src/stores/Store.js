@@ -74,8 +74,13 @@ const store = (set, get) => ({
   batteryErrorBlockMade5:  false,
   setBatteryErrorBlockMade20: (v) => set({ batteryErrorBlockMade20: v }),
   setBatteryErrorBlockMade5:  (v) => set({ batteryErrorBlockMade5:  v }),
+
   scenario2ErrorBlockMade: false,
   setScenario2ErrorBlockMade: (v) => set({ scenario2ErrorBlockMade: v }),
+  scenario3ErrorBlockMade: false,
+  setScenario3ErrorBlockMade: (v) => set({ scenario3ErrorBlockMade: v }),
+  scenario4ErrorBlockMade: false,
+  setScenario4ErrorBlockMade: (v) => set({ scenario4ErrorBlockMade: v }),
   
   
   
