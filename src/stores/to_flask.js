@@ -137,6 +137,31 @@ export function stageScenario4HeavyError(value) {
     });
 }
 
+export function stageScenario5CartBlock(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario5_cartblock", value })
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
+      return json;
+    });
+}
+
+export function stageScenario5PackageBlock(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario5_packageblock", value })
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
+      return json;
+    });
+}
+
+
 
 export function waitForFlush() {
   return lastFlush;

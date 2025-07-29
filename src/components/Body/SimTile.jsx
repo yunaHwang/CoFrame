@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
-import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError } from "../../stores/to_flask";
+import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          
@@ -53,6 +53,11 @@ const SimTile = ({
   const { chargePending }= useStore();     
   
   const lastScenario2Signal = useRef(null);
+  const lastScenario3Signal = useRef(null);
+  const lastScenario4Signal = useRef(null);
+  const lastCartBlockSignal     = useRef(null);
+  const lastPackageBlockSignal  = useRef(null);
+
 
   // ──────────────────────────────
   // Find first robot icon 
@@ -311,7 +316,7 @@ const SimTile = ({
     // Scenario 2 error to backend
     if (currentScenario === "Scenario 2") {
       if (onRed && lastScenario2Signal.current !== true) {
-        console.log("Scenario 2 sensor error has occurred.");
+        console.log("Scenario 2 error has occurred.");
         stageScenario2SensorError(true);
         useStore.getState().setScenario2ErrorBlockMade(true);
         lastScenario2Signal.current = true;
@@ -324,31 +329,55 @@ const SimTile = ({
 
     // Scenario 3 error to backend
     else if (currentScenario === "Scenario 3") {
-      if (onRed && lastScenario2Signal.current !== true) {
-        console.log("Scenario 3 sensor error has occurred.");
+      if (onRed && lastScenario3Signal.current !== true) {
+        console.log("Scenario 3 error has occurred.");
         stageScenario3PersonBlockError(true);
         useStore.getState().setScenario3ErrorBlockMade(true);
-        lastScenario2Signal.current = true;
-      } else if (!onRed && lastScenario2Signal.current !== false) {
+        lastScenario3Signal.current = true;
+      } else if (!onRed && lastScenario3Signal.current !== false) {
         stageScenario3SensorError(false);
         useStore.getState().setScenario3ErrorBlockMade(false);
-        lastScenario2Signal.current = false;
+        lastScenario3Signal.current = false;
       }
     }
 
     // Scenario 4 error to backend
     else if (currentScenario === "Scenario 4") {
-      if (onRed && lastScenario2Signal.current !== true) {
-        console.log("Scenario 4 sensor error has occurred.");
+      if (onRed && lastScenario4Signal.current !== true) {
+        console.log("Scenario 4 error has occurred.");
         stageScenario4HeavyError(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
-        lastScenario2Signal.current = true;
-      } else if (!onRed && lastScenario2Signal.current !== false) {
+        lastScenario4Signal.current = true;
+      } else if (!onRed && lastScenario4Signal.current !== false) {
         stageScenario4SensorError(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
-        lastScenario2Signal.current = false;
+        lastScenario4Signal.current = false;
       }
     }
+
+    // Scenario 5 error to backend
+    else if (currentScenario === "Scenario 5") {
+      if (onRed && lastCartBlockSignal.current !== true) {
+        console.log("Scenario 5 cart block error has occurred.");
+        stageScenario5CartBlock(true);
+        useStore.getState().setCartBlockError?.(true);
+        lastCartBlockSignal.current = true;
+      } else if (!onRed && lastCartBlockSignal.current !== false) {
+        stageScenario5CartBlock(false);
+        useStore.getState().setCartBlockError?.(false);
+        lastCartBlockSignal.current = false;
+      } else if (onBlue && lastPackageBlockSignal.current !== true) {
+        console.log("Scenario 5 package block error has occurred.");
+        stageScenario5PackageBlock(true);
+        useStore.getState().setPackageBlockError?.(true);
+        lastPackageBlockSignal.current = true;
+      } else if (!onBlue && lastPackageBlockSignal.current !== false) {
+        stageScenario5PackageBlock(false);
+        useStore.getState().setPackageBlockError?.(false);
+        lastPackageBlockSignal.current = false;
+      }
+    }
+
 
   } 
   // else {
