@@ -81,6 +81,11 @@ const store = (set, get) => ({
   setScenario3ErrorBlockMade: (v) => set({ scenario3ErrorBlockMade: v }),
   scenario4ErrorBlockMade: false,
   setScenario4ErrorBlockMade: (v) => set({ scenario4ErrorBlockMade: v }),
+
+  scenario5CartErrorBlockMade: false,
+  setScenario5CartErrorBlockMade: (v) => set({ scenario5CartErrorBlockMade: v }),
+  scenario5PackageErrorBlockMade: false,
+  setScenario5PackageErrorBlockMade: (v) => set({ scenario5PackageErrorBlockMade: v }),
   
   
   
@@ -192,6 +197,11 @@ useStore.subscribe(
     warn20: state.battery20Warning,
     warn5 : state.battery5Warning,
     scenario2Sensor: state.scenario2ErrorBlockMade,
+    scenario3Person: state.scenario3ErrorBlockMade,
+    scenario4Heavy: state.scenario4ErrorBlockMade,
+    scenario5Cart: state.scenario5CartErrorBlockMade,
+    scenario5Package: state.scenario5PackageErrorBlockMade,
+
   }),
   (curr, prev) => {
     const store = useStore.getState();
@@ -202,27 +212,27 @@ useStore.subscribe(
 
     let added = false;
 
-    console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
-    console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
+    // console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
+    // console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
 
-    console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
-    console.log("prev.scenario2Sensor", prev.scenario2Sensor);
-    console.log("store.scenario2ErrorBlockMade, ", store.scenario2ErrorBlockMade);
+    // console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
+    // console.log("prev.scenario2Sensor", prev.scenario2Sensor);
+    // console.log("store.scenario2ErrorBlockMade, ", store.scenario2ErrorBlockMade);
 
     // BATTERY ERROR should always precede any other errors
-      if (curr.warn20 && !prev.warn20) {
-      //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
-        if (!store.batteryErrorBlockMade20) {
+    if (curr.warn20 && !prev.warn20) {
+    //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
+      if (!store.batteryErrorBlockMade20) {
 
-          
-          useStore.getState().addBatterySetBlock(20, programId);
-          //store.batteryErrorBlockMade20 = true;
-          useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
-          added = true;
-        }
+        
+        useStore.getState().addBatterySetBlock(20, programId);
+        //store.batteryErrorBlockMade20 = true;
+        useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
+        added = true;
       }
+    }
 
-      if (curr.warn5 && !prev.warn5) {
+    if (curr.warn5 && !prev.warn5) {
         if (!store.batteryErrorBlockMade5) {
 
 
@@ -233,25 +243,71 @@ useStore.subscribe(
           console.log("this battery5 block is done");
         }
       }
+    // SENSOR/PERSON BLOCK/TOO HEAVY/CART BLOCK/PACKAGE BLOCK ERROR(s) 
+    if (curr.scenario2Sensor && !prev.scenario2Sensor) {
+      setTimeout(() => {
+        // try to give a slight delay?
+        useStore.getState().addScenario2ErrorSetBlock(programId);
+        useStore.setState(s => { s.scenario2ErrorBlockMade = true });
 
-      if (curr.scenario2Sensor && !prev.scenario2Sensor) {
-        setTimeout(() => {
-          // try to give a slight delay?
-          useStore.getState().addScenario2ErrorSetBlock(programId);
-          useStore.setState(s => { s.scenario2ErrorBlockMade = true });
-
-          useCompiledStore.setState({});
-          useStore.getState().performCompileProcess();
-        }, 30);
-          // useStore.getState().addScenario2ErrorSetBlock(programId);
-          // console.log("this is done");
-          // added = true;
-        }
-
-      if (added) {
         useCompiledStore.setState({});
-        store.performCompileProcess();
-      }
+        useStore.getState().performCompileProcess();
+      }, 30);
+
+    }
+
+    if (curr.scenario3Person && !prev.scenario3Person) {
+      setTimeout(() => {
+        // try to give a slight delay?
+        useStore.getState().addScenario3ErrorSetBlock(programId);
+        useStore.setState(s => { s.scenario3ErrorBlockMade = true });
+
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }, 30);
+
+    }
+
+    if (curr.scenario4Heavy && !prev.scenario4Heavy) {
+      setTimeout(() => {
+        // try to give a slight delay?
+        useStore.getState().addScenario4ErrorSetBlock(programId);
+        useStore.setState(s => { s.scenario4ErrorBlockMade = true });
+
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }, 30);
+
+    }
+
+    if (curr.scenario5Cart && !prev.scenario5Cart) {
+      setTimeout(() => {
+        // try to give a slight delay?
+        useStore.getState().addScenario5CartErrorSetBlock(programId);
+        useStore.setState(s => { s.scenario5CartErrorBlockMade = true });
+
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }, 30);
+
+    }
+
+    if (curr.scenario5Package && !prev.scenario5Package) {
+      setTimeout(() => {
+        // try to give a slight delay?
+        useStore.getState().addScenario5PackageErrorSetBlock(programId);
+        useStore.setState(s => { s.scenario5PackageErrorBlockMade = true });
+
+        useCompiledStore.setState({});
+        useStore.getState().performCompileProcess();
+      }, 30);
+
+    }
+
+    if (added) {
+      useCompiledStore.setState({});
+      store.performCompileProcess();
+    }
 
 
   }

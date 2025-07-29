@@ -335,7 +335,7 @@ const SimTile = ({
         useStore.getState().setScenario3ErrorBlockMade(true);
         lastScenario3Signal.current = true;
       } else if (!onRed && lastScenario3Signal.current !== false) {
-        stageScenario3SensorError(false);
+        stageScenario3PersonBlockError(false);
         useStore.getState().setScenario3ErrorBlockMade(false);
         lastScenario3Signal.current = false;
       }
@@ -349,7 +349,7 @@ const SimTile = ({
         useStore.getState().setScenario4ErrorBlockMade(true);
         lastScenario4Signal.current = true;
       } else if (!onRed && lastScenario4Signal.current !== false) {
-        stageScenario4SensorError(false);
+        stageScenario4HeavyError(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
         lastScenario4Signal.current = false;
       }
@@ -360,20 +360,20 @@ const SimTile = ({
       if (onRed && lastCartBlockSignal.current !== true) {
         console.log("Scenario 5 cart block error has occurred.");
         stageScenario5CartBlock(true);
-        useStore.getState().setCartBlockError?.(true);
+        useStore.getState().setScenario5CartErrorBlockMade(true);
         lastCartBlockSignal.current = true;
       } else if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario5CartBlock(false);
-        useStore.getState().setCartBlockError?.(false);
+        useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
       } else if (onBlue && lastPackageBlockSignal.current !== true) {
         console.log("Scenario 5 package block error has occurred.");
         stageScenario5PackageBlock(true);
-        useStore.getState().setPackageBlockError?.(true);
+        useStore.getState().setScenario5PackageErrorBlockMade(true);
         lastPackageBlockSignal.current = true;
       } else if (!onBlue && lastPackageBlockSignal.current !== false) {
         stageScenario5PackageBlock(false);
-        useStore.getState().setPackageBlockError?.(false);
+        useStore.getState().setScenario5PackageErrorBlockMade(false);
         lastPackageBlockSignal.current = false;
       }
     }
