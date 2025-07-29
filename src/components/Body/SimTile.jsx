@@ -387,6 +387,32 @@ const SimTile = ({
   //   }
   // }
   };
+
+  useEffect(() => {
+  // Reset all scenario signals when scenario changes
+  lastScenario2Signal.current = false;
+  lastScenario3Signal.current = false;
+  lastScenario4Signal.current = false;
+  lastCartBlockSignal.current = false;
+  lastPackageBlockSignal.current = false;
+
+  useStore.getState().setScenario2ErrorBlockMade(false);
+  useStore.getState().setScenario3ErrorBlockMade(false);
+  useStore.getState().setScenario4ErrorBlockMade(false);
+  useStore.getState().setScenario5CartErrorBlockMade(false);
+  useStore.getState().setScenario5PackageErrorBlockMade(false);
+
+  stageScenario2SensorError(false);
+  stageScenario3PersonBlockError(false);
+  stageScenario4HeavyError(false);
+  stageScenario5CartBlock(false);
+  stageScenario5PackageBlock(false);
+
+  setErrorMessage(null);
+  setShowError(false);
+}, [scenario]);
+
+
   const lastProcessedTransfer = useRef(null);
     
   // ──────────────────────────────
