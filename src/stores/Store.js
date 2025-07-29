@@ -235,9 +235,17 @@ useStore.subscribe(
       }
 
       if (curr.scenario2Sensor && !prev.scenario2Sensor) {
+        setTimeout(() => {
+          // try to give a slight delay?
           useStore.getState().addScenario2ErrorSetBlock(programId);
-          console.log("this is done");
-          added = true;
+          useStore.setState(s => { s.scenario2ErrorBlockMade = true });
+
+          useCompiledStore.setState({});
+          useStore.getState().performCompileProcess();
+        }, 30);
+          // useStore.getState().addScenario2ErrorSetBlock(programId);
+          // console.log("this is done");
+          // added = true;
         }
 
       if (added) {
