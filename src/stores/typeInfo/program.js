@@ -78,8 +78,9 @@ const programFeatures = {
         // add skillType
         "skillType", // this is the action cluster
         "concurrentType",
-        // "lookForType",
-        "fallbackType"
+        "lookForType",
+        "resetCameraType"
+        //"fallbackType"
       ],
       default: [],
       isList: true,

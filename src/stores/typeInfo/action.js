@@ -114,6 +114,18 @@ const stopFeatures = {
   },
 };
 
+const resetCameraFeatures = {
+  name: "Reset Camera",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Reset Stretch camera when sensor errors occur" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
 const saveLogFeatures = {
   name: "Save Stretch Log",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
@@ -218,7 +230,7 @@ const lookForFeatures = {
   name: "Look For Object",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
-    description: { default: "Activate vision sensor to specifically look for an object" },
+    description: { default: "Use Stretch camera to specifically look for an object" },
     thing: {
       name: "Object",
       accepts: ["thingType"],
@@ -239,6 +251,7 @@ const actionTypes = {
   putAsideType: merge(putAsideFeatures, basicActionData),
   grabType: merge(grabFeatures, basicActionData),
   stopStretchType: merge(stopFeatures, basicActionData),
+  resetCameraType: merge(resetCameraFeatures, basicActionData),
   saveLogStretchType: merge(saveLogFeatures, basicActionData),
   sayType: merge(sayFeatures, basicActionData),
   moveForwardType: merge(moveForwardFeatures, basicActionData),

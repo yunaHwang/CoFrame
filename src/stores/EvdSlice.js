@@ -76,11 +76,13 @@ export const EvdSlice = (set, get) => ({
         objectTypes: [
           "moveForwardType",
           "rotateType",
+          "lookForType",
           "grabType",
           "putAsideType",
           "handObjToType",
           "sayType",
           "stopStretchType",
+          "resetCameraType",
           "saveLogStretchType",
         ],
         icon: PrimitiveIconStyled,

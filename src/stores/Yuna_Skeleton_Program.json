@@ -3301,6 +3301,27 @@
     "argumentBlockData": [],
     "editing": false
   },
+  "resetCameraType-ac66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "resetCameraType-ac66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "resetCameraType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Reset Stretch camera when sensor errors occur",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Reset Camera",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
   "saveLogStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
     "id": "saveLogStretchType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
     "type": "saveLogStretchType",
@@ -3340,6 +3361,29 @@
       "singleton": false
     },
     "name": "Grab Object",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+  "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
+    "id": "lookForType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3",
+    "type": "lookForType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Use Stretch camera to specifically look for an object",
+      "thing": "",
+      "compileFn": 9,
+      "updateFields": [
+        "thing"
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Look For Object",
     "canDelete": true,
     "canEdit": true,
     "refData": null,
