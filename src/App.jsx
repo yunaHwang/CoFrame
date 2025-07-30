@@ -566,7 +566,7 @@ export default function App() {
                                         bgcolor = "#fcebea"; // red
                                         border = "#f5c6cb";
                                       } else {
-                                        explanation = "No effective fallback actions yet. You haven’t added any, or the ones you’ve added didn’t resolve the issue. Check above in the 'Detected Issues' section for hints on how to fix it.";
+                                        explanation = "No effective fallback actions yet. The actions you’ve added didn’t resolve the issue. Check above in the 'Detected Issues' section for hints on how to fix it.";
                                         bgcolor = "#fff9c4"; // yellow
                                         border = "#fdd835";
                                       }
