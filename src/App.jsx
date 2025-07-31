@@ -260,7 +260,7 @@ export default function App() {
           console.log("battery20Warning evolution, ", battery20, json);
           console.log("hadWarning, ", hadWarning);
 
-          if (!hadWarning) return;
+          if (hadWarning) {
 
           const trackingSnapshot = [...useStore.getState().actionTracking];
           console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
@@ -271,34 +271,9 @@ export default function App() {
           
           useStore.getState().setBattery20Warning(false);
           useStore.getState().setBattery5Warning(false);
+          }}
+      console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
-          //console.log("what is this json that i am seeing here, ", json);
-
-        // setTimeout(() => {
-        //   const battery20 = useStore.getState().battery20Warning;
-        //   const battery5 = useStore.getState().battery5Warning;
-        //   const hadWarning = battery20 || battery5;
-
-        //   console.log("battery20Warning evolution, ", battery20, json);
-        //   console.log("hadWarning, ", hadWarning);
-
-        //   if (!hadWarning) return;
-
-        //   const trackingSnapshot = [...useStore.getState().actionTracking];
-        //   console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
-        //   useStore.getState().setbatteryLevel(100);
-        //   useStore.getState().setChargePending(false);
-        //   useStore.getState().setShowBatteryCharged(true);
-        //   useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
-          
-        //   useStore.getState().setBattery20Warning(false);
-        //   useStore.getState().setBattery5Warning(false);
-        // }, 100);
-
-        
-
-        }
-        
       if (Array.isArray(json.fallbackSetSignals)) {
         for (const signalBlock of json.fallbackSetSignals) {
           const {
@@ -309,6 +284,8 @@ export default function App() {
             actionSignals,
             errorType
           } = signalBlock;
+
+          console.log("debugging - signalBlock, ", signalBlock);
 
           setFallbackSetList(prevList => {
             const existingIndex = prevList.findIndex(
@@ -323,6 +300,7 @@ export default function App() {
               fallbackNames,
               actionSignals,
             };
+            console.log("debugging - this is what it's kept - updatedSet/fallbackSetList, ", updatedSet);
 
             if (existingIndex !== -1) {
               const newList = [...prevList];
@@ -341,7 +319,7 @@ export default function App() {
     return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
   }, []);
 
-  console.log("what is fallbackSetList, ", fallbackSetList);
+  console.log("what is fallbackSetList, ", fallbackSetList); // this somehow shows actionSignals as null
 
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
@@ -504,6 +482,7 @@ export default function App() {
 
                             <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
                               {set.fallbacks.map((fbId, i) => (
+                                //console.log("Rendering fallback:", fbId, "with signals:", set.actionSignals?.[fbId]);
 
                                 <React.Fragment key={fbId}>
                                     <Box
@@ -545,7 +524,7 @@ export default function App() {
                                     <Box component="img" src={arrowPng} alt="↓" sx={{ height: 24, width: 24, mt: 0.5, mb: 0.5 }} />
                                     )}
                                     </React.Fragment>
-                              ))}
+                                    ))}
 
                               {(() => {
                                     const hasFallbacks = set.fallbacks.length > 0;
