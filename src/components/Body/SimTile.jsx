@@ -58,6 +58,8 @@ const SimTile = ({
   const [objectWithElderly, setObjectWithElderly] = useState(false);
   const [hasThingParam, setHasThingParam] = useState(false);
   const [hasPersonParam, setHasPersonParam] = useState(false);
+  const [parcelLeftAtCoord, setParcelLeftAtCoord] = useState(null);
+  const [parcelDroppedByDeletion, setParcelDroppedByDeletion] = useState(false);
 
   const { chargePending }= useStore();     
   
@@ -121,19 +123,19 @@ const SimTile = ({
       else if (actionOrientation === "W") moves.xMovement = -steps;
       
     } else if (actionType === "toLocationType") {
-        const rooms = {
-        "Package room": {x:2,y:4},
-        "Activity Area":{x:3,y:2},
-        "Elderly room": {x:5,y:3},
-        "Battery charging station":{x:9,y:7}
-      };
-        // //Mason test instant grab
-        //   const rooms = {
-        //   "Package room": {x:1,y:6},
-        //   "Activity Area":{x:3,y:2},
-        //   "Elderly room": {x:9,y:2},
-        //   "Battery charging station":{x:9,y:7}
-        // };
+      //   const rooms = {
+      //   "Package room": {x:2,y:4},
+      //   "Activity Area":{x:3,y:2},
+      //   "Elderly room": {x:5,y:3},
+      //   "Battery charging station":{x:9,y:7}
+      // };
+        //Mason test instant grab
+          const rooms = {
+          "Package room": {x:1,y:6},
+          "Activity Area":{x:3,y:2},
+          "Elderly room": {x:9,y:2},
+          "Battery charging station":{x:9,y:7}
+        };
 
       if (parameterValue && rooms[parameterValue]) {
         const target = rooms[parameterValue];
@@ -494,7 +496,16 @@ const SimTile = ({
 
       if (parameterValue === "Target Parcel") {
         const objectAtOriginal = !isObjectGrabbed && !isObjectFading && !objectWithElderly;
-        if (objectAtOriginal && robotCoord?.x === 1 && robotCoord?.y === 6) {
+        let canGrab = false;
+    
+        if (parcelDroppedByDeletion && parcelLeftAtCoord) {
+          canGrab = robotCoord?.x === parcelLeftAtCoord.x && 
+                    robotCoord?.y === parcelLeftAtCoord.y;
+        } else {
+          canGrab = robotCoord?.x === 1 && robotCoord?.y === 6;
+        }
+        
+        if (objectAtOriginal && canGrab) {
           handleObjectAction(parentAction.type);
         }
       }
@@ -549,6 +560,8 @@ const SimTile = ({
         setIsObjectBeingHanded(false);
         setObjectWithElderly(false);
         setActionMessage("Stretch grabbed Target Parcel!");
+        setParcelLeftAtCoord(null); 
+        setParcelDroppedByDeletion(false); 
         // console.log(`Object grabbed at ${objectPosition}`);
         break;
         
@@ -605,8 +618,10 @@ const SimTile = ({
           }
         if (deletedData.type === "grabType") {
           //console.log("Grab action deleted");
+          setParcelLeftAtCoord(robotCoord);
           setIsObjectGrabbed(false);
           setHasThingParam(false);
+          setParcelDroppedByDeletion(true); 
         }
         else if (deletedData.type === "putAsideType") {
           //console.log("Put aside action deleted");
@@ -704,8 +719,10 @@ const SimTile = ({
         useStore.getState().setActionTracking(updated);}
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "grabType") {
         //console.log("Grab object parameter deleted");
+        setParcelLeftAtCoord(robotCoord);
         setIsObjectGrabbed(false);
         setHasThingParam(false);
+        setParcelDroppedByDeletion(true); 
       }
       //deletion for putaside
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "putAsideType") {
@@ -1148,17 +1165,28 @@ function hexToRgba(hex, alpha = 1) {
           let iconSrc;
           if (key === robotKey) {
             iconSrc = robotImg;
-          } else if (key === "1,6" && (isObjectGrabbed || isObjectFading || objectWithElderly)) {
-            iconSrc = null;
-          } else if (
-            putAsideAtCoord &&
-            key === `${putAsideAtCoord.x},${putAsideAtCoord.y}` &&
-            !isObjectGrabbed && !isObjectFading && !objectWithElderly
+          } 
+          else if (
+            parcelDroppedByDeletion &&
+            parcelLeftAtCoord &&
+            key === `${parcelLeftAtCoord.x},${parcelLeftAtCoord.y}`
           ) {
             iconSrc = icons["1,6"];
-          } else if (icons[key] === robotImg) {
+          }
+          else if (key === "1,6" && (isObjectGrabbed || isObjectFading || objectWithElderly || parcelDroppedByDeletion)) {
             iconSrc = null;
-          } else {
+          }
+          else if (
+            putAsideAtCoord &&
+            key === `${putAsideAtCoord.x},${putAsideAtCoord.y}` &&
+            !isObjectGrabbed && !isObjectFading && !objectWithElderly && !parcelDroppedByDeletion
+          ) {
+            iconSrc = icons["1,6"];
+          }
+          else if (icons[key] === robotImg) {
+            iconSrc = null;
+          }
+          else {
             iconSrc = icons[key];
           }
           
