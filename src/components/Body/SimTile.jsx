@@ -275,7 +275,7 @@ const SimTile = ({
 
       const globalBattery = useStore.getState().globalBatteryLevel;
       console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery);
-      useStore.getState().setbatteryLevel(globalBattery);
+      //useStore.getState().setbatteryLevel(globalBattery);
 
 
     }
@@ -889,6 +889,9 @@ const SimTile = ({
   const prevLevelRef          = useRef(batteryLevel);
 
   useEffect(() => {
+    console.log("this is batteryLevel", batteryLevel); // added to check if batteryLevel goes down successfully - because the same type of battery warning is just not popping up. 
+
+    // so the above DOES GO TO 0 but then it bounces back... ha let the recharge logic be removed?!
     if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
       setBattery20Warning(true);
     }
@@ -931,7 +934,7 @@ const SimTile = ({
     console.log("what is globalBattery, postChargeBatteryUsed, ", globalBattery, postChargeBatteryUsed);
     console.log("what is newBattery here and does it have to do with the jump, ", newBatteryLevel);
 
-    useStore.getState().setbatteryLevel(newBatteryLevel);
+    useStore.getState().setbatteryLevel(newBatteryLevel); //TODO: yo this is buggy
     //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(totalDistance);
 

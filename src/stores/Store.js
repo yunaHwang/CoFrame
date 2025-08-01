@@ -218,8 +218,8 @@ useStore.subscribe(
 
     let added = false;
 
-    // console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
-    // console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
+    console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
+    console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
 
     // console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
     // console.log("prev.scenario2Sensor", prev.scenario2Sensor);
@@ -238,6 +238,7 @@ useStore.subscribe(
       }
     }
 
+    // TODO: maybe get rid of prev, here?
     if (curr.warn5 && !prev.warn5) {
         if (!store.batteryErrorBlockMade5) {
 
