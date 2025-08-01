@@ -28,6 +28,7 @@ const SimTile = ({
 
   const showBatteryCharged  = useStore((s) => s.showBatteryCharged);
   const setShowBatteryCharged = useStore((s) => s.setShowBatteryCharged);
+  const setActionMessage = useStore((s) => s.setActionMessage);
 
   const setErrorMessage  = useStore((s) => s.setErrorMessage);
   const setShowError     = useStore((s) => s.setShowError);
@@ -120,19 +121,19 @@ const SimTile = ({
       else if (actionOrientation === "W") moves.xMovement = -steps;
       
     } else if (actionType === "toLocationType") {
-      //   const rooms = {
-      //   "Package room": {x:2,y:4},
-      //   "Activity Area":{x:3,y:2},
-      //   "Elderly room": {x:5,y:3},
-      //   "Battery charging station":{x:9,y:7}
-      // };
-        //Mason test instant grab
-          const rooms = {
-          "Package room": {x:1,y:6},
-          "Activity Area":{x:3,y:2},
-          "Elderly room": {x:9,y:2},
-          "Battery charging station":{x:9,y:7}
-        };
+        const rooms = {
+        "Package room": {x:2,y:4},
+        "Activity Area":{x:3,y:2},
+        "Elderly room": {x:5,y:3},
+        "Battery charging station":{x:9,y:7}
+      };
+        // //Mason test instant grab
+        //   const rooms = {
+        //   "Package room": {x:1,y:6},
+        //   "Activity Area":{x:3,y:2},
+        //   "Elderly room": {x:9,y:2},
+        //   "Battery charging station":{x:9,y:7}
+        // };
 
       if (parameterValue && rooms[parameterValue]) {
         const target = rooms[parameterValue];
@@ -547,6 +548,7 @@ const SimTile = ({
         setIsObjectFading(false);
         setIsObjectBeingHanded(false);
         setObjectWithElderly(false);
+        setActionMessage("Stretch grabbed Target Parcel!");
         // console.log(`Object grabbed at ${objectPosition}`);
         break;
         
@@ -559,6 +561,7 @@ const SimTile = ({
           setIsObjectBeingHanded(false);
           setObjectWithElderly(false);
         }, 500);
+        setActionMessage("Target Parcel put aside for now!");
         break;
         
       case "handObjToType":
@@ -574,6 +577,7 @@ const SimTile = ({
               setIsObjectBeingHanded(false);
               setObjectWithElderly(true);
             }, 800);
+            setActionMessage("Elderly received target parcel! ");
           }
         }
         break;

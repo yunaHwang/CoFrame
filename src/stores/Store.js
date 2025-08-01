@@ -98,6 +98,12 @@ const store = (set, get) => ({
   robotOrientation: "E", 
   setRobotOrientation: (orientation) => set({ robotOrientation: orientation }),
 
+  actionMessage: null,
+  setActionMessage: (msg) => {
+    set({ actionMessage: msg });
+    setTimeout(() => set({ actionMessage: null }), 3000);
+  },
+
   clean: true,
   setClean: (v) => set({clean: v}),
 

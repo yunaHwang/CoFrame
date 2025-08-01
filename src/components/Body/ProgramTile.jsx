@@ -25,11 +25,13 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
     const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); //added
-    const battery20Warning = useStore(s => s.battery20Warning,shallow);
-    const setBattery20Warning = useStore(s => s.setBattery20Warning,shallow);
-    const battery5Warning     = useStore(s => s.battery5Warning, shallow);
-    const setBattery5Warning  = useStore(s => s.setBattery5Warning,shallow);
+    const battery20Warning = useStore(state => state.battery20Warning,shallow);
+    const setBattery20Warning = useStore(state => state.setBattery20Warning,shallow);
+    const battery5Warning     = useStore(state => state.battery5Warning, shallow);
+    const setBattery5Warning  = useStore(state => state.setBattery5Warning,shallow);
     const prevLevelRef = useRef(batteryLevel);
+    
+    const actionMessage = useStore(state => state.actionMessage, shallow);
 
     const errorMessage = useStore(state => state.errorMessage, shallow);
     const showError = useStore(state => state.showError, shallow);
@@ -140,6 +142,19 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 }}>
                                 <Typography style={{ color: 'white' }}>Robot Facing: {getRobotFacingDisplay()}</Typography>
                             </Box>
+                            {actionMessage && (
+                            <Box 
+                                sx={{ 
+                                backgroundColor: '#d3a352ff', 
+                                padding: '6px 12px',
+                                borderRadius: '2px',
+                                animation: 'fadeInOut 3s linear',
+                                color: 'white'
+                                }}
+                            >
+                                <Typography>{actionMessage}</Typography>
+                            </Box>
+                            )}
                             </Stack>
                             {/* {showError && errorMessage && (
                             <Box
