@@ -3343,6 +3343,50 @@
     "argumentBlockData": [],
     "editing": false
   },
+
+  "adjustGripLighterType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "adjustGripLighterType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "adjustGripLighterType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch adjusts its gripper grip for picking up lighter objects",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Adjust Grip for Lighter Items",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
+
+  "adjustGripHeavierType-zc66cf2d-fbf7-45eb-b428-9437900b80dc": {
+    "id": "adjustGripHeavierType-zc66cf2d-fbf7-45eb-b428-9437900b80dc",
+    "type": "adjustGripHeavierType",
+    "dataType": "INSTANCE",
+    "properties": {
+      "description": "Stretch adjusts its gripper grip for picking up heavier objects",
+      "compileFn": 9,
+      "updateFields": [
+      ],
+      "status": "VALID",
+      "pendingChanges": 0,
+      "errorCode": null,
+      "singleton": false
+    },
+    "name": "Adjust Grip for Heavier Items",
+    "canDelete": true,
+    "canEdit": true,
+    "refData": null,
+    "argumentBlockData": [],
+    "editing": false
+  },
  
   "grabType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3": {
     "id": "grabType-6ae12cc0-eeb2-44a1-ab88-99d45e5881b3",

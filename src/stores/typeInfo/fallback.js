@@ -59,7 +59,8 @@ const emptyFallbackFeatures = {
     children: {
       name: "Fallback Behavior",
       accepts: ["toLocationType", "grabType", "placeAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "skillType", "concurrentType", "lookForType", "resetCameraType"
+        "sayType", "moveForwardType", "rotateType", "skillType", "concurrentType", "lookForType", "resetCameraType", "adjustGripLighterType",
+        "adjustGripHeavierType",
       ],
       default: [],
       isList: true,

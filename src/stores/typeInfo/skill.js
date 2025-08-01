@@ -81,7 +81,8 @@ const emptySkillFeatures = {
       name: "Actions",
       accepts: [//"moveGripperType", "closeGripperType", 
       "grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType"
+        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType",
+        "resetCameraType", "adjustGripLighterType", "adjustGripHeavierType", "lookForType"
       ],
       default: [],
       isList: true,
@@ -102,7 +103,8 @@ const emptyConcurrentFeatures = {
     children: {
       name: "Actions",
       accepts: ["grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
-        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType"
+        "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType",
+        "resetCameraType", "adjustGripLighterType", "adjustGripHeavierType", "lookForType"
       ],
       default: [],
       isList: true,

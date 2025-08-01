@@ -80,6 +80,8 @@ export const EvdSlice = (set, get) => ({
           "grabType",
           "putAsideType",
           "handObjToType",
+          "adjustGripLighterType",
+          "adjustGripHeavierType",
           "sayType",
           "stopStretchType",
           "resetCameraType",

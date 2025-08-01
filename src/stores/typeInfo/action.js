@@ -214,6 +214,30 @@ const slowerStretchFeatures = {
   },
 };
 
+const adjustGripLighterFeatures = {
+  name: "Adjust Grip for Lighter Items",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch adjusts its gripper grip for picking up lighter objects" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
+const adjustGripHeavierFeatures = {
+  name: "Adjust Grip for Heavier Items",
+  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  properties: {
+    description: { default: "Stretch adjusts its gripper grip for picking up heavier objects" },
+    compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
+    updateFields: {
+      default: [],
+    },
+  },
+};
+
 const fasterStretchFeatures = {
   name: "Move Faster",
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
@@ -258,6 +282,8 @@ const actionTypes = {
   rotateType: merge(rotateFeatures, basicActionData),
   slowerStretchType: merge(slowerStretchFeatures, basicActionData),
   fasterStretchType: merge(fasterStretchFeatures, basicActionData),
+  adjustGripLighterType: merge(adjustGripLighterFeatures, basicActionData),
+  adjustGripHeavierType: merge(adjustGripHeavierFeatures, basicActionData),
   lookForType: merge(lookForFeatures, basicActionData),
   handObjToType: merge(handObjToFeatures, basicActionData),
 };
