@@ -2978,6 +2978,46 @@
     "selected": false,
     "editing": false
   },
+  "thingType-18892a7c1c1911ecbe2600155d1a70a2": {
+  "type": "thingType",
+  "name": "Fence",
+  "id": "thingType-18892a7c1c1911ecbe2600155d1a70a2",
+  "canEdit": true,
+  "canDelete": true,
+  "properties": {
+    "compileFn": 14,
+    "updateFields": [
+    ],
+    "singleton": true,
+    "description": "",
+    "status": "PENDING",
+    "pendingChanges": 0,
+    "errorCode": null
+  },
+  "dataType": "INSTANCE",
+  "selected": false,
+  "editing": false
+},
+"thingType-28892a7c1c1911ecbe2600155d1a70a2": {
+  "type": "thingType",
+  "name": "Cart",
+  "id": "thingType-28892a7c1c1911ecbe2600155d1a70a2",
+  "canEdit": true,
+  "canDelete": true,
+  "properties": {
+    "compileFn": 14,
+    "updateFields": [
+    ],
+    "singleton": true,
+    "description": "",
+    "status": "PENDING",
+    "pendingChanges": 0,
+    "errorCode": null
+  },
+  "dataType": "INSTANCE",
+  "selected": false,
+  "editing": false
+},
 
 
   "toLocation-b7daabbd-6e24-4b8f-9c8e-5ea22d727ad0": {
