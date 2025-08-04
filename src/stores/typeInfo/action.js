@@ -181,13 +181,13 @@ const rotateFeatures = {
   description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
   properties: {
     description: { default: "Stretch rotates x angles in y direction where x and y are provided as parameters" },
-    // rotationMagnitude: {
-    //   name: "Rotation Angle",
-    //   accepts: ["movementType"],
-    //   default: null,
-    //   isList: false,
-    //   nullValid: true,
-    // },
+    rotationTimes: {
+      name: "Rotation Times",
+      accepts: ["movementType"],
+      default: null,
+      isList: false,
+      nullValid: true,
+    },
     angleDirection: {
       name: "Rotation Direction",
       accepts: ["movementType"],
@@ -197,7 +197,7 @@ const rotateFeatures = {
     },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
-      default: ["rotationMagnitude", "angleDirection"],
+      default: ["rotationTimes", "angleDirection"],
     },
   },
 };

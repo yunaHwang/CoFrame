@@ -2920,7 +2920,7 @@
   },
     "movementType-38892a7c1c1911ecbe2600155d1a70a2": {
     "type": "movementType",
-    "name": "90 degrees",
+    "name": "Rotate 1 time",
     "id": "movementType-38892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
@@ -3554,11 +3554,11 @@
     "dataType": "INSTANCE",
     "properties": {
       "description": "Stretch rotates x angles in y direction where x and y are provided as parameters",
-      "rotationMagnitude": "",
+      "rotationTimes": "",
       "angleDirection": "",
       "compileFn": 9,
       "updateFields": [
-       "angleDirection"
+       "rotationTimes", "angleDirection"
       ],
       "status": "VALID",
       "pendingChanges": 0,

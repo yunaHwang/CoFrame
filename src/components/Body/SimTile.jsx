@@ -470,6 +470,7 @@ const SimTile = ({
       //If it's rotate
       } else if (parentAction?.type === "rotateType") {
         const parameterValue = data.name;
+        console.log("parameterValue for rotate, ", parameterValue);
         const parameterId = data.ref;
         addParameterToAction(destInfo.parentId, parameterId, parameterValue);
       }
