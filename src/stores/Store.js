@@ -101,7 +101,7 @@ const store = (set, get) => ({
   actionMessage: null,
   setActionMessage: (msg) => {
     set({ actionMessage: msg });
-    setTimeout(() => set({ actionMessage: null }), 3000);
+    setTimeout(() => set({ actionMessage: null }), 5000);
   },
 
   clean: true,

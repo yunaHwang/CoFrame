@@ -53,6 +53,9 @@ const SimTile = ({
 
   const [putAsideAtCoord, setPutAsideAtCoord] = useState(null);
   const [isObjectGrabbed, setIsObjectGrabbed] = useState(false);  
+  //yuna added
+  const [grabbedParcel, setGrabbedParcel] = useState(null); // null or "Target Parcel" or "Other Parcel"
+
   const [isObjectFading, setIsObjectFading] = useState(false);
   const [isObjectBeingHanded, setIsObjectBeingHanded] = useState(false);
   const [objectWithElderly, setObjectWithElderly] = useState(false);
@@ -495,7 +498,7 @@ const SimTile = ({
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
 
       if (parameterValue === "Target Parcel") {
-        const objectAtOriginal = !isObjectGrabbed && !isObjectFading && !objectWithElderly;
+        const objectAtOriginal = !grabbedParcel && !isObjectFading && !objectWithElderly;
         let canGrab = false;
     
         if (parcelDroppedByDeletion && parcelLeftAtCoord) {
@@ -506,7 +509,23 @@ const SimTile = ({
         }
         
         if (objectAtOriginal && canGrab) {
-          handleObjectAction(parentAction.type);
+          handleObjectAction(parentAction.type, parameterValue);
+        }
+      }
+      // yuna added 
+      if (parameterValue === "Other Parcel") {
+        const objectAtOriginal = !grabbedParcel && !isObjectFading && !objectWithElderly;
+        let canGrab = false;
+    
+        if (parcelDroppedByDeletion && parcelLeftAtCoord) {
+          canGrab = robotCoord?.x === parcelLeftAtCoord.x && 
+                    robotCoord?.y === parcelLeftAtCoord.y;
+        } else {
+          canGrab = robotCoord?.x === 0 && robotCoord?.y === 6;
+        }
+        
+        if (objectAtOriginal && canGrab) {
+          handleObjectAction(parentAction.type, parameterValue);
         }
       }
     }
@@ -550,16 +569,17 @@ const SimTile = ({
   // ──────────────────────────────
   // Handle Grab
   // ──────────────────────────────
-  const handleObjectAction = (actionType) => {
+  const handleObjectAction = (actionType, parameterValue) => {
     // console.log("handleObjectAction called with:" actionType);
 
     switch(actionType) {
       case "grabType":
-        setIsObjectGrabbed(true);
+        //setIsObjectGrabbed(true);
+        setGrabbedParcel(parameterValue); //added
         setIsObjectFading(false);
         setIsObjectBeingHanded(false);
         setObjectWithElderly(false);
-        setActionMessage("Stretch grabbed Target Parcel!");
+        setActionMessage(`Stretch grabbed ${parameterValue}!`);
         setParcelLeftAtCoord(null); 
         setParcelDroppedByDeletion(false); 
         // console.log(`Object grabbed at ${objectPosition}`);
@@ -1160,6 +1180,13 @@ function hexToRgba(hex, alpha = 1) {
           const key = `${x},${y}`;
           const isHL = highlightSet.has(key);
 
+          // added
+          const parcelCoords = {
+            "Target Parcel": "1,6",
+            "Other Parcel": "0,6",
+          };
+          const parcelKeys = Object.values(parcelCoords); 
+          
           const robotImg = Object.values(icons).find(v=>typeof v==="string" && v.includes("robot"));
           const robotKey = robotCoord ? `${robotCoord.x},${robotCoord.y}` : null;
           let iconSrc;
@@ -1192,6 +1219,7 @@ function hexToRgba(hex, alpha = 1) {
           
           const label   = labelsOverGrid[key];
 
+
           return (
             // <div key={idx} style={{...cellStyle,height:cellSize,
             //   backgroundColor:isHL?color:"#fff", position:"relative"}} >
@@ -1215,7 +1243,10 @@ function hexToRgba(hex, alpha = 1) {
 
               {key === robotKey && (isObjectGrabbed || isObjectFading || isObjectBeingHanded) && (
                 <img 
-                  src={icons["1,6"]} 
+                  //src={icons["1,6"]} 
+                  src = {
+                    grabbedParcel == "Other Parcel" ? icons["0,6"] : icons["1,6"]
+                  }
                   alt="grabbed object" 
                   style={{
                     ...iconStyle(false),
