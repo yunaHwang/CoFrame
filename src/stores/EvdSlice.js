@@ -451,8 +451,8 @@ export const EvdSlice = (set, get) => ({
       fallbackSetObj.id = fallbackSetId;
       fallbackObj.id = fallbackId;
 
-      fallbackSetObj.name = "Priority list of fallbacks (cart block error)";
-      fallbackObj.name = "Cart Block-Error Fallback";
+      fallbackSetObj.name = "Priority list of fallbacks (cart/fence block error)";
+      fallbackObj.name = "Cart/Fence Block-Error Fallback";
 
       fallbackSetObj.position = { x: 250, y: 100 };
       fallbackObj.position = { x: 250, y: 180 };

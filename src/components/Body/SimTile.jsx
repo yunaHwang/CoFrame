@@ -392,10 +392,12 @@ const SimTile = ({
       if (onRed && lastCartBlockSignal.current !== true) {
         console.log("Scenario 5 cart block error has occurred.");
         stageScenario5CartBlock(true);
+        useStore.getState().setCartBlockWarning(true);
         useStore.getState().setScenario5CartErrorBlockMade(true);
         lastCartBlockSignal.current = true;
       } else if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario5CartBlock(false);
+        //useStore.getState().setCartBlockWarning(false);
         useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
       } else if (onBlue && lastPackageBlockSignal.current !== true) {

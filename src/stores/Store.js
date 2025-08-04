@@ -80,6 +80,10 @@ const store = (set, get) => ({
   heavyWarning: false,
   setHeavyWarning: (v) => set({ heavyWarning: v }),
 
+  // [5-1] cart/fence warning for error popping
+  cartBlockWarning: false,
+  setCartBlockWarning: (v) => set({ cartBlockWarning : v}),
+
   // [5-2] package blocking warning for error popping
   packageBlockWarning: false,
   setPackageBlockWarning: (v) => set({ packageBlockWarning : v}),
