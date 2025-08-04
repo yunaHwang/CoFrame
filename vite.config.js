@@ -9,7 +9,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/CoFrame/",
+  base: "/FailsafeR/",
   plugins: [
     react(),
     svgr(),
