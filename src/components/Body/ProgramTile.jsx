@@ -35,6 +35,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     // sensor warning for popping error
     const sensorWarning = useStore(state => state.sensorWarning, shallow);
     const setSensorWarning = useStore(state => state.setSensorWarning, shallow);
+
+    // person block warning for popping error
+    const personBlockWarning = useStore(state => state.personBlockWarning, shallow);
+    const setPersonBlockWarning = useStore(state => state.setPersonBlockWarning, shallow);
     
     
     const prevLevelRef = useRef(batteryLevel);
@@ -365,6 +369,41 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 <Button 
                                 variant="contained"
                                 onClick={() => setSensorWarning(false)}
+                                sx={{ 
+                                    backgroundColor: '#ff9966',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(146, 45, 45, 0.3)'
+                                    }
+                                }}
+                            >
+                                Okay
+                            </Button>
+                            </Paper>
+                
+                    )} 
+
+                {/* person block error popping message */}
+                 {personBlockWarning && (
+                                <Paper
+                                    sx={{ 
+                                        position: 'absolute',
+                                        top: '10%',
+                                        left: '25%',
+                                        backgroundColor: '#ff9966',  
+                                        color: 'black',
+                                        p: '10px 16px',
+                                        maxWidth: 400,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Person Blocking<br/>
+                            The package room is full of people looking for their delivery items. What should the robot do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                                </Typography>
+                                <Button 
+                                variant="contained"
+                                onClick={() => setPersonBlockWarning(false)}
                                 sx={{ 
                                     backgroundColor: '#ff9966',
                                     '&:hover': {

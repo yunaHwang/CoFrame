@@ -304,7 +304,7 @@ const SimTile = ({
   const getErrorCoordinates = (currentScenario) => {
     const coordinates = {
       "Scenario 2": { redAsterisks: [[0,4],[0,5],[0,6],[1,4],[1,5],[1,6],[1,7],[2,4],[2,5],[2,6],[2,7]] },
-      "Scenario 3": { redAsterisks: [[0,5],[0,4],[1,4],[2,4],[2,5],[2,7]] },
+      "Scenario 3": { redAsterisks: [[0,5],[1,4],[2,5],[2,7]] },
       "Scenario 4": { redAsterisks: [[1,6]] },
       "Scenario 5": {
         redAsterisks: [[5,0],[5,1],[5,2],[5,3],[6,3],[7,3],[8,3],[9,3]],
@@ -355,10 +355,12 @@ const SimTile = ({
       if (onRed && lastScenario3Signal.current !== true) {
         console.log("Scenario 3 error has occurred.");
         stageScenario3PersonBlockError(true);
+        useStore.getState().setPersonBlockWarning(true);
         useStore.getState().setScenario3ErrorBlockMade(true);
         lastScenario3Signal.current = true;
       } else if (!onRed && lastScenario3Signal.current !== false) {
         stageScenario3PersonBlockError(false);
+        //useStore.getState().setPersonBlockWarning(true);
         useStore.getState().setScenario3ErrorBlockMade(false);
         lastScenario3Signal.current = false;
       }
