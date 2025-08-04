@@ -25,12 +25,20 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
     const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); //added
+
+    // battery warnings for popping errors
     const battery20Warning = useStore(state => state.battery20Warning,shallow);
     const setBattery20Warning = useStore(state => state.setBattery20Warning,shallow);
     const battery5Warning     = useStore(state => state.battery5Warning, shallow);
     const setBattery5Warning  = useStore(state => state.setBattery5Warning,shallow);
-    const prevLevelRef = useRef(batteryLevel);
+
+    // sensor warning for popping error
+    const sensorWarning = useStore(state => state.sensorWarning, shallow);
+    const setSensorWarning = useStore(state => state.setSensorWarning, shallow);
     
+    
+    const prevLevelRef = useRef(batteryLevel);
+
     const actionMessage = useStore(state => state.actionMessage, shallow);
 
     const errorMessage = useStore(state => state.errorMessage, shallow);
@@ -268,6 +276,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                     )}
                     
 
+                {/* battery error popping messages */}
                  {battery20Warning && (
                                 <Paper
                                     sx={{ 
@@ -282,7 +291,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                         alignItems: 'center'
                                     }}
                                 >
-                                <Typography style={{ color: 'black', fontSize: '15px' }}>
+                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                                 ⚠️ Battery Low<br/>
                             Your robot is below 20% battery. You don't want the robot to turn off and stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
@@ -300,7 +309,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                             </Paper>
                 
-                        )} 
+                    )} 
                 
                  {battery5Warning && (
                     <Paper
@@ -332,6 +341,41 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                         Okay
                         </Button>
                     </Paper>
+                    )} 
+
+                {/* sensor error popping message */}
+                 {sensorWarning && (
+                                <Paper
+                                    sx={{ 
+                                        position: 'absolute',
+                                        top: '10%',
+                                        left: '25%',
+                                        backgroundColor: '#ff9966',  
+                                        color: 'black',
+                                        p: '10px 16px',
+                                        maxWidth: 400,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Sensor broken<br/>
+                            Uh-oh, the robot's camera sensor just broke down. What should the robot do in the midst of its package delivery mission? Think ahead and define a few alternatives in case earlier ones fail.
+                                </Typography>
+                                <Button 
+                                variant="contained"
+                                onClick={() => setSensorWarning(false)}
+                                sx={{ 
+                                    backgroundColor: '#ff9966',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(146, 45, 45, 0.3)'
+                                    }
+                                }}
+                            >
+                                Okay
+                            </Button>
+                            </Paper>
+                
                     )} 
                 </Box>
 

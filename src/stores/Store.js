@@ -62,10 +62,15 @@ const store = (set, get) => ({
   batteryLevel: 100,
   setbatteryLevel: (value) => set({ batteryLevel: value }),
   
+  //battery warnings for error popping
   battery20Warning: false,
   battery5Warning: false,
   setBattery20Warning: (v) => set({ battery20Warning: v }),
   setBattery5Warning: (v) => set({ battery5Warning: v }),
+
+  //sensor warning for error popping
+  sensorWarning: false,
+  setSensorWarning: (v) => set({ sensorWarning : v}),
 
   distanceTravel: 0,
   setdistanceTravel: (value) => set({ distanceTravel: value }),
