@@ -360,7 +360,7 @@ const SimTile = ({
         lastScenario3Signal.current = true;
       } else if (!onRed && lastScenario3Signal.current !== false) {
         stageScenario3PersonBlockError(false);
-        //useStore.getState().setPersonBlockWarning(true);
+        //useStore.getState().setPersonBlockWarning(false);
         useStore.getState().setScenario3ErrorBlockMade(false);
         lastScenario3Signal.current = false;
       }
@@ -376,10 +376,12 @@ const SimTile = ({
       if (onRed && isGrabTargetParcel && lastScenario4Signal.current !== true) {
         console.log("Scenario 4 error has occurred.");
         stageScenario4HeavyError(true);
+        useStore.getState().setHeavyWarning(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
         lastScenario4Signal.current = true;
       } else if (!onRed && lastScenario4Signal.current !== false) {
         stageScenario4HeavyError(false);
+        //useStore.getState().setHeavyWarning(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
         lastScenario4Signal.current = false;
       }

@@ -39,6 +39,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     // person block warning for popping error
     const personBlockWarning = useStore(state => state.personBlockWarning, shallow);
     const setPersonBlockWarning = useStore(state => state.setPersonBlockWarning, shallow);
+
+    // heavy warning for popping error
+    const heavyWarning = useStore(state => state.heavyWarning, shallow);
+    const setHeavyWarning = useStore(state => state.setHeavyWarning, shallow);
     
     
     const prevLevelRef = useRef(batteryLevel);
@@ -297,7 +301,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 >
                                 <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                                 ⚠️ Battery Low<br/>
-                            Your robot is below 20% battery. You don't want the robot to turn off and stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
+                            Stretch is below 20% battery. You don't want Stretch to turn off and stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
                                 <Button 
                                 variant="contained"
@@ -331,7 +335,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                     >
                         <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                         🚨 Critical Battery<br/>
-                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
+                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
                         </Typography>
                         <Button
                         variant="contained"
@@ -364,7 +368,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 >
                                 <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                                 ⚠️ Sensor broken<br/>
-                            Uh-oh, the robot's camera sensor just broke down. What should the robot do in the midst of its package delivery mission? Think ahead and define a few alternatives in case earlier ones fail.
+                            Uh-oh, Stretch's camera sensor just broke down. What should Stretch do in the midst of its package delivery mission? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
                                 <Button 
                                 variant="contained"
@@ -399,11 +403,46 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 >
                                 <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                                 ⚠️ Person Blocking<br/>
-                            The package room is full of people looking for their delivery items. What should the robot do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                            The package room is full of people looking for their delivery items. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
                                 <Button 
                                 variant="contained"
                                 onClick={() => setPersonBlockWarning(false)}
+                                sx={{ 
+                                    backgroundColor: '#ff9966',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(146, 45, 45, 0.3)'
+                                    }
+                                }}
+                            >
+                                Okay
+                            </Button>
+                            </Paper>
+                
+                    )} 
+
+                {/* heavy error popping message */}
+                 {heavyWarning && (
+                                <Paper
+                                    sx={{ 
+                                        position: 'absolute',
+                                        top: '10%',
+                                        left: '25%',
+                                        backgroundColor: '#ff9966',  
+                                        color: 'black',
+                                        p: '10px 16px',
+                                        maxWidth: 400,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Heavy Package<br/>
+                            The package that Stretch has to deliver is way above its payload. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                                </Typography>
+                                <Button 
+                                variant="contained"
+                                onClick={() => setHeavyWarning(false)}
                                 sx={{ 
                                     backgroundColor: '#ff9966',
                                     '&:hover': {

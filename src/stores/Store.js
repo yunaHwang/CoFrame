@@ -76,6 +76,10 @@ const store = (set, get) => ({
   personBlockWarning: false,
   setPersonBlockWarning: (v) => set({ personBlockWarning : v}),
 
+  // heavy warning for error popping
+  heavyWarning: false,
+  setHeavyWarning: (v) => set({ heavyWarning: v }),
+
   distanceTravel: 0,
   setdistanceTravel: (value) => set({ distanceTravel: value }),
 
