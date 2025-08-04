@@ -368,7 +368,12 @@ const SimTile = ({
 
     // Scenario 4 error to backend
     else if (currentScenario === "Scenario 4") {
-      if (onRed && lastScenario4Signal.current !== true) {
+      const lastAction = actionTracking[actionTracking.length - 1];
+
+      const isGrabTargetParcel = lastAction && programData[lastAction.id]?.type === "grabType" &&
+                programData[programData[lastAction.id]?.properties.thing]?.name === "Target Parcel";
+
+      if (onRed && isGrabTargetParcel && lastScenario4Signal.current !== true) {
         console.log("Scenario 4 error has occurred.");
         stageScenario4HeavyError(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
