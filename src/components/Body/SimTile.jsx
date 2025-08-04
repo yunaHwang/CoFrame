@@ -308,7 +308,7 @@ const SimTile = ({
       "Scenario 4": { redAsterisks: [[1,6]] },
       "Scenario 5": {
         redAsterisks: [[5,0],[5,1],[5,2],[5,3],[6,3],[7,3],[8,3],[9,3]],
-        blueAsterisks:[[0,5],[1,4],[2,4],[2,5],[2,7]]
+        blueAsterisks:[[0,5],[1,4],[2,5],[2,7]]
       }
     };
     return coordinates[currentScenario] || { redAsterisks: [], blueAsterisks: [] };
@@ -401,10 +401,12 @@ const SimTile = ({
       } else if (onBlue && lastPackageBlockSignal.current !== true) {
         console.log("Scenario 5 package block error has occurred.");
         stageScenario5PackageBlock(true);
+        useStore.getState().setPackageBlockWarning(true);
         useStore.getState().setScenario5PackageErrorBlockMade(true);
         lastPackageBlockSignal.current = true;
       } else if (!onBlue && lastPackageBlockSignal.current !== false) {
         stageScenario5PackageBlock(false);
+        //useStore.getState().setPackageBlockWarning(false);
         useStore.getState().setScenario5PackageErrorBlockMade(false);
         lastPackageBlockSignal.current = false;
       }

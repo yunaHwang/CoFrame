@@ -43,6 +43,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     // heavy warning for popping error
     const heavyWarning = useStore(state => state.heavyWarning, shallow);
     const setHeavyWarning = useStore(state => state.setHeavyWarning, shallow);
+
+    // [5-2] package block warning for popping error
+    const packageBlockWarning = useStore(state => state.packageBlockWarning, shallow);
+    const setPackageBlockWarning = useStore(state => state.setPackageBlockWarning, shallow);
     
     
     const prevLevelRef = useRef(batteryLevel);
@@ -443,6 +447,41 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 <Button 
                                 variant="contained"
                                 onClick={() => setHeavyWarning(false)}
+                                sx={{ 
+                                    backgroundColor: '#ff9966',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(146, 45, 45, 0.3)'
+                                    }
+                                }}
+                            >
+                                Okay
+                            </Button>
+                            </Paper>
+                
+                    )} 
+
+                {/* package block error popping message */}
+                 {packageBlockWarning && (
+                                <Paper
+                                    sx={{ 
+                                        position: 'absolute',
+                                        top: '10%',
+                                        left: '25%',
+                                        backgroundColor: '#ff9966',  
+                                        color: 'black',
+                                        p: '10px 16px',
+                                        maxWidth: 400,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Delivery Item Blocked<br/>
+                            The package that Stretch has to deliver is blocked by other residents' packages. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                                </Typography>
+                                <Button 
+                                variant="contained"
+                                onClick={() => setPackageBlockWarning(false)}
                                 sx={{ 
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
