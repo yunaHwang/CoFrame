@@ -268,7 +268,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                     )}
                     
 
-                {/* {battery20Warning && (
+                 {battery20Warning && (
                                 <Paper
                                     sx={{ 
                                         position: 'absolute',
@@ -282,8 +282,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                         alignItems: 'center'
                                     }}
                                 >
-                                <Typography style={{ color: 'white', fontSize: '15px' }}>
-                                ⚠️ Battery Low
+                                <Typography style={{ color: 'black', fontSize: '15px' }}>
+                                ⚠️ Battery Low<br/>
                             Your robot is below 20% battery. You don't want the robot to turn off and stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
                                 <Button 
@@ -296,13 +296,13 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                     }
                                 }}
                             >
-                                Noted
+                                Okay
                             </Button>
                             </Paper>
                 
-                        )} */}
+                        )} 
                 
-                {/* {battery5Warning && (
+                 {battery5Warning && (
                     <Paper
                         sx={{ 
                         position: 'absolute',
@@ -318,7 +318,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                     >
                         <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                         🚨 Critical Battery<br/>
-                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway.
+                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway. What should the robot do? Think ahead and define a few alternatives in case earlier ones fail.
                         </Typography>
                         <Button
                         variant="contained"
@@ -329,10 +329,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)' }
                         }}
                         >
-                        Acknowledge
+                        Okay
                         </Button>
                     </Paper>
-)} */}
+                    )} 
                 </Box>
 
             </Tile>
