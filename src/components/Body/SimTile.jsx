@@ -9,6 +9,30 @@ const BATTERY_DROP_PER_STEP = 80;
 
 const CHARGER_LABEL = "battery charging station";
 
+const scenarioObjects = {
+  "Scenario 1": {
+    "Target Parcel": { coords: [[1, 6]] },
+    "Other Parcel": { coords: [[0, 6]] }
+  },
+  "Scenario 2": {
+    "Target Parcel": { coords: [[1, 6]] },
+    "Other Parcel": { coords: [[0, 6]] }
+  },
+  "Scenario 3": {
+    "Target Parcel": { coords: [[1, 6]] }
+  },
+  "Scenario 4": {
+    "Target Parcel": { coords: [[1, 6]] },
+    "Other Parcel": { coords: [[0, 6]] }
+  },
+  "Scenario 5": {
+    "Target Parcel": { coords: [[1, 6]] },
+    "Other Parcel": { coords: [[0, 6]] },
+    "Fence": { coords: [[4,0], [4,1], [4,2], [4,3]] },
+    "Cart": { coords: [[5,4], [6,4], [7,4], [8,4], [9,4]] }
+  }
+};
+
 const SimTile = ({
   cellSize        = 30,
   highlight       = [],
@@ -54,7 +78,9 @@ const SimTile = ({
   const [putAsideAtCoord, setPutAsideAtCoord] = useState(null);
   const [isObjectGrabbed, setIsObjectGrabbed] = useState(false);  
   //yuna added
-  const [grabbedParcel, setGrabbedParcel] = useState(null); // null or "Target Parcel" or "Other Parcel"
+  
+  // const [grabbedParcel, setGrabbedParcel] = useState(null); // null or "Target Parcel" or "Other Parcel"
+  const [grabbedObject, setGrabbedObject] = useState(null); 
 
   const [isObjectFading, setIsObjectFading] = useState(false);
   const [isObjectBeingHanded, setIsObjectBeingHanded] = useState(false);
@@ -63,6 +89,8 @@ const SimTile = ({
   const [hasPersonParam, setHasPersonParam] = useState(false);
   const [parcelLeftAtCoord, setParcelLeftAtCoord] = useState(null);
   const [parcelDroppedByDeletion, setParcelDroppedByDeletion] = useState(false);
+
+  const [droppedObject, setDroppedObject] = useState(null); 
 
   const { chargePending }= useStore();     
   
@@ -134,10 +162,10 @@ const SimTile = ({
       };
         // //Mason test instant grab
         //   const rooms = {
-        //   "Package room": {x:1,y:6},
-        //   "Activity Area":{x:3,y:2},
+        //   "Package room": {x:0,y:6},
+        //   "Activity Area":{x:4,y:2},
         //   "Elderly room": {x:9,y:2},
-        //   "Battery charging station":{x:9,y:7}
+        //   "Battery charging station":{x:0,y:6}
         // };
 
       if (parameterValue && rooms[parameterValue]) {
@@ -314,6 +342,35 @@ const SimTile = ({
     return coordinates[currentScenario] || { redAsterisks: [], blueAsterisks: [] };
   };
 
+  const getCurrentScenarioObjects = () => {
+    return scenarioObjects[scenario] || {};
+  };
+
+  const getObjectAtPosition = (x, y, objectType = null) => {
+    const objects = getCurrentScenarioObjects();
+    
+    for (const [objType, objData] of Object.entries(objects)) {
+      if (objectType && objType !== objectType) continue;
+      
+      for (const coord of objData.coords) {
+        if (coord[0] === x && coord[1] === y) {
+          return {
+            type: objType,
+            coords: coord,
+            iconKey: `${coord[0]},${coord[1]}`
+          };
+        }
+      }
+    }
+    return null;
+  };
+
+
+  const getGrabbedObjectIconKey = (grabbedObj) => {
+    if (!grabbedObj) return null;
+    return grabbedObj.iconKey;
+  };
+
   const checkForErrors = (coords, currentScenario) => {
     if (currentScenario === "Scenario 1") return;
     const { redAsterisks, blueAsterisks } = getErrorCoordinates(currentScenario);
@@ -446,6 +503,17 @@ const SimTile = ({
 
   setErrorMessage(null);
   setShowError(false);
+  setGrabbedObject(null);
+  setIsObjectGrabbed(false);
+  setIsObjectFading(false);
+  setIsObjectBeingHanded(false);
+  setObjectWithElderly(false);
+  setHasThingParam(false);
+  setHasPersonParam(false);
+  setPutAsideAtCoord(null);
+  setParcelLeftAtCoord(null);
+  setParcelDroppedByDeletion(false);
+  setDroppedObject(null);
 }, [scenario]);
 
 
@@ -504,7 +572,7 @@ const SimTile = ({
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
     }
 
-    //Thingtype for grab
+    //Grab
     else if (data.type === "thingType" && destInfo.parentId) {
     const parentAction = programData[destInfo.parentId];
 
@@ -513,36 +581,9 @@ const SimTile = ({
       const parameterId = data.ref;
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
 
-      if (parameterValue === "Target Parcel") {
-        const objectAtOriginal = !grabbedParcel && !isObjectFading && !objectWithElderly;
-        let canGrab = false;
-    
-        if (parcelDroppedByDeletion && parcelLeftAtCoord) {
-          canGrab = robotCoord?.x === parcelLeftAtCoord.x && 
-                    robotCoord?.y === parcelLeftAtCoord.y;
-        } else {
-          canGrab = robotCoord?.x === 1 && robotCoord?.y === 6;
-        }
-        
-        if (objectAtOriginal && canGrab) {
-          handleObjectAction(parentAction.type, parameterValue);
-        }
-      }
-      // yuna added 
-      if (parameterValue === "Other Parcel") {
-        const objectAtOriginal = !grabbedParcel && !isObjectFading && !objectWithElderly;
-        let canGrab = false;
-    
-        if (parcelDroppedByDeletion && parcelLeftAtCoord) {
-          canGrab = robotCoord?.x === parcelLeftAtCoord.x && 
-                    robotCoord?.y === parcelLeftAtCoord.y;
-        } else {
-          canGrab = robotCoord?.x === 0 && robotCoord?.y === 6;
-        }
-        
-        if (objectAtOriginal && canGrab) {
-          handleObjectAction(parentAction.type, parameterValue);
-        }
+      // Handle all grabbable object types
+      if (["Target Parcel", "Other Parcel", "Fence", "Cart"].includes(parameterValue)) {
+        handleObjectAction(parentAction.type, parameterValue);
       }
     }
 
@@ -551,8 +592,8 @@ const SimTile = ({
       const parameterId = data.ref;
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
 
-      if (parameterValue === "Target Parcel" && isObjectGrabbed) {
-        handleObjectAction(parentAction.type);
+      if (["Target Parcel", "Other Parcel", "Fence", "Cart"].includes(parameterValue) && isObjectGrabbed) {
+        handleObjectAction(parentAction.type, parameterValue);
       }
     }
 
@@ -586,51 +627,80 @@ const SimTile = ({
   // Handle Grab
   // ──────────────────────────────
   const handleObjectAction = (actionType, parameterValue) => {
-    // console.log("handleObjectAction called with:" actionType);
-
-    switch(actionType) {
-      case "grabType":
-        //setIsObjectGrabbed(true);
-        setGrabbedParcel(parameterValue); //added
+  switch(actionType) {
+    case "grabType":
+      if (!robotCoord) return;
+      
+      let canGrab = false;
+      let objectToGrab = null;
+      
+      if (parcelDroppedByDeletion && parcelLeftAtCoord && droppedObject) {
+        canGrab = robotCoord.x === parcelLeftAtCoord.x && 
+                  robotCoord.y === parcelLeftAtCoord.y;
+        if (canGrab) {
+          objectToGrab = droppedObject;
+        } else {
+          objectToGrab = getObjectAtPosition(robotCoord.x, robotCoord.y, parameterValue);
+          canGrab = objectToGrab !== null;
+          // if (canGrab) {
+          //   // Clear dropped states since we're grabbing a different object
+          //   setParcelLeftAtCoord(null);
+          //   setParcelDroppedByDeletion(false);
+          //   setDroppedObject(null);
+          // }
+        }
+      } else {
+        objectToGrab = getObjectAtPosition(robotCoord.x, robotCoord.y, parameterValue);
+        canGrab = objectToGrab !== null;
+      }
+      
+      // Additional check: object must not already be grabbed/faded/with elderly
+      const objectAtOriginal = !grabbedObject && !isObjectFading && !objectWithElderly;
+      
+      if (objectAtOriginal && canGrab && objectToGrab) {
+        setGrabbedObject(objectToGrab);
+        setIsObjectGrabbed(true);
         setIsObjectFading(false);
         setIsObjectBeingHanded(false);
         setObjectWithElderly(false);
         setActionMessage(`Stretch grabbed ${parameterValue}!`);
         setParcelLeftAtCoord(null); 
-        setParcelDroppedByDeletion(false); 
-        // console.log(`Object grabbed at ${objectPosition}`);
-        break;
-        
-      case "putAsideType":
+        setParcelDroppedByDeletion(false);
+        setDroppedObject(null);
+      }
+      break;
+      
+    case "putAsideType":
+      if (isObjectGrabbed && grabbedObject) {
         setIsObjectFading(true);
         setPutAsideAtCoord(robotCoord);
-        // console.log(`Object put at ${objectPosition}`);
         setTimeout(() => {
           setIsObjectGrabbed(false);
           setIsObjectBeingHanded(false);
           setObjectWithElderly(false);
         }, 500);
-        setActionMessage("Target Parcel put aside for now!");
-        break;
-        
-      case "handObjToType":
-        if (robotCoord) {
-          const elderlyPos = {x: 9, y: 1};
-          const dx = Math.abs(robotCoord.x - elderlyPos.x);
-          const dy = Math.abs(robotCoord.y - elderlyPos.y);
-          const isAdjacent = (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
-          if (isAdjacent) {
-            setIsObjectBeingHanded(true);
-            setTimeout(() => {
-              setIsObjectGrabbed(false);
-              setIsObjectBeingHanded(false);
-              setObjectWithElderly(true);
-            }, 800);
-            setActionMessage("Elderly received target parcel! ");
-          }
+        setActionMessage(`${grabbedObject.type} put aside for now!`);
+      }
+      break;
+      
+    case "handObjToType":
+      if (robotCoord && isObjectGrabbed && grabbedObject) {
+        const elderlyPos = {x: 9, y: 1};
+        const dx = Math.abs(robotCoord.x - elderlyPos.x);
+        const dy = Math.abs(robotCoord.y - elderlyPos.y);
+        const isAdjacent = (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+        if (isAdjacent) {
+          setIsObjectBeingHanded(true);
+          setTimeout(() => {
+            setIsObjectGrabbed(false);
+            setIsObjectBeingHanded(false);
+            setObjectWithElderly(true);
+          }, 800);
+          setActionMessage(`Elderly received ${grabbedObject.type}!`);
         }
-        break;
-    }
+      }
+      break;
+  }
 };
 
 
@@ -655,9 +725,14 @@ const SimTile = ({
         if (deletedData.type === "grabType") {
           //console.log("Grab action deleted");
           setParcelLeftAtCoord(robotCoord);
+          setDroppedObject(grabbedObject); 
           setIsObjectGrabbed(false);
+          setIsObjectFading(false);       
+          setIsObjectBeingHanded(false);   
+          setObjectWithElderly(false);    
           setHasThingParam(false);
           setParcelDroppedByDeletion(true); 
+          setGrabbedObject(null);
         }
         else if (deletedData.type === "putAsideType") {
           //console.log("Put aside action deleted");
@@ -756,9 +831,14 @@ const SimTile = ({
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "grabType") {
         //console.log("Grab object parameter deleted");
         setParcelLeftAtCoord(robotCoord);
+        setDroppedObject(grabbedObject); 
         setIsObjectGrabbed(false);
+        setIsObjectFading(false);      
+        setIsObjectBeingHanded(false);  
+        setObjectWithElderly(false);    
         setHasThingParam(false);
         setParcelDroppedByDeletion(true); 
+        setGrabbedObject(null);
       }
       //deletion for putaside
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "putAsideType") {
@@ -1213,18 +1293,27 @@ function hexToRgba(hex, alpha = 1) {
             parcelDroppedByDeletion &&
             parcelLeftAtCoord &&
             key === `${parcelLeftAtCoord.x},${parcelLeftAtCoord.y}`
-          ) {
-            iconSrc = icons["1,6"];
+          ){
+            if (droppedObject) {
+              iconSrc = icons[droppedObject.iconKey];
+            } else {
+              iconSrc = icons["1,6"];
+            }
           }
-          else if (key === "1,6" && (isObjectGrabbed || isObjectFading || objectWithElderly || parcelDroppedByDeletion)) {
-            iconSrc = null;
+          else if (
+            (grabbedObject && key === `${grabbedObject.coords[0]},${grabbedObject.coords[1]}` &&
+            (isObjectGrabbed || isObjectFading || objectWithElderly)) ||
+            (droppedObject && key === `${droppedObject.coords[0]},${droppedObject.coords[1]}` &&
+            parcelDroppedByDeletion && !isObjectGrabbed)
+          ) {
+            iconSrc = null; 
           }
           else if (
             putAsideAtCoord &&
             key === `${putAsideAtCoord.x},${putAsideAtCoord.y}` &&
             !isObjectGrabbed && !isObjectFading && !objectWithElderly && !parcelDroppedByDeletion
           ) {
-            iconSrc = icons["1,6"];
+            iconSrc = grabbedObject ? icons[grabbedObject.iconKey] : icons["1,6"]; 
           }
           else if (icons[key] === robotImg) {
             iconSrc = null;
@@ -1257,12 +1346,9 @@ function hexToRgba(hex, alpha = 1) {
                   : <span style={iconStyle(key===robotKey)}>{iconSrc}</span>
               )}
 
-              {key === robotKey && (isObjectGrabbed || isObjectFading || isObjectBeingHanded) && (
+              {key === robotKey && (isObjectGrabbed || isObjectFading || isObjectBeingHanded) && grabbedObject && (
                 <img 
-                  //src={icons["1,6"]} 
-                  src = {
-                    grabbedParcel == "Other Parcel" ? icons["0,6"] : icons["1,6"]
-                  }
+                  src={icons[getGrabbedObjectIconKey(grabbedObject)]}
                   alt="grabbed object" 
                   style={{
                     ...iconStyle(false),
@@ -1279,9 +1365,10 @@ function hexToRgba(hex, alpha = 1) {
                   }} 
                 />
               )}
-              {key === "9,1" && objectWithElderly && (
+
+              {key === "9,1" && objectWithElderly && grabbedObject && (
                 <img 
-                  src={icons["1,6"]} 
+                  src={icons[getGrabbedObjectIconKey(grabbedObject)]} 
                   alt="object with elderly" 
                   style={{
                     ...iconStyle(false),
