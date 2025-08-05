@@ -3553,12 +3553,12 @@
     "type": "rotateType",
     "dataType": "INSTANCE",
     "properties": {
-      "description": "Stretch rotates x angles in y direction where x and y are provided as parameters",
-      "rotationTimes": "",
+      "description": "Stretch rotates x direction y many times where x and y are provided as parameters",
       "angleDirection": "",
+      "rotationTimes": "",
       "compileFn": 9,
       "updateFields": [
-       "rotationTimes", "angleDirection"
+       "angleDirection", "rotationTimes"
       ],
       "status": "VALID",
       "pendingChanges": 0,
