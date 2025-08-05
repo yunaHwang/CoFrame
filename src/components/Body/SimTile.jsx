@@ -264,11 +264,17 @@ const SimTile = ({
         const actionData = programData[actionId];
         if (actionData) {
           const updatedChildren = [...action.children, parameterId];
+          let orientationBefore = action.orientationBefore;
+          if (actionData.type === "rotateType" && action.children.length === 0) {
+            orientationBefore = orientation;
+          }
+          
           const newMovement = calculateActionMovement(actionData.type, parameterValue, orientation);
           console.log(`Added parameter ${parameterId} to action ${actionId}:`, newMovement);
           return {
             ...action,
             children: updatedChildren,
+            orientationBefore: orientationBefore, 
             batteryMovement: newMovement.batteryMovement,
             distanceMovement: newMovement.distanceMovement,
             xMovement: newMovement.xMovement,
@@ -279,8 +285,6 @@ const SimTile = ({
       return action;
     });
     useStore.getState().setActionTracking(updated);
-
-    
   };
 
   const prevStartRef = useRef(startCoord);
@@ -740,9 +744,11 @@ const SimTile = ({
           //console.log("Action deletion detected. Deleted :", deletedActionId);
           //console.log("Current tracking:", actionTracking.map(a => a.id));
         if (deletedData.type === "rotateType") {
-            setOrientation("E");
-            useStore.getState().setRobotOrientation?.("E");
-          }
+          const actionBeingDeleted = actionTracking.find(action => action.id === deletedActionId);
+          const targetOrientation = actionBeingDeleted?.orientationBefore || "E";
+          setOrientation(targetOrientation);
+          useStore.getState().setRobotOrientation?.(targetOrientation);
+        }
         if (deletedData.type === "grabType") {
           //console.log("Grab action deleted");
           setParcelLeftAtCoord(robotCoord);
@@ -831,15 +837,20 @@ const SimTile = ({
 
       else if (deletedFieldInfo.name === "Rotation Direction" && deletedFieldInfo.value === "angleDirection") {
         const actionId = deletedParentInfo.id;
-        setOrientation("E");
-        useStore.getState().setRobotOrientation?.("E");
-          
+        const parameterIdToDelete = deletedData.ref;
+        
+        const currentAction = useStore.getState().actionTracking.find(action => action.id === actionId);
+        const targetOrientation = currentAction?.orientationBefore || "E";
+        
+        setOrientation(targetOrientation);
+        useStore.getState().setRobotOrientation?.(targetOrientation);
+        
         const prev = useStore.getState().actionTracking;
         const updated = prev.map(action => {
           if (action.id === actionId) {
             return {
               ...action,
-              children: action.children.filter(childId => childId !== deletedData.id),
+              children: action.children.filter(childId => childId !== parameterIdToDelete),
               batteryMovement: 0,
               distanceMovement: 0,
               xMovement: 0,
@@ -848,18 +859,25 @@ const SimTile = ({
           }
           return action;
         });
-        useStore.getState().setActionTracking(updated);}
-      else if (deletedFieldInfo.name === "Rotation Times") {
-        setOrientation("E");
-        useStore.getState().setRobotOrientation?.("E");
-        
+        useStore.getState().setActionTracking(updated);
+      }
+
+      else if (deletedFieldInfo.name === "Rotation Times" && deletedFieldInfo.value === "rotationTimes") {
         const actionId = deletedParentInfo.id;
+        const parameterIdToDelete = deletedData.ref;
+        
+        const currentAction = useStore.getState().actionTracking.find(action => action.id === actionId);
+        const targetOrientation = currentAction?.orientationBefore || "E";
+        
+        setOrientation(targetOrientation);
+        useStore.getState().setRobotOrientation?.(targetOrientation);
+        
         const prev = useStore.getState().actionTracking;
         const updated = prev.map(action => {
           if (action.id === actionId) {
             return {
               ...action,
-              children: action.children.filter(childId => childId !== deletedData.id),
+              children: action.children.filter(childId => childId !== parameterIdToDelete),
               batteryMovement: 0,
               distanceMovement: 0,
               xMovement: 0,
@@ -936,6 +954,11 @@ const SimTile = ({
       checkForErrors(robotCoord, scenario);
     }
   }, [robotCoord, scenario]);
+
+  const prevOrientationRef = useRef("E");
+  useEffect(() => {
+    prevOrientationRef.current = orientation;
+  }, [orientation]);
 
 
   // useEffect(() => {
