@@ -234,20 +234,23 @@ const SimTile = ({
       );
     };
 
-  const updateRobotOrientation = (rotationDirection) => {
+  const updateRobotOrientation = (rotationDirection, rotationTimes = 1) => {
     const directions = ["N", "E", "S", "W"]; 
     const currentIndex = directions.indexOf(orientation);
     
-    let newIndex;
+    const times = rotationTimes;
+    
+    let stepDirection;
     if (rotationDirection === "Clockwise") {
-      newIndex = (currentIndex + 1) % 4;
+      stepDirection = 1; 
     } else if (rotationDirection === "Counter-clockwise") {
-      newIndex = (currentIndex + 3) % 4; 
-    } else if (rotationDirection === "90 degrees") {
-      newIndex = (currentIndex + 1) % 4; 
+      stepDirection = 3;
     } else {
       return; 
     }
+    
+    const totalSteps = stepDirection * times;
+    const newIndex = (currentIndex + totalSteps) % 4;
     
     const newOrientation = directions[newIndex];
     setOrientation(newOrientation);
@@ -261,9 +264,6 @@ const SimTile = ({
         const actionData = programData[actionId];
         if (actionData) {
           const updatedChildren = [...action.children, parameterId];
-          if (actionData.type === "rotateType") {
-            updateRobotOrientation(parameterValue);
-          }
           const newMovement = calculateActionMovement(actionData.type, parameterValue, orientation);
           console.log(`Added parameter ${parameterId} to action ${actionId}:`, newMovement);
           return {
@@ -553,9 +553,30 @@ const SimTile = ({
       //If it's rotate
       } else if (parentAction?.type === "rotateType") {
         const parameterValue = data.name;
-        console.log("parameterValue for rotate, ", parameterValue);
         const parameterId = data.ref;
+        
         addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+        
+        const currentAction = actionTracking.find(action => action.id === destInfo.parentId);
+        if (currentAction) {
+          let direction = null;
+          let times = null;
+          
+          const allChildren = [...currentAction.children, parameterId];
+          
+          allChildren.forEach(childId => {
+            const childData = programData[childId];
+            if (childData?.name?.includes("wise")) {
+              direction = childData.name;
+            } else if (childData?.name?.includes("time")) {
+              times = parseInt(childData.name.match(/\d+/)?.[0] ?? "1", 10);
+            }
+          });
+          
+          if (direction !== null && times !== null) {
+            updateRobotOrientation(direction, times);
+          }
+        }
       }
     }
     
@@ -818,7 +839,7 @@ const SimTile = ({
           if (action.id === actionId) {
             return {
               ...action,
-              children: [],
+              children: action.children.filter(childId => childId !== deletedData.id),
               batteryMovement: 0,
               distanceMovement: 0,
               xMovement: 0,
@@ -828,6 +849,28 @@ const SimTile = ({
           return action;
         });
         useStore.getState().setActionTracking(updated);}
+      else if (deletedFieldInfo.name === "Rotation Times") {
+        setOrientation("E");
+        useStore.getState().setRobotOrientation?.("E");
+        
+        const actionId = deletedParentInfo.id;
+        const prev = useStore.getState().actionTracking;
+        const updated = prev.map(action => {
+          if (action.id === actionId) {
+            return {
+              ...action,
+              children: action.children.filter(childId => childId !== deletedData.id),
+              batteryMovement: 0,
+              distanceMovement: 0,
+              xMovement: 0,
+              yMovement: 0
+            };
+          }
+          return action;
+        });
+        useStore.getState().setActionTracking(updated);
+      }
+
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "grabType") {
         //console.log("Grab object parameter deleted");
         setParcelLeftAtCoord(robotCoord);
