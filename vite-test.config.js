@@ -10,7 +10,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   root: './test',
-  base: '/CoFrame/', 
+  base: '/RoboPlanB/', 
   plugins: [
     react(),
     svgr(),
