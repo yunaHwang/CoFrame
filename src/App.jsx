@@ -269,8 +269,8 @@ export default function App() {
           useStore.getState().setShowBatteryCharged(true);
           useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
           
-          useStore.getState().setBattery20Warning(false);
-          useStore.getState().setBattery5Warning(false);
+          //useStore.getState().setBattery20Warning(false);
+          //useStore.getState().setBattery5Warning(false);
           }}
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
