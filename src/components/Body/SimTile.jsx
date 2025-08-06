@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
 import { subscribeFlush, unsubscribeFlush } from "../../stores/to_flask"
-import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock, classifySpeechType } from "../../stores/to_flask";
+import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          

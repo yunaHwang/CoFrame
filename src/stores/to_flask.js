@@ -161,20 +161,6 @@ export function stageScenario5PackageBlock(value) {
     });
 }
 
-export function classifySpeechType(value) {
-  return fetch("http://localhost:5000/classify_speech", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ speech: value })
-  }).then(r => r.json())
-    .then(json => {
-      listeners.forEach(fn => fn(json));
-      return json;
-    });
-}
-
-
-
 
 export function waitForFlush() {
   return lastFlush;
