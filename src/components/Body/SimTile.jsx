@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
-import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
+import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock, classifySpeechType } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 80;          
@@ -607,6 +607,16 @@ const SimTile = ({
     //SpeechType
     else if (data.type === "speechType" && destInfo.parentId) {
       const parameterValue = data.name;
+      console.log("this is parameter name to speechType, ", parameterValue); 
+      classifySpeechType(parameterValue).then(res => {
+        const paramType = res.classification;
+        console.log("this is the paramType from the LLM, ", paramType); //if this is excuse_me
+      });
+
+      // TO MASON: if the value of paramType is excuse_me can you make the person icon that the robot is facing go away
+      // meaning, if the robot is facing north and when it's saying excuse_me, the person on the top (north) should go away
+      // if the robot is facing west and when it's saying excuse_me, the person on the left (west) should go away
+
       const parameterId = data.ref;
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
     }
