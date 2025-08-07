@@ -39,6 +39,7 @@ const SimTile = ({
   highlight       = [],
   color           = "#faeef2",
   icons           = {},
+  onIconsUpdate,
   labelsOverGrid  = [],
   sourceInfo_to_pass = null,
   scenario        = "Scenario 1",
@@ -93,6 +94,8 @@ const SimTile = ({
 
   const [droppedObject, setDroppedObject] = useState(null); 
   const [objectPositions, setObjectPositions] = useState({});
+  const [objectWithPerson, setObjectWithPerson] = useState(null); 
+  const [targetPersonForHand, setTargetPersonForHand] = useState(null);
 
   const { chargePending }= useStore();     
   
@@ -162,12 +165,12 @@ const SimTile = ({
         "Elderly room": {x:5,y:3},
         "Battery charging station":{x:9,y:7}
       };
-        //Mason test instant grab
+        // //Mason test instant grab
         //   const rooms = {
         //   "Package room": {x:1,y:6},
-        //   "Activity Area":{x:4,y:2},
-        //   "Elderly room": {x:8,y:4},
-        //   "Battery charging station":{x:0,y:6}
+        //   "Activity Area":{x:1,y:7},
+        //   "Elderly room": {x:0,y:6},
+        //   "Battery charging station":{x:8,y:1}
         // };
 
       if (parameterValue && rooms[parameterValue]) {
@@ -554,6 +557,11 @@ const SimTile = ({
     // Check if this is an action being added
     if (data.type === "moveForwardType" || data.type === "toLocationType" || data.type === "rotateType" || data.type === "sayType" || data.type === "grabType" || data.type === "putAsideType" || data.type === "handObjToType" ) {
       // Get the actual spawned block ID
+      if (data.type === "handObjToType") {
+        setHasThingParam(false);
+        setHasPersonParam(false);
+        setTargetPersonForHand(null);
+      }
       const parentData = programData[destInfo.parentId];
       const actualBlockId = parentData?.properties?.children?.[destInfo.idx];
       
@@ -619,7 +627,34 @@ const SimTile = ({
             // meaning, if the robot is facing north and when it's saying excuse_me, the person on the top (north) should go away
             // if the robot is facing west and when it's saying excuse_me, the person on the left (west) should go away
             console.log("Scoped speech param from LLM:", json.param_classification);
-            paramType = json.param_classification; 
+            paramType = json.param_classification;
+
+            if (paramType=== "excuse_me") {
+              const direction = useStore.getState().robotOrientation;
+              const { x, y } = robotCoord;
+
+              let targetX = x;
+              let targetY = y;
+
+              if (direction === "N") targetY -= 1;
+              else if (direction === "S") targetY += 1;
+              else if (direction === "W") targetX -= 1;
+              else if (direction === "E") targetX += 1;
+
+              const personKey = `${targetX},${targetY}`;
+              const updated = useStore.getState().robotOrientation
+
+              if (icons[personKey] && icons[personKey].includes("employee")) {
+                console.log(`Removing person at ${personKey}`);
+
+                const updatedIcons = { ...icons };
+                delete updatedIcons[personKey];
+                if (onIconsUpdate) {
+                  onIconsUpdate(updatedIcons);
+                }
+
+              } 
+            }
           }
 
           unsubscribeFlush(handleFlush);
@@ -672,34 +707,49 @@ const SimTile = ({
         } 
       }
     }
-  else if (data.type === "personType" && destInfo.parentId) {
-  const parentAction = programData[destInfo.parentId];
-    if (parentAction?.type === "handObjToType") {
-      const parameterValue = data.name; 
-      const parameterId = data.ref;      
-      addParameterToAction(destInfo.parentId, parameterId, parameterValue);
-      setHasPersonParam(true);
-      if (hasThingParam && isObjectGrabbed) {
-        handleObjectAction(parentAction.type);
+    else if (data.type === "personType" && destInfo.parentId) {
+      const parentAction = programData[destInfo.parentId];
+      console.log("wahtis parent action", parentAction)
+      console.log("wahtis parent action", parentAction?.type)
+      if (parentAction?.type === "handObjToType") {
+        const parameterValue = data.name; 
+        const parameterId = data.ref;      
+        addParameterToAction(destInfo.parentId, parameterId, parameterValue);
+        setHasPersonParam(true);
+        setTargetPersonForHand(parameterValue); 
       }
     }
-  }
   }, [lastTransfer, programData]);
+
+  useEffect(() => {
+    if (hasThingParam && hasPersonParam && isObjectGrabbed) {
+      handleObjectAction("handObjToType");
+    }
+  }, [hasThingParam, hasPersonParam, isObjectGrabbed]);
 
   // ──────────────────────────────
   // Handle Grab
   // ──────────────────────────────
   const handleObjectAction = (actionType, parameterValue) => {
-    switch(actionType) {
+    console.log("handleObjectAction:", actionType, parameterValue);
+    console.log("current123123:", {
+      robotCoord,
+      isObjectGrabbed,
+      grabbedObject,
+      hasThingParam,
+      hasPersonParam,
+      targetPersonForHand
+    });
+    switch (actionType) {
       case "grabType":
         if (!robotCoord) return;
-        
+
         let canGrab = false;
         let objectToGrab = null;
         const currentPosKey = `${robotCoord.x},${robotCoord.y}`;
-        
+
         const objectAtCurrentPos = objectPositions[currentPosKey];
-        
+
         if (objectAtCurrentPos === parameterValue) {
           canGrab = true;
           objectToGrab = {
@@ -712,75 +762,89 @@ const SimTile = ({
         const canCurrentlyGrab = !isObjectGrabbed && !isObjectFading && !objectWithElderly;
         console.log("asdasdad", canCurrentlyGrab, canGrab, objectToGrab)
         if (canCurrentlyGrab && canGrab && objectToGrab) {
-        
+
           setGrabbedObject(objectToGrab);
           setIsObjectGrabbed(true);
           setIsObjectFading(false);
           setIsObjectBeingHanded(false);
           setObjectWithElderly(false);
           setActionMessage(`Stretch grabbed ${parameterValue}!`);
-          
+
           setObjectPositions(prev => {
-            const newPositions = {...prev};
+            const newPositions = { ...prev };
             delete newPositions[currentPosKey];
             return newPositions;
           });
-          
-          setParcelLeftAtCoord(null); 
+
+          setParcelLeftAtCoord(null);
           setParcelDroppedByDeletion(false);
           setDroppedObject(null);
-          setPutAsideAtCoord(null); 
+          setPutAsideAtCoord(null);
         }
         break;
-        
+
       case "putAsideType":
         if (isObjectGrabbed && grabbedObject) {
           const currentRobotCoord = robotCoord;
           const objectToPutAside = grabbedObject;
-          
+
           // Start the fade animation
           setIsObjectFading(true);
           setPutAsideAtCoord(currentRobotCoord);
-          
-        setTimeout(() => {
-          setIsObjectGrabbed(false);
-          setIsObjectBeingHanded(false);
-          setObjectWithElderly(false);
-          setPutAsideAtCoord(null);
-          setHasThingParam(false);
-          
 
           setTimeout(() => {
-            if (!isObjectGrabbed) {
-              setGrabbedObject(null);
-            }
-          }, 100);
-        }, 500);
-        setIsObjectFading(false);
-          
+            setIsObjectGrabbed(false);
+            setIsObjectBeingHanded(false);
+            setObjectWithElderly(false);
+            setPutAsideAtCoord(null);
+            setHasThingParam(false);
+
+
+            setTimeout(() => {
+              if (!isObjectGrabbed) {
+                setGrabbedObject(null);
+              }
+            }, 100);
+          }, 500);
+          setIsObjectFading(false);
+
           setActionMessage(`${objectToPutAside.type} put aside for now!`);
         }
         break;
-        
+
       case "handObjToType":
         if (robotCoord && isObjectGrabbed && grabbedObject) {
-          const elderlyPos = {x: 9, y: 1};
-          const dx = Math.abs(robotCoord.x - elderlyPos.x);
-          const dy = Math.abs(robotCoord.y - elderlyPos.y);
-          const isAdjacent = (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
-          
-          if (isAdjacent) {
-            const objectToHand = grabbedObject;
-            
-            setIsObjectBeingHanded(true);
-            
-            setTimeout(() => {
-              setIsObjectGrabbed(false);
-              setIsObjectBeingHanded(false);
-              setObjectWithElderly(true);
-            }, 800);
-            setObjectWithElderly(false);
-            setActionMessage(`Elderly received ${objectToHand.type}!`);
+          if (!["Target Parcel", "Other Parcel"].includes(grabbedObject.type)) {
+            if (hasThingParam && hasPersonParam) {
+              setActionMessage(`Cannot hand ${grabbedObject.type} to a person!`);
+            }
+            break;
+          }
+          const personPositions = {
+            "Elderly Person": { x: 9, y: 1 },
+            "Package room employee": { x: 0, y: 7 },
+            "Receptionist": { x: 7, y: 6 }
+          };
+
+          const targetPos = personPositions[targetPersonForHand];
+          if (targetPos) {
+            const dx = Math.abs(robotCoord.x - targetPos.x);
+            const dy = Math.abs(robotCoord.y - targetPos.y);
+            const isAdjacent = (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+
+            if (isAdjacent) {
+              const objectToHand = grabbedObject;
+
+              setIsObjectBeingHanded(true);
+
+              setTimeout(() => {
+                setIsObjectGrabbed(false);
+                setIsObjectBeingHanded(false);
+                setObjectWithElderly(true);
+                setObjectWithPerson(targetPersonForHand);
+              }, 800);
+              setActionMessage(`${targetPersonForHand} received ${objectToHand.type}!`);
+            }
           }
         }
         break;
@@ -844,6 +908,7 @@ const SimTile = ({
           //console.log("Hand-to-person action deleted");
           setHasThingParam(false);
           setHasPersonParam(false);
+          setTargetPersonForHand(null);
           
           if (objectWithElderly) {
             setObjectWithElderly(false);
@@ -1002,6 +1067,7 @@ const SimTile = ({
 
         else if (deletedFieldInfo.name === "Person") {
           setHasPersonParam(false);
+          setTargetPersonForHand(null);
         }
           
         if (objectWithElderly) {
@@ -1476,68 +1542,81 @@ function hexToRgba(hex, alpha = 1) {
 
               {label && <Typography sx={labelStyle}>{label}</Typography>}
               {iconSrc && (
-                typeof iconSrc==="string"
-                  ? <img src={iconSrc} alt="icon" style={iconStyle(key===robotKey)} />
-                  : <span style={iconStyle(key===robotKey)}>{iconSrc}</span>
+                typeof iconSrc === "string"
+                  ? <img src={iconSrc} alt="icon" style={iconStyle(key === robotKey)} />
+                  : <span style={iconStyle(key === robotKey)}>{iconSrc}</span>
               )}
 
               {key === robotKey && (isObjectGrabbed || isObjectFading || isObjectBeingHanded) && grabbedObject && (
-                <img 
+                <img
                   src={(() => {
-                    if (grabbedObject.type === "Target Parcel") {
-                      return icons["1,6"];
-                    } else if (grabbedObject.type === "Other Parcel") {
-                      return icons["0,6"];
-                    } else if (grabbedObject.type === "Fence") {
-                      return icons["4,0"];
-                    } else if (grabbedObject.type === "Cart") {
-                      return icons["5,4"];
-                    }
+                    if (grabbedObject.type === "Target Parcel") return icons["1,6"];
+                    else if (grabbedObject.type === "Other Parcel") return icons["0,6"];
+                    else if (grabbedObject.type === "Fence") return icons["4,0"];
+                    else if (grabbedObject.type === "Cart") return icons["5,4"];
                     return icons["1,6"];
                   })()}
-                  alt="grabbed object" 
+                  alt="grabbed object"
                   style={{
                     ...iconStyle(false),
                     zIndex: 10,
-                    transform: isObjectBeingHanded 
-                      ? `translate(-50%, -70%) translate(${(9 - robotCoord.x) * cellSize * 0.8}px, ${(robotCoord.y - 1) * cellSize * 0.8}px)`
+                    transform: isObjectBeingHanded
+                      ? (() => {
+                        const personPositions = {
+                          "Elderly Person": { x: 9, y: 1 },
+                          "Package room employee": { x: 0, y: 7 },
+                          "Receptionist": { x: 7, y: 6 }
+                        };
+
+                        for (const [personName, personPos] of Object.entries(personPositions)) {
+                          const dx = Math.abs(robotCoord.x - personPos.x);
+                          const dy = Math.abs(robotCoord.y - personPos.y);
+                          const isAdjacent = (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+
+                          if (isAdjacent) {
+                            const offsetX = (personPos.x - robotCoord.x) * 15;
+                            const offsetY = (robotCoord.y - personPos.y) * 15; 
+                            return `translate(-50%, -70%) translate(${offsetX}px, ${offsetY}px)`;
+                          }
+                        }
+                        return "translate(-50%, -70%)";
+                      })()
                       : "translate(-50%, -70%)",
                     width: "60%",
                     height: "60%",
-                    opacity: isObjectFading ? 0 : 1,  
-                    transition: isObjectFading 
+                    opacity: isObjectFading ? 0 : 1,
+                    transition: isObjectFading
                       ? "opacity 0.5s ease-out"
-                      : isObjectBeingHanded 
-                        ? "transform 0.8s ease-in-out" 
+                      : isObjectBeingHanded
+                        ? "transform 1.6s ease-in-out"
                         : "none"
-                  }} 
+                  }}
                 />
               )}
 
-              {key === "9,1" && objectWithElderly && grabbedObject && (
-                <img 
-                  src={(() => {
-                    if (grabbedObject.type === "Target Parcel") {
+              {objectWithElderly && grabbedObject && objectWithPerson && (
+                (key === "9,1" && objectWithPerson === "Elderly Person") ||
+                (key === "0,7" && objectWithPerson === "Package room employee") ||
+                (key === "7,6" && objectWithPerson === "Receptionist")
+              ) && (
+                  <img
+                    src={(() => {
+                      if (grabbedObject.type === "Target Parcel") return icons["1,6"];
+                      else if (grabbedObject.type === "Other Parcel") return icons["0,6"];
+                      else if (grabbedObject.type === "Fence") return icons["4,0"];
+                      else if (grabbedObject.type === "Cart") return icons["5,4"];
                       return icons["1,6"];
-                    } else if (grabbedObject.type === "Other Parcel") {
-                      return icons["0,6"];
-                    } else if (grabbedObject.type === "Fence") {
-                      return icons["4,0"];
-                    } else if (grabbedObject.type === "Cart") {
-                      return icons["5,4"];
-                    }
-                    return icons["1,6"]; // fallback
-                  })()}
-                  alt="object with elderly" 
-                  style={{
-                    ...iconStyle(false),
-                    zIndex: 10,
-                    transform: "translate(-50%, -70%)",
-                    width: "60%",
-                    height: "60%"
-                  }} 
-                />
-              )}
+                    })()}
+                    alt="object with person"
+                    style={{
+                      ...iconStyle(false),
+                      zIndex: 10,
+                      transform: "translate(-50%, -70%)",
+                      width: "60%",
+                      height: "60%"
+                    }}
+                  />
+                )}
             </div>
           );
         })}

@@ -333,21 +333,47 @@ export default function App() {
 
   // Scenario setting
   const [scenario, setScenario] = useState("Scenario 1");
-  const iconSets = {
-    "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObjPng, '1,6': correctObjPng},
-    "Scenario 2": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObjPng, '1,6': correctObjPng},
-    "Scenario 3": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': employeePng, '1,7': employeePng, '1,5': employeePng, '2,6': employeePng, '1,6': correctObjPng},
-    "Scenario 4": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,6': wrongObjPng, '1,6': correctObjPng},
-    "Scenario 5": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
-                '0,7': employeePng, '1,7': wrongObjPng, '1,5': wrongObjPng, '2,6': wrongObjPng, '0,6': wrongObjPng, '1,6': correctObjPng,
-                '4,0': barrierPng, '4,1': barrierPng, '4,2': barrierPng, '4,3': barrierPng,
-                '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
-  };
-  const icons = iconSets[scenario] ?? {}; 
+  const [dynamicIcons, setDynamicIcons] = useState(() => {
+    const iconSets = {
+      "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                  '0,6': wrongObjPng, '1,6': correctObjPng},
+      "Scenario 2": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                  '0,6': wrongObjPng, '1,6': correctObjPng},
+      "Scenario 3": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                  '0,6': employeePng, '1,7': employeePng, '1,5': employeePng, '2,6': employeePng, '1,6': correctObjPng},
+      "Scenario 4": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                  '0,6': wrongObjPng, '1,6': correctObjPng},
+      "Scenario 5": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                  '0,7': employeePng, '1,7': wrongObjPng, '1,5': wrongObjPng, '2,6': wrongObjPng, '0,6': wrongObjPng, '1,6': correctObjPng,
+                  '4,0': barrierPng, '4,1': barrierPng, '4,2': barrierPng, '4,3': barrierPng,
+                  '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
+      };
+    return iconSets;
+  });
+  useEffect(() => {
+    const deafult = {
+        "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                    '0,6': wrongObjPng, '1,6': correctObjPng},
+        "Scenario 2": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                    '0,6': wrongObjPng, '1,6': correctObjPng},
+        "Scenario 3": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                    '0,6': employeePng, '1,7': employeePng, '1,5': employeePng, '2,6': employeePng, '1,6': correctObjPng},
+        "Scenario 4": {'8,2': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                    '0,6': wrongObjPng, '1,6': correctObjPng},
+        "Scenario 5": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
+                    '0,7': employeePng, '1,7': wrongObjPng, '1,5': wrongObjPng, '2,6': wrongObjPng, '0,6': wrongObjPng, '1,6': correctObjPng,
+                    '4,0': barrierPng, '4,1': barrierPng, '4,2': barrierPng, '4,3': barrierPng,
+                    '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
+      };
+      setDynamicIcons(deafult);
+    }, [scenario]);
+  const updateIcons = useCallback((newIcons) => {
+  setDynamicIcons(prev => ({
+    ...prev,
+    [scenario]: newIcons
+    }));
+  }, [scenario]);
+  const icons = dynamicIcons[scenario] ?? {};
 
 
   // Label setting
@@ -403,8 +429,8 @@ export default function App() {
                       sx={{ height: "35vh", flexShrink: 0 }}
                       highlight={hallways}
                       color="#fffefa"
-
-                      icons={icons}
+                      icons={dynamicIcons[scenario] ?? {}}
+                      onIconsUpdate={updateIcons} 
                       labelsOverGrid={labelsOverGrid}
                       sourceInfo_to_pass = {sourceInfo_to_pass}
                       scenario={scenario} 
