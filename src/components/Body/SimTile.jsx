@@ -28,7 +28,7 @@ const scenarioObjects = {
   },
   "Scenario 5": {
     "Target Parcel": { coords: [[1, 6]] },
-    "Other Parcel": { coords: [[0, 6]] },
+    "Other Parcel": { coords: [[0, 6], [1, 5], [1, 7], [2, 6]] },
     "Fence": { coords: [[4,0], [4,1], [4,2], [4,3]] },
     "Cart": { coords: [[5,4], [6,4], [7,4], [8,4], [9,4]] }
   }
@@ -159,19 +159,19 @@ const SimTile = ({
       else if (actionOrientation === "W") moves.xMovement = -steps;
       
     } else if (actionType === "toLocationType") {
-      //   const rooms = {
-      //   "Package room": {x:2,y:4},
-      //   "Activity Area":{x:3,y:2},
-      //   "Elderly room": {x:5,y:3},
-      //   "Battery charging station":{x:9,y:7}
-      // };
-        // //Mason test instant grab
-          const rooms = {
-          "Package room": {x:1,y:6},
-          "Activity Area":{x:1,y:7},
-          "Elderly room": {x:0,y:6},
-          "Battery charging station":{x:8,y:1}
-        };
+        const rooms = {
+        "Package room": {x:2,y:4},
+        "Activity Area":{x:3,y:2},
+        "Elderly room": {x:5,y:3},
+        "Battery charging station":{x:9,y:7}
+      };
+        //Mason test instant grab
+        //   const rooms = {
+        //   "Package room": {x:1,y:6},
+        //   "Activity Area":{x:1,y:7},
+        //   "Elderly room": {x:0,y:6},
+        //   "Battery charging station":{x:8,y:1}
+        // };
 
       if (parameterValue && rooms[parameterValue]) {
         const target = rooms[parameterValue];
@@ -345,7 +345,7 @@ const SimTile = ({
       "Scenario 4": { redAsterisks: [[1,6]] },
       "Scenario 5": {
         redAsterisks: [[5,0],[5,1],[5,2],[5,3],[6,3],[7,3],[8,3],[9,3]],
-        blueAsterisks:[[0,5],[1,4],[2,5],[2,7]]
+        blueAsterisks:[[0,5],[0,6],[1,4],[1,5],[2,5],[2,6]]
       }
     };
     return coordinates[currentScenario] || { redAsterisks: [], blueAsterisks: [] };
