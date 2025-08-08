@@ -168,9 +168,9 @@ const SimTile = ({
         //Mason test instant grab
           const rooms = {
           "Package room": {x:1,y:6},
-          "Activity Area":{x:1,y:7},
-          "Elderly room": {x:3,y:1},
-          "Battery charging station":{x:4,y:4}
+          "Activity Area":{x:3,y:2},
+          "Elderly room": {x:8,y:1},
+          "Battery charging station":{x:9,y:7}
         };
 
       if (parameterValue && rooms[parameterValue]) {
@@ -652,7 +652,7 @@ const SimTile = ({
               if (onIconsUpdate) {
                 onIconsUpdate(updatedIcons);
               }
-              setActionMessage("Employee moved out of the way");
+              setActionMessage("Employee stepped aside for the robot");
             }
           }
           else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help") && scenario === "Scenario 5") {
