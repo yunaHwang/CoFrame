@@ -292,20 +292,26 @@ const SimTile = ({
     useStore.getState().setActionTracking(updated);
   };
 
-  // TODO: fix not according to startcoord but when scenario changes <Mason>
   const prevStartRef = useRef(startCoord);
+  const prevScenarioRef = useRef(scenario); 
+
   useEffect(() => {
     if (
       !prevStartRef.current ||
       prevStartRef.current.x !== startCoord?.x ||
-      prevStartRef.current.y !== startCoord?.y
-    ) 
-    {
+      prevStartRef.current.y !== startCoord?.y ||
+      prevScenarioRef.current !== scenario 
+    ) {
+      const currentActionTracking = useStore.getState().actionTracking;
 
-      const currentBattery = useStore.getState().batteryLevel;
-      useStore.getState().setGlobalBatteryLevel(currentBattery); // TODO: but then is the battery being shown global battery, i think not?
+      const currentBattery = currentActionTracking.reduce((sum, action) => sum + action.batteryMovement, 0);
+      const currentDistance = currentActionTracking.reduce((sum, action) => sum + action.distanceMovement, 0);
+
+      useStore.getState().setbatteryLevel(100);
+      useStore.getState().setGlobalBatteryLevel(100);
 
       prevStartRef.current = startCoord;
+      prevScenarioRef.current = scenario; 
       setOrientation("E");
       useStore.getState().setRobotOrientation?.("E");
       setPendingMove(false);
@@ -314,15 +320,24 @@ const SimTile = ({
       setShowBatteryCharged(false);
       setShowError(false);
       setErrorMessage(null);
-      useStore.getState().setActionTracking([]);
 
-      const globalBattery = useStore.getState().globalBatteryLevel;
-      console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery); //no
-      //useStore.getState().setbatteryLevel(globalBattery);
+      if (currentActionTracking.length > 0) {
+        const carryOverElement = {
+          id: `scenarioCarryOver${Date.now()}`,
+          batteryMovement: currentBattery,
+          distanceMovement: currentDistance,
+          xMovement: 0,
+          yMovement: 0,
+          children: []
+        };
 
-
+        useStore.getState().setActionTracking([carryOverElement]);
+        //console.log("Scenario changed battery:", currentBattery, "distance:", currentDistance);
+      } else {
+        useStore.getState().setActionTracking([]);
+      }
     }
-  }, [startCoord, setErrorMessage, setShowError]);
+  }, [startCoord, setErrorMessage, setShowError, scenario]);
 
 
 
