@@ -292,6 +292,7 @@ const SimTile = ({
     useStore.getState().setActionTracking(updated);
   };
 
+  // TODO: what is this block doing?
   const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
@@ -1285,6 +1286,7 @@ const SimTile = ({
     prevLevelRef.current = batteryLevel;
   }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
 
+  // TODO: this has to do with recharge
   useEffect(() => {
 
     const justResetBattery = useStore.getState().justResetBattery;

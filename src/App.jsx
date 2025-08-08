@@ -264,9 +264,10 @@ export default function App() {
 
           const trackingSnapshot = [...useStore.getState().actionTracking];
           console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
-          useStore.getState().setbatteryLevel(100);
-          useStore.getState().setChargePending(false);
-          useStore.getState().setShowBatteryCharged(true);
+          //useStore.getState().setbatteryLevel(100); // i think this is making an immediate charge
+          // TODO: these three lines might also contribute in making the battery bounce to 100
+          useStore.getState().setChargePending(false); // i think this is not causing prob
+          useStore.getState().setShowBatteryCharged(true); // this neither
           useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
           
           //useStore.getState().setBattery20Warning(false);
