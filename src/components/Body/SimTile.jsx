@@ -5,7 +5,7 @@ import { subscribeFlush, unsubscribeFlush } from "../../stores/to_flask"
 import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
-const BATTERY_DROP_PER_STEP = 80;          
+const BATTERY_DROP_PER_STEP = 20;          
 // const BATTERY_DROP_PER_STEP = 8;//Mason Test         
 
 const CHARGER_LABEL = "battery charging station";
@@ -315,10 +315,15 @@ const SimTile = ({
       setShowError(false);
       setErrorMessage(null);
       useStore.getState().setActionTracking([]);
+      // added
+      useStore.getState().setBatteryResetActionCount(0); 
+
+      useStore.getState().setBatteryErrorBlockMade20(false);
+      useStore.getState().setBatteryErrorBlockMade5(false); 
 
       const globalBattery = useStore.getState().globalBatteryLevel;
       console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery); //no
-      //useStore.getState().setbatteryLevel(globalBattery);
+      useStore.getState().setbatteryLevel(globalBattery);
 
 
     }
@@ -1172,25 +1177,10 @@ const SimTile = ({
   // TODO: this has to do with recharge
   useEffect(() => {
 
-    const justResetBattery = useStore.getState().justResetBattery;
-    if (justResetBattery) {
-    // Reset flag so it only skips once
-    useStore.getState().setJustResetBattery(false);
-    return;
-  }
 
     const totalBatteryUsed = calculatedMovement.batteryMovement;
     const totalDistance = calculatedMovement.distanceMovement;
 
-    // const hasChargedAction = actionTracking.some(action => {
-    //   const actionData = programData[action.id];
-    //   return actionData?.type === "toLocationType" && 
-    //         action.children.length > 0 && 
-    //         programData[action.children[0]]?.name === "Battery charging station";
-    // });
-
-    const chargePending = useStore.getState().chargePending;
-    const clean = useStore.getState().clean;
 
     const batteryResetActionCount = useStore.getState().batteryResetActionCount ?? 0;
     const postChargeActions = actionTracking.slice(batteryResetActionCount);
@@ -1202,7 +1192,7 @@ const SimTile = ({
     console.log("what is globalBattery, postChargeBatteryUsed, ", globalBattery, postChargeBatteryUsed);
     console.log("what is newBattery here and does it have to do with the jump, ", newBatteryLevel);
 
-    useStore.getState().setbatteryLevel(newBatteryLevel); //TODO: yo this is buggy
+    useStore.getState().setbatteryLevel(newBatteryLevel); 
     //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(totalDistance);
 
