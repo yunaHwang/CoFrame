@@ -167,10 +167,10 @@ const SimTile = ({
       };
         //Mason test instant grab
         //   const rooms = {
-        //   "Package room": {x:1,y:6},
+        //   "Package room": {x:2,y:5},
         //   "Activity Area":{x:1,y:7},
-        //   "Elderly room": {x:0,y:6},
-        //   "Battery charging station":{x:8,y:1}
+        //   "Elderly room": {x:3,y:1},
+        //   "Battery charging station":{x:4,y:4}
         // };
 
       if (parameterValue && rooms[parameterValue]) {
@@ -617,54 +617,92 @@ const SimTile = ({
     //SpeechType
     else if (data.type === "speechType" && destInfo.parentId) {
       const parameterValue = data.name;
-      console.log("this is parameter name to speechType, ", parameterValue); 
-  
+      console.log("this is parameter name to speechType, ", parameterValue);
+
 
       const handleFlush = (json) => {
         console.log("what is json here, ", json);
-          if (json.param_classification) {
-            // TO MASON: if the value of paramType is excuse_me can you make the person icon that the robot is facing go away
-            // meaning, if the robot is facing north and when it's saying excuse_me, the person on the top (north) should go away
-            // if the robot is facing west and when it's saying excuse_me, the person on the left (west) should go away
-            console.log("Scoped speech param from LLM:", json.param_classification);
-            paramType = json.param_classification;
+        if (json.param_classification) {
+          console.log("Scoped speech param from LLM:", json.param_classification);
+          const paramType = json.param_classification;
 
-            if (paramType=== "excuse_me") {
-              const direction = useStore.getState().robotOrientation;
-              const { x, y } = robotCoord;
+          const direction = useStore.getState().robotOrientation;
+          const currentRobotCoord = robotCoord;
 
-              let targetX = x;
-              let targetY = y;
+          if (!currentRobotCoord) return;
 
-              if (direction === "N") targetY -= 1;
-              else if (direction === "S") targetY += 1;
-              else if (direction === "W") targetX -= 1;
-              else if (direction === "E") targetX += 1;
+          const { x, y } = currentRobotCoord;
+          let targetX = x;
+          let targetY = y;
 
-              const personKey = `${targetX},${targetY}`;
-              const updated = useStore.getState().robotOrientation
+          if (direction === "N") targetY += 1;
+          else if (direction === "S") targetY -= 1;
+          else if (direction === "W") targetX -= 1;
+          else if (direction === "E") targetX += 1;
 
-              if (icons[personKey] && icons[personKey].includes("employee")) {
-                console.log(`Removing person at ${personKey}`);
+          const targetKey = `${targetX},${targetY}`;
+          const updatedIcons = { ...icons };
 
-                const updatedIcons = { ...icons };
-                delete updatedIcons[personKey];
-                if (onIconsUpdate) {
-                  onIconsUpdate(updatedIcons);
-                }
+          if (paramType === "excuse_me" && scenario === "Scenario 3") {
+            console.log(`Looking for person at ${targetKey} (robot facing ${direction})`);
 
-              } 
+            if (icons[targetKey] && icons[targetKey].includes("employee")) {
+              //console.log(`Removing person at ${targetKey}`);
+              delete updatedIcons[targetKey];
+              if (onIconsUpdate) {
+                onIconsUpdate(updatedIcons);
+              }
+              setActionMessage("Employee moved out of the way");
             }
           }
+          else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help") && scenario === "Scenario 5") {
+            let removed = false;
+            let removedType = "";
 
-          unsubscribeFlush(handleFlush);
-        };
+            const fencePositions = ['4,0', '4,1', '4,2', '4,3'];
+            const cartPositions = ['5,4', '6,4', '7,4', '8,4', '9,4'];
+            const otherParcelPositions = ['1,7', '1,5', '2,6', '0,6'];
 
-        subscribeFlush(handleFlush);
+            if (fencePositions.includes(targetKey) && icons[targetKey]) {
+              delete updatedIcons[targetKey];
+              removed = true;
+              removedType = "fence";
+            }
+            else if (cartPositions.includes(targetKey) && icons[targetKey]) {
+              delete updatedIcons[targetKey];
+              removed = true;
+              removedType = "cart";
+            }
+            else if (otherParcelPositions.includes(targetKey) && icons[targetKey]) {
+              if (paramType === "ask_for_grab_help"|| paramType === "ask_grab_help") {
+                delete updatedIcons[targetKey];
+                removed = true;
+                removedType = "other parcel";
+              }
+            }
+            if (removed) {
+              if (onIconsUpdate) {
+                console.log("reach here");
+                onIconsUpdate(updatedIcons);
+              }
+              setObjectPositions(prev => {
+                const newPositions = { ...prev };
+                delete newPositions[targetKey];
+                return newPositions;
+              });
 
-      
+              const message = removedType === "other parcel"
+                ? "Other Parcel is moved out of the way with the help of the employee"
+                : `${removedType.charAt(0).toUpperCase() + removedType.slice(1)} is moved out of the way with the help of the employee`;
 
-      
+              setActionMessage(message);
+            }
+          }
+        }
+        unsubscribeFlush(handleFlush);
+      };
+
+      subscribeFlush(handleFlush);
 
       const parameterId = data.ref;
       addParameterToAction(destInfo.parentId, parameterId, parameterValue);
@@ -1507,9 +1545,9 @@ function hexToRgba(hex, alpha = 1) {
             } else if (objectType === "Other Parcel") {
               iconSrc = icons["0,6"];
             } else if (objectType === "Fence") {
-              iconSrc = icons["4,0"];
+              iconSrc = icons[key];;
             } else if (objectType === "Cart") {
-              iconSrc = icons["5,4"];
+              iconSrc = icons[key];;
             }
           }
           else if (icons[key] === robotImg) {

@@ -363,16 +363,19 @@ export default function App() {
         "Scenario 5": {'8,2': robotPng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
                     '0,7': employeePng, '1,7': wrongObjPng, '1,5': wrongObjPng, '2,6': wrongObjPng, '0,6': wrongObjPng, '1,6': correctObjPng,
                     '4,0': barrierPng, '4,1': barrierPng, '4,2': barrierPng, '4,3': barrierPng,
-                    '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng},
+                    '5,4': cartPng, '6,4': cartPng, '7,4': cartPng, '8,4': cartPng, '9,4': cartPng}
       };
       setDynamicIcons(deafult);
     }, [scenario]);
-  const updateIcons = useCallback((newIcons) => {
-  setDynamicIcons(prev => ({
-    ...prev,
-    [scenario]: newIcons
-    }));
-  }, [scenario]);
+  const updateIcons = (newIcons) => {
+    setDynamicIcons((prev) => {
+      const activeScenario = scenario;
+      return {
+        ...prev,
+        [activeScenario]: { ...newIcons } 
+      };
+    });
+  };
   const icons = dynamicIcons[scenario] ?? {};
 
 
