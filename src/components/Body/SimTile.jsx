@@ -292,7 +292,7 @@ const SimTile = ({
     useStore.getState().setActionTracking(updated);
   };
 
-  // TODO: what is this block doing?
+  // TODO: fix not according to startcoord but when scenario changes <Mason>
   const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
@@ -303,7 +303,7 @@ const SimTile = ({
     {
 
       const currentBattery = useStore.getState().batteryLevel;
-      useStore.getState().setGlobalBatteryLevel(currentBattery);
+      useStore.getState().setGlobalBatteryLevel(currentBattery); // TODO: but then is the battery being shown global battery, i think not?
 
       prevStartRef.current = startCoord;
       setOrientation("E");
@@ -317,7 +317,7 @@ const SimTile = ({
       useStore.getState().setActionTracking([]);
 
       const globalBattery = useStore.getState().globalBatteryLevel;
-      console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery);
+      console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery); //no
       //useStore.getState().setbatteryLevel(globalBattery);
 
 
@@ -1146,123 +1146,6 @@ const SimTile = ({
   }, [orientation]);
 
 
-  // useEffect(() => {
-  //   const info = sourceInfo_to_pass?.data?.name;
-  //   if (!info || !robotCoord) return;
-  //   if (actionDeleted) {return; }
-
-  //   // ---- Move-Forward command ----
-  //   if (info === "Move Forward") { setPendingMove(true); return; }
-  //   if (pendingMove && info.includes("grid")) {
-  //     const steps = parseInt(info.match(/\d+/)?.[0] ?? "1", 10);
-
-  //     // compute new coord
-  //     let dx=0, dy=0;
-  //     if (orientation==="N") dy=1;
-  //     if (orientation==="S") dy=-1;
-  //     if (orientation==="E") dx=1;
-  //     if (orientation==="W") dx=-1;
-  //     const newX = Math.max(0, Math.min(robotCoord.x + dx*steps, 9));
-  //     const newY = Math.max(0, Math.min(robotCoord.y + dy*steps, 7));
-  //     setRobotCoord({x:newX,y:newY});
-  //     checkForErrors({x:newX,y:newY}, scenario);
-
-  //     // distance
-  //     useStore.getState().setdistanceTravel(
-  //       useStore.getState().distanceTravel + steps * FEET_PER_STEP
-  //     );
-
-  //     // battery drain – freeze if charge pending
-  //     if (!chargePending) {
-  //       const drop = steps * BATTERY_DROP_PER_STEP;
-  //       const prev = useStore.getState().batteryLevel;
-  //       useStore.getState().setbatteryLevel(Math.max(0, prev - drop));
-  //     }
-  //     setPendingMove(false);
-  //     return;
-  //   }
-
-  //   // ---- Rotate command ----
-  //   if (info === "Rotate Stretch") { setPendingRotate(true); return; }
-  //   if (pendingRotate && info.includes("wise")) {
-  //     const isClockwise = info.toLowerCase().includes("clockwise");
-  //     const dirs = ["N","E","S","W"];
-  //     const idx  = dirs.indexOf(orientation);
-  //     setOrientation(dirs[(idx + (isClockwise?3:1)) % 4]);
-  //     setPendingRotate(false);
-  //     return;
-  //   }
-
-  //   // ---- To Connector command ----
-  //   if (info === "To Connector") { setPendingToConnector(true); return; }
-  //   if (pendingToConnector) {
-  //     const rooms = {
-  //       "Package room": {x:2,y:4},
-  //       "Activity Area":{x:3,y:2},
-  //       "Elderly room": {x:5,y:3},
-  //       "Battery charging station":{x:9,y:7}
-  //     };
-  //     const target = rooms[info];
-  //     if (target) {
-  //       moveToConnector(target, info);
-  //       setPendingToConnector(false);
-  //     }
-  //   }
-  // }, [
-  //   sourceInfo_to_pass,
-  //   pendingMove,
-  //   pendingRotate,
-  //   pendingToConnector,
-  //   orientation,
-  //   robotCoord,
-  //   scenario,
-  //   chargePending,
-  //   actionDeleted
-  // ]);
-
-  // // ──────────────────────────────
-  // // Reset after delete
-  // // ──────────────────────────────
-  // useEffect(() => {
-  //     if (actionDeleted && startCoord) {
-  //       console.log("Deletion - Field:", deletedFieldInfo);
-  //       console.log("Deletion - Parent:", deletedParentInfo);
-        
-  //       let keepMoveForward = false;
-  //       let keepToConnector = false;
-        
-  //       if (deletedParentInfo && deletedFieldInfo) {
-  //         if (deletedParentInfo.type === "moveForwardType" && 
-  //             deletedFieldInfo.value === "direction") {
-  //           keepMoveForward = true;
-  //         }
-          
-  //         if (deletedParentInfo.type === "toLocationType" && 
-  //             deletedFieldInfo.value === "place") { 
-  //           keepToConnector = true;
-  //         }
-  //       }
-        
-  //       setRobotCoord(startCoord);
-  //       setPendingMove(keepMoveForward);
-  //       setPendingRotate(false);
-  //       setPendingToConnector(keepToConnector);
-  //       if (keepMoveForward) {
-  //       useStore.getState().setLastSourceInfo({
-  //         data: { name: "Move Forward" }
-  //       });
-  //     }
-  //       if (keepToConnector) {
-  //       useStore.getState().setLastSourceInfo({
-  //         data: { name: "To Connector" }
-  //       });
-  //     }
-  //       setDeletedFieldInfo(null);
-  //       setDeletedParentInfo(null);
-  //       setActionDeleted(false);
-  //     }
-  //   }, [actionDeleted, startCoord, setActionDeleted, deletedFieldInfo, deletedParentInfo, setDeletedFieldInfo, setDeletedParentInfo]);
-  
   // ──────────────────────────────
   // Warning-flip + backend notify
   // ──────────────────────────────

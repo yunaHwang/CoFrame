@@ -249,30 +249,61 @@ export default function App() {
         useStore.getState().setCurrentFallbackTypeId(json.currentFallbackTypeId);
       }
 
-      if (
-        json.clean === true && json.charge_pending === false && 
-        (json.status === "added" || json.status === "deleted")) {
+      // if (
+      //   json.clean === true && json.charge_pending === false && 
+      //   (json.status === "added" || json.status === "deleted")) {
+      //     // TODO: I think i should reestablish clean and charge_pending
+      //     // clean not clean, charge_pending true
+      //     // and then set charge_pending to false when LTL is false, then recharge?
+      //     const battery20 = useStore.getState().battery20Warning;
+      //     const battery5 = useStore.getState().battery5Warning;
+      //     const hadWarning = battery20 || battery5;
 
-          const battery20 = useStore.getState().battery20Warning;
-          const battery5 = useStore.getState().battery5Warning;
-          const hadWarning = battery20 || battery5;
+      //     console.log("battery20Warning evolution, ", battery20, json);
+      //     console.log("hadWarning, ", hadWarning);
 
-          console.log("battery20Warning evolution, ", battery20, json);
-          console.log("hadWarning, ", hadWarning);
+      //     if (hadWarning) {
 
-          if (hadWarning) {
+      //     const trackingSnapshot = [...useStore.getState().actionTracking];
+      //     console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
+      //     //useStore.getState().setbatteryLevel(100); // i think this is making an immediate charge
+      //     // TODO: these three lines might also contribute in making the battery bounce to 100
+      //     useStore.getState().setChargePending(false); // i think this is not causing prob
+      //     useStore.getState().setShowBatteryCharged(true); // this neither
+      //     useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
 
-          const trackingSnapshot = [...useStore.getState().actionTracking];
-          console.log("Resetting battery, using snapshot length:", trackingSnapshot.length);
-          //useStore.getState().setbatteryLevel(100); // i think this is making an immediate charge
-          // TODO: these three lines might also contribute in making the battery bounce to 100
-          useStore.getState().setChargePending(false); // i think this is not causing prob
-          useStore.getState().setShowBatteryCharged(true); // this neither
-          useStore.getState().setBatteryResetActionCount(trackingSnapshot.length);
+      //     // TODO: I think setBatteryLevel and setBattery*Warning false should happen only when LTL is clean...
           
-          //useStore.getState().setBattery20Warning(false);
-          //useStore.getState().setBattery5Warning(false);
-          }}
+      //     //useStore.getState().setBattery20Warning(false);
+      //     //useStore.getState().setBattery5Warning(false);
+      //     }}
+
+      const trigger_charge = json.trigger_charge === true;
+      if (trigger_charge) {
+        const hadWarning = useStore.getState().battery20Warning || useStore.getState().battery5Warning;
+
+        console.log("hadWarning at this point, ", hadWarning);
+
+        // charge only when warning resolved
+        const trackingLen = useStore.getState().actionTracking.length;
+
+        // battery set to charge state (battery = 100)
+        //useStore.getState().setJustResetBattery(true);
+        useStore.getState().setGlobalBatteryLevel(100);
+        useStore.getState().setbatteryLevel(100);
+
+        const batteryLevel = useStore.getState().batteryLevel;
+
+        console.log("this made it charged and so the batteryLevel is, ", batteryLevel);
+        useStore.getState().setBatteryResetActionCount(trackingLen);
+
+        // ux + warning resets
+        useStore.getState().setShowBatteryCharged(true);
+        useStore.getState().setBattery20Warning(false);
+        useStore.getState().setBattery5Warning(false);
+        
+      }
+
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
@@ -313,7 +344,6 @@ export default function App() {
           });
         }
       }
-
       
     }
     subscribeFlush(handleFlush);
