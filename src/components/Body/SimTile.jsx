@@ -159,19 +159,19 @@ const SimTile = ({
       else if (actionOrientation === "W") moves.xMovement = -steps;
       
     } else if (actionType === "toLocationType") {
-        const rooms = {
-        "Package room": {x:2,y:4},
-        "Activity Area":{x:3,y:2},
-        "Elderly room": {x:5,y:3},
-        "Battery charging station":{x:9,y:7}
-      };
+      //   const rooms = {
+      //   "Package room": {x:2,y:4},
+      //   "Activity Area":{x:3,y:2},
+      //   "Elderly room": {x:5,y:3},
+      //   "Battery charging station":{x:9,y:7}
+      // };
         //Mason test instant grab
-        //   const rooms = {
-        //   "Package room": {x:2,y:5},
-        //   "Activity Area":{x:1,y:7},
-        //   "Elderly room": {x:3,y:1},
-        //   "Battery charging station":{x:4,y:4}
-        // };
+          const rooms = {
+          "Package room": {x:1,y:6},
+          "Activity Area":{x:1,y:7},
+          "Elderly room": {x:3,y:1},
+          "Battery charging station":{x:4,y:4}
+        };
 
       if (parameterValue && rooms[parameterValue]) {
         const target = rooms[parameterValue];
