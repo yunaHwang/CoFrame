@@ -105,7 +105,6 @@ const SimTile = ({
   const lastCartBlockSignal     = useRef(null);
   const lastPackageBlockSignal  = useRef(null);
 
-
   // ──────────────────────────────
   // Find first robot icon 
   // ──────────────────────────────
@@ -137,12 +136,36 @@ const SimTile = ({
 
   const robotCoord = useMemo(() => {
     if (!startCoord) return null;
-    
-    const newX = Math.max(0, Math.min(startCoord.x + calculatedMovement.xMovement, 9));
-    const newY = Math.max(0, Math.min(startCoord.y + calculatedMovement.yMovement, 7));
-    
+
+    const storedOffset = useStore.getState().perScenarioOffsets?.[scenario] || { x: 0, y: 0 };
+
+    const newX = Math.max(0, Math.min(startCoord.x + storedOffset.x + calculatedMovement.xMovement, 9));
+    const newY = Math.max(0, Math.min(startCoord.y + storedOffset.y + calculatedMovement.yMovement, 7));
+
     return { x: newX, y: newY };
-  }, [startCoord, calculatedMovement]);
+  }, [startCoord, calculatedMovement, scenario]);
+  
+  const setScenarioOffset = useStore((s) => s.setScenarioOffset);
+  
+  const prevScenarioRef = useRef(scenario);
+  useEffect(() => {
+    const prevScenario = prevScenarioRef.current;
+
+    if (prevScenario !== scenario && robotCoord && startCoord) {
+      const storedOffset = useStore.getState().perScenarioOffsets?.[prevScenario] || { x: 0, y: 0 };
+      const currentOffset = {
+        x: storedOffset.x + calculatedMovement.xMovement,
+        y: storedOffset.y + calculatedMovement.yMovement
+      };
+
+      //console.log("Saving ${prevScenario} position at :"", currentOffset);
+      setScenarioOffset(prevScenario, currentOffset);
+
+      useStore.getState().setActionTracking([]);
+    }
+
+    prevScenarioRef.current = scenario;
+  }, [scenario, robotCoord, startCoord, calculatedMovement, setScenarioOffset]);
 
   const calculateActionMovement = (actionType, parameterValue = null, actionOrientation = "E") => {
     const moves = { batteryMovement: 0, distanceMovement: 0, xMovement: 0, yMovement: 0 };
@@ -317,13 +340,16 @@ const SimTile = ({
       useStore.getState().setActionTracking([]);
       // added
       useStore.getState().setBatteryResetActionCount(0); 
+      useStore.getState().setDistanceResetActionCount(0);
 
       useStore.getState().setBatteryErrorBlockMade20(false);
       useStore.getState().setBatteryErrorBlockMade5(false); 
 
       const globalBattery = useStore.getState().globalBatteryLevel;
+      const globalDistance = useStore.getState().globalDistanceTravel
       console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery); //no
       useStore.getState().setbatteryLevel(globalBattery);
+      useStore.getState().setdistanceTravel(globalDistance);
 
 
     }
@@ -1192,9 +1218,17 @@ const SimTile = ({
     console.log("what is globalBattery, postChargeBatteryUsed, ", globalBattery, postChargeBatteryUsed);
     console.log("what is newBattery here and does it have to do with the jump, ", newBatteryLevel);
 
+    const distanceResetActionCount = useStore.getState().distanceResetActionCount ?? 0;
+    const postResetActions = actionTracking.slice(distanceResetActionCount);
+    const postResetDistanceUsed = postResetActions.reduce((sum, a) => sum + a.distanceMovement, 0);
+
+    const globalDistance = useStore.getState().globalDistanceTravel ?? 0;
+    const newDistanceLevel = globalDistance + postResetDistanceUsed;
+
     useStore.getState().setbatteryLevel(newBatteryLevel); 
     //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
-    useStore.getState().setdistanceTravel(totalDistance);
+    useStore.getState().setdistanceTravel(newDistanceLevel);
+    useStore.getState().setGlobalDistanceTravel(newDistanceLevel); 
 
     // let newBatteryLevel;
 

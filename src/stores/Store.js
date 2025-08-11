@@ -56,6 +56,10 @@ const store = (set, get) => ({
   globalBatteryLevel: 100,
   setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
 
+  globalDistanceTravel: 0,
+  setGlobalDistanceTravel: (val) => set({ globalDistanceTravel: val }),
+
+
   batteryWarning: true,
   setBatteryWarning: (value) => set({ batteryWarning: value }),
 
@@ -107,7 +111,20 @@ const store = (set, get) => ({
   setScenario5CartErrorBlockMade: (v) => set({ scenario5CartErrorBlockMade: v }),
   scenario5PackageErrorBlockMade: false,
   setScenario5PackageErrorBlockMade: (v) => set({ scenario5PackageErrorBlockMade: v }),
-  
+
+  perScenarioOffsets: {},
+  setScenarioOffset: (scenario, offset) =>
+    set((state) => ({
+      perScenarioOffsets: {
+        ...state.perScenarioOffsets,
+        [scenario]: offset
+      }
+    })),
+
+  getScenarioOffset: (scenario) => {
+    const state = get();
+    return state.perScenarioOffsets[scenario] || { x: 0, y: 0 };
+  },
   
   
   deletedFieldInfo: null,
@@ -139,6 +156,8 @@ const store = (set, get) => ({
 
   batteryResetActionCount: 0,
   setBatteryResetActionCount: (val) => set({ batteryResetActionCount: val }),
+  distanceResetActionCount: 0,
+  setDistanceResetActionCount: (val) => set({ distanceResetActionCount: val }),
 
 
   errorMessage: null,

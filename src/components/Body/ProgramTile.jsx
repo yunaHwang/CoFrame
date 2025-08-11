@@ -25,6 +25,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
     const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); //added
+    const globalDistanceTravel = useStore(state => state.globalDistanceTravel, shallow);
 
     // battery warnings for popping errors
     const battery20Warning = useStore(state => state.battery20Warning,shallow);
