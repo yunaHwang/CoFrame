@@ -271,7 +271,7 @@ const SimTile = ({
     let stepDirection;
     if (rotationDirection === "Clockwise") {
       stepDirection = 1; 
-    } else if (rotationDirection === "Counter-clockwise") {
+    } else if (rotationDirection === "Counterclockwise") {
       stepDirection = 3;
     } else {
       return; 

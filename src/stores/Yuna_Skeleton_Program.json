@@ -2920,7 +2920,7 @@
   },
     "movementType-28892a7c1c1911ecbe2600155d1a70a2": {
     "type": "movementType",
-    "name": "Counter-clockwise",
+    "name": "Counterclockwise",
     "id": "movementType-28892a7c1c1911ecbe2600155d1a70a2",
     "canEdit": true,
     "canDelete": true,
