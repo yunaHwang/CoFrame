@@ -142,7 +142,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                 header={
                     <Stack direction='row' alignItems="center" justifyContent='space-between' sx={{ pr: '4px', width: '100%' }}>
                         <Stack direction='row' gap={1} alignItems='center'>
-                            <Box
+                            {/* <Box
                             sx = {{
                                 backgroundColor: '#932848', 
                                 padding: '6px 12px',
@@ -150,7 +150,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             }}
                             >
                                 <Typography style={{ color: 'white' }}>Distance Traveled: {displayDistance} feet</Typography>
-                            </Box>
+                            </Box> */}
 
                             <Box
                             sx = {{

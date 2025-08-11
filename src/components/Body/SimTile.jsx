@@ -1414,19 +1414,19 @@ function hexToRgba(hex, alpha = 1) {
         <Typography key={i} style={overlayLabelStyle(from,to)}>{text}</Typography>
       ))}
 
-      {/* {showBatteryCharged && (
+      {showBatteryCharged && (
         <Paper sx={{position:"absolute", top:"50%", left:"50%",
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            🔋 Battery is fully charged!
+            🔋 Stretch's battery is fully again!
           </Typography>
           <Button variant="contained" onClick={()=>setShowBatteryCharged(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
             OK
           </Button>
         </Paper>
-      )} */}
+      )}
 
       <div style={gridStyle}>
         {Array.from({length:80}).map((_,idx)=>{
