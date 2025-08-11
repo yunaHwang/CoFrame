@@ -326,7 +326,10 @@ const SimTile = ({
     {
 
       const currentBattery = useStore.getState().batteryLevel;
-      useStore.getState().setGlobalBatteryLevel(currentBattery); // TODO: but then is the battery being shown global battery, i think not?
+      useStore.getState().setGlobalBatteryLevel(currentBattery);
+
+      const currentDistance = useStore.getState().distanceTravel;
+      useStore.getState().setGlobalDistanceTravel(currentDistance);
 
       prevStartRef.current = startCoord;
       setOrientation("E");
@@ -1228,8 +1231,7 @@ const SimTile = ({
     useStore.getState().setbatteryLevel(newBatteryLevel); 
     //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(newDistanceLevel);
-    useStore.getState().setGlobalDistanceTravel(newDistanceLevel); 
-
+    
     // let newBatteryLevel;
 
     // const chargePending = useStore.getState().chargePending;
