@@ -687,7 +687,7 @@ const SimTile = ({
               setActionMessage("Employee stepped aside for the robot");
             }
           }
-          else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help") && scenario === "Scenario 5") {
+          else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help" || paramType === "ask_for_pick_remove_help") && scenario === "Scenario 5") {
             let removed = false;
             let removedType = "";
 
@@ -706,7 +706,7 @@ const SimTile = ({
               removedType = "cart";
             }
             else if (otherParcelPositions.includes(targetKey) && icons[targetKey]) {
-              if (paramType === "ask_for_grab_help"|| paramType === "ask_grab_help") {
+              if (paramType === "ask_for_grab_help"|| paramType === "ask_grab_help" || paramType === "ask_for_pick_remove_help") {
                 delete updatedIcons[targetKey];
                 removed = true;
                 removedType = "other parcel";
