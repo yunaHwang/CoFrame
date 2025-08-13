@@ -73,9 +73,9 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const robotOrientation = useStore(state => state.robotOrientation || "E", shallow);
 
-    const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
+    //const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
-    // const displayDistance = Math.floor(distanceTravel / 1) * 1; // Mason Test
+    const displayDistance = Math.floor(distanceTravel / 1) * 1; // Mason Test
     // const displayBattery = Math.ceil(batteryLevel / 1) * 1; // Mason Test
     const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
@@ -142,7 +142,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                 header={
                     <Stack direction='row' alignItems="center" justifyContent='space-between' sx={{ pr: '4px', width: '100%' }}>
                         <Stack direction='row' gap={1} alignItems='center'>
-                            {/* <Box
+                            <Box
                             sx = {{
                                 backgroundColor: '#932848', 
                                 padding: '6px 12px',
@@ -150,7 +150,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             }}
                             >
                                 <Typography style={{ color: 'white' }}>Distance Traveled: {displayDistance} feet</Typography>
-                            </Box> */}
+                            </Box>
 
                             <Box
                             sx = {{
