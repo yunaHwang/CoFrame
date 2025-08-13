@@ -53,7 +53,7 @@ const store = (set, get) => ({
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
 
-  globalBatteryLevel: 30,
+  globalBatteryLevel: 100,
   setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
 
   globalDistanceTravel: 0,
@@ -63,7 +63,7 @@ const store = (set, get) => ({
   batteryWarning: true,
   setBatteryWarning: (value) => set({ batteryWarning: value }),
 
-  batteryLevel: 30,
+  batteryLevel: 100,
   setbatteryLevel: (value) => set({ batteryLevel: value }),
   
   //battery warnings for error popping
