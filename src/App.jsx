@@ -263,6 +263,10 @@ export default function App() {
         useStore.getState().setGlobalBatteryLevel(100);
         useStore.getState().setbatteryLevel(100);
 
+        // distance reset?
+        useStore.getState().setGlobalDistanceTravel(0);
+        useStore.getState().setdistanceTravel(0);
+
         const batteryLevel = useStore.getState().batteryLevel;
 
         console.log("this made it charged and so the batteryLevel is, ", batteryLevel);

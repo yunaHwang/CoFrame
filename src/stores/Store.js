@@ -56,7 +56,7 @@ const store = (set, get) => ({
   globalBatteryLevel: 30,
   setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
 
-  globalDistanceTravel: 0,
+  globalDistanceTravel: 110, //TODO: should maybe change this into 110 feet
   setGlobalDistanceTravel: (val) => set({ globalDistanceTravel: val }),
 
 
