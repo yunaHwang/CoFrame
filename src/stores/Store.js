@@ -53,10 +53,10 @@ const store = (set, get) => ({
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
 
-  globalBatteryLevel: 30,
+  globalBatteryLevel: 100, // change when testing
   setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
 
-  globalDistanceTravel: 112, 
+  globalDistanceTravel: 0, // change when testing
   setGlobalDistanceTravel: (val) => set({ globalDistanceTravel: val }),
 
 
@@ -148,8 +148,11 @@ const store = (set, get) => ({
   chargePending: false,
   setChargePending: (v) => set({ chargePending: v }),
 
+  // booleans used for failure/warnings clearing off
   showBatteryCharged: false,
   setShowBatteryCharged: (v) => set({ showBatteryCharged: v }),
+  showSensorCleared: false,
+  setShowSensorCleared: (v) => set({ showSensorCleared: v }),
 
   actionTracking: [],
   setActionTracking: (val) => set({ actionTracking: val }),

@@ -269,7 +269,7 @@ export default function App() {
 
         const batteryLevel = useStore.getState().batteryLevel;
 
-        console.log("this made it charged and so the batteryLevel is, ", batteryLevel);
+        //console.log("this made it charged and so the batteryLevel is, ", batteryLevel);
         useStore.getState().setBatteryResetActionCount(trackingLen);
 
         // this too?
@@ -280,6 +280,14 @@ export default function App() {
         useStore.getState().setBattery20Warning(false);
         useStore.getState().setBattery5Warning(false);
         
+      }
+
+      // added for sensor
+      const trigger_sensor_clear = json.trigger_sensor_clear == true;
+      console.log("yay LTL resolved [trigger_sensor_clear], ", trigger_sensor_clear);
+      if (trigger_sensor_clear){
+        useStore.getState().setShowSensorCleared(true);
+        useStore.getState().setSensorWarning(false);
       }
 
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
