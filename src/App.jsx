@@ -272,6 +272,9 @@ export default function App() {
         console.log("this made it charged and so the batteryLevel is, ", batteryLevel);
         useStore.getState().setBatteryResetActionCount(trackingLen);
 
+        // this too?
+        useStore.getState().setDistanceResetActionCount(trackingLen);
+
         // ux + warning resets
         useStore.getState().setShowBatteryCharged(true);
         useStore.getState().setBattery20Warning(false);

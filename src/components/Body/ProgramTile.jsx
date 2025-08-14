@@ -75,7 +75,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     //const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
-    const displayDistance = Math.floor(distanceTravel / 1) * 1; // Mason Test
+    //const displayDistance = Math.floor(distanceTravel / 1) * 1; 
+    const displayDistance = distanceTravel.toFixed(1);
     // const displayBattery = Math.ceil(batteryLevel / 1) * 1; // Mason Test
     const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
