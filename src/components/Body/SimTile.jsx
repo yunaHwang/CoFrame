@@ -1440,7 +1440,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Sensor warning is resolved! Stretch may proceed the task it was doing.
+            Sensor warning is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowSensorCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
