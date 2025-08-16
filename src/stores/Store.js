@@ -53,7 +53,7 @@ const store = (set, get) => ({
   fallbackMode: false,
   setFallbackMode : (value) => set({fallbackMode: value}),
 
-  globalBatteryLevel: 100, // change when testing
+  globalBatteryLevel: 30, // change when testing
   setGlobalBatteryLevel: (val) => set({ globalBatteryLevel: val }),
 
   globalDistanceTravel: 0, // change when testing

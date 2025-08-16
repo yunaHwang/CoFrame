@@ -630,7 +630,7 @@ export default function App() {
                       ))}
                     </Stack>
                   ) : (
-                    <Typography sx={{ mt: 1 }}> No fallback behaviors are currently active.</Typography>
+                    <Typography sx={{ mt: 1 }}> No fallback behaviors are currently active. If violations exist, resolve them by deleting or revising actions.</Typography>
                   )}
                 </Box>
 
