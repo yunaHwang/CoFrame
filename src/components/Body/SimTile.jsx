@@ -59,6 +59,9 @@ const SimTile = ({
   const showSensorCleared = useStore((s) => s.showSensorCleared);
   const setShowSensorCleared = useStore((s) => s.setShowSensorCleared);
 
+  const showPersonblockCleared = useStore((s) => s.showPersonblockCleared);
+  const setShowPersonblockCleared = useStore((s) => s.setShowPersonblockCleared);
+
   const setActionMessage = useStore((s) => s.setActionMessage);
 
   const setErrorMessage  = useStore((s) => s.setErrorMessage);
@@ -1443,6 +1446,20 @@ function hexToRgba(hex, alpha = 1) {
             Sensor warning is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowSensorCleared(false)}
+            sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
+            OK
+          </Button>
+        </Paper>
+      )}
+
+      {showPersonblockCleared && (
+        <Paper sx={{position:"absolute", top:"50%", left:"50%",
+          backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
+          maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
+          <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
+            Person block warning is resolved! Stretch may resume the package delivery task.
+          </Typography>
+          <Button variant="contained" onClick={()=>setShowPersonblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
             OK
           </Button>

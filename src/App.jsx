@@ -290,6 +290,14 @@ export default function App() {
         useStore.getState().setSensorWarning(false);
       }
 
+      // added for person block
+      const trigger_personblock_clear = json.trigger_personblock_clear == true;
+      console.log("yay LTL resolved [trigger_personblock_clear], ", trigger_personblock_clear);
+      if (trigger_personblock_clear){
+        useStore.getState().setShowPersonblockCleared(true);
+        useStore.getState().setPersonBlockWarning(false);
+      }
+
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
