@@ -155,6 +155,8 @@ const store = (set, get) => ({
   setShowSensorCleared: (v) => set({ showSensorCleared: v }),
   showPersonblockCleared: false,
   setShowPersonblockCleared: (v) => set({ showPersonblockCleared: v }),
+  showHeavyCleared: false,
+  setShowHeavyCleared: (v) => set({ showHeavyCleared: v }),
 
   actionTracking: [],
   setActionTracking: (val) => set({ actionTracking: val }),

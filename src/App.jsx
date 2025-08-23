@@ -298,6 +298,14 @@ export default function App() {
         useStore.getState().setPersonBlockWarning(false);
       }
 
+      // added for heavy
+      const trigger_heavy_clear = json.trigger_heavy_clear == true;
+      console.log("yay LTL resolved [trigger_heavy_clear], ", trigger_heavy_clear);
+      if (trigger_heavy_clear){
+        useStore.getState().setShowHeavyCleared(true);
+        useStore.getState().setHeavyWarning(false);
+      }
+
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
