@@ -65,6 +65,9 @@ const SimTile = ({
   const showHeavyCleared = useStore((s) => s.showHeavyCleared);
   const setShowHeavyCleared = useStore((s) => s.setShowHeavyCleared);
 
+  const showCartblockCleared = useStore((s) => s.showCartblockCleared);
+  const setShowCartblockCleared = useStore((s) => s.setShowCartblockCleared);
+
   const setActionMessage = useStore((s) => s.setActionMessage);
 
   const setErrorMessage  = useStore((s) => s.setErrorMessage);
@@ -1477,6 +1480,20 @@ function hexToRgba(hex, alpha = 1) {
             Package heavy warning is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowHeavyCleared(false)}
+            sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
+            OK
+          </Button>
+        </Paper>
+      )}
+
+      {showCartblockCleared && (
+        <Paper sx={{position:"absolute", top:"50%", left:"50%",
+          backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
+          maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
+          <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
+            Cart/fence block warning is resolved! Stretch may resume movement.
+          </Typography>
+          <Button variant="contained" onClick={()=>setShowCartblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
             OK
           </Button>

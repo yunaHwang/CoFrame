@@ -306,6 +306,14 @@ export default function App() {
         useStore.getState().setHeavyWarning(false);
       }
 
+      // added for cart block
+      const trigger_cartblock_clear = json.trigger_cartblock_clear == true;
+      console.log("yay LTL resolved [trigger_cartblock_clear], ", trigger_cartblock_clear);
+      if (trigger_cartblock_clear){
+        useStore.getState().setShowCartblockCleared(true);
+        useStore.getState().setCartBlockWarning(false);
+      }
+
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
