@@ -159,6 +159,8 @@ const store = (set, get) => ({
   setShowHeavyCleared: (v) => set({ showHeavyCleared: v }),
   showCartblockCleared: false,
   setShowCartblockCleared: (v) => set({ showCartblockCleared: v }),
+  showPackageblockCleared: false,
+  setShowPackageblockCleared: (v) => set({ showPackageblockCleared: v }),
 
   actionTracking: [],
   setActionTracking: (val) => set({ actionTracking: val }),

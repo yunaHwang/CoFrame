@@ -68,6 +68,9 @@ const SimTile = ({
   const showCartblockCleared = useStore((s) => s.showCartblockCleared);
   const setShowCartblockCleared = useStore((s) => s.setShowCartblockCleared);
 
+  const showPackageblockCleared = useStore((s) => s.showPackageblockCleared);
+  const setShowPackageblockCleared = useStore((s) => s.setShowPackageblockCleared);
+
   const setActionMessage = useStore((s) => s.setActionMessage);
 
   const setErrorMessage  = useStore((s) => s.setErrorMessage);
@@ -510,18 +513,24 @@ const SimTile = ({
         useStore.getState().setCartBlockWarning(true);
         useStore.getState().setScenario5CartErrorBlockMade(true);
         lastCartBlockSignal.current = true;
-      } else if (!onRed && lastCartBlockSignal.current !== false) {
+      } 
+      
+      if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario5CartBlock(false);
         //useStore.getState().setCartBlockWarning(false);
         useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
-      } else if (onBlue && lastPackageBlockSignal.current !== true) {
+      } 
+      
+      if (onBlue && lastPackageBlockSignal.current !== true) {
         console.log("Scenario 5 package block error has occurred.");
         stageScenario5PackageBlock(true);
         useStore.getState().setPackageBlockWarning(true);
         useStore.getState().setScenario5PackageErrorBlockMade(true);
         lastPackageBlockSignal.current = true;
-      } else if (!onBlue && lastPackageBlockSignal.current !== false) {
+      } 
+      
+      if (!onBlue && lastPackageBlockSignal.current !== false) {
         stageScenario5PackageBlock(false);
         //useStore.getState().setPackageBlockWarning(false);
         useStore.getState().setScenario5PackageErrorBlockMade(false);
@@ -1184,7 +1193,10 @@ const SimTile = ({
   // ──────────────────────────────
   useEffect(() => {
     if (robotCoord) {
+      // checkForErrors(robotCoord, scenario);
+      setTimeout(() => {
       checkForErrors(robotCoord, scenario);
+    }, 1);
     }
   }, [robotCoord, scenario]);
 
@@ -1494,6 +1506,20 @@ function hexToRgba(hex, alpha = 1) {
             Cart/fence block warning is resolved! Stretch may resume movement.
           </Typography>
           <Button variant="contained" onClick={()=>setShowCartblockCleared(false)}
+            sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
+            OK
+          </Button>
+        </Paper>
+      )}
+
+      {showPackageblockCleared && (
+        <Paper sx={{position:"absolute", top:"50%", left:"50%",
+          backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
+          maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
+          <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
+            Package block warning is resolved! Stretch may resume the package delivery task.
+          </Typography>
+          <Button variant="contained" onClick={()=>setShowPackageblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
             OK
           </Button>

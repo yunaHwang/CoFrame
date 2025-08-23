@@ -314,6 +314,14 @@ export default function App() {
         useStore.getState().setCartBlockWarning(false);
       }
 
+      // added for package block
+      const trigger_packageblock_clear = json.trigger_packageblock_clear == true;
+      console.log("yay LTL resolved [trigger_packageblock_clear], ", trigger_packageblock_clear);
+      if (trigger_packageblock_clear){
+        useStore.getState().setShowPackageblockCleared(true);
+        useStore.getState().setPackageBlockWarning(false);
+      }
+
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
