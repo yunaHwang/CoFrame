@@ -433,6 +433,18 @@ export default function App() {
                       { text: 'Package room', from: [0, 7], to: [2, 7] },
                       { text: 'Elderly room', from: [6, 3], to: [8, 3]}];
 
+
+  // Verifier toggle per scenario
+  const scenarioToVerifierMode = {
+    "Scenario 1": true,
+    "Scenario 2": true,
+    "Scenario 3": true,
+    "Scenario 4": false,
+    "Scenario 5": false
+    };
+  const isVerifierMode = scenarioToVerifierMode[scenario];
+
+
   // Current FallbackType setting for explanation generation                    
   const currentFallbackTypeId = useStore((s) => s.currentFallbackTypeId);
   console.log("what is currentFallbackTypeId," ,currentFallbackTypeId);
@@ -508,7 +520,7 @@ export default function App() {
           </ReflexContainer>
 
           
-          {showDrawer ? 
+          {isVerifierMode && (showDrawer ? 
           (<Drawer
             variant="permanent"
             anchor="right"
@@ -686,7 +698,7 @@ export default function App() {
             >
               &gt;
             </Box>
-          )}
+          ))}
             
         </Stack>
         <Detail />
