@@ -56,7 +56,7 @@ const placeFeatures = {
   description: placeDoc,
   referenceBlock: {
     color: "#AD1FDE",
-    icon: WaypointIconStyled
+    icon: LocationIconStyled
   }
 }
 

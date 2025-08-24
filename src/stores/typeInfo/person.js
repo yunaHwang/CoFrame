@@ -1,5 +1,5 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { WaypointIconStyled } from "./icons";
+import { WaypointIconStyled, ContainerIconStyled } from "./icons";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
@@ -16,7 +16,7 @@ const personFeatures = {
     referenceBlock: {
       onCanvas: false,
       color: "#AD1FDE",
-      icon: WaypointIconStyled,
+      icon: ContainerIconStyled,
       extras: [
         // EXTRA_TYPES.LOCKED_INDICATOR,
         EXTRA_TYPES.NAME_EDIT_TOGGLE,

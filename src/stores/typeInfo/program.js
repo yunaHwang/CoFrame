@@ -1,5 +1,5 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { ContainerIconStyled, statusIcon } from "./icons";
+import { ContainerIconStyled, statusIcon, MachineIconStyled } from "./icons";
 import {
   FiMoreHorizontal
 } from "react-icons/fi";
@@ -18,7 +18,7 @@ const programFeatures = {
     hideNewPrefix: true,
     onCanvas: true,
     color: "#3f3f3f",
-    icon: ContainerIconStyled,
+    icon: MachineIconStyled,
     extras: [
       // {
       //   type: EXTRA_TYPES.INDICATOR_ICON,

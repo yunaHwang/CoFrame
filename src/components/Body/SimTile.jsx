@@ -207,7 +207,7 @@ const SimTile = ({
       // };
         //Mason test instant grab
           const rooms = {
-          "Package room": {x:2,y:4}, // TODO: change back to 2, 4
+          "Package room": {x:1,y:6}, // TODO: change back to 2, 4
           "Activity Area":{x:3,y:2},
           "Elderly room": {x:8,y:1},
           "Battery charging station":{x:9,y:7}
@@ -240,7 +240,6 @@ const SimTile = ({
         moves.distanceMovement = 0; 
         moves.xMovement = 0;
         moves.yMovement = 0;
-        //Todo Animation
       }
       
     }
@@ -332,7 +331,6 @@ const SimTile = ({
     useStore.getState().setActionTracking(updated);
   };
 
-  // TODO: fix not according to startcoord but when scenario changes <Mason>
   const prevStartRef = useRef(startCoord);
   useEffect(() => {
     if (
@@ -768,6 +766,14 @@ const SimTile = ({
 
               setActionMessage(message);
             }
+          }
+          else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help") && scenario === "Scenario 4") {
+            setObjectWithElderly(true);
+            setObjectWithPerson("Elderly Person");
+            setActionMessage("Elderly Person received Target Parcel!");
+            setIsObjectGrabbed(false);
+            setIsObjectBeingHanded(false);
+
           }
         }
         unsubscribeFlush(handleFlush);
@@ -1242,7 +1248,6 @@ const SimTile = ({
     prevLevelRef.current = batteryLevel;
   }, [batteryLevel, setBattery20Warning, setBattery5Warning]);
 
-  // TODO: this has to do with recharge
   useEffect(() => {
 
 
