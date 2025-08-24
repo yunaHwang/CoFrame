@@ -213,9 +213,10 @@ export default function App() {
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
         [];
+      const receivedScenario = json?.scenario ?? scenarioRef.current;
       setViolationByScenario(prev => ({
         ...prev,
-        [scenarioRef.current]: violations
+        [receivedScenario]: violations
       }));
       setShowDrawer(violations.length > 0);
       // setViolationList(violations);
@@ -340,7 +341,7 @@ export default function App() {
 
         setFallbackSetByScenario(prev => ({
           ...prev,
-          [scenarioRef.current]: newFallbackSetList
+          [receivedScenario]: newFallbackSetList
         }));
 
         console.log("this is newFallbackSetList, ", newFallbackSetList);
@@ -371,13 +372,13 @@ export default function App() {
   const battery5Warning = useStore((s) => s.battery5Warning);
   useEffect(() => {
   // Reset staging triggers for all scenarios to prevent auto popup
-  if (battery20Warning)  stageBatteryWarning(20, false);
-  if (battery5Warning)   stageBatteryWarning(5,  false);
-  stageScenario2SensorError(false);
-  stageScenario3PersonBlockError(false);
-  stageScenario4HeavyError(false);
-  stageScenario5CartBlock(false);
-  stageScenario5PackageBlock(false);
+  if (battery20Warning)  stageBatteryWarning(20, false, 1);
+  if (battery5Warning)   stageBatteryWarning(5,  false, 1);
+  stageScenario2SensorError(false, 2);
+  stageScenario3PersonBlockError(false, 3);
+  stageScenario4HeavyError(false, 4);
+  stageScenario5CartBlock(false, 5);
+  stageScenario5PackageBlock(false, 5);
 
   setFallbackSetByScenario(prev => ({
         ...prev,

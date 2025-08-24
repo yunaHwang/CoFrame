@@ -454,12 +454,12 @@ const SimTile = ({
     if (currentScenario === "Scenario 2") {
       if (onRed && lastScenario2Signal.current !== true) {
         console.log("Scenario 2 error has occurred.");
-        stageScenario2SensorError(true);
+        stageScenario2SensorError(true, 2);
         useStore.getState().setSensorWarning(true);
         useStore.getState().setScenario2ErrorBlockMade(true);
         lastScenario2Signal.current = true;
       } else if (!onRed && lastScenario2Signal.current !== false) {
-        stageScenario2SensorError(false);
+        stageScenario2SensorError(false, 2);
         //useStore.getState().setSensorWarning(false);
         useStore.getState().setScenario2ErrorBlockMade(false);
         lastScenario2Signal.current = false;
@@ -470,12 +470,12 @@ const SimTile = ({
     else if (currentScenario === "Scenario 3") {
       if (onRed && lastScenario3Signal.current !== true) {
         console.log("Scenario 3 error has occurred.");
-        stageScenario3PersonBlockError(true);
+        stageScenario3PersonBlockError(true, 3);
         useStore.getState().setPersonBlockWarning(true);
         useStore.getState().setScenario3ErrorBlockMade(true);
         lastScenario3Signal.current = true;
       } else if (!onRed && lastScenario3Signal.current !== false) {
-        stageScenario3PersonBlockError(false);
+        stageScenario3PersonBlockError(false, 3);
         //useStore.getState().setPersonBlockWarning(false);
         useStore.getState().setScenario3ErrorBlockMade(false);
         lastScenario3Signal.current = false;
@@ -491,12 +491,12 @@ const SimTile = ({
 
       if (onRed && isGrabTargetParcel && lastScenario4Signal.current !== true) {
         console.log("Scenario 4 error has occurred.");
-        stageScenario4HeavyError(true);
+        stageScenario4HeavyError(true, 4);
         useStore.getState().setHeavyWarning(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
         lastScenario4Signal.current = true;
       } else if (!onRed && lastScenario4Signal.current !== false) {
-        stageScenario4HeavyError(false);
+        stageScenario4HeavyError(false, 4);
         //useStore.getState().setHeavyWarning(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
         lastScenario4Signal.current = false;
@@ -507,13 +507,13 @@ const SimTile = ({
     else if (currentScenario === "Scenario 5") {
       if (onRed && lastCartBlockSignal.current !== true) {
         console.log("Scenario 5 cart block error has occurred.");
-        stageScenario5CartBlock(true);
+        stageScenario5CartBlock(true, 5);
         useStore.getState().setCartBlockWarning(true);
         useStore.getState().setScenario5CartErrorBlockMade(true);
         lastCartBlockSignal.current = true;
       } 
       else if (!onRed && lastCartBlockSignal.current !== false) {
-        stageScenario5CartBlock(false);
+        stageScenario5CartBlock(false, 5);
         //useStore.getState().setCartBlockWarning(false);
         useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
@@ -523,26 +523,26 @@ const SimTile = ({
       const lastGrabAction = actionTracking[actionTracking.length - 1];
       const isGrabObs = lastGrabAction && programData[lastGrabAction.id]?.type === "grabType";
       if (onRed && lastCartBlockSignal.current === true && isGrabObs) {
-        stageScenario4HeavyError(true);
+        stageScenario4HeavyError(true), 5;
         useStore.getState().setHeavyWarning(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
       }
       //the opposite of the True case above
       else if (!onRed && lastCartBlockSignal.current !== false) {
-        stageScenario4HeavyError(false);
+        stageScenario4HeavyError(false, 5);
         useStore.getState().setHeavyWarning(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
       }
       
       if (onBlue && lastPackageBlockSignal.current !== true) {
         console.log("Scenario 5 package block error has occurred.");
-        stageScenario5PackageBlock(true);
+        stageScenario5PackageBlock(true, 5);
         useStore.getState().setPackageBlockWarning(true);
         useStore.getState().setScenario5PackageErrorBlockMade(true);
         lastPackageBlockSignal.current = true;
       } 
       else if (!onBlue && lastPackageBlockSignal.current !== false) {
-        stageScenario5PackageBlock(false);
+        stageScenario5PackageBlock(false, 5);
         //useStore.getState().setPackageBlockWarning(false);
         useStore.getState().setScenario5PackageErrorBlockMade(false);
         lastPackageBlockSignal.current = false;
