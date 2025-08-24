@@ -514,13 +514,27 @@ const SimTile = ({
         useStore.getState().setScenario5CartErrorBlockMade(true);
         lastCartBlockSignal.current = true;
       } 
-      
-      if (!onRed && lastCartBlockSignal.current !== false) {
+      else if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario5CartBlock(false);
         //useStore.getState().setCartBlockWarning(false);
         useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
       } 
+
+      // added - heavy error for cart block scenario 5
+      const lastGrabAction = actionTracking[actionTracking.length - 1];
+      const isGrabObs = lastGrabAction && programData[lastGrabAction.id]?.type === "grabType";
+      if (onRed && lastCartBlockSignal.current === true && isGrabObs) {
+        stageScenario4HeavyError(true);
+        useStore.getState().setHeavyWarning(true);
+        useStore.getState().setScenario4ErrorBlockMade(true);
+      }
+      //the opposite of the True case above
+      else if (!onRed && lastCartBlockSignal.current !== false) {
+        stageScenario4HeavyError(false);
+        useStore.getState().setHeavyWarning(false);
+        useStore.getState().setScenario4ErrorBlockMade(false);
+      }
       
       if (onBlue && lastPackageBlockSignal.current !== true) {
         console.log("Scenario 5 package block error has occurred.");
@@ -529,8 +543,7 @@ const SimTile = ({
         useStore.getState().setScenario5PackageErrorBlockMade(true);
         lastPackageBlockSignal.current = true;
       } 
-      
-      if (!onBlue && lastPackageBlockSignal.current !== false) {
+      else if (!onBlue && lastPackageBlockSignal.current !== false) {
         stageScenario5PackageBlock(false);
         //useStore.getState().setPackageBlockWarning(false);
         useStore.getState().setScenario5PackageErrorBlockMade(false);
@@ -1461,7 +1474,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Sensor warning is resolved! Stretch may resume the package delivery task.
+            Sensor error is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowSensorCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
@@ -1475,7 +1488,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Person block warning is resolved! Stretch may resume the package delivery task.
+            Person block error is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowPersonblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
@@ -1489,7 +1502,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Package heavy warning is resolved! Stretch may resume the package delivery task.
+            Object heavy error is resolved! Stretch may resume its task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowHeavyCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
@@ -1503,7 +1516,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Cart/fence block warning is resolved! Stretch may resume movement.
+            Cart/fence block error is resolved! Stretch may resume movement.
           </Typography>
           <Button variant="contained" onClick={()=>setShowCartblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>
@@ -1517,7 +1530,7 @@ function hexToRgba(hex, alpha = 1) {
           backgroundColor:"#4caf50", color:"#fff", p:"10px 16px",
           maxWidth:400, display:"flex", alignItems:"center", zIndex:10}}>
           <Typography variant="body2" sx={{fontWeight:500, lineHeight:1.4}}>
-            Package block warning is resolved! Stretch may resume the package delivery task.
+            Package block error is resolved! Stretch may resume the package delivery task.
           </Typography>
           <Button variant="contained" onClick={()=>setShowPackageblockCleared(false)}
             sx={{ml:2, backgroundColor:"#4caf50", "&:hover":{backgroundColor:"#4caf50"}}}>

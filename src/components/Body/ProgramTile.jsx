@@ -448,8 +448,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                     }}
                                 >
                                 <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Heavy Package<br/>
-                            The package that Stretch has to deliver is way above its payload. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                                ⚠️ Heavy Object<br/>
+                            The object that Stretch is trying to pick up is way above its payload. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
                                 </Typography>
                                 <Button 
                                 variant="contained"

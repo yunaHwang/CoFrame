@@ -388,8 +388,8 @@ export const EvdSlice = (set, get) => ({
       fallbackSetObj.id = fallbackSetId;
       fallbackObj.id = fallbackId;
 
-      fallbackSetObj.name = "Priority list of fallbacks (package heavy error)";
-      fallbackObj.name = "Package Heavy-Error Fallback";
+      fallbackSetObj.name = "Priority list of fallbacks (object heavy error)";
+      fallbackObj.name = "Object Heavy-Error Fallback";
 
       fallbackSetObj.position = { x: 250, y: 100 };
       fallbackObj.position = { x: 250, y: 180 };
