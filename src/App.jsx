@@ -34,8 +34,11 @@ import wrongObjPng from "./components/SimMapFlaticons/others_delivery.png"
 import correctObjPng from "./components/SimMapFlaticons/delivery_object.png"
 import barrierPng from "./components/SimMapFlaticons/barrier.png"
 import cartPng from "./components/SimMapFlaticons/money.png"
-
 import arrowPng from "./components/FallbackIcons/arrow.png"
+
+import { stageBatteryWarning } from "./stores/to_flask";
+import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "./stores/to_flask";
+
 
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
@@ -79,39 +82,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // const [focusSteps, errorType] = useCompiledStore(
-  //   useCallback(
-  //     (state) => {
-  //       let steps = [];
-  //       let errorType = null;
-  //       if (!visibleSteps) {
-  //         return [steps, errorType];
-  //       }
-  //       focusData.some((f) => {
-  //         if (
-  //           [STATUS.VALID, STATUS.PENDING, STATUS.WARN].includes(
-  //             f?.properties?.status
-  //           ) &&
-  //           TIMELINE_TYPES.includes(f.type)
-  //         ) {
-  //           if (state[f.id] && Object.keys(state[f.id]).length === 1) {
-  //             steps = state[f.id][Object.keys(state[f.id])[0]]?.steps;
-  //             return true;
-  //           } else {
-  //             errorType = "traces";
-  //             return false;
-  //           }
-  //         } else {
-  //           errorType = "invalid";
-  //           return false;
-  //         }
-  //       });
-  //       return [steps, errorType];
-  //     },
-  //     [focusData, visibleSteps]
-  //   ),
-  //   shallow
-  // );
 
   const setViewMode = useStore((state) => state.setViewMode, shallow);
   const clearFocus = useStore((state) => state.clearFocus, shallow);
@@ -204,10 +174,10 @@ export default function App() {
 
   const stopDrag = () => setDragging(false);
 
-  const [violationList, setViolationList] = useState([]);
+  //const [violationList, setViolationList] = useState([]);
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const [fallbackSetList, setFallbackSetList] = useState([]);
+  //const [fallbackSetList, setFallbackSetList] = useState([]);
 
 
   useEffect(() => {
@@ -221,6 +191,19 @@ export default function App() {
     }
   }, [dragging, doDrag]);
 
+
+  const [scenario, setScenario] = useState("Scenario 1");
+  const scenarioRef = useRef(scenario);
+  useEffect(() => {
+    scenarioRef.current = scenario;
+    }, [scenario]);
+
+  const [fallbackSetByScenario, setFallbackSetByScenario] = useState({});
+  const [violationByScenario, setViolationByScenario] = useState({});
+  const fallbackSetList = fallbackSetByScenario[scenario] ?? [];
+  const violationList = violationByScenario[scenario] ?? [];
+
+
   useEffect(() => {
     function handleFlush(json) {
       console.log("what is json.status, ", json.status);
@@ -230,10 +213,16 @@ export default function App() {
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
         [];
-      
-      setViolationList(violations);
+      setViolationByScenario(prev => ({
+        ...prev,
+        [scenarioRef.current]: violations
+      }));
       setShowDrawer(violations.length > 0);
-      console.log("violations, ", violations)
+      // setViolationList(violations);
+      // setShowDrawer(violations.length > 0);
+      
+      //console.log("violations, ", violations)
+      console.log("violationList, ", violationList);
 
       console.log("what is json.clean, ", json.clean);
       console.log("what is json.charge_pending, ", json.charge_pending);
@@ -324,7 +313,9 @@ export default function App() {
 
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
-      if (Array.isArray(json.fallbackSetSignals)) {
+      if (Array.isArray(json.fallbackSetSignals) && json.fallbackSetSignals.length > 0) {
+        const newFallbackSetList = [];
+
         for (const signalBlock of json.fallbackSetSignals) {
           const {
             fallbackSetId,
@@ -335,33 +326,26 @@ export default function App() {
             errorType
           } = signalBlock;
 
-          console.log("debugging - signalBlock, ", signalBlock);
+          const updatedSet = {
+            fallbackSetId,
+            fallbackSetName,
+            errorType,
+            fallbacks,
+            fallbackNames,
+            actionSignals,
+          };
 
-          setFallbackSetList(prevList => {
-            const existingIndex = prevList.findIndex(
-              set => set.fallbackSetId === fallbackSetId && set.errorType === errorType
-            );
-
-            const updatedSet = {
-              fallbackSetId,
-              fallbackSetName,
-              errorType,
-              fallbacks,
-              fallbackNames,
-              actionSignals,
-            };
-            console.log("debugging - this is what it's kept - updatedSet/fallbackSetList, ", updatedSet);
-
-            if (existingIndex !== -1) {
-              const newList = [...prevList];
-              newList[existingIndex] = updatedSet;
-              return newList;
-            } else {
-              return [...prevList, updatedSet];
-            }
-          });
+          newFallbackSetList.push(updatedSet);
         }
+
+        setFallbackSetByScenario(prev => ({
+          ...prev,
+          [scenarioRef.current]: newFallbackSetList
+        }));
+
+        console.log("this is newFallbackSetList, ", newFallbackSetList);
       }
+      
       
     }
     subscribeFlush(handleFlush);
@@ -381,7 +365,35 @@ export default function App() {
                     [8,4],[8,5],[8,6],[8,7],[9,4],[9,5],[9,6],[9,7]];
 
   // Scenario setting
-  const [scenario, setScenario] = useState("Scenario 1");
+  //const [scenario, setScenario] = useState("Scenario 1");
+
+  const battery20Warning = useStore((s) => s.battery20Warning);
+  const battery5Warning = useStore((s) => s.battery5Warning);
+  useEffect(() => {
+  // Reset staging triggers for all scenarios to prevent auto popup
+  if (battery20Warning)  stageBatteryWarning(20, false);
+  if (battery5Warning)   stageBatteryWarning(5,  false);
+  stageScenario2SensorError(false);
+  stageScenario3PersonBlockError(false);
+  stageScenario4HeavyError(false);
+  stageScenario5CartBlock(false);
+  stageScenario5PackageBlock(false);
+
+  setFallbackSetByScenario(prev => ({
+        ...prev,
+        [scenario]: []
+      }));
+  setViolationByScenario(prev => ({
+        ...prev,
+        [scenario]: []
+      }));
+  console.log("what is scenario (should be the changed one), ", scenario)
+  console.log("is this empty fallbacksetlist, ", fallbackSetList);
+  console.log("is this empty violationlist, ", violationList);
+
+}, [scenario]);  // ← triggers every time `scenario` changes
+
+
   const [dynamicIcons, setDynamicIcons] = useState(() => {
     const iconSets = {
       "Scenario 1": {'5,6': robotPng, '0,7': employeePng, '7,6': employeePng, '9,7': chargingPng, '9,1': elderlyPng,
