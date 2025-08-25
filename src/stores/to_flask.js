@@ -91,11 +91,11 @@ export function stageDelete(parentId, data) {
 }
 
 
-export function stageBatteryWarning(level, value, scenario) {
+export function stageBatteryWarning(level, value) {
   return fetch("http://localhost:5000/receive_data", {
     method:"POST",
     headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({ op:"battery", level, value, scenario })
+    body:JSON.stringify({ op:"battery", level, value})
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));   
@@ -103,45 +103,33 @@ export function stageBatteryWarning(level, value, scenario) {
     });
 }
 
-export function stageScenario2SensorError(value, scenario) {
+export function stageScenario2SensorError(value) {
   return fetch("http://localhost:5000/receive_data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ op: "scenario2_error", value, scenario })
+    body: JSON.stringify({ op: "scenario2_error", value})
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));
       return json;
     });
 }
-export function stageScenario3PersonBlockError(value, scenario) {
+export function stageScenario3PersonBlockError(value) {
   return fetch("http://localhost:5000/receive_data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ op: "scenario3_error", value, scenario })
+    body: JSON.stringify({ op: "scenario3_error", value})
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));
       return json;
     });
 }
-export function stageScenario4HeavyError(value, scenario) {
+export function stageScenario4HeavyError(value) {
   return fetch("http://localhost:5000/receive_data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ op: "scenario4_error", value, scenario })
-  }).then(r => r.json())
-    .then(json => {
-      listeners.forEach(fn => fn(json));
-      return json;
-    });
-}
-
-export function stageScenario5CartBlock(value, scenario) {
-  return fetch("http://localhost:5000/receive_data", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ op: "scenario5_cartblock", value, scenario })
+    body: JSON.stringify({ op: "scenario4_error", value})
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));
@@ -149,11 +137,23 @@ export function stageScenario5CartBlock(value, scenario) {
     });
 }
 
-export function stageScenario5PackageBlock(value, scenario) {
+export function stageScenario5CartBlock(value) {
   return fetch("http://localhost:5000/receive_data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ op: "scenario5_packageblock", value, scenario })
+    body: JSON.stringify({ op: "scenario5_cartblock", value})
+  }).then(r => r.json())
+    .then(json => {
+      listeners.forEach(fn => fn(json));
+      return json;
+    });
+}
+
+export function stageScenario5PackageBlock(value) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "scenario5_packageblock", value})
   }).then(r => r.json())
     .then(json => {
       listeners.forEach(fn => fn(json));

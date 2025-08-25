@@ -107,8 +107,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     // useEffect for sending the flipped warning signs 
     useEffect(() => {
-    if (battery20Warning)  stageBatteryWarning(20, true, 1);
-    if (battery5Warning)   stageBatteryWarning(5,  true, 1);
+    if (battery20Warning)  stageBatteryWarning(20, true);
+    if (battery5Warning)   stageBatteryWarning(5,  true);
     }, [battery20Warning, battery5Warning]);
 
     useEffect(() => {

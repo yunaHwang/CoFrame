@@ -36,9 +36,6 @@ import barrierPng from "./components/SimMapFlaticons/barrier.png"
 import cartPng from "./components/SimMapFlaticons/money.png"
 import arrowPng from "./components/FallbackIcons/arrow.png"
 
-import { stageBatteryWarning } from "./stores/to_flask";
-import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "./stores/to_flask";
-
 
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
@@ -174,10 +171,10 @@ export default function App() {
 
   const stopDrag = () => setDragging(false);
 
-  //const [violationList, setViolationList] = useState([]);
+  const [violationList, setViolationList] = useState([]);
   const [showDrawer, setShowDrawer] = useState(false);
 
-  //const [fallbackSetList, setFallbackSetList] = useState([]);
+  const [fallbackSetList, setFallbackSetList] = useState([]);
 
 
   useEffect(() => {
@@ -192,16 +189,16 @@ export default function App() {
   }, [dragging, doDrag]);
 
 
-  const [scenario, setScenario] = useState("Scenario 1");
-  const scenarioRef = useRef(scenario);
-  useEffect(() => {
-    scenarioRef.current = scenario;
-    }, [scenario]);
+  // const [scenario, setScenario] = useState("Scenario 1");
+  // const scenarioRef = useRef(scenario);
+  // useEffect(() => {
+  //   scenarioRef.current = scenario;
+  //   }, [scenario]);
 
-  const [fallbackSetByScenario, setFallbackSetByScenario] = useState({});
-  const [violationByScenario, setViolationByScenario] = useState({});
-  const fallbackSetList = fallbackSetByScenario[scenario] ?? [];
-  const violationList = violationByScenario[scenario] ?? [];
+  // const [fallbackSetByScenario, setFallbackSetByScenario] = useState({});
+  // const [violationByScenario, setViolationByScenario] = useState({});
+  // const fallbackSetList = fallbackSetByScenario[scenario] ?? [];
+  // const violationList = violationByScenario[scenario] ?? [];
 
 
   useEffect(() => {
@@ -213,20 +210,20 @@ export default function App() {
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
         [];
-      const receivedScenario = json?.scenario ?? scenarioRef.current;
-      setViolationByScenario(prev => ({
-        ...prev,
-        [receivedScenario]: violations
-      }));
-      setShowDrawer(violations.length > 0);
-      // setViolationList(violations);
+      // const receivedScenario = json?.scenario ?? scenarioRef.current;
+      // setViolationByScenario(prev => ({
+      //   ...prev,
+      //   [receivedScenario]: violations
+      // }));
       // setShowDrawer(violations.length > 0);
+      setViolationList(violations);
+      setShowDrawer(violations.length > 0);
       
-      //console.log("violations, ", violations)
-      console.log("violationList, ", violationList);
+      console.log("violations, ", violations)
+      // console.log("violationList, ", violationList);
 
-      console.log("what is json.clean, ", json.clean);
-      console.log("what is json.charge_pending, ", json.charge_pending);
+      // console.log("what is json.clean, ", json.clean);
+      // console.log("what is json.charge_pending, ", json.charge_pending);
 
       if (typeof json.charge_pending === "boolean") {
         useStore.getState().setChargePending(json.charge_pending);
@@ -314,8 +311,8 @@ export default function App() {
 
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
-      if (Array.isArray(json.fallbackSetSignals) && json.fallbackSetSignals.length > 0) {
-        const newFallbackSetList = [];
+      if (Array.isArray(json.fallbackSetSignals)) {
+        //const newFallbackSetList = [];
 
         for (const signalBlock of json.fallbackSetSignals) {
           const {
@@ -327,31 +324,41 @@ export default function App() {
             errorType
           } = signalBlock;
 
-          const updatedSet = {
-            fallbackSetId,
-            fallbackSetName,
-            errorType,
-            fallbacks,
-            fallbackNames,
-            actionSignals,
-          };
-
-          newFallbackSetList.push(updatedSet);
+          setFallbackSetList(prevList => {
+            const existingIndex = prevList.findIndex(
+              set => set.fallbackSetId === fallbackSetId && set.errorType === errorType
+            );
+            const updatedSet = {
+              fallbackSetId,
+              fallbackSetName,
+              errorType,
+              fallbacks,
+              fallbackNames,
+              actionSignals,
+            };
+            if (existingIndex !== -1) {
+              const newList = [...prevList];
+              newList[existingIndex] = updatedSet;
+              return newList;
+            } else {
+              return [...prevList, updatedSet];
+            }
+          });
+        }
+          // newFallbackSetList.push(updatedSet);
         }
 
-        setFallbackSetByScenario(prev => ({
-          ...prev,
-          [receivedScenario]: newFallbackSetList
-        }));
+        // setFallbackSetByScenario(prev => ({
+        //   ...prev,
+        //   [receivedScenario]: newFallbackSetList
+        // }));
 
-        console.log("this is newFallbackSetList, ", newFallbackSetList);
+        //console.log("this is newFallbackSetList, ", newFallbackSetList);
       }
+      subscribeFlush(handleFlush);
+      return () => unsubscribeFlush(handleFlush);
       
-      
-    }
-    subscribeFlush(handleFlush);
-    return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
-  }, []);
+    },[]);
 
   console.log("what is fallbackSetList, ", fallbackSetList); // this somehow shows actionSignals as null
 
@@ -366,33 +373,33 @@ export default function App() {
                     [8,4],[8,5],[8,6],[8,7],[9,4],[9,5],[9,6],[9,7]];
 
   // Scenario setting
-  //const [scenario, setScenario] = useState("Scenario 1");
+  const [scenario, setScenario] = useState("Scenario 1");
 
-  const battery20Warning = useStore((s) => s.battery20Warning);
-  const battery5Warning = useStore((s) => s.battery5Warning);
-  useEffect(() => {
-  // Reset staging triggers for all scenarios to prevent auto popup
-  if (battery20Warning)  stageBatteryWarning(20, false, 1);
-  if (battery5Warning)   stageBatteryWarning(5,  false, 1);
-  stageScenario2SensorError(false, 2);
-  stageScenario3PersonBlockError(false, 3);
-  stageScenario4HeavyError(false, 4);
-  stageScenario5CartBlock(false, 5);
-  stageScenario5PackageBlock(false, 5);
+//   const battery20Warning = useStore((s) => s.battery20Warning);
+//   const battery5Warning = useStore((s) => s.battery5Warning);
+//   useEffect(() => {
+//   // Reset staging triggers for all scenarios to prevent auto popup
+//   if (battery20Warning)  stageBatteryWarning(20, false, 1);
+//   if (battery5Warning)   stageBatteryWarning(5,  false, 1);
+//   stageScenario2SensorError(false, 2);
+//   stageScenario3PersonBlockError(false, 3);
+//   stageScenario4HeavyError(false, 4);
+//   stageScenario5CartBlock(false, 5);
+//   stageScenario5PackageBlock(false, 5);
 
-  setFallbackSetByScenario(prev => ({
-        ...prev,
-        [scenario]: []
-      }));
-  setViolationByScenario(prev => ({
-        ...prev,
-        [scenario]: []
-      }));
-  console.log("what is scenario (should be the changed one), ", scenario)
-  console.log("is this empty fallbacksetlist, ", fallbackSetList);
-  console.log("is this empty violationlist, ", violationList);
+//   setFallbackSetByScenario(prev => ({
+//         ...prev,
+//         [scenario]: []
+//       }));
+//   setViolationByScenario(prev => ({
+//         ...prev,
+//         [scenario]: []
+//       }));
+//   console.log("what is scenario (should be the changed one), ", scenario)
+//   console.log("is this empty fallbacksetlist, ", fallbackSetList);
+//   console.log("is this empty violationlist, ", violationList);
 
-}, [scenario]);  // ← triggers every time `scenario` changes
+// }, [scenario]);  // ← triggers every time `scenario` changes
 
 
   const [dynamicIcons, setDynamicIcons] = useState(() => {
