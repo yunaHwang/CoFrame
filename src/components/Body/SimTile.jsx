@@ -5,7 +5,7 @@ import { subscribeFlush, unsubscribeFlush } from "../../stores/to_flask"
 import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
-const BATTERY_DROP_PER_STEP = 5;          
+const BATTERY_DROP_PER_STEP = 3; // TODO - you change this          
 // const BATTERY_DROP_PER_STEP = 8;//Mason Test         
 
 const CHARGER_LABEL = "battery charging station";
