@@ -207,7 +207,7 @@ const SimTile = ({
       // };
         //Mason test instant grab
           const rooms = {
-          "Package room": {x:2,y:4}, // TODO: change back to 2, 4
+          "Package room": {x:1,y:6}, // TODO: change back to 2, 4
           "Activity Area":{x:3,y:2},
           "Elderly room": {x:8,y:1},
           "Battery charging station":{x:9,y:7}
