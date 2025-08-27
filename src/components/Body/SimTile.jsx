@@ -609,6 +609,9 @@ const SimTile = ({
 
 
   const lastProcessedTransfer = useRef(null);
+
+  const excuseMeCountRef = useRef(0);
+
     
   // ──────────────────────────────
   // Handle Addition
@@ -715,15 +718,30 @@ const SimTile = ({
           if (paramType === "excuse_me" && scenario === "Scenario 3") {
             console.log(`Looking for person at ${targetKey} (robot facing ${direction})`);
 
-            if (icons[targetKey] && icons[targetKey].includes("employee")) {
+            // excuseMeCountRef.current[targetKey] = (excuseMeCountRef.current[targetKey] || 0) + 1;
+            // const currentCount = excuseMeCountRef.current[targetKey];
+
+            excuseMeCountRef.current = (excuseMeCountRef.current || 0) + 1;
+            const currentCount = excuseMeCountRef.current;
+
+            console.log(`Excuse me count at ${targetKey}: ${currentCount}`);
+
+            if ((icons[targetKey] && icons[targetKey].includes("employee")) && currentCount >=3) {
               //console.log(`Removing person at ${targetKey}`);
               delete updatedIcons[targetKey];
               if (onIconsUpdate) {
                 onIconsUpdate(updatedIcons);
               }
-              setActionMessage("Employee stepped aside for the robot");
+              setActionMessage("Other resident stepped aside for Stretch");
+            }
+            else if (currentCount === 1) {
+              setActionMessage("Other resident is on their headphones and didn't hear what Stretch said");
+            }
+            else if (currentCount === 2) {
+              setActionMessage("Other resident is trying to move their own heavy package and can't clear the path for Stretch");
             }
           }
+          
           else if ((paramType === "ask_heavy_help" || paramType === "ask_for_grab_help" || paramType === "ask_grab_help" || paramType === "ask_for_pick_remove_help") && scenario === "Scenario 5") {
             let removed = false;
             let removedType = "";
