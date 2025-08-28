@@ -456,11 +456,11 @@ export default function App() {
 
   // Verifier toggle per scenario
   const scenarioToVerifierMode = {
-    "Scenario 1": true,
-    "Scenario 2": true,
+    "Scenario 1": false,
+    "Scenario 2": false,
     "Scenario 3": true,
-    "Scenario 4": false,
-    "Scenario 5": false
+    "Scenario 4": true,
+    "Scenario 5": true
     };
   const isVerifierMode = scenarioToVerifierMode[scenario];
 

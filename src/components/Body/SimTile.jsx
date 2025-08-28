@@ -521,7 +521,12 @@ const SimTile = ({
 
       // added - heavy error for cart block scenario 5
       const lastGrabAction = actionTracking[actionTracking.length - 1];
-      const isGrabObs = lastGrabAction && programData[lastGrabAction.id]?.type === "grabType";
+      const isGrabObs = lastGrabAction && programData[lastGrabAction.id]?.type === "grabType" &&
+                (programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Fence" || 
+                programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Cart");
+
+      console.log("programData[programData[lastAction.id]?.properties.thing]?.name, ", programData[programData[lastGrabAction.id]?.properties.thing]?.name);
+
       if (onRed && lastCartBlockSignal.current === true && isGrabObs) {
         stageScenario4HeavyError(true);
         useStore.getState().setHeavyWarning(true);
