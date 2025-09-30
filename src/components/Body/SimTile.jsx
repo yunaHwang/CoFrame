@@ -525,7 +525,7 @@ const SimTile = ({
                 (programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Fence" || 
                 programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Cart");
 
-      console.log("programData[programData[lastAction.id]?.properties.thing]?.name, ", programData[programData[lastGrabAction.id]?.properties.thing]?.name);
+      //console.log("programData[programData[lastAction.id]?.properties.thing]?.name, ", programData[programData[lastGrabAction.id]?.properties.thing]?.name);
 
       if (onRed && lastCartBlockSignal.current === true && isGrabObs) {
         stageScenario4HeavyError(true);
