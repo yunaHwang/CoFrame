@@ -1,26 +1,22 @@
 import React, { useCallback, useEffect, useState, useRef} from "react";
-// import { FiSettings } from "react-icons/fi";
-//import { ReviewTile } from "./components/Body/ReviewTile";
+
 import { ProgramTile } from "./components/Body/ProgramTile";
 import SimTile from "./components/Body/SimTile";
 import { subscribeFlush, unsubscribeFlush } from "./stores/to_flask";
-import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
+
 import { Detail } from "./components/Detail";
 import { SettingsModal } from "./components/Settings";
 
 import {
   ThemeProvider,
   createTheme as muiCreateTheme,
-  THEME_ID,
 } from "@mui/material/styles";
 
-import { Tabs, Tab } from "@mui/material";
 
-import { Drawer, Snackbar, Alert, AlertTitle, Stack, Box, Divider, Typography, IconButton } from "@mui/material";
-import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
+import { Drawer, Alert, Stack, Box, Divider, Typography, IconButton } from "@mui/material";
+import { ReflexContainer, ReflexElement } from "react-reflex";
 import useMeasure from "react-use-measure";
 import useStore from "./stores/Store";
-import useCompiledStore from "./stores/CompiledStore";
 import "reactflow/dist/style.css";
 import "react-reflex/styles.css";
 import "./App.css";
@@ -41,26 +37,6 @@ export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
   const viewMode = useStore((state) => state.viewMode, shallow);
 
-  const focusData = useStore(
-    (state) => state.focus.map((f) => state.programData[f]),
-    shallow
-  );
-
-  const issueData = useStore((state) => {
-    let issue = null;
-    state.focus
-      .slice()
-      .reverse()
-      .some((x) => {
-        if (state.issues[x]) {
-          issue = state.issues[x];
-          return true;
-        }
-        return false;
-      });
-    return issue;
-  }, shallow);
-
   const fallbackMode = useStore((state) => state.fallbackMode, shallow);
   const setFallbackMode = useStore((state) => state.setFallbackMode, shallow);
 
@@ -75,13 +51,11 @@ export default function App() {
 
 
   const setViewMode = useStore((state) => state.setViewMode, shallow);
-  const clearFocus = useStore((state) => state.clearFocus, shallow);
 
   //keep track of sourceInfo
   const sourceInfo_to_pass = useStore((s) => s.lastSourceInfo);
 
   const [editorRef, editorBounds] = useMeasure();
-  const [simRef, simBounds] = useMeasure();
 
   const muiTheme = muiCreateTheme({
     palette: {
@@ -208,8 +182,6 @@ export default function App() {
       if (trigger_charge) {
         const hadWarning = useStore.getState().battery20Warning || useStore.getState().battery5Warning;
 
-        console.log("hadWarning at this point, ", hadWarning);
-
         // charge only when warning resolved
         const trackingLen = useStore.getState().actionTracking.length;
 
@@ -218,8 +190,6 @@ export default function App() {
 
         useStore.getState().setGlobalDistanceTravel(0);
         useStore.getState().setdistanceTravel(0);
-
-        const batteryLevel = useStore.getState().batteryLevel;
 
         useStore.getState().setBatteryResetActionCount(trackingLen);
 
@@ -313,7 +283,6 @@ export default function App() {
       
     },[]);
 
-  const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
 
 
@@ -369,8 +338,6 @@ export default function App() {
       };
     });
   };
-  const icons = dynamicIcons[scenario] ?? {};
-
 
   // Label setting
   const labelsOverGrid = [{ text: 'Activity area', from: [1, 2], to: [3, 2] },
@@ -558,7 +525,7 @@ export default function App() {
                                     ))}
 
                               {(() => {
-                                    const hasFallbacks = set.fallbacks.length > 0;
+                                    // const hasFallbacks = set.fallbacks.length > 0;
                                     const isInThisSet = set.fallbacks.includes(currentFallbackTypeId);
                                     const fallbackSignal = isInThisSet ? set.actionSignals?.[currentFallbackTypeId] : null;
 
