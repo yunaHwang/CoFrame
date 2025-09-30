@@ -3,7 +3,6 @@ import { shallow } from "zustand/shallow";
 import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { GuiSlice } from "./GuiSlice";
-import { ReviewSlice } from "./ReviewSlice";
 import { EvdSlice } from "./EvdSlice";
 import { RosSlice } from "./RosSlice";
 import { ProgrammingSlice } from "open-vp";
@@ -40,7 +39,7 @@ const store = (set, get) => ({
   ...ProgrammingSlice(set, get), // default programming slice for open-vp
   ...ProgrammingSliceOverride(set, get), // overrides data-editing functionality to update pending properties
   ...GuiSlice(set, get),
-  ...ReviewSlice(set, get),
+  //...ReviewSlice(set, get),
   ...EvdSlice(set, get),
   ...RosSlice(set, get),
   ...ProgramStoreSlice(set, get),
