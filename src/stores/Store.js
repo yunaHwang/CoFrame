@@ -11,18 +11,11 @@ import {
   computedSliceSubscribe,
 } from "./ComputedSlice";
 import lodash from "lodash";
-import roboplanb from "./RoboPlanB.json" // uncomment this to work with a failing skeleton json
-// import KnifeAssemblyCompiled from "./UR5_Compiled_Knife_Assembly.json";
-// import KnifeAssembly from './Prime_Process_2_v29.json';
-import KnifeAssemblyCompiled from "./Knife_Assembly_Example_Compiled.json";
-import TestProgram2 from "./TestProgram2.json";
-// import PandaDemo from "./Panda_Demo.json";
-import { STATUS } from "./Constants";
+import roboplanb from "./RoboPlanB.json" 
 import useCompiledStore from "./CompiledStore";
 import { Timer } from "./Timer";
 import { mapValues } from "lodash";
 import { ProgramStoreSlice } from "./ProgramStoreSlice";
-// import { TauriStorage } from "./TauriStorage";
 
 const store = (set, get) => ({
   loaded: false,
@@ -31,13 +24,10 @@ const store = (set, get) => ({
     set({loaded});
     console.log('new loaded test',get().loaded);
   },
-  // ...SceneSlice(set, get),
   ...ProgrammingSlice(set, get), // default programming slice for open-vp
   ...ProgrammingSliceOverride(set, get), // overrides data-editing functionality to update pending properties
   ...GuiSlice(set, get),
-  //...ReviewSlice(set, get),
   ...EvdSlice(set, get),
-  // ...RosSlice(set, get),
   ...ProgramStoreSlice(set, get),
 
   // added to keep track of sourceInfo (aka the name of the action during transferblock) so that icons move
@@ -237,9 +227,6 @@ useStore.subscribe(
       useStore.getState().performCompileProcess();
     }
 
-    // const data = useStore.getState();
-    // console.log(data);
-    // performCompileProcess({programData:data.programData,objectTypes:data.programSpec.objectTypes})
   },
   { equalityFn: shallow }
 );
@@ -264,42 +251,25 @@ useStore.subscribe(
 
     let added = false;
 
-    //console.log("curr.warn20", curr.warn20, "prev.warn20", prev.warn20);
-    //console.log("curr.warn5", curr.warn5, "prev.warn5", prev.warn5);
-
-    // console.log("curr.scenario2Sensor ", curr.scenario2Sensor );
-    // console.log("prev.scenario2Sensor", prev.scenario2Sensor);
-    // console.log("store.scenario2ErrorBlockMade, ", store.scenario2ErrorBlockMade);
-
     // BATTERY ERROR should always precede any other errors
     if (curr.warn20 && !prev.warn20) {
-    //console.log("is it flipped or what, printing if it's going to go in the if condition, ", store.batteryErrorBlockMade20);
       if (!store.batteryErrorBlockMade20) {
-
-        
         useStore.getState().addBatterySetBlock(20, programId);
-        //store.batteryErrorBlockMade20 = true;
         useStore.setState((s) => { s.batteryErrorBlockMade20 = true });
         added = true;
       }
     }
 
-    // TODO: maybe get rid of prev, here?
     if (curr.warn5 && !prev.warn5) {
         if (!store.batteryErrorBlockMade5) {
-
-
           useStore.getState().addBatterySetBlock(5, programId);
-          //store.batteryErrorBlockMade5 = true;
           useStore.setState((s) => { s.batteryErrorBlockMade5 = true });
           added = true;
-          console.log("this battery5 block is done");
         }
       }
     // SENSOR/PERSON BLOCK/TOO HEAVY/CART BLOCK/PACKAGE BLOCK ERROR(s) 
     if (curr.scenario2Sensor && !prev.scenario2Sensor) {
       setTimeout(() => {
-        // try to give a slight delay?
         useStore.getState().addScenario2ErrorSetBlock(programId);
         useStore.setState(s => { s.scenario2ErrorBlockMade = true });
 
@@ -311,7 +281,6 @@ useStore.subscribe(
 
     if (curr.scenario3Person && !prev.scenario3Person) {
       setTimeout(() => {
-        // try to give a slight delay?
         useStore.getState().addScenario3ErrorSetBlock(programId);
         useStore.setState(s => { s.scenario3ErrorBlockMade = true });
 
@@ -323,7 +292,6 @@ useStore.subscribe(
 
     if (curr.scenario4Heavy && !prev.scenario4Heavy) {
       setTimeout(() => {
-        // try to give a slight delay?
         useStore.getState().addScenario4ErrorSetBlock(programId);
         useStore.setState(s => { s.scenario4ErrorBlockMade = true });
 
@@ -335,7 +303,6 @@ useStore.subscribe(
 
     if (curr.scenario5Cart && !prev.scenario5Cart) {
       setTimeout(() => {
-        // try to give a slight delay?
         useStore.getState().addScenario5CartErrorSetBlock(programId);
         useStore.setState(s => { s.scenario5CartErrorBlockMade = true });
 
@@ -347,7 +314,6 @@ useStore.subscribe(
 
     if (curr.scenario5Package && !prev.scenario5Package) {
       setTimeout(() => {
-        // try to give a slight delay?
         useStore.getState().addScenario5PackageErrorSetBlock(programId);
         useStore.setState(s => { s.scenario5PackageErrorBlockMade = true });
 
@@ -373,53 +339,8 @@ computedSliceSubscribe(useStore);
 if (Object.keys(useStore.getState().programData).length === 0) {
   // Load all the programs
   useStore.getState().addProgramData("RoboPlanB", roboplanb, {});
-  // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
   useStore.getState().setData(roboplanb);
-
-  // also start with empty skills block
-  // const skillName    = `Action Cluster ${new Date().toLocaleTimeString()}`;
-  // const emptyActions = [];      // nothing inside yet
-  // useStore.getState().addSkillWithActions(skillName, emptyActions);
-  // useCompiledStore.setState({});
-  // useStore.getState().performCompileProcess();
-
-  // ORIGINAL
-  // Set the starting program
-  // useCompiledStore.setState({});
-  // useStore.getState().setData(KnifeAssembly);
-  // useStore.getState().performCompileProcess();
-  // useStore.persist.rehydrate()
 }
-
-
-
-// if (Object.keys(useStore.getState().programData).length === 0) {
-//   // this is not the final thing I settled upon but it IS working in a sense that the UI is rendering
-//   // comment out computedSliceCompile (and its Subscribe version) when uncommenting this code block
-//   const emptyProgram = {
-//     name: "EmptyProgram",
-//     instances: {
-//       // optional: one minimal instance so UI/scene code can read transform safely
-//       defaultInstance: {
-//         id: "defaultInstance",
-//         type: "thingType",
-//         properties: {},
-//         transform: {
-//           position: { x: 0, y: 0, z: 0 },
-//           rotation: { x: 0, y: 0, z: 0 }
-//         }
-//       }
-//   },
-//   connections: [],
-//   metadata: {}
-// };
-
-//   useStore.getState().addProgramData("DevProgram", emptyProgram, {});
-//   useCompiledStore.setState({});
-//   useStore.getState().setData(emptyProgram);
-//   useStore.getState().performCompileProcess();
-// }
-
 
 computedSliceCompiledSubscribe(useCompiledStore, useStore);
 

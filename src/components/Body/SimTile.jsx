@@ -1228,8 +1228,6 @@ const SimTile = ({
 
     const globalBattery = useStore.getState().globalBatteryLevel ?? 100;
     const newBatteryLevel = Math.max(0, globalBattery - postChargeBatteryUsed);
-    console.log("what is globalBattery, postChargeBatteryUsed, ", globalBattery, postChargeBatteryUsed);
-    console.log("what is newBattery here and does it have to do with the jump, ", newBatteryLevel);
 
     const distanceResetActionCount = useStore.getState().distanceResetActionCount ?? 0;
     const postResetActions = actionTracking.slice(distanceResetActionCount);
