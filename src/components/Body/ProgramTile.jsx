@@ -8,23 +8,16 @@ import { shallow } from 'zustand/shallow';
 
 import { stageBatteryWarning } from "../../stores/to_flask";
 
-import { FixtureIcon } from '../CustomIcons/Fixture';
 import Spotlight from './Spotlight';
 
 export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const highlightColor = useStore(state => state.primaryColor,shallow);
-    const setViewMode = useStore(state => state.setViewMode,shallow);
-    const viewMode = useStore(state => state.viewMode,shallow);
-    const setActiveModal = useStore(state => state.setActiveModal,shallow);
-    const isProcessing = useStore(state => state.processes.planProcess !== null && state.processes.planProcess !== undefined,shallow);
 
     const batteryWarning = useStore(state => state.batteryWarning, shallow);
     const setBatteryWarning = useStore(state => state.setBatteryWarning, shallow);
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
-    const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); 
-    const globalDistanceTravel = useStore(state => state.globalDistanceTravel, shallow);
 
     // battery warnings for popping errors
     const battery20Warning = useStore(state => state.battery20Warning,shallow);
@@ -53,15 +46,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const packageBlockWarning = useStore(state => state.packageBlockWarning, shallow);
     const setPackageBlockWarning = useStore(state => state.setPackageBlockWarning, shallow);
     
-    
-    const prevLevelRef = useRef(batteryLevel);
 
     const actionMessage = useStore(state => state.actionMessage, shallow);
 
-    const errorMessage = useStore(state => state.errorMessage, shallow);
-    const showError = useStore(state => state.showError, shallow);
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
-    const [errorHistory, setErrorHistory] = useState([]);
 
     const [scenario,  setScenario]  = useState('Scenario 1');
     const [menuAnchor, setMenuAnchor] = useState(null);
@@ -74,7 +62,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
     const displayDistance = distanceTravel.toFixed(1);
 
-    const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
 
     const getRobotFacingDisplay = () => {

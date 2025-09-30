@@ -55,7 +55,6 @@ const SimTile = ({
   const showBatteryCharged  = useStore((s) => s.showBatteryCharged);
   const setShowBatteryCharged = useStore((s) => s.setShowBatteryCharged);
 
-  //added
   const showSensorCleared = useStore((s) => s.showSensorCleared);
   const setShowSensorCleared = useStore((s) => s.setShowSensorCleared);
 
