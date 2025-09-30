@@ -28,12 +28,7 @@ import {
 import { FrameTabBar } from "./FrameTabBar";
 import { shallow } from 'zustand/shallow';
 import { ScrollRegion } from "./Elements/ScrollRegion";
-import { robotDataFromUrdf } from "../helpers/loading";
-import { PANDA_ROBOT_DATA } from "../presets/robotAgents/pandaRobot";
-import { UR3E_ROBOT_DATA } from "../presets/robotAgents/ur3eRobot";
-import { UR5E_ROBOT_DATA } from "../presets/robotAgents/ur5eRobot";
-import { PANDA_GRIPPER_DATA } from "../presets/gripperAgents/pandaGripper";
-import { ROBOTIQ_GRIPPER_DATA } from "../presets/gripperAgents/robotiqGripper";
+
 import { statesToSteps } from "../stores/compiling";
 import useCompiledStore from "../stores/CompiledStore";
 
@@ -273,27 +268,6 @@ const DialogContent = () => {
                   Download Compiled
                 </Button>
               </Stack>
-
-              <Button onClick={()=>{
-                const newData = robotDataFromUrdf(PANDA_ROBOT_DATA['robot-agent-3290720sfd3950234907450129sfcwesd2'].properties.urdf,'table');
-                console.log('New Robot Data',newData);
-                // Clear out current robot
-                replaceAgent({...newData,...PANDA_GRIPPER_DATA});
-              }}>Parse Panda</Button>
-
-              <Button onClick={()=>{
-                const newData = robotDataFromUrdf(UR3E_ROBOT_DATA['robot-agent'].properties.urdf,'pedestal');
-                console.log('New Robot Data',newData);
-                // Clear out current robot
-                replaceAgent({...newData,...ROBOTIQ_GRIPPER_DATA});
-              }}>Parse UR3e</Button>
-
-              <Button onClick={()=>{
-                const newData = robotDataFromUrdf(UR5E_ROBOT_DATA['robot-agent'].properties.urdf,'pedestal');
-                console.log('New Robot Data',newData);
-                // Clear out current robot
-                replaceAgent({...newData,...ROBOTIQ_GRIPPER_DATA});
-              }}>Parse UR5e</Button>
 
               {/* Frames Selector */}
               <Stack
