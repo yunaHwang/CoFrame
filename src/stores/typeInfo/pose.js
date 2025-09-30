@@ -1,15 +1,14 @@
-import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { ProcessIconStyled, LocationIconStyled, WaypointIconStyled, statusIcon, PrimitiveIconStyled } from "./icons";
+import { EXTRA_TYPES, TYPES } from "open-vp";
+import { ProcessIconStyled, LocationIconStyled, WaypointIconStyled } from "./icons";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { COMPILE_FUNCTIONS } from "../Constants";
 import './rotate.css'
-import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
+import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
-// TODO - update locationDoc to refer to from/to connector 
-const locationDoc = "Locations are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
-const waypointDoc = "Waypoints are positions and orientations that are used as parts of [Trajectories](trajectoryType), and unlike [Locations](locationType), do not have inherent meaning other than to allow greater specificity of the manner with which the [Robot](robotAgentType) moves between a pair of locations."
-const placeDoc = "Places are meaningful positions in the scene. For example, they can be used to define goals for placing or picking up [Things](thingType), or specifying starting or ending positions for the [Robot](robotAgentType). [Waypoints](waypointType) can be used in [Trajectories](trajectoryType) to specify intermediates between pairs of locations.";
+const locationDoc = "";
+const waypointDoc = ""
+const placeDoc = "";
 
 
 const poseFeatures = {
@@ -49,7 +48,6 @@ const poseFeatures = {
   }
 }
 
-// add new features for new type definition -> placeType
 
 const placeFeatures = {
   name: 'Locations',
@@ -60,11 +58,11 @@ const placeFeatures = {
   }
 }
 
-// //added...
+
 const fromInstanceBlock = {
   hideNewPrefix: true,
   onCanvas: false,
-  color: "#8624E0",  // same as your LocationIcon color
+  color: "#8624E0",  
   icon: LocationIconStyled,
   extras: [
     //EXTRA_TYPES.LOCKED_INDICATOR,
@@ -86,11 +84,10 @@ const fromInstanceBlock = {
   ]
 };
 
-// //added...
 const toInstanceBlock = {
   hideNewPrefix: true,
   onCanvas: false,
-  color: "#8624E0",  // same as your LocationIcon color
+  color: "#8624E0",  
   icon: ProcessIconStyled,
   extras: [
     //EXTRA_TYPES.LOCKED_INDICATOR,
@@ -119,8 +116,6 @@ const locationFeatures = {
   instanceBlock: fromInstanceBlock,
   properties: {
     description: { default: "some descriptor" },
-    // let's temporarily change this to thingType (worked)
-    // back to placeType
     place: {
       name: "Location",
       accepts: ["placeType"],
@@ -130,7 +125,7 @@ const locationFeatures = {
     },
     compileFn: { default: COMPILE_FUNCTIONS.POSE },
     updateFields: {
-      default: ["place"], // let's temporarily change this to thingType -> back to placeType
+      default: ["place"], 
     },
     singleton: {default: false}
   },
@@ -147,8 +142,6 @@ const toLocationFeatures = {
   instanceBlock: toInstanceBlock,
   properties: {
     description: { default: "some descriptor" },
-    // let's temporarily change this to thingType (worked)
-    // back to placeType
     place: {
       name: "Location",
       accepts: ["placeType"],
@@ -158,7 +151,7 @@ const toLocationFeatures = {
     },
     compileFn: { default: COMPILE_FUNCTIONS.POSE },
     updateFields: {
-      default: ["place"], // let's temporarily change this to thingType -> back to placeType
+      default: ["place"], 
     },
     singleton: {default: false}
   },
@@ -207,7 +200,3 @@ export const toLocationType = merge(
 
 
 export const waypointType = merge(waypointFeatures, baseTypeData, poseFeatures);
-
-
-
-//console.log("Are you creating errors here!! ", locationType.properties);

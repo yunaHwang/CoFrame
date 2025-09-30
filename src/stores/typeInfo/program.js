@@ -1,11 +1,11 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { ContainerIconStyled, statusIcon, MachineIconStyled } from "./icons";
+import { MachineIconStyled } from "./icons";
 import {
   FiMoreHorizontal
 } from "react-icons/fi";
-import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
+import { COMPILE_FUNCTIONS } from "../Constants";
 import "./rotate.css";
-import { baseIndicatorLabelFn, baseTypeData } from "./baseType";
+import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
 const programDoc = `A Program consists of actions, action clusters, and fallback behaviors`;
@@ -65,17 +65,12 @@ const programFeatures = {
         "rotateType",
         "slowerStretchType",
         "fasterStretchType",
-        // "inputOutputType",
         // "locationType", 
         "toLocationType",
         "putAsideType",
         // "thingType",
         // "speechType",
-        // "robotAgentType",
-        // "humanAgentType",
         // "gripperType",
-        // "graspPointType",
-        // add skillType
         "skillType", // this is the action cluster
         "concurrentType",
         "lookForType",
