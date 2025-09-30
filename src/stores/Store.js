@@ -4,18 +4,14 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { GuiSlice } from "./GuiSlice";
 import { EvdSlice } from "./EvdSlice";
-import { RosSlice } from "./RosSlice";
 import { ProgrammingSlice } from "open-vp";
 import { ProgrammingSliceOverride } from "./ProgrammingSlice";
 import {
   computedSliceCompiledSubscribe,
   computedSliceSubscribe,
 } from "./ComputedSlice";
-import { SceneSlice } from "robot-scene";
 import lodash from "lodash";
-// import KnifeAssembly from "./Knife_Assembly_Simple_VP_UR5.json";
-//import KnifeAssembly from "./Empty_Program.json";
-import KnifeAssembly from "./Yuna_Skeleton_Program.json" // uncomment this to work with a failing skeleton json
+import roboplanb from "./RoboPlanB.json" // uncomment this to work with a failing skeleton json
 // import KnifeAssemblyCompiled from "./UR5_Compiled_Knife_Assembly.json";
 // import KnifeAssembly from './Prime_Process_2_v29.json';
 import KnifeAssemblyCompiled from "./Knife_Assembly_Example_Compiled.json";
@@ -35,13 +31,13 @@ const store = (set, get) => ({
     set({loaded});
     console.log('new loaded test',get().loaded);
   },
-  ...SceneSlice(set, get),
+  // ...SceneSlice(set, get),
   ...ProgrammingSlice(set, get), // default programming slice for open-vp
   ...ProgrammingSliceOverride(set, get), // overrides data-editing functionality to update pending properties
   ...GuiSlice(set, get),
   //...ReviewSlice(set, get),
   ...EvdSlice(set, get),
-  ...RosSlice(set, get),
+  // ...RosSlice(set, get),
   ...ProgramStoreSlice(set, get),
 
   // added to keep track of sourceInfo (aka the name of the action during transferblock) so that icons move
@@ -375,11 +371,10 @@ useStore.subscribe(
 computedSliceSubscribe(useStore);
 
 if (Object.keys(useStore.getState().programData).length === 0) {
-  console.log("Setting with Knife Assembly Task");
   // Load all the programs
-  useStore.getState().addProgramData("KnifeAssembly", KnifeAssembly, {});
+  useStore.getState().addProgramData("RoboPlanB", roboplanb, {});
   // useStore.getState().addProgramData("testProgram2", TestProgram2, {});
-  useStore.getState().setData(KnifeAssembly);
+  useStore.getState().setData(roboplanb);
 
   // also start with empty skills block
   // const skillName    = `Action Cluster ${new Date().toLocaleTimeString()}`;
