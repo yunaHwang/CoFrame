@@ -40,13 +40,7 @@ import arrowPng from "./components/FallbackIcons/arrow.png"
 export default function App() {
   const primaryColor = useStore((state) => state.primaryColor, shallow);
   const viewMode = useStore((state) => state.viewMode, shallow);
-  // const visibleSteps = useStore(
-  //   (state) =>
-  //     state.focus.some((focusItem) =>
-  //       TIMELINE_TYPES.includes(state.programData[focusItem]?.type)
-  //     ),
-  //   shallow
-  // );
+
   const focusData = useStore(
     (state) => state.focus.map((f) => state.programData[f]),
     shallow
@@ -66,12 +60,12 @@ export default function App() {
       });
     return issue;
   }, shallow);
-  //Added Fall back mode
+
   const fallbackMode = useStore((state) => state.fallbackMode, shallow);
   const setFallbackMode = useStore((state) => state.setFallbackMode, shallow);
 
   useEffect(() => {
-    //Place holder, define what cause Fallback mode here
+
     const timer = setTimeout(() => {
       setFallbackMode(true);
     }, 5000); 
@@ -83,13 +77,12 @@ export default function App() {
   const setViewMode = useStore((state) => state.setViewMode, shallow);
   const clearFocus = useStore((state) => state.clearFocus, shallow);
 
-  //added to keep track of sourceInfo
+  //keep track of sourceInfo
   const sourceInfo_to_pass = useStore((s) => s.lastSourceInfo);
 
   const [editorRef, editorBounds] = useMeasure();
   const [simRef, simBounds] = useMeasure();
 
-  // const theme = getTheme(primaryColor);
   const muiTheme = muiCreateTheme({
     palette: {
       mode: "dark",
@@ -146,7 +139,7 @@ export default function App() {
   });
 
   const containerRef = useRef(null);
-  const [topHeight, setTopHeight] = useState(20);       // 20 vh start
+  const [topHeight, setTopHeight] = useState(20);       
   const [dragging, setDragging] = useState(false);
   const [containerTop, setContainerTop] = useState(0);
   
@@ -154,9 +147,8 @@ export default function App() {
 
   const startDrag = (e) => {
     setDragging(true);
-    // snapshot the container's Y-position once
     setContainerTop(containerRef.current.getBoundingClientRect().top);
-    e.preventDefault(); // stop text-selection cursor flashes
+    e.preventDefault(); 
   };
 
   const doDrag = useCallback(
@@ -189,41 +181,17 @@ export default function App() {
   }, [dragging, doDrag]);
 
 
-  // const [scenario, setScenario] = useState("Scenario 1");
-  // const scenarioRef = useRef(scenario);
-  // useEffect(() => {
-  //   scenarioRef.current = scenario;
-  //   }, [scenario]);
-
-  // const [fallbackSetByScenario, setFallbackSetByScenario] = useState({});
-  // const [violationByScenario, setViolationByScenario] = useState({});
-  // const fallbackSetList = fallbackSetByScenario[scenario] ?? [];
-  // const violationList = violationByScenario[scenario] ?? [];
-
-
   useEffect(() => {
     function handleFlush(json) {
-      console.log("what is json.status, ", json.status);
-      console.log("what is json, ", json);
-
 
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
         [];
-      // const receivedScenario = json?.scenario ?? scenarioRef.current;
-      // setViolationByScenario(prev => ({
-      //   ...prev,
-      //   [receivedScenario]: violations
-      // }));
-      // setShowDrawer(violations.length > 0);
+
       setViolationList(violations);
       setShowDrawer(violations.length > 0);
       
       console.log("violations, ", violations)
-      // console.log("violationList, ", violationList);
-
-      // console.log("what is json.clean, ", json.clean);
-      // console.log("what is json.charge_pending, ", json.charge_pending);
 
       if (typeof json.charge_pending === "boolean") {
         useStore.getState().setChargePending(json.charge_pending);
@@ -245,21 +213,16 @@ export default function App() {
         // charge only when warning resolved
         const trackingLen = useStore.getState().actionTracking.length;
 
-        // battery set to charge state (battery = 100)
-        //useStore.getState().setJustResetBattery(true);
         useStore.getState().setGlobalBatteryLevel(100);
         useStore.getState().setbatteryLevel(100);
 
-        // distance reset?
         useStore.getState().setGlobalDistanceTravel(0);
         useStore.getState().setdistanceTravel(0);
 
         const batteryLevel = useStore.getState().batteryLevel;
 
-        //console.log("this made it charged and so the batteryLevel is, ", batteryLevel);
         useStore.getState().setBatteryResetActionCount(trackingLen);
 
-        // this too?
         useStore.getState().setDistanceResetActionCount(trackingLen);
 
         // ux + warning resets
@@ -269,50 +232,46 @@ export default function App() {
         
       }
 
-      // added for sensor
+      // sensor
       const trigger_sensor_clear = json.trigger_sensor_clear == true;
-      console.log("yay LTL resolved [trigger_sensor_clear], ", trigger_sensor_clear);
+
       if (trigger_sensor_clear){
         useStore.getState().setShowSensorCleared(true);
         useStore.getState().setSensorWarning(false);
       }
 
-      // added for person block
+      // person block
       const trigger_personblock_clear = json.trigger_personblock_clear == true;
-      console.log("yay LTL resolved [trigger_personblock_clear], ", trigger_personblock_clear);
+
       if (trigger_personblock_clear){
         useStore.getState().setShowPersonblockCleared(true);
         useStore.getState().setPersonBlockWarning(false);
       }
 
-      // added for heavy
+      // heavy
       const trigger_heavy_clear = json.trigger_heavy_clear == true;
-      console.log("yay LTL resolved [trigger_heavy_clear], ", trigger_heavy_clear);
+
       if (trigger_heavy_clear){
         useStore.getState().setShowHeavyCleared(true);
         useStore.getState().setHeavyWarning(false);
       }
 
-      // added for cart block
+      // cart block
       const trigger_cartblock_clear = json.trigger_cartblock_clear == true;
-      console.log("yay LTL resolved [trigger_cartblock_clear], ", trigger_cartblock_clear);
       if (trigger_cartblock_clear){
         useStore.getState().setShowCartblockCleared(true);
         useStore.getState().setCartBlockWarning(false);
       }
 
-      // added for package block
+      // package block
       const trigger_packageblock_clear = json.trigger_packageblock_clear == true;
-      console.log("yay LTL resolved [trigger_packageblock_clear], ", trigger_packageblock_clear);
       if (trigger_packageblock_clear){
         useStore.getState().setShowPackageblockCleared(true);
         useStore.getState().setPackageBlockWarning(false);
       }
 
-      console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
 
       if (Array.isArray(json.fallbackSetSignals)) {
-        //const newFallbackSetList = [];
 
         for (const signalBlock of json.fallbackSetSignals) {
           const {
@@ -345,22 +304,14 @@ export default function App() {
             }
           });
         }
-          // newFallbackSetList.push(updatedSet);
+
         }
 
-        // setFallbackSetByScenario(prev => ({
-        //   ...prev,
-        //   [receivedScenario]: newFallbackSetList
-        // }));
-
-        //console.log("this is newFallbackSetList, ", newFallbackSetList);
       }
       subscribeFlush(handleFlush);
       return () => unsubscribeFlush(handleFlush);
       
     },[]);
-
-  console.log("what is fallbackSetList, ", fallbackSetList); // this somehow shows actionSignals as null
 
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
@@ -374,33 +325,6 @@ export default function App() {
 
   // Scenario setting
   const [scenario, setScenario] = useState("Scenario 1");
-
-//   const battery20Warning = useStore((s) => s.battery20Warning);
-//   const battery5Warning = useStore((s) => s.battery5Warning);
-//   useEffect(() => {
-//   // Reset staging triggers for all scenarios to prevent auto popup
-//   if (battery20Warning)  stageBatteryWarning(20, false, 1);
-//   if (battery5Warning)   stageBatteryWarning(5,  false, 1);
-//   stageScenario2SensorError(false, 2);
-//   stageScenario3PersonBlockError(false, 3);
-//   stageScenario4HeavyError(false, 4);
-//   stageScenario5CartBlock(false, 5);
-//   stageScenario5PackageBlock(false, 5);
-
-//   setFallbackSetByScenario(prev => ({
-//         ...prev,
-//         [scenario]: []
-//       }));
-//   setViolationByScenario(prev => ({
-//         ...prev,
-//         [scenario]: []
-//       }));
-//   console.log("what is scenario (should be the changed one), ", scenario)
-//   console.log("is this empty fallbacksetlist, ", fallbackSetList);
-//   console.log("is this empty violationlist, ", violationList);
-
-// }, [scenario]);  // ← triggers every time `scenario` changes
-
 
   const [dynamicIcons, setDynamicIcons] = useState(() => {
     const iconSets = {
@@ -467,8 +391,6 @@ export default function App() {
 
   // Current FallbackType setting for explanation generation                    
   const currentFallbackTypeId = useStore((s) => s.currentFallbackTypeId);
-  console.log("what is currentFallbackTypeId," ,currentFallbackTypeId);
-
 
   return (
     
@@ -592,7 +514,6 @@ export default function App() {
 
                             <Stack spacing={1} sx={{ pl: 1 }} alignItems="center">
                               {set.fallbacks.map((fbId, i) => (
-                                //console.log("Rendering fallback:", fbId, "with signals:", set.actionSignals?.[fbId]);
 
                                 <React.Fragment key={fbId}>
                                     <Box

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
 import { subscribeFlush, unsubscribeFlush } from "../../stores/to_flask"
 import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
-const BATTERY_DROP_PER_STEP = 3; // TODO - you change this          
-// const BATTERY_DROP_PER_STEP = 8;//Mason Test         
+const BATTERY_DROP_PER_STEP = 3;             
 
 const CHARGER_LABEL = "battery charging station";
 
@@ -44,6 +43,7 @@ const SimTile = ({
   sourceInfo_to_pass = null,
   scenario        = "Scenario 1",
 }) => {
+
   // ──────────────────────────────
   // Local UI state
   // ──────────────────────────────
@@ -84,9 +84,8 @@ const SimTile = ({
   const setDeletedParentInfo = useStore((s) => s.setDeletedParentInfo);
 
   // ────────────────────────────────────
-  // Responsibile For Action Tracking
+  // Responsible For Action Tracking
   // ────────────────────────────────────
-  //const [actionTracking, setActionTracking] = useState([]);
 
   const actionTracking = useStore((s) => s.actionTracking);
 
@@ -96,9 +95,7 @@ const SimTile = ({
 
   const [putAsideAtCoord, setPutAsideAtCoord] = useState(null);
   const [isObjectGrabbed, setIsObjectGrabbed] = useState(false);  
-  //yuna added
   
-  // const [grabbedParcel, setGrabbedParcel] = useState(null); // null or "Target Parcel" or "Other Parcel"
   const [grabbedObject, setGrabbedObject] = useState(null); 
 
   const [isObjectFading, setIsObjectFading] = useState(false);
@@ -175,7 +172,6 @@ const SimTile = ({
         y: storedOffset.y + calculatedMovement.yMovement
       };
 
-      //console.log("Saving ${prevScenario} position at :"", currentOffset);
       setScenarioOffset(prevScenario, currentOffset);
 
       useStore.getState().setActionTracking([]);
@@ -199,15 +195,8 @@ const SimTile = ({
       else if (actionOrientation === "W") moves.xMovement = -steps;
       
     } else if (actionType === "toLocationType") {
-      //   const rooms = {
-      //   "Package room": {x:2,y:4},
-      //   "Activity Area":{x:3,y:2},
-      //   "Elderly room": {x:5,y:3},
-      //   "Battery charging station":{x:9,y:7}
-      // };
-        //Mason test instant grab
           const rooms = {
-          "Package room": {x:2,y:4}, // TODO: change back to 2, 4
+          "Package room": {x:2,y:4}, 
           "Activity Area":{x:3,y:2},
           "Elderly room": {x:8,y:1},
           "Battery charging station":{x:9,y:7}
@@ -257,7 +246,6 @@ const SimTile = ({
       children: []
     };
     
-    // setActionTracking(prev => [...prev, newAction]);
     useStore.getState().setActionTracking([
       ...useStore.getState().actionTracking,
       newAction
@@ -356,7 +344,6 @@ const SimTile = ({
       setShowError(false);
       setErrorMessage(null);
       useStore.getState().setActionTracking([]);
-      // added
       useStore.getState().setBatteryResetActionCount(0); 
       useStore.getState().setDistanceResetActionCount(0);
 
@@ -365,16 +352,12 @@ const SimTile = ({
 
       const globalBattery = useStore.getState().globalBatteryLevel;
       const globalDistance = useStore.getState().globalDistanceTravel
-      console.log("what is globalBattery here and does it have to do with the jump, ", globalBattery); //no
       useStore.getState().setbatteryLevel(globalBattery);
       useStore.getState().setdistanceTravel(globalDistance);
 
 
     }
   }, [startCoord, setErrorMessage, setShowError]);
-
-
-
 
   const getRotationTransform = () => {
     switch (orientation) {
@@ -384,8 +367,6 @@ const SimTile = ({
       default : return "";   // E
     }
   };
-
-  
 
  // Scenario-specific
   const getErrorCoordinates = (currentScenario) => {
@@ -460,7 +441,6 @@ const SimTile = ({
         lastScenario2Signal.current = true;
       } else if (!onRed && lastScenario2Signal.current !== false) {
         stageScenario2SensorError(false);
-        //useStore.getState().setSensorWarning(false);
         useStore.getState().setScenario2ErrorBlockMade(false);
         lastScenario2Signal.current = false;
       }
@@ -476,7 +456,6 @@ const SimTile = ({
         lastScenario3Signal.current = true;
       } else if (!onRed && lastScenario3Signal.current !== false) {
         stageScenario3PersonBlockError(false);
-        //useStore.getState().setPersonBlockWarning(false);
         useStore.getState().setScenario3ErrorBlockMade(false);
         lastScenario3Signal.current = false;
       }
@@ -497,7 +476,6 @@ const SimTile = ({
         lastScenario4Signal.current = true;
       } else if (!onRed && lastScenario4Signal.current !== false) {
         stageScenario4HeavyError(false);
-        //useStore.getState().setHeavyWarning(false);
         useStore.getState().setScenario4ErrorBlockMade(false);
         lastScenario4Signal.current = false;
       }
@@ -514,25 +492,21 @@ const SimTile = ({
       } 
       else if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario5CartBlock(false);
-        //useStore.getState().setCartBlockWarning(false);
         useStore.getState().setScenario5CartErrorBlockMade(false);
         lastCartBlockSignal.current = false;
       } 
 
-      // added - heavy error for cart block scenario 5
+      // heavy error for cart block scenario 5
       const lastGrabAction = actionTracking[actionTracking.length - 1];
       const isGrabObs = lastGrabAction && programData[lastGrabAction.id]?.type === "grabType" &&
                 (programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Fence" || 
                 programData[programData[lastGrabAction.id]?.properties.thing]?.name === "Cart");
-
-      //console.log("programData[programData[lastAction.id]?.properties.thing]?.name, ", programData[programData[lastGrabAction.id]?.properties.thing]?.name);
 
       if (onRed && lastCartBlockSignal.current === true && isGrabObs) {
         stageScenario4HeavyError(true);
         useStore.getState().setHeavyWarning(true);
         useStore.getState().setScenario4ErrorBlockMade(true);
       }
-      //the opposite of the True case above
       else if (!onRed && lastCartBlockSignal.current !== false) {
         stageScenario4HeavyError(false);
         useStore.getState().setHeavyWarning(false);
@@ -548,20 +522,11 @@ const SimTile = ({
       } 
       else if (!onBlue && lastPackageBlockSignal.current !== false) {
         stageScenario5PackageBlock(false);
-        //useStore.getState().setPackageBlockWarning(false);
         useStore.getState().setScenario5PackageErrorBlockMade(false);
         lastPackageBlockSignal.current = false;
       }
     }
-
-
   } 
-  // else {
-  //   // If previously in red and now moved out → clear error
-  //   if (currentScenario === "Scenario 2") {
-  //     stageScenario2SensorError(false);  // Send resolution to backend
-  //   }
-  // }
   };
 
   useEffect(() => {
@@ -627,13 +592,10 @@ const SimTile = ({
     
     lastProcessedTransfer.current = lastTransfer.timestamp;
     
-    console.log('Console Received:', lastTransfer);
-    
     const { data, sourceInfo, destInfo } = lastTransfer;
     
     // Check if this is an action being added
     if (data.type === "moveForwardType" || data.type === "toLocationType" || data.type === "rotateType" || data.type === "sayType" || data.type === "grabType" || data.type === "putAsideType" || data.type === "handObjToType" ) {
-      // Get the actual spawned block ID
       if (data.type === "handObjToType") {
         setHasThingParam(false);
         setHasPersonParam(false);
@@ -694,11 +656,9 @@ const SimTile = ({
     //SpeechType
     else if (data.type === "speechType" && destInfo.parentId) {
       const parameterValue = data.name;
-      console.log("this is parameter name to speechType, ", parameterValue);
-
 
       const handleFlush = (json) => {
-        console.log("what is json here, ", json);
+
         if (json.param_classification) {
           console.log("Scoped speech param from LLM:", json.param_classification);
           const paramType = json.param_classification;
@@ -723,16 +683,10 @@ const SimTile = ({
           if (paramType === "excuse_me" && scenario === "Scenario 3") {
             console.log(`Looking for person at ${targetKey} (robot facing ${direction})`);
 
-            // excuseMeCountRef.current[targetKey] = (excuseMeCountRef.current[targetKey] || 0) + 1;
-            // const currentCount = excuseMeCountRef.current[targetKey];
-
             excuseMeCountRef.current = (excuseMeCountRef.current || 0) + 1;
             const currentCount = excuseMeCountRef.current;
 
-            console.log(`Excuse me count at ${targetKey}: ${currentCount}`);
-
             if ((icons[targetKey] && icons[targetKey].includes("employee")) && currentCount >=3) {
-              //console.log(`Removing person at ${targetKey}`);
               delete updatedIcons[targetKey];
               if (onIconsUpdate) {
                 onIconsUpdate(updatedIcons);
@@ -1002,8 +956,6 @@ const SimTile = ({
       if (deletedFieldInfo.name === "Children" && deletedFieldInfo.isList) {
         if (deletedData && deletedData.id) {
           const deletedActionId = deletedData.id;
-          //console.log("Action deletion detected. Deleted :", deletedActionId);
-          //console.log("Current tracking:", actionTracking.map(a => a.id));
         if (deletedData.type === "rotateType") {
           const actionBeingDeleted = actionTracking.find(action => action.id === deletedActionId);
           const targetOrientation = actionBeingDeleted?.orientationBefore || "E";
@@ -1011,8 +963,7 @@ const SimTile = ({
           useStore.getState().setRobotOrientation?.(targetOrientation);
         }
         if (deletedData.type === "grabType") {
-          console.log("Grab action deleted");
-          
+
           if (isObjectGrabbed && grabbedObject && robotCoord) {
             setParcelLeftAtCoord(robotCoord);
             setDroppedObject(grabbedObject);
@@ -1032,8 +983,7 @@ const SimTile = ({
           setGrabbedObject(null);  
         }
         else if (deletedData.type === "putAsideType") {
-          console.log("Put aside action deleted");
-          
+
           if (grabbedObject) {
             setIsObjectGrabbed(true);  
             setIsObjectFading(false);   
@@ -1043,7 +993,7 @@ const SimTile = ({
           }
         }
         else if (deletedData.type === "handObjToType") {
-          //console.log("Hand-to-person action deleted");
+
           setHasThingParam(false);
           setHasPersonParam(false);
           setTargetPersonForHand(null);
@@ -1073,7 +1023,6 @@ const SimTile = ({
       // Case 2: Deleting a parameter from Move Forward action
       else if (deletedFieldInfo.name === "Grid Increments" && deletedFieldInfo.value === "direction") {
         const actionId = deletedParentInfo.id;
-        //console.log("Looking for Move Forward parameter to delete from action:", actionId);
         const prev = useStore.getState().actionTracking;
         const updated = prev.map(action => {
           if (action.id === actionId) {
@@ -1165,8 +1114,7 @@ const SimTile = ({
       }
 
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "grabType") {
-        //console.log("Grab object parameter deleted");
-        
+
         if (isObjectGrabbed && grabbedObject && robotCoord) {
           const posKey = `${robotCoord.x},${robotCoord.y}`;
           setObjectPositions(prev => ({
@@ -1187,7 +1135,6 @@ const SimTile = ({
         setGrabbedObject(null);
       }
       else if (deletedFieldInfo.name === "Object" && deletedFieldInfo.value === "thing" && deletedParentInfo.type === "putAsideType") {
-        console.log("Put aside object parameter deleted");
         
         if (grabbedObject) {
           setIsObjectGrabbed(true);  
@@ -1235,7 +1182,6 @@ const SimTile = ({
   // ──────────────────────────────
   useEffect(() => {
     if (robotCoord) {
-      // checkForErrors(robotCoord, scenario);
       setTimeout(() => {
       checkForErrors(robotCoord, scenario);
     }, 1);
@@ -1252,15 +1198,13 @@ const SimTile = ({
   // Warning-flip + backend notify
   // ──────────────────────────────
   const batteryLevel          = useStore((s) => s.batteryLevel);
-  //console.log("is batteryLevel just not working, ", batteryLevel);
   const setBattery20Warning   = useStore((s) => s.setBattery20Warning);
   const setBattery5Warning    = useStore((s) => s.setBattery5Warning);
   const prevLevelRef          = useRef(batteryLevel);
 
   useEffect(() => {
-    console.log("this is batteryLevel", batteryLevel); // added to check if batteryLevel goes down successfully - because the same type of battery warning is just not popping up. 
+    console.log("this is batteryLevel", batteryLevel); 
 
-    // so the above DOES GO TO 0 but then it bounces back... ha let the recharge logic be removed?!
     if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
       setBattery20Warning(true);
     }
@@ -1296,24 +1240,8 @@ const SimTile = ({
     const newDistanceLevel = globalDistance + postResetDistanceUsed;
 
     useStore.getState().setbatteryLevel(newBatteryLevel); 
-    //useStore.getState().setGlobalBatteryLevel(newBatteryLevel); //added
     useStore.getState().setdistanceTravel(newDistanceLevel);
-    
-    // let newBatteryLevel;
 
-    // const chargePending = useStore.getState().chargePending;
-    // console.log("chargePending, ", chargePending);
-    // const clean = useStore.getState().clean;
-    // console.log("clean, ", clean);
-
-    // if (hasChargedAction && !chargePending && clean) {
-    //   newBatteryLevel = 100;  
-    // } else {
-    //   newBatteryLevel = Math.max(0, 100 - totalBatteryUsed);  
-    // }
-    
-    // useStore.getState().setbatteryLevel(newBatteryLevel);
-    // useStore.getState().setdistanceTravel(totalDistance);
     
   }, [calculatedMovement, actionTracking, programData]);
   
@@ -1328,9 +1256,6 @@ const SimTile = ({
   }, [actionTracking, startCoord, calculatedMovement, robotCoord]);
 
 
-//   useEffect(() => {
-//   console.log("actionTracking changed:", actionTracking);
-// }, [actionTracking]);
   // ──────────────────────────────
   // Rendering 
   // ──────────────────────────────
@@ -1371,9 +1296,6 @@ function hexToRgba(hex, alpha = 1) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-
-
-
   const getCellBorders = (x, y) => {
     const defaultBorder = "1px solid rgba(200, 200, 200, 0.4)";
     const borders = {
@@ -1391,8 +1313,6 @@ function hexToRgba(hex, alpha = 1) {
       const maxX = Math.max(x1, x2);
       const minY = Math.min(y1, y2);
       const maxY = Math.max(y1, y2);
-
-
 
       // Top border
       if (y === maxY && x >= minX && x <= maxX) {
@@ -1434,8 +1354,6 @@ function hexToRgba(hex, alpha = 1) {
   }
   return null;
 };
-
-
 
   const highlightSet = useMemo(() => {
     const pairs = highlight.map((p) => (Array.isArray(p) ? p : [p.x, p.y]));
@@ -1578,7 +1496,6 @@ function hexToRgba(hex, alpha = 1) {
             "Target Parcel": "1,6",
             "Other Parcel": "0,6",
           };
-          const parcelKeys = Object.values(parcelCoords); 
           
           const robotImg = Object.values(icons).find(v=>typeof v==="string" && v.includes("robot"));
           const robotKey = robotCoord ? `${robotCoord.x},${robotCoord.y}` : null;
@@ -1613,8 +1530,7 @@ function hexToRgba(hex, alpha = 1) {
 
 
           return (
-            // <div key={idx} style={{...cellStyle,height:cellSize,
-            //   backgroundColor:isHL?color:"#fff", position:"relative"}} >
+
             <div
               key={idx}
               style={{
@@ -1622,7 +1538,7 @@ function hexToRgba(hex, alpha = 1) {
                 height: cellSize,
                 backgroundColor: isHL ? color : getRoomColor(x, y) || "#fff",
                 position: "relative",
-                ...getCellBorders(x, y),  // adds the thick borders
+                ...getCellBorders(x, y),  
               }}
             >
 

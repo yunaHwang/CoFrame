@@ -1,10 +1,9 @@
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { Environment } from 'open-vp';
 import Tile from '../Elements/Tile';
 import useStore from '../../stores/Store';
 import { useRef, useEffect } from 'react'; 
-import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
-//import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Stack, Typography, Box, Paper, Button, Menu, MenuItem } from '@mui/material';
 import { shallow } from 'zustand/shallow';
 
 import { stageBatteryWarning } from "../../stores/to_flask";
@@ -24,7 +23,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const setBatteryWarning = useStore(state => state.setBatteryWarning, shallow);
     const fallbackMode = useStore(state => state.fallbackMode, shallow);
     const batteryLevel = useStore(state => state.batteryLevel, shallow);
-    const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); //added
+    const globalBatteryLevel = useStore(state => state.globalBatteryLevel, shallow); 
     const globalDistanceTravel = useStore(state => state.globalDistanceTravel, shallow);
 
     // battery warnings for popping errors
@@ -62,7 +61,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const errorMessage = useStore(state => state.errorMessage, shallow);
     const showError = useStore(state => state.showError, shallow);
     const distanceTravel = useStore(state => state.distanceTravel, shallow);
-    // const [ref, bounds] = useMeasure();
     const [errorHistory, setErrorHistory] = useState([]);
 
     const [scenario,  setScenario]  = useState('Scenario 1');
@@ -73,11 +71,9 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
 
     const robotOrientation = useStore(state => state.robotOrientation || "E", shallow);
 
-    //const displayDistance = Math.floor(distanceTravel / 8) * 8; // every 5 cells display, 1 cell move 1 battery drop
     const displayBattery = Math.ceil(batteryLevel / 5) * 5; // every 5 percent drop display
-    //const displayDistance = Math.floor(distanceTravel / 1) * 1; 
     const displayDistance = distanceTravel.toFixed(1);
-    // const displayBattery = Math.ceil(batteryLevel / 1) * 1; // Mason Test
+
     const tableIconRef = useRef(null);
     const [showSpotlight, setShowSpotlight] = useState(false);
 
@@ -90,21 +86,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
         };
     return facingMap[robotOrientation] || "→ East";
 };
-    // useEffect for flipping the warnings 
-    // useEffect(() => {
-    // //console.log("why is not below 20? ", batteryLevel);
-    // if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
-    //     setErrorHistory(prev => ['Battery Low', ...prev]);
-    // }
-
-    // if (prevLevelRef.current > 5 && batteryLevel <= 5) {
-    //     setErrorHistory(prev => ['Battery Critical', ...prev]);
-
-    // }
-
-    // prevLevelRef.current = batteryLevel;
-    // }, [batteryLevel]);
-
+   
     // useEffect for sending the flipped warning signs 
     useEffect(() => {
     if (battery20Warning)  stageBatteryWarning(20, true);
@@ -112,17 +94,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     }, [battery20Warning, battery5Warning]);
 
     useEffect(() => {
-    // Show the spotlight 1 second after render (or whenever you want)
+    // Show the spotlight 1 second after render 
     const timer = setTimeout(() => setShowSpotlight(true), 1000);
     return () => clearTimeout(timer);
   }, []);
-//   useEffect(() => {
-//   // Simulate multiple errors for testing
-//   setTimeout(() => {
-//     setErrorHistory(['Battery Critical', 'Battery Low', 'Battery Low', 'Battery Critical', 'Battery Low']);
-//   }, 500);
-// }, []);
-    
 
     return (
         <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
@@ -130,9 +105,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
             {battery20Warning && (
                 <Spotlight message="This is where you can get more fallback containers.." />
             )}
-            {/* {showSpotlight && (
-                <Spotlight targetRef={tableIconRef} message="This is where you can get more fallback containers." />
-            )} */}
 
             <Tile
                 style={{ height: '100%'}}
@@ -182,44 +154,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 <Typography>{actionMessage}</Typography>
                             </Box>
                             )}
-                            </Stack>
-                            {/* {showError && errorMessage && (
-                            <Box
-                            sx = {{
-                                backgroundColor: '#531629', 
-                                padding: '6px 12px',
-                                borderRadius: '2px'
-                            }}>
-                                <Typography style={{ color: 'white', fontSize: '15px' }}>
-                                ⚠️ {errorMessage}
-                                </Typography>
-                            </Box>
-                            )} */}
-                            {/* {errorHistory.length > 0 && (
-                            <Box sx={{ 
-                                display: 'flex',
-                                gap: 1,
-                                overflowX: 'auto',
-                                maxWidth: '800px',
-                                '&::-webkit-scrollbar': { height: 7 },
-                                '&::-webkit-scrollbar-thumb': { backgroundColor: 'white', borderRadius: 5 }
-                            }}>
-                            {errorHistory.map((error, index) => (
-                                <Box key={index} sx={{
-                                    backgroundColor: '#ffb74d',
-                                    color: 'white',
-                                    padding: '6px 12px',
-                                    borderRadius: '2px',
-                                    minWidth: 'fit-content',
-                                    fontSize: '19px'                               
-                                    }}>
-                                {error}
-                                </Box>
-                            ))}
-                            </Box>
-                        )} */}
-                
-                            
+                            </Stack>          
             
                             <Box
                                 sx={{

@@ -1,5 +1,4 @@
-// Spotlight.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Spotlight({ targetRef, message, duration = 3000 }) {
   const [style, setStyle] = useState(null);
