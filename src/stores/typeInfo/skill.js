@@ -46,7 +46,7 @@ const skillFeatures = {
     ],
   },
   referenceBlock: {
-    onCanvas: false,           // don’t drop the template itself
+    onCanvas: false,          
     color: "#62869e",
     icon: SkillIconStyled,
     extras: [
@@ -69,7 +69,7 @@ const skillFeatures = {
     updateFields:{ default: [] },
     singleton:   { default: false }
   },
-  //referenceBlock: null,
+
   ...baseTypeData};
 
 const emptySkillFeatures = {
@@ -79,7 +79,7 @@ const emptySkillFeatures = {
     description: { default: "A cluster of actions that will be executed sequentially, one-by-one" },
     children: {
       name: "Actions",
-      accepts: [//"moveGripperType", "closeGripperType", 
+      accepts: [
       "grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",
         "sayType", "moveForwardType", "rotateType", "slowerStretchType", "fasterStretchType", "toLocationType",
         "resetCameraType", "adjustGripLighterType", "adjustGripHeavierType", "lookForType"
@@ -127,4 +127,3 @@ export const concurrentType = merge(emptyConcurrentFeatures, skillFeatures, {
   instanceBlock: { color: "#7e57c2" },            
   referenceBlock: { color: "#7e57c2" }
 });
-//export const fallbackType = merge(emptyFallbackFeatures, skillFeatures);

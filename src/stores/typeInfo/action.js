@@ -1,12 +1,12 @@
-import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { PrimitiveIconStyled, statusIcon } from "./icons";
+import { EXTRA_TYPES, TYPES} from "open-vp";
+import { PrimitiveIconStyled} from "./icons";
 import {
   FiMoreHorizontal
 } from "react-icons/fi";
 import { merge } from "lodash";
-import { COMPILE_FUNCTIONS, STATUS, ERROR } from "../Constants";
+import { COMPILE_FUNCTIONS } from "../Constants";
 import "./rotate.css";
-import { baseTypeData, baseIndicatorLabelFn } from "./baseType";
+import { baseTypeData } from "./baseType";
 
 const basicActionData = {
   type: TYPES.OBJECT,
@@ -40,7 +40,7 @@ const basicActionData = {
 
 const grabFeatures = {
   name: "Grab Object",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Grab an object using the gripper" },
     thing: {
@@ -59,7 +59,7 @@ const grabFeatures = {
 
 const putAsideFeatures = {
   name: "Put Aside Object",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Place Aside an Object that is in the Robot's Way (adjacent coordinate)" },
     thing: {
@@ -78,7 +78,7 @@ const putAsideFeatures = {
 
 const handObjToFeatures = {
   name: "Hand Object to Person",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch hands an object to a person" },
     thing: {
@@ -104,7 +104,7 @@ const handObjToFeatures = {
 
 const stopFeatures = {
   name: "Stop Stretch Action",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stop whatever action Stretch was doing" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -116,7 +116,7 @@ const stopFeatures = {
 
 const resetCameraFeatures = {
   name: "Reset Camera",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Reset Stretch camera when sensor errors occur" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -128,7 +128,7 @@ const resetCameraFeatures = {
 
 const saveLogFeatures = {
   name: "Save Stretch Log",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Save Stretch log of whatever happened so far" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -140,7 +140,7 @@ const saveLogFeatures = {
 
 const sayFeatures = {
   name: "Say",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch says the utterance fed into as the argument" },
     speech: {
@@ -159,7 +159,7 @@ const sayFeatures = {
 
 const moveForwardFeatures = {
   name: "Move Forward",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch moves forward by the amount of grid numbers provided as a parameter" },
     direction: {
@@ -178,7 +178,7 @@ const moveForwardFeatures = {
 
 const rotateFeatures = {
   name: "Rotate Stretch",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch rotates x direction y many times where x and y are provided as parameters" },
     angleDirection: {
@@ -195,13 +195,6 @@ const rotateFeatures = {
       isList: false,
       nullValid: true,
     },
-    // angleDirection: {
-    //   name: "Rotation Direction",
-    //   accepts: ["movementType"],
-    //   default: null,
-    //   isList: false,
-    //   nullValid: true,
-    // },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
     updateFields: {
       default: ["angleDirection", "rotationTimes"],
@@ -211,7 +204,7 @@ const rotateFeatures = {
 
 const slowerStretchFeatures = {
   name: "Move Slower",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch moves 20% slower than default" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -223,7 +216,7 @@ const slowerStretchFeatures = {
 
 const adjustGripLighterFeatures = {
   name: "Adjust Grip for Lighter Items",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch adjusts its gripper grip for picking up lighter objects" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -235,7 +228,7 @@ const adjustGripLighterFeatures = {
 
 const adjustGripHeavierFeatures = {
   name: "Adjust Grip for Heavier Items",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch adjusts its gripper grip for picking up heavier objects" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -247,7 +240,7 @@ const adjustGripHeavierFeatures = {
 
 const fasterStretchFeatures = {
   name: "Move Faster",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Stretch moves 20% faster than default" },
     compileFn: { default: COMPILE_FUNCTIONS.GRIPPER_MOTION },
@@ -259,7 +252,7 @@ const fasterStretchFeatures = {
 
 const lookForFeatures = {
   name: "Look For Object",
-  description: "An action by the [Robot](robotAgentType) that adjusts the distance between the two fingers of the gripper. If interacting with a [Thing](thingType) or [Tool](toolType), it should be specified in the action.",
+  description: "",
   properties: {
     description: { default: "Use Stretch camera to specifically look for an object" },
     thing: {
@@ -277,8 +270,6 @@ const lookForFeatures = {
 };
 
 const actionTypes = {
-  //moveGripperType: merge(gripperFeatures, basicActionData),
-  //closeGripperType: merge(closeGripperFeatures, basicActionData), 
   putAsideType: merge(putAsideFeatures, basicActionData),
   grabType: merge(grabFeatures, basicActionData),
   stopStretchType: merge(stopFeatures, basicActionData),

@@ -1,20 +1,13 @@
 import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { SkillIconStyled, statusIcon, FixtureIconStyled } from "./icons";
+import { FixtureIconStyled } from "./icons";
 import {
-  FiMoreHorizontal,
-  FiAlertOctagon,
-  FiThumbsUp,
-  FiAlertTriangle,
-  FiRefreshCw,
   FiEdit2
-  //FaPencilAlt
 } from "react-icons/fi";
-import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
+import { COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
 const fallbackFeatures = {
-  //name: "Skill",
   type: TYPES.OBJECT,
   instanceBlock: {
     hideNewPrefix: true,
@@ -53,9 +46,9 @@ const fallbackFeatures = {
 
 const emptyFallbackFeatures = {
   name: "New Fallback Behaviors",
-  description: "some string",
+  description: "",
   properties: {
-    description: { default: "some string" },
+    description: { default: "" },
     children: {
       name: "Fallback Behavior",
       accepts: ["toLocationType", "grabType", "putAsideType", "handObjToType", "stopStretchType", "saveLogStretchType",

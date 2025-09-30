@@ -1,15 +1,9 @@
-import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { SkillIconStyled, statusIcon, FixtureIconStyled } from "./icons";
+import { EXTRA_TYPES, TYPES } from "open-vp";
+import { FixtureIconStyled } from "./icons";
 import {
-  FiMoreHorizontal,
-  FiAlertOctagon,
-  FiThumbsUp,
-  FiAlertTriangle,
-  FiRefreshCw,
   FiEdit2
-  //FaPencilAlt
 } from "react-icons/fi";
-import { STATUS, COMPILE_FUNCTIONS } from "../Constants";
+import { COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
 
@@ -52,9 +46,9 @@ const fallbackSetFeatures = {
 
 const emptyFallbackSetFeatures = {
   name: "New Priority Fallback Sets",
-  description: "some string",
+  description: "",
   properties: {
-    description: { default: "some string" },
+    description: { default: "" },
     children: {
       name: "Different Fallback Behaviors",
       accepts: ["fallbackType"

@@ -1,10 +1,10 @@
-import { EXTRA_TYPES, TYPES, SIMPLE_PROPERTY_TYPES } from "open-vp";
-import { SkillIconStyled, ToolIconStyled } from "./icons";
+import { EXTRA_TYPES, TYPES } from "open-vp";
+import { ToolIconStyled } from "./icons";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { COMPILE_FUNCTIONS } from "../Constants";
 import { baseTypeData } from "./baseType";
 import { merge } from "lodash";
-import { ToolIcon } from "../../components/CustomIcons/Tool";
+
 
 const speechDoc = `Speech utterances are what the robot says to a person.
 `
