@@ -1,13 +1,12 @@
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import PositionRotationTF from "./PositionRotationTF";
 import { GizmoDetail } from "./GizmoDetail";
 import useStore from "../../stores/Store";
 import { shallow } from "zustand/shallow";
-import { FiX, FiSquare, FiTrash2, FiDelete } from "react-icons/fi";
+import { FiX, FiTrash2, FiDelete } from "react-icons/fi";
 import { NumberInput } from "../Elements/NumberInput";
 import { DETAIL_TYPES, STATUS } from "../../stores/Constants";
 import JointGripperInput from "./JointGripperInput";
-import LocationWaypointDetail from "./LocationWaypointDetail";
 import { ScrollRegion } from "../Elements/ScrollRegion";
 import {
   Stack,
@@ -84,7 +83,6 @@ export const Detail = memo((_) => {
     };
   }, shallow);
 
-  //const addFocusItem = useStore(state => state.addFocusItem);
   const clearFocus = useStore((state) => state.clearFocus, shallow);
   const updateItemName = useStore((state) => state.updateItemName, shallow);
   const updateItemSimpleProperty = useStore(
@@ -101,24 +99,14 @@ export const Detail = memo((_) => {
   );
   const setCaptureFocus = useStore((state) => state.setCaptureFocus, shallow);
 
-  // const Icon = objectTypeInfo?.instanceBlock?.icon
-  //   ? objectTypeInfo.instanceBlock.icon
-  //   : objectTypeInfo?.referenceBlock?.icon
-  //   ? objectTypeInfo?.referenceBlock.icon
-  //   : FiSquare;
-
   const objectColor = "#333333";
 
   const deleteBlock = useStore((state) => state.deleteBlock, shallow);
-  //console.log("item:", item);
-  // console.log("objectTypeInfo", objectTypeInfo);
-  // console.log("focusData", focusData);
 
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const open = item !== null && item !== undefined;
 
   return (
-    // <Layer full="vertical" onEsc={clearFocus} position="right" modal={false}>
     <Drawer
       anchor="right"
       sx={{
@@ -138,7 +126,6 @@ export const Detail = memo((_) => {
         setCustomMoveHook(null);
         setCaptureFocus(false);
       }}
-      // elevation={16}
     >
       {open && (
         <>
