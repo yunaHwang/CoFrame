@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState, useRef} from "react";
 // import { FiSettings } from "react-icons/fi";
 //import { ReviewTile } from "./components/Body/ReviewTile";
 import { ProgramTile } from "./components/Body/ProgramTile";
+import { SlamTile } from "./components/Body/SlamTile";
 import SimTile from "./components/Body/SimTile";
 import { subscribeFlush, unsubscribeFlush } from "./stores/to_flask";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
@@ -423,38 +424,34 @@ export default function App() {
                   ref={containerRef}
                   sx={{
                     display: "flex",
-                    flexDirection: "column", // stack vertically
+                    flexDirection: "row",   // ← change to row
                     width: "100%",
                     height: "100%",
                   }}
                 >
-                  <Box sx={{ height: `${topHeight}vh`, flexShrink: 0 }}>
-                    <SimTile
-                      cellSize = {cellSize}
-                      sx={{ height: "35vh", flexShrink: 0 }}
-                      highlight={hallways}
-                      color="#fffefa"
-                      icons={dynamicIcons[scenario] ?? {}}
-                      onIconsUpdate={updateIcons} 
-                      labelsOverGrid={labelsOverGrid}
-                      sourceInfo_to_pass = {sourceInfo_to_pass}
-                      scenario={scenario} 
-                    />
+                  {/* LEFT ELEMENT */}
+                  <Box
+                    sx={{
+                      width: 450,                 // fixed width
+                      bgcolor: "white",
+                      borderRight: "1px solid grey",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SlamTile />
                   </Box>
 
-                  <Divider
-                    orientation="horizontal"
-                    sx={{ cursor: "row-resize", userSelect: "none" }}
-                    onMouseDown={startDrag}
-                  />
-
-                  {/* editor fills the remaining space */}
-                  <ProgramTile
-                    ref={editorRef}
-                    style={{ flex: 1, minHeight: 0 }}
-                    onScenarioChange={setScenario} 
-                  />
-                </Box>
+                  {/* PROGRAM TILE */}
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <ProgramTile
+                      ref={editorRef}
+                      style={{ height: "100%" }}
+                      onScenarioChange={setScenario}
+                    />
+                  </Box>
+                  </Box>
 
               </ReflexElement>
             )}
