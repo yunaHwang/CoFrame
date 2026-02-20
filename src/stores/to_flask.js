@@ -166,3 +166,15 @@ export function waitForFlush() {
   return lastFlush;
 }
 
+export function stageMapYaml(yamlText, meta = {}) {
+  return fetch("http://localhost:5000/receive_data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ op: "map_yaml", yamlText, meta })
+  })
+    .then((r) => r.json())
+    .then((json) => {
+      listeners.forEach((fn) => fn(json));
+      return json;
+    });
+}

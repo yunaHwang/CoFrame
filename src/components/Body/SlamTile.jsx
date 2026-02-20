@@ -1,17 +1,60 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import { Box, Typography, Divider, Button } from "@mui/material";
+
+import { stageMapYaml } from "../../stores/to_flask";
 
 export const SlamTile = forwardRef((props, ref) => {
   const [imageSrc, setImageSrc] = useState(null);
 
-  const handleUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setImageSrc(event.target.result);
-    };
-    reader.readAsDataURL(file);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  const handleUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setUploadedFiles(files);
+
+    // ---- Pick an image file to display ----
+    // Prefer map-like names if present; otherwise first image.
+    const imageCandidates = files.filter((f) =>
+      /\.(png|jpg|jpeg|webp)$/i.test(f.name)
+    );
+
+    const preferredImage =
+      imageCandidates.find((f) => /map|occupancy|slam/i.test(f.name)) ||
+      imageCandidates[0];
+
+    if (preferredImage) {
+      console.log("Selected image:", preferredImage.webkitRelativePath || preferredImage.name);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImageSrc(event.target.result);
+      };
+      reader.readAsDataURL(preferredImage);
+    } else {
+      console.warn("No image found in uploaded folder.");
+      setImageSrc(null);
+    }
+
+    // ---- (Optional) Find and read YAML ----
+    const yamlFile =
+      files.find((f) => /\.ya?ml$/i.test(f.name) && /map/i.test(f.name)) ||
+      files.find((f) => /\.ya?ml$/i.test(f.name));
+
+    if (yamlFile) {
+      console.log("Selected YAML:", yamlFile.webkitRelativePath || yamlFile.name);
+      const yamlText = await yamlFile.text();
+      console.log("YAML contents:\n", yamlText);
+
+      await stageMapYaml(yamlText, {
+            yamlName: yamlFile.name,
+            yamlRelPath: yamlFile.webkitRelativePath || null,
+        });
+      // send to backend
+    } else {
+      console.warn("No YAML file found in uploaded folder.");
+    }
   };
 
   return (
@@ -46,7 +89,7 @@ export const SlamTile = forwardRef((props, ref) => {
           />
         ) : (
           <Typography variant="h4" color="black">
-            SLAM map goes here
+            Add your map here
           </Typography>
         )}
       </Box>
@@ -66,7 +109,14 @@ export const SlamTile = forwardRef((props, ref) => {
       >
         <Button variant="contained" component="label">
           Upload Map
-          <input type="file" hidden onChange={handleUpload} />
+          <input
+            type="file"
+            hidden
+            webkitdirectory="true"
+            directory="true"
+            multiple
+            onChange={handleUpload}
+          />
         </Button>
       </Box>
     </Box>
