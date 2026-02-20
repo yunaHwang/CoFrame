@@ -23,12 +23,15 @@ export const SlamTile = forwardRef((props, ref) => {
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
+        minHeight: 0,
       }}
     >
       {/* Top: Map / image area */}
       <Box
         sx={{
           flex: 1,
+          minHeight: 0,
+          overflow: "hidden",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -39,7 +42,7 @@ export const SlamTile = forwardRef((props, ref) => {
           <img
             src={imageSrc}
             alt="Uploaded"
-            style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+            style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover", display: "block" }}
           />
         ) : (
           <Typography variant="h4" color="black">
@@ -48,8 +51,10 @@ export const SlamTile = forwardRef((props, ref) => {
         )}
       </Box>
 
+      {/* Logic for reading yaml and sending yaml values to the backend goes here*/}
+
       {/* Divider */}
-      <Divider sx={{ borderColor: "grey.700" }} />
+      {/* <Divider sx={{ borderColor: "grey.700" }} /> */}
 
       {/* Bottom: Upload button */}
       <Box

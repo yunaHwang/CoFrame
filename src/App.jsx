@@ -424,27 +424,28 @@ export default function App() {
                   ref={containerRef}
                   sx={{
                     display: "flex",
-                    flexDirection: "row",   // ← change to row
+                    flexDirection: "column",   // ← change to row
                     width: "100%",
                     height: "100%",
                   }}
                 >
-                  {/* LEFT ELEMENT */}
+                  {/* TOP ELEMENT */}
                   <Box
                     sx={{
-                      width: 450,                 // fixed width
+                      height: 260,                 // fixed width
                       bgcolor: "white",
                       borderRight: "1px solid grey",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "stretch",
                       justifyContent: "center",
+                      overflow: "hidden",
                     }}
                   >
                     <SlamTile />
                   </Box>
 
                   {/* PROGRAM TILE */}
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Box sx={{ flex: 1, minHeight: 0 }}>
                     <ProgramTile
                       ref={editorRef}
                       style={{ height: "100%" }}
