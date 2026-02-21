@@ -11,7 +11,7 @@ import { merge } from "lodash";
 const programDoc = `A Program consists of actions, action clusters, and fallback behaviors`;
 
 const programFeatures = {
-  name: "Day in the life of Stretch",
+  name: "Day in the life of Temi",
   type: TYPES.OBJECT,
   description: programDoc,
   instanceBlock: {

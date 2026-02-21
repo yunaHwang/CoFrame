@@ -46,24 +46,24 @@ export const EvdSlice = (set, get) => ({
   solver: null,
   programSpec: {
     drawers: [
-      {
-        title: "Programs",
-        dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["programType"],
-        icon: MachineIconStyled,
-      },
-      {
-        title: "Fallback Behaviors",
-        dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["fallbackType"],
-        icon: FixtureIconStyled,
-      },
-      {
-        title: "Action Clusters",
-        dataType: DATA_TYPES.INSTANCE,
-        objectTypes: ["skillType", "concurrentType"],
-        icon: SkillIconStyled,
-      },
+      // {
+      //   title: "Programs",
+      //   dataType: DATA_TYPES.INSTANCE,
+      //   objectTypes: ["programType"],
+      //   icon: MachineIconStyled,
+      // },
+      // {
+      //   title: "Fallback Behaviors",
+      //   dataType: DATA_TYPES.INSTANCE,
+      //   objectTypes: ["fallbackType"],
+      //   icon: FixtureIconStyled,
+      // },
+      // {
+      //   title: "Action Clusters",
+      //   dataType: DATA_TYPES.INSTANCE,
+      //   objectTypes: ["skillType", "concurrentType"],
+      //   icon: SkillIconStyled,
+      // },
       {
         title: "Action Macros",
         dataType: DATA_TYPES.INSTANCE,
@@ -103,12 +103,12 @@ export const EvdSlice = (set, get) => ({
         icon: LocationIconStyled,
       },
 
-      {
-        title: "Objects",
-        dataType: DATA_TYPES.REFERENCE,
-        objectType: "thingType",
-        icon: ThingIconStyled,
-      },
+      // {
+      //   title: "Objects",
+      //   dataType: DATA_TYPES.REFERENCE,
+      //   objectType: "thingType",
+      //   icon: ThingIconStyled,
+      // },
 
       {
         title: "People",

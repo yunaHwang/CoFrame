@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Typography, Paper, Button } from "@mui/material";
 import useStore from "../../stores/Store";
 import { subscribeFlush, unsubscribeFlush } from "../../stores/to_flask"
-import { stageScenario2SensorError, stageScenario3PersonBlockError, stageScenario4HeavyError, stageScenario5CartBlock, stageScenario5PackageBlock } from "../../stores/to_flask";
 
 const FEET_PER_STEP         = 1.6;
 const BATTERY_DROP_PER_STEP = 5;          
@@ -434,132 +433,8 @@ const SimTile = ({
       setErrorMessage(messageMap[currentScenario]);
       setShowError(true);
 
-
-    // Scenario 2 error to backend
-    if (currentScenario === "Scenario 2") {
-      if (onRed && lastScenario2Signal.current !== true) {
-        console.log("Scenario 2 error has occurred.");
-        stageScenario2SensorError(true);
-        useStore.getState().setSensorWarning(true);
-        useStore.getState().setScenario2ErrorBlockMade(true);
-        lastScenario2Signal.current = true;
-      } else if (!onRed && lastScenario2Signal.current !== false) {
-        stageScenario2SensorError(false);
-        //useStore.getState().setSensorWarning(false);
-        useStore.getState().setScenario2ErrorBlockMade(false);
-        lastScenario2Signal.current = false;
-      }
-    }
-
-    // Scenario 3 error to backend
-    else if (currentScenario === "Scenario 3") {
-      if (onRed && lastScenario3Signal.current !== true) {
-        console.log("Scenario 3 error has occurred.");
-        stageScenario3PersonBlockError(true);
-        useStore.getState().setPersonBlockWarning(true);
-        useStore.getState().setScenario3ErrorBlockMade(true);
-        lastScenario3Signal.current = true;
-      } else if (!onRed && lastScenario3Signal.current !== false) {
-        stageScenario3PersonBlockError(false);
-        //useStore.getState().setPersonBlockWarning(false);
-        useStore.getState().setScenario3ErrorBlockMade(false);
-        lastScenario3Signal.current = false;
-      }
-    }
-
-    // Scenario 4 error to backend
-    else if (currentScenario === "Scenario 4") {
-      const lastAction = actionTracking[actionTracking.length - 1];
-
-      const isGrabTargetParcel = lastAction && programData[lastAction.id]?.type === "grabType" &&
-                programData[programData[lastAction.id]?.properties.thing]?.name === "Target Parcel";
-
-      if (onRed && isGrabTargetParcel && lastScenario4Signal.current !== true) {
-        console.log("Scenario 4 error has occurred.");
-        stageScenario4HeavyError(true);
-        useStore.getState().setHeavyWarning(true);
-        useStore.getState().setScenario4ErrorBlockMade(true);
-        lastScenario4Signal.current = true;
-      } else if (!onRed && lastScenario4Signal.current !== false) {
-        stageScenario4HeavyError(false);
-        //useStore.getState().setHeavyWarning(false);
-        useStore.getState().setScenario4ErrorBlockMade(false);
-        lastScenario4Signal.current = false;
-      }
-    }
-
-    // Scenario 5 error to backend
-    else if (currentScenario === "Scenario 5") {
-      if (onRed && lastCartBlockSignal.current !== true) {
-        console.log("Scenario 5 cart block error has occurred.");
-        stageScenario5CartBlock(true);
-        useStore.getState().setCartBlockWarning(true);
-        useStore.getState().setScenario5CartErrorBlockMade(true);
-        lastCartBlockSignal.current = true;
-      } else if (!onRed && lastCartBlockSignal.current !== false) {
-        stageScenario5CartBlock(false);
-        //useStore.getState().setCartBlockWarning(false);
-        useStore.getState().setScenario5CartErrorBlockMade(false);
-        lastCartBlockSignal.current = false;
-      } else if (onBlue && lastPackageBlockSignal.current !== true) {
-        console.log("Scenario 5 package block error has occurred.");
-        stageScenario5PackageBlock(true);
-        useStore.getState().setPackageBlockWarning(true);
-        useStore.getState().setScenario5PackageErrorBlockMade(true);
-        lastPackageBlockSignal.current = true;
-      } else if (!onBlue && lastPackageBlockSignal.current !== false) {
-        stageScenario5PackageBlock(false);
-        //useStore.getState().setPackageBlockWarning(false);
-        useStore.getState().setScenario5PackageErrorBlockMade(false);
-        lastPackageBlockSignal.current = false;
-      }
-    }
-
-
   } 
-  // else {
-  //   // If previously in red and now moved out → clear error
-  //   if (currentScenario === "Scenario 2") {
-  //     stageScenario2SensorError(false);  // Send resolution to backend
-  //   }
-  // }
   };
-
-  useEffect(() => {
-  // Reset all scenario signals when scenario changes
-  lastScenario2Signal.current = false;
-  lastScenario3Signal.current = false;
-  lastScenario4Signal.current = false;
-  lastCartBlockSignal.current = false;
-  lastPackageBlockSignal.current = false;
-
-  useStore.getState().setScenario2ErrorBlockMade(false);
-  useStore.getState().setScenario3ErrorBlockMade(false);
-  useStore.getState().setScenario4ErrorBlockMade(false);
-  useStore.getState().setScenario5CartErrorBlockMade(false);
-  useStore.getState().setScenario5PackageErrorBlockMade(false);
-
-  stageScenario2SensorError(false);
-  stageScenario3PersonBlockError(false);
-  stageScenario4HeavyError(false);
-  stageScenario5CartBlock(false);
-  stageScenario5PackageBlock(false);
-
-  setErrorMessage(null);
-  setShowError(false);
-  setGrabbedObject(null);
-  setIsObjectGrabbed(false);
-  setIsObjectFading(false);
-  setIsObjectBeingHanded(false);
-  setObjectWithElderly(false);
-  setHasThingParam(false);
-  setHasPersonParam(false);
-  setPutAsideAtCoord(null);
-  setParcelLeftAtCoord(null);
-  setParcelDroppedByDeletion(false);
-  setDroppedObject(null);
-  
-}, [scenario]);
 
   useEffect(() => {
     const initialPositions = {};

@@ -160,14 +160,14 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             }}>
                                 <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
-                            <Box 
+                            {/* <Box 
                             sx={{ 
                                 backgroundColor: '#2d5a87', 
                                 padding: '6px 12px', 
                                 borderRadius: '2px' 
                                 }}>
                                 <Typography style={{ color: 'white' }}>Robot Facing: {getRobotFacingDisplay()}</Typography>
-                            </Box>
+                            </Box> */}
                             {actionMessage && (
                             <Box 
                                 sx={{ 
@@ -220,7 +220,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                 
                             
             
-                            <Box
+                            {/* <Box
                                 sx={{
                                     backgroundColor: '#E37383',
                                     p: '6px 12px',
@@ -235,8 +235,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 >
                                 <Typography sx={{ color: 'white' }}>{scenario}</Typography>
                                 <Typography sx={{ color: 'white' }}>▾</Typography> 
-                            </Box>
-                            <Menu
+                            </Box> */}
+                            {/* <Menu
                                 anchorEl={menuAnchor}
                                 open={Boolean(menuAnchor)}
                                 onClose={closeMenu} 
@@ -253,7 +253,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 {label}
                                 </MenuItem>
                             ))}
-                            </Menu>
+                            </Menu> */}
                         </Stack>
 
                 }
