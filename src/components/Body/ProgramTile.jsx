@@ -3,11 +3,11 @@ import { Environment } from 'open-vp';
 import Tile from '../Elements/Tile';
 import useStore from '../../stores/Store';
 import { useRef, useEffect } from 'react'; 
-import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem } from '@mui/material';
+import { Stack, CircularProgress, IconButton, Typography, Box, Paper, Button, Snackbar, Alert, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 //import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { shallow } from 'zustand/shallow';
 
-import { stageBatteryWarning } from "../../stores/to_flask";
+import { stageBatteryWarning, saveTrial } from "../../stores/to_flask";
 
 import { FixtureIcon } from '../CustomIcons/Fixture';
 import Spotlight from './Spotlight';
@@ -70,6 +70,28 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const openMenu   = e => setMenuAnchor(e.currentTarget);
     const closeMenu  = () => setMenuAnchor(null);
     const pick       = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
+
+    const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const [trialNumber, setTrialNumber] = useState('');
+    const [conditionNumber, setConditionNumber] = useState('');
+    const [saveStatus, setSaveStatus] = useState(null);
+
+    const handleSaveTrial = async () => {
+        try {
+            await saveTrial({
+                trialNumber: trialNumber,
+                conditionNumber: conditionNumber,
+                scenarioNumber: scenario,
+            });
+            setSaveStatus('saved');
+            setTimeout(() => {
+                setSaveModalOpen(false);
+                setSaveStatus(null);
+            }, 1200);
+        } catch (e) {
+            setSaveStatus('error');
+        }
+    };
 
     const robotOrientation = useStore(state => state.robotOrientation || "E", shallow);
 
@@ -254,6 +276,21 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                                 </MenuItem>
                             ))}
                             </Menu> */}
+
+                            <Button
+                                variant="contained"
+                                size="small"
+                                onClick={() => setSaveModalOpen(true)}
+                                sx={{
+                                    backgroundColor: '#1a6e3c',
+                                    '&:hover': { backgroundColor: '#145a30' },
+                                    textTransform: 'none',
+                                    fontWeight: 600,
+                                    px: 2,
+                                }}
+                            >
+                                Save Trial Data
+                            </Button>
                         </Stack>
 
                 }
@@ -538,6 +575,56 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                 </Box>
 
             </Tile>
+
+            {/* Save Trial Modal */}
+            <Dialog open={saveModalOpen} onClose={() => setSaveModalOpen(false)}>
+                <DialogTitle>Save Trial Data</DialogTitle>
+                <DialogContent>
+                    <Stack spacing={2} sx={{ mt: 1, minWidth: 280 }}>
+                        <TextField
+                            label="Trial Number"
+                            type="number"
+                            value={trialNumber}
+                            onChange={e => setTrialNumber(e.target.value)}
+                            fullWidth
+                            size="small"
+                        />
+                        <TextField
+                            label="Condition Number"
+                            type="number"
+                            value={conditionNumber}
+                            onChange={e => setConditionNumber(e.target.value)}
+                            fullWidth
+                            size="small"
+                        />
+                        <TextField
+                            label="Scenario"
+                            value={scenario}
+                            InputProps={{ readOnly: true }}
+                            fullWidth
+                            size="small"
+                        />
+                        {saveStatus === 'saved' && (
+                            <Alert severity="success">Saved successfully!</Alert>
+                        )}
+                        {saveStatus === 'error' && (
+                            <Alert severity="error">Save failed — is the backend running?</Alert>
+                        )}
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setSaveModalOpen(false)}>Cancel</Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleSaveTrial}
+                        disabled={!trialNumber || !conditionNumber || saveStatus === 'saved'}
+                        sx={{ backgroundColor: '#1a6e3c', '&:hover': { backgroundColor: '#145a30' } }}
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </Stack>
     )
 });
