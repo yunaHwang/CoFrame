@@ -75,7 +75,7 @@ export default function App() {
     //Place holder, define what cause Fallback mode here
     const timer = setTimeout(() => {
       setFallbackMode(true);
-    }, 5000); 
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -137,6 +137,7 @@ export default function App() {
       },
       primary: {
         main: primaryColor,
+        darker: primaryColor,
       },
       quiet: {
         main: "#444",
@@ -183,7 +184,7 @@ export default function App() {
   const [topHeight, setTopHeight] = useState(20);       // 20 vh start
   const [dragging, setDragging] = useState(false);
   const [containerTop, setContainerTop] = useState(0);
-  
+
   const cellSize = Math.floor((topHeight / 100) * window.innerHeight / 8);
 
   const startDrag = (e) => {
@@ -231,7 +232,7 @@ export default function App() {
       const violations = json?.violations ??
         json?.ltl_results?.violations ??
         [];
-      
+
       setViolationList(violations);
       setShowDrawer(violations.length > 0);
       console.log("violations, ", violations)
@@ -273,7 +274,7 @@ export default function App() {
         useStore.getState().setShowBatteryCharged(true);
         useStore.getState().setBattery20Warning(false);
         useStore.getState().setBattery5Warning(false);
-        
+
       }
 
       console.log("what is json.fallbackSetSignals, ", json.fallbackSetSignals);
@@ -316,7 +317,7 @@ export default function App() {
           });
         }
       }
-      
+
     }
     subscribeFlush(handleFlush);
     return () => unsubscribeFlush(handleFlush);   // cleanup on unmount
@@ -375,7 +376,7 @@ export default function App() {
       const activeScenario = scenario;
       return {
         ...prev,
-        [activeScenario]: { ...newIcons } 
+        [activeScenario]: { ...newIcons }
       };
     });
   };
@@ -387,79 +388,90 @@ export default function App() {
                       { text: 'Package room', from: [0, 7], to: [2, 7] },
                       { text: 'Elderly room', from: [6, 3], to: [8, 3]}];
 
-  // Current FallbackType setting for explanation generation                    
+  // Current FallbackType setting for explanation generation    
   const currentFallbackTypeId = useStore((s) => s.currentFallbackTypeId);
   console.log("what is currentFallbackTypeId," ,currentFallbackTypeId);
 
 
   return (
-    
+
       <ThemeProvider theme={muiTheme}>
         <Stack
           direction="row"
           style={{
-            backgroundColor: "red",
             height: "100vh",
             width: "100vw",
             position: "fixed",
           }}
         >
-          <ReflexContainer
-            orientation="vertical"
-            style={{ backgroundColor: "blue" }}
-          >
-            {showEditor && (
-              <ReflexElement
-                id="reflex-program"
-                style={{ overflow: "hidden" }}
-                // minSize={200}
-                onStopResize={(e) => {
-                  if (editorBounds.width / simBounds.width < 0.2) {
-                    console.log("setting to sim", e);
-                    setViewMode("sim");
-                  }
-                }}
-              >
-                <Box
-                  ref={containerRef}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",   // ← change to row
-                    width: "100%",
-                    height: "100%",
-                  }}
-                >
-                  {/* TOP ELEMENT */}
-                  <Box
-                    sx={{
-                      height: 260,                 // fixed width
-                      bgcolor: "white",
-                      borderRight: "1px solid grey",
-                      display: "flex",
-                      alignItems: "stretch",
-                      justifyContent: "center",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <SlamTile />
-                  </Box>
+          {/* FINAL v4 LAYOUT SHELL (does not touch violations drawer on the far right) */}
+          <div className="rb-root">
+            {/* TOP ROW: 1/3 MAP | 2/3 PROGRAM */}
+            <div className="rb-top rb-top-2col-v4">
+              {/* MAP (1/3) */}
+              <div className="rb-panel">
+                <div className="rb-panel-title">SLAM MAP</div>
+                <div className="rb-panel-body" style={{ background: "white" }}>
+                  <SlamTile />
+                </div>
+              </div>
 
-                  {/* PROGRAM TILE */}
-                  <Box sx={{ flex: 1, minHeight: 0 }}>
+              {/* PROGRAMMING (2/3) */}
+              <div className="rb-panel">
+                <div className="rb-panel-title">PROGRAMMING CANVAS</div>
+                <div className="rb-panel-body">
+                  {showEditor && (
                     <ProgramTile
                       ref={editorRef}
                       style={{ height: "100%" }}
                       onScenarioChange={setScenario}
                     />
-                  </Box>
-                  </Box>
+                  )}
+                </div>
+              </div>
+            </div>
 
-              </ReflexElement>
-            )}
-          </ReflexContainer>
+            {/* BOTTOM ROW 50/50 */}
+            <div className="rb-bottom rb-bottom-v4">
+              {/* Bigger Direction Steps (aligned + centered) */}
+              <div className="rb-panel">
+                <div className="rb-panel-title">DIRECTION STEPS</div>
 
-          
-          {showDrawer ? 
+                <div className="rb-steps-row rb-steps-row-xxl">
+                  <div className="rb-step rb-step-xxl active">Programming</div>
+                  <div className="rb-arrow rb-arrow-xxl">→</div>
+                  <div className="rb-step rb-step-xxl">Running</div>
+                  <div className="rb-arrow rb-arrow-xxl">→</div>
+                  <div className="rb-step rb-step-xxl">Completed</div>
+                </div>
+              </div>
+
+              {/* Feedback panel: inline question + yes/no, textbox, retry + submit */}
+              <div className="rb-panel">
+                <div className="rb-feedback rb-feedback-v4">
+                  <div className="rb-feedback-inline">
+                    <div className="rb-feedback-title">Do you like it?</div>
+                    <button className="rb-icon-btn">Yes</button>
+                    <button className="rb-icon-btn">No</button>
+                  </div>
+
+                  <textarea
+                    className="rb-feedback-textbox rb-feedback-textbox-v4"
+                    placeholder="Tell us what you liked or what could be improved..."
+                  />
+
+                  <div className="rb-feedback-footer">
+                    <button className="rb-btn secondary">RETRY</button>
+                    <div style={{ flex: 1 }} />
+                    <button className="rb-btn">SUBMIT</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          {showDrawer ?
           (<Drawer
             variant="permanent"
             anchor="right"
@@ -503,7 +515,7 @@ export default function App() {
                   {fallbackSetList.length > 0 ? (
                     <Stack spacing={2}>
                       {fallbackSetList.map((set, idx) => (
-                        <Box key={`${set.fallbackSetId}-${set.errorType}`} 
+                        <Box key={`${set.fallbackSetId}-${set.errorType}`}
                                 sx={{ p: 2, bgcolor: "grey.900", borderRadius: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>
                               {idx + 1}. {set.fallbackSetName || set.fallbackSetId}
@@ -578,7 +590,7 @@ export default function App() {
                                         bgcolor = "#fff9c4"; // yellow
                                         border = "#fdd835";
                                       }
-                                    } 
+                                    }
 
                                     return explanation ? (
                                       <Box
@@ -620,7 +632,7 @@ export default function App() {
               </Box>
 
 
-          </Drawer>) : 
+          </Drawer>) :
           (
             <Box
               onClick={() => setShowDrawer(true)}
@@ -638,11 +650,10 @@ export default function App() {
               &gt;
             </Box>
           )}
-            
+
         </Stack>
         <Detail />
         <SettingsModal />
       </ThemeProvider>
   );
 }
-
