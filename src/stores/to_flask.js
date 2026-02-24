@@ -113,7 +113,12 @@ export function saveTrial({ trialNumber, conditionNumber, scenarioNumber }) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ trialNumber, conditionNumber, scenarioNumber }),
-  }).then((r) => r.json());
+  })
+    .then((r) => r.json())
+     .then((json) => {
+      listeners.forEach((fn) => fn(json));
+      return json;
+    });
 }
 
 export function stageMapYaml(yamlText, meta = {}) {
