@@ -211,6 +211,30 @@ export default function App() {
 
   const [fallbackSetList, setFallbackSetList] = useState([]);
 
+  // CHANGE: Track feedback textbox content so it can be sent to Flask on SUBMIT.
+  const [feedbackText, setFeedbackText] = useState("");
+
+  // CHANGE: Send the feedback textbox message to Flask and clear textbox on success.
+  const submitFeedback = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: feedbackText }),
+      });
+
+      if (!res.ok) {
+        console.error("Feedback submit failed:", res.status);
+        return;
+      }
+
+      console.log("Feedback sent:", feedbackText);
+      setFeedbackText("");
+    } catch (err) {
+      console.error("Feedback submit error:", err);
+    }
+  };
+
 
   useEffect(() => {
     if (dragging) {
@@ -388,7 +412,7 @@ export default function App() {
                       { text: 'Package room', from: [0, 7], to: [2, 7] },
                       { text: 'Elderly room', from: [6, 3], to: [8, 3]}];
 
-  // Current FallbackType setting for explanation generation    
+  // Current FallbackType setting for explanation generation
   const currentFallbackTypeId = useStore((s) => s.currentFallbackTypeId);
   console.log("what is currentFallbackTypeId," ,currentFallbackTypeId);
 
@@ -458,12 +482,14 @@ export default function App() {
                   <textarea
                     className="rb-feedback-textbox rb-feedback-textbox-v4"
                     placeholder="Tell us what you liked or what could be improved..."
+                    value={feedbackText} // CHANGE: controlled textarea so we can submit its contents
+                    onChange={(e) => setFeedbackText(e.target.value)} // CHANGE: update state as user types
                   />
 
                   <div className="rb-feedback-footer">
                     <button className="rb-btn secondary">RETRY</button>
                     <div style={{ flex: 1 }} />
-                    <button className="rb-btn">SUBMIT</button>
+                    <button className="rb-btn" onClick={submitFeedback}>SUBMIT</button> {/* CHANGE: send feedback to Flask */}
                   </div>
                 </div>
               </div>
