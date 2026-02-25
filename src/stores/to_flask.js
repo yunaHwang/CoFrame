@@ -109,13 +109,14 @@ export function waitForFlush() {
 }
 
 export function saveTrial({ trialNumber, conditionNumber, scenarioNumber }) {
+  const programData = useStore.getState().programData;
   return fetch("http://localhost:5000/save_trial_data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ trialNumber, conditionNumber, scenarioNumber }),
+    body: JSON.stringify({ trialNumber, conditionNumber, scenarioNumber, programData }),
   })
     .then((r) => r.json())
-     .then((json) => {
+    .then((json) => {
       listeners.forEach((fn) => fn(json));
       return json;
     });

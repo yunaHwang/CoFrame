@@ -27,7 +27,7 @@ import "react-reflex/styles.css";
 import "./App.css";
 import { shallow } from "zustand/shallow";
 
-import robotPng from "./components/SimMapFlaticons/robot.png"
+import robotPng from "./components/SimMapFlaticons/ai-technology-robot-cute-design.png"
 import employeePng from "./components/SimMapFlaticons/employee.png"
 import chargingPng from "./components/SimMapFlaticons/charging_dock.png"
 import elderlyPng from "./components/SimMapFlaticons/elderly.png"
@@ -412,7 +412,6 @@ export default function App() {
               <ReflexElement
                 id="reflex-program"
                 style={{ overflow: "hidden" }}
-                // minSize={200}
                 onStopResize={(e) => {
                   if (editorBounds.width / simBounds.width < 0.2) {
                     console.log("setting to sim", e);
@@ -424,7 +423,7 @@ export default function App() {
                   ref={containerRef}
                   sx={{
                     display: "flex",
-                    flexDirection: "column",   // ← change to row
+                    flexDirection: "column",
                     width: "100%",
                     height: "100%",
                   }}
@@ -432,7 +431,7 @@ export default function App() {
                   {/* TOP ELEMENT */}
                   <Box
                     sx={{
-                      height: 260,                 // fixed width
+                      height: 260,
                       bgcolor: "white",
                       borderRight: "1px solid grey",
                       display: "flex",
@@ -452,10 +451,10 @@ export default function App() {
                       onScenarioChange={setScenario}
                     />
                   </Box>
-                  </Box>
-
+                </Box>
               </ReflexElement>
             )}
+
           </ReflexContainer>
 
           

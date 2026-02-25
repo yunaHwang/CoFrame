@@ -1250,7 +1250,7 @@ function hexToRgba(hex, alpha = 1) {
     return new Set(pairs.map(([x, y]) => `${x},${y}`));
   }, [highlight]);
 
-  const pageStyle = { minHeight:"40vh", width:"100%", backgroundColor:"#333" };
+  const pageStyle = { minHeight:"40vh", width:"100%", backgroundColor:"#333", position:"relative" };
   const gridStyle = {
     display:"grid", width:"100%", maxWidth:"100%",
     gridTemplateColumns:"repeat(10,10%)",
