@@ -214,6 +214,9 @@ export default function App() {
   // CHANGE: Track feedback textbox content so it can be sent to Flask on SUBMIT.
   const [feedbackText, setFeedbackText] = useState("");
 
+  // Direction Steps status: "programming" | "running" | "completed"
+  const [statusPhase, setStatusPhase] = useState("programming");
+
   // CHANGE: Send the feedback textbox message to Flask and clear textbox on success.
   const submitFeedback = async () => {
     try {
@@ -351,6 +354,11 @@ export default function App() {
 
   const showSim = viewMode === "default" || viewMode === "sim";
   const showEditor = viewMode === "default" || viewMode === "program";
+  
+  const pillClass = (id) =>
+    `rb-step rb-step-xxl ${statusPhase === id ? "isSpinning" : "isInactive"}`;
+
+  const arrowClass = () => `rb-arrow rb-arrow-xxl isInactive`;
 
 
   // Hallway color cell highlighting
@@ -462,11 +470,13 @@ export default function App() {
                 <div className="rb-panel-title">DIRECTION STEPS</div>
 
                 <div className="rb-steps-row rb-steps-row-xxl">
-                  <div className="rb-step rb-step-xxl active">Programming</div>
-                  <div className="rb-arrow rb-arrow-xxl">→</div>
-                  <div className="rb-step rb-step-xxl">Running</div>
-                  <div className="rb-arrow rb-arrow-xxl">→</div>
-                  <div className="rb-step rb-step-xxl">Completed</div>
+                  <div className={pillClass("programming")}>Programming</div>
+                  <div className={arrowClass()}>→</div>
+
+                  <div className={pillClass("running")}>Running</div>
+                  <div className={arrowClass()}>→</div>
+
+                  <div className={pillClass("completed")}>Completed</div>
                 </div>
               </div>
 
@@ -487,7 +497,7 @@ export default function App() {
                   />
 
                   <div className="rb-feedback-footer">
-                    <button className="rb-btn secondary">RETRY</button>
+                    <button className="rb-btn secondary" onClick={() => setStatusPhase("programming")}>RETRY</button>
                     <div style={{ flex: 1 }} />
                     <button className="rb-btn" onClick={submitFeedback}>SUBMIT</button> {/* CHANGE: send feedback to Flask */}
                   </div>

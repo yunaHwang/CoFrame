@@ -165,3 +165,69 @@
   gap: 10px;
   margin-top: 2px;
 }
+
+/* === Direction Steps: phase blur + spinner === */
+.rb-step.isInactive,
+.rb-arrow.isInactive {
+  filter: blur(2.4px);
+  opacity: 0.35;
+}
+
+/* Active pill: tiny dash moving around a darker border (like your reference) */
+.rb-step.isSpinning {
+  position: relative;
+  border-radius: 999px;
+
+  /* base look */
+  background: #1d1d1d;
+  border: 1px solid transparent; /* required for border-box layer */
+
+  /* tweak these two to match thickness + spacing */
+  --b: 4px;         /* border thickness */
+  --pad: 0px;       /* inner padding-box offset (usually 0) */
+
+  /* animation angle */
+  --angle: 0deg;
+
+  /* 2-layer background:
+     - layer 1: solid fill (padding-box)
+     - layer 2: conic gradient dash (border-box)
+  */
+  background:
+    linear-gradient(#1d1d1d, #1d1d1d) padding-box,
+    conic-gradient(
+      from var(--angle),
+
+      /* dark/transparent most of the way */
+      rgba(34, 197, 94, 0) 0deg 330deg,
+
+      /* the tiny dash (soft shoulders + bright center) */
+      rgba(34, 197, 94, 0.25) 310deg 330deg,
+      rgba(34, 197, 94, 0.95) 330deg 350deg,
+      rgba(34, 197, 94, 0.25) 350deg 360deg,
+
+      rgba(176, 75, 120, 0) 356deg 360deg
+    ) border-box;
+
+  border: var(--b) solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  /* optional subtle glow like your screenshot */
+  box-shadow: 0 0 0 1px rgba(176, 75, 120, 0.12) inset;
+  filter: drop-shadow(0 0 6px rgba(176, 75, 120, 0.20));
+
+  animation: rbDashMove 2.0s linear infinite;
+}
+
+/* Smooth anim of the conic gradient start angle */
+@keyframes rbDashMove {
+  to { --angle: 360deg; }
+}
+
+/* Optional: make the custom property animatable (Chrome/Edge/Safari) */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
