@@ -12,7 +12,7 @@ import { stageBatteryWarning, saveTrial } from "../../stores/to_flask";
 import { FixtureIcon } from '../CustomIcons/Fixture';
 import Spotlight from './Spotlight';
 
-export const ProgramTile = forwardRef(({ onScenarioChange, }, ref) => {
+export const ProgramTile = forwardRef(({ onScenarioChange, onRun }, ref) => {
 
     const highlightColor = useStore(state => state.primaryColor, shallow);
     const setViewMode = useStore(state => state.setViewMode, shallow);
@@ -200,8 +200,9 @@ export const ProgramTile = forwardRef(({ onScenarioChange, }, ref) => {
                             )}
                         </Stack>
 
+                        {/* Reverting Darsh code and activating Sehar's back */}
                         {/* RUN BUTTON (ADDED) */}
-                        <Button
+                        {/* <Button
                             variant="contained"
                             onClick={handleRun}
                             disabled={isProcessing}
@@ -217,7 +218,24 @@ export const ProgramTile = forwardRef(({ onScenarioChange, }, ref) => {
                             }}
                         >
                             Run
-                        </Button>
+                        </Button> */}
+
+                            <Button
+                                variant="contained"
+                                size="small"
+                                onClick={() => {
+                                    setSaveModalOpen(true);
+                                    onRun?.(); }}
+                                sx={{
+                                    backgroundColor: '#1a6e3c',
+                                    '&:hover': { backgroundColor: '#145a30' },
+                                    textTransform: 'none',
+                                    fontWeight: 600,
+                                    px: 2,
+                                }}
+                            >
+                                Run on robot
+                            </Button>
 
                         {/* Scenario dropdown commented out in your original */}
                         {/* <Box ... onClick={openMenu}> ... </Box> */}

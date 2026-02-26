@@ -457,6 +457,7 @@ export default function App() {
                       ref={editorRef}
                       style={{ height: "100%" }}
                       onScenarioChange={setScenario}
+                      onRun={() => setStatusPhase("running")}
                     />
                   )}
                 </div>
