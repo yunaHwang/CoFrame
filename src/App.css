@@ -1,85 +1,233 @@
-.reflex-container .reflex-splitter {
-  background-color: #222222
+/* === RoboPlanB UI Layout (v4) ===
+   Fixes:
+   - Direction steps aligned + centered (no weird spacing)
+   - Feedback submit button always visible (textarea flexes and footer pinned)
+   - Top row: Map 1/3, Programming 2/3
+   - Bottom row: 50/50 split
+*/
+
+.rb-root {
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 220px;
+  background: #111;
 }
 
-.reflex-container .reflex-splitter.active {
-  background-color: #444444
+.rb-top.rb-top-2col-v4 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  padding: 10px;
+  min-height: 0;
 }
 
-.reflex-container .reflex-splitter:hover {
-  background-color: #444444
+.rb-bottom.rb-bottom-v4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  min-height: 0;
 }
 
-.reflex-container.vertical .reflex-splitter {
-  border-right: 0px solid transparent;
-  border-left: 0px solid transparent
-}
-
-.reflex-container.vertical .reflex-splitter.active {
-  border-right: 0px solid transparent;
-  border-left: 0px solid transparent
-}
-
-.reflex-container.vertical .reflex-splitter:hover {
-  border-right: 0px solid transparent;
-  border-left: 0px solid transparent
-}
-
-.reflex-container.horizontal .reflex-splitter {
-  border-top: 0px solid transparent;
-  border-bottom: 0px solid transparent
-}
-
-.reflex-container.horizontal .reflex-splitter.active {
-  border-top: 0px solid transparent;
-  border-bottom: 0px solid transparent
-}
-
-.reflex-container.horizontal .reflex-splitter:hover {
-  border-top: 0px solid transparent;
-  border-bottom: 0px solid transparent
-}
-
-
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.rb-panel {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+}
+
+.rb-panel-title {
+  padding: 10px 12px;
+  border-bottom: 1px solid #2a2a2a;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ddd;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.rb-panel-body {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Steps (XXL) */
+.rb-steps-row.rb-steps-row-xxl {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: center; /* align */
+  gap: 18px;
+  padding: 22px 18px;
+  color: #ddd;
+}
+
+.rb-step.rb-step-xxl {
+  min-width: 100px; /* helps alignment */
+  text-align: center;
+  padding: 14px 18px;
+  font-size: 18px;
+  font-weight: 850;
+  border-radius: 999px;
+  border: 1px solid #333;
+  background: #1d1d1d;
+}
+
+.rb-step.active {
+  border-color: #b04b78;
+  box-shadow: 0 0 0 2px rgba(176, 75, 120, 0.25) inset;
+}
+
+.rb-arrow.rb-arrow-xxl {
+  font-size: 30px;
+  font-weight: 900;
+  color: #888;
+}
+
+/* Buttons */
+.rb-btn {
+  background: #b04b78;
+  border: none;
   color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 850;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.rb-btn.secondary {
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #eee;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Feedback panel */
+.rb-feedback.rb-feedback-v4 {
+  padding: 14px;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0; /* allow textbox to shrink */
 }
 
-button {
-  font-size: calc(10px + 2vmin);
-} */
+.rb-feedback-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.rb-feedback-title {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  margin-right: 4px;
+}
+
+.rb-icon-btn {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #eee;
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.rb-feedback-textbox.rb-feedback-textbox-v4 {
+  flex: 1;            /* key: make room for footer */
+  min-height: 0;      /* key: allow shrink */
+  resize: none;       /* keeps layout stable */
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #121212;
+  color: #eee;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.rb-feedback-textbox:focus {
+  border-color: #b04b78;
+  box-shadow: 0 0 0 2px rgba(176, 75, 120, 0.18);
+}
+
+.rb-feedback-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+/* === Direction Steps: phase blur + spinner === */
+.rb-step.isInactive,
+.rb-arrow.isInactive {
+  filter: blur(2.4px);
+  opacity: 0.35;
+}
+
+/* Active pill: tiny dash moving around a darker border (like your reference) */
+.rb-step.isSpinning {
+  position: relative;
+  border-radius: 999px;
+
+  /* base look */
+  background: #1d1d1d;
+  border: 1px solid transparent; /* required for border-box layer */
+
+  /* tweak these two to match thickness + spacing */
+  --b: 4px;         /* border thickness */
+  --pad: 0px;       /* inner padding-box offset (usually 0) */
+
+  /* animation angle */
+  --angle: 0deg;
+
+  /* 2-layer background:
+     - layer 1: solid fill (padding-box)
+     - layer 2: conic gradient dash (border-box)
+  */
+  background:
+    linear-gradient(#1d1d1d, #1d1d1d) padding-box,
+    conic-gradient(
+      from var(--angle),
+
+      /* dark/transparent most of the way */
+      rgba(34, 197, 94, 0) 0deg 330deg,
+
+      /* the tiny dash (soft shoulders + bright center) */
+      rgba(34, 197, 94, 0.25) 310deg 330deg,
+      rgba(34, 197, 94, 0.95) 330deg 350deg,
+      rgba(34, 197, 94, 0.25) 350deg 360deg,
+
+      rgba(176, 75, 120, 0) 356deg 360deg
+    ) border-box;
+
+  border: var(--b) solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  /* optional subtle glow like your screenshot */
+  box-shadow: 0 0 0 1px rgba(176, 75, 120, 0.12) inset;
+  filter: drop-shadow(0 0 6px rgba(176, 75, 120, 0.20));
+
+  animation: rbDashMove 2.0s linear infinite;
+}
+
+/* Smooth anim of the conic gradient start angle */
+@keyframes rbDashMove {
+  to { --angle: 360deg; }
+}
+
+/* Optional: make the custom property animatable (Chrome/Edge/Safari) */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}

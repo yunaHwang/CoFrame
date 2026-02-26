@@ -12,13 +12,13 @@ import { stageBatteryWarning, saveTrial } from "../../stores/to_flask";
 import { FixtureIcon } from '../CustomIcons/Fixture';
 import Spotlight from './Spotlight';
 
-export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
+export const ProgramTile = forwardRef(({ onScenarioChange, }, ref) => {
 
-    const highlightColor = useStore(state => state.primaryColor,shallow);
-    const setViewMode = useStore(state => state.setViewMode,shallow);
-    const viewMode = useStore(state => state.viewMode,shallow);
-    const setActiveModal = useStore(state => state.setActiveModal,shallow);
-    const isProcessing = useStore(state => state.processes.planProcess !== null && state.processes.planProcess !== undefined,shallow);
+    const highlightColor = useStore(state => state.primaryColor, shallow);
+    const setViewMode = useStore(state => state.setViewMode, shallow);
+    const viewMode = useStore(state => state.viewMode, shallow);
+    const setActiveModal = useStore(state => state.setActiveModal, shallow);
+    const isProcessing = useStore(state => state.processes.planProcess !== null && state.processes.planProcess !== undefined, shallow);
 
     const batteryWarning = useStore(state => state.batteryWarning, shallow);
     const setBatteryWarning = useStore(state => state.setBatteryWarning, shallow);
@@ -28,10 +28,10 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const globalDistanceTravel = useStore(state => state.globalDistanceTravel, shallow);
 
     // battery warnings for popping errors
-    const battery20Warning = useStore(state => state.battery20Warning,shallow);
-    const setBattery20Warning = useStore(state => state.setBattery20Warning,shallow);
-    const battery5Warning     = useStore(state => state.battery5Warning, shallow);
-    const setBattery5Warning  = useStore(state => state.setBattery5Warning,shallow);
+    const battery20Warning = useStore(state => state.battery20Warning, shallow);
+    const setBattery20Warning = useStore(state => state.setBattery20Warning, shallow);
+    const battery5Warning = useStore(state => state.battery5Warning, shallow);
+    const setBattery5Warning = useStore(state => state.setBattery5Warning, shallow);
 
     // sensor warning for popping error
     const sensorWarning = useStore(state => state.sensorWarning, shallow);
@@ -45,7 +45,6 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const heavyWarning = useStore(state => state.heavyWarning, shallow);
     const setHeavyWarning = useStore(state => state.setHeavyWarning, shallow);
 
-
     // [5-1] cart/fence block warning for popping error
     const cartBlockWarning = useStore(state => state.cartBlockWarning, shallow);
     const setCartBlockWarning = useStore(state => state.setCartBlockWarning, shallow);
@@ -53,8 +52,7 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     // [5-2] package block warning for popping error
     const packageBlockWarning = useStore(state => state.packageBlockWarning, shallow);
     const setPackageBlockWarning = useStore(state => state.setPackageBlockWarning, shallow);
-    
-    
+
     const prevLevelRef = useRef(batteryLevel);
 
     const actionMessage = useStore(state => state.actionMessage, shallow);
@@ -65,11 +63,11 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     // const [ref, bounds] = useMeasure();
     const [errorHistory, setErrorHistory] = useState([]);
 
-    const [scenario,  setScenario]  = useState('Scenario 1');
+    const [scenario, setScenario] = useState('Scenario 1');
     const [menuAnchor, setMenuAnchor] = useState(null);
-    const openMenu   = e => setMenuAnchor(e.currentTarget);
-    const closeMenu  = () => setMenuAnchor(null);
-    const pick       = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
+    const openMenu = e => setMenuAnchor(e.currentTarget);
+    const closeMenu = () => setMenuAnchor(null);
+    const pick = label => { setScenario(label); onScenarioChange?.(label); closeMenu(); };
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
     const [trialNumber, setTrialNumber] = useState('');
@@ -105,48 +103,40 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
     const getRobotFacingDisplay = () => {
         const facingMap = {
             "N": "↑ North",
-            "E": "→ East", 
+            "E": "→ East",
             "S": "↓ South",
             "W": "← West"
         };
-    return facingMap[robotOrientation] || "→ East";
-};
-    // useEffect for flipping the warnings 
-    // useEffect(() => {
-    // //console.log("why is not below 20? ", batteryLevel);
-    // if (prevLevelRef.current > 20 && batteryLevel <= 20 && batteryLevel > 5) {
-    //     setErrorHistory(prev => ['Battery Low', ...prev]);
-    // }
+        return facingMap[robotOrientation] || "→ East";
+    };
 
-    // if (prevLevelRef.current > 5 && batteryLevel <= 5) {
-    //     setErrorHistory(prev => ['Battery Critical', ...prev]);
+    // ---- RUN BUTTON HANDLER (ADDED) ----
+    const handleRun = () => {
+        const s = useStore.getState();
 
-    // }
+        // Try common names without breaking anything if they don't exist.
+        if (typeof s.runProgram === "function") return s.runProgram();
+        if (typeof s.executeProgram === "function") return s.executeProgram();
+        if (typeof s.startRun === "function") return s.startRun();
+        if (typeof s.submitProgram === "function") return s.submitProgram();
 
-    // prevLevelRef.current = batteryLevel;
-    // }, [batteryLevel]);
+        console.warn("Run clicked, but no run function found on store (runProgram/executeProgram/startRun/submitProgram).");
+    };
 
-    // useEffect for sending the flipped warning signs 
+    // useEffect for sending the flipped warning signs
     useEffect(() => {
-    if (battery20Warning)  stageBatteryWarning(20, true);
-    if (battery5Warning)   stageBatteryWarning(5,  true);
+        if (battery20Warning) stageBatteryWarning(20, true);
+        if (battery5Warning) stageBatteryWarning(5, true);
     }, [battery20Warning, battery5Warning]);
 
     useEffect(() => {
-    // Show the spotlight 1 second after render (or whenever you want)
-    const timer = setTimeout(() => setShowSpotlight(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-//   useEffect(() => {
-//   // Simulate multiple errors for testing
-//   setTimeout(() => {
-//     setErrorHistory(['Battery Critical', 'Battery Low', 'Battery Low', 'Battery Critical', 'Battery Low']);
-//   }, 500);
-// }, []);
-    
+        // Show the spotlight 1 second after render (or whenever you want)
+        const timer = setTimeout(() => setShowSpotlight(true), 1000);
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
-        <Stack ref={ref} direction='column' style={{width:'100%',height:'100%'}} >
+        <Stack ref={ref} direction='column' style={{ width: '100%', height: '100%' }} >
 
             {battery20Warning && (
                 <Spotlight message="This is where you can get more fallback containers.." />
@@ -156,169 +146,109 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
             )} */}
 
             <Tile
-                style={{ height: '100%'}}
+                style={{ height: '100%' }}
                 borderWidth={3}
                 borderRadius={0}
                 internalPaddingWidth={0}
-                innerStyle={{height:'calc(100% - 55px)'}}
+                innerStyle={{ height: 'calc(100% - 55px)' }}
                 header={
-                    <Stack direction='row' alignItems="center" justifyContent='space-between' sx={{ pr: '4px', width: '100%' }}>
+                    <Stack direction='row' alignItems="center" sx={{ pr: '4px', width: '100%' }}>
                         <Stack direction='row' gap={1} alignItems='center'>
                             <Box
-                            sx = {{
-                                backgroundColor: '#932848', 
-                                padding: '6px 12px',
-                                borderRadius: '2px'
-                            }}
+                                sx={{
+                                    backgroundColor: '#932848',
+                                    padding: '6px 12px',
+                                    borderRadius: '2px',
+                                    whiteSpace: 'nowrap'
+                                }}
                             >
                                 <Typography style={{ color: 'white' }}>Distance Traveled: {displayDistance} feet</Typography>
                             </Box>
 
                             <Box
-                            sx = {{
-                                backgroundColor: '#531629', 
-                                padding: '6px 12px',
-                                borderRadius: '2px'
-                            }}>
+                                sx={{
+                                    backgroundColor: '#531629',
+                                    padding: '6px 12px',
+                                    borderRadius: '2px',
+                                    whiteSpace: 'nowrap'
+                                }}>
                                 <Typography style={{ color: 'white' }}>Current Battery Level {displayBattery}%</Typography>
                             </Box>
-                            {/* <Box 
-                            sx={{ 
-                                backgroundColor: '#2d5a87', 
-                                padding: '6px 12px', 
-                                borderRadius: '2px' 
+
+                            {/* <Box
+                            sx={{
+                                backgroundColor: '#2d5a87',
+                                padding: '6px 12px',
+                                borderRadius: '2px'
                                 }}>
                                 <Typography style={{ color: 'white' }}>Robot Facing: {getRobotFacingDisplay()}</Typography>
                             </Box> */}
-                            {actionMessage && (
-                            <Box 
-                                sx={{ 
-                                backgroundColor: '#d3a352ff', 
-                                padding: '6px 12px',
-                                borderRadius: '2px',
-                                animation: 'fadeInOut 3s linear',
-                                color: 'white'
-                                }}
-                            >
-                                <Typography>{actionMessage}</Typography>
-                            </Box>
-                            )}
-                            </Stack>
-                            {/* {showError && errorMessage && (
-                            <Box
-                            sx = {{
-                                backgroundColor: '#531629', 
-                                padding: '6px 12px',
-                                borderRadius: '2px'
-                            }}>
-                                <Typography style={{ color: 'white', fontSize: '15px' }}>
-                                ⚠️ {errorMessage}
-                                </Typography>
-                            </Box>
-                            )} */}
-                            {/* {errorHistory.length > 0 && (
-                            <Box sx={{ 
-                                display: 'flex',
-                                gap: 1,
-                                overflowX: 'auto',
-                                maxWidth: '800px',
-                                '&::-webkit-scrollbar': { height: 7 },
-                                '&::-webkit-scrollbar-thumb': { backgroundColor: 'white', borderRadius: 5 }
-                            }}>
-                            {errorHistory.map((error, index) => (
-                                <Box key={index} sx={{
-                                    backgroundColor: '#ffb74d',
-                                    color: 'white',
-                                    padding: '6px 12px',
-                                    borderRadius: '2px',
-                                    minWidth: 'fit-content',
-                                    fontSize: '19px'                               
-                                    }}>
-                                {error}
-                                </Box>
-                            ))}
-                            </Box>
-                        )} */}
-                
-                            
-            
-                            {/* <Box
-                                sx={{
-                                    backgroundColor: '#E37383',
-                                    p: '6px 12px',
-                                    borderRadius: '2px',
-                                    cursor: 'pointer',
-                                    userSelect: 'none',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 0.5,
-                                }}
-                                onClick={openMenu}
-                                >
-                                <Typography sx={{ color: 'white' }}>{scenario}</Typography>
-                                <Typography sx={{ color: 'white' }}>▾</Typography> 
-                            </Box> */}
-                            {/* <Menu
-                                anchorEl={menuAnchor}
-                                open={Boolean(menuAnchor)}
-                                onClose={closeMenu} 
-                                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                                transformOrigin={{ vertical: 'top',   horizontal: 'left' }}
-                            >
-                            {['Scenario 1', 'Scenario 2', 'Scenario 3', 'Scenario 4', 'Scenario 5']
-                            .map(label => (
-                                <MenuItem
-                                key={label}
-                                selected={label === scenario}
-                                onClick={() => pick(label)}
-                                >
-                                {label}
-                                </MenuItem>
-                            ))}
-                            </Menu> */}
 
-                            <Button
-                                variant="contained"
-                                size="small"
-                                onClick={() => setSaveModalOpen(true)}
-                                sx={{
-                                    backgroundColor: '#1a6e3c',
-                                    '&:hover': { backgroundColor: '#145a30' },
-                                    textTransform: 'none',
-                                    fontWeight: 600,
-                                    px: 2,
-                                }}
-                            >
-                                Save Trial Data
-                            </Button>
+                            {actionMessage && (
+                                <Box
+                                    sx={{
+                                        backgroundColor: '#d3a352ff',
+                                        padding: '6px 12px',
+                                        borderRadius: '2px',
+                                        animation: 'fadeInOut 3s linear',
+                                        color: 'white',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    <Typography>{actionMessage}</Typography>
+                                </Box>
+                            )}
                         </Stack>
 
+                        {/* RUN BUTTON (ADDED) */}
+                        <Button
+                            variant="contained"
+                            onClick={handleRun}
+                            disabled={isProcessing}
+                            sx={{
+                                ml: 'auto',
+                                backgroundColor: '#d05a86',
+                                textTransform: 'none',
+                                fontWeight: 700,
+                                borderRadius: '8px',
+                                height: '36px',
+                                px: 2,
+                                '&:hover': { backgroundColor: '#bf4f78' }
+                            }}
+                        >
+                            Run
+                        </Button>
+
+                        {/* Scenario dropdown commented out in your original */}
+                        {/* <Box ... onClick={openMenu}> ... </Box> */}
+                        {/* <Menu ...> ... </Menu> */}
+                    </Stack>
                 }
-            >   
-            <Box position="relative" style={{height: '100%'}} key={fallbackMode ? 'fallback' : 'normal'}>
-                <Environment store={useStore} highlightColor={highlightColor} snapToGrid={false} animateDrawer={true} drawerWidth={325} />
-                {fallbackMode && batteryWarning && (
+            >
+                <Box position="relative" style={{ height: '100%' }} key={fallbackMode ? 'fallback' : 'normal'}>
+                    <Environment store={useStore} highlightColor={highlightColor} snapToGrid={false} animateDrawer={true} drawerWidth={325} />
+                    {fallbackMode && batteryWarning && (
                         <Paper
-                            sx={{   
+                            sx={{
                                 position: 'absolute',
                                 top: '10%',
                                 left: '25%',
                                 backgroundColor: '#ffa726',
                                 color: 'black',
-                                padding: '10px 16px', 
+                                padding: '10px 16px',
                                 maxWidth: '400px',
                                 display: 'flex',
                                 alignItems: 'center'
                             }}
                         >
-                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4}}>
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
                                 ⚠️ Warning <br />
-                                Keep in mind that the robot's battery is not permanent. 
+                                Keep in mind that the robot's battery is not permanent.
                             </Typography>
-                            <Button 
+                            <Button
                                 variant="contained"
                                 onClick={() => setBatteryWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: 'rgba(231, 110, 18, 0.2)',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -329,31 +259,30 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             </Button>
                         </Paper>
                     )}
-                    
 
-                {/* battery error popping messages */}
-                 {battery20Warning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ffb74d',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Battery Low<br/>
-                            Stretch is below 20% battery. You don't want Stretch to turn off and stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {/* battery error popping messages */}
+                    {battery20Warning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ffb74d',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Battery Low<br />
+                                Stretch is below 20% battery. You don't want Stretch to turn off and stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setBattery20Warning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ffb74d',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -362,65 +291,64 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
-                
-                 {battery5Warning && (
-                    <Paper
-                        sx={{ 
-                        position: 'absolute',
-                        top: '10%',
-                        left: '25%',
-                        backgroundColor: '#e53935',  
-                        color: 'white',
-                        p: '10px 16px',
-                        maxWidth: 400,
-                        display: 'flex',
-                        alignItems: 'center'
-                        }}
-                    >
-                        <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                        🚨 Critical Battery<br/>
-                        Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
-                        </Typography>
-                        <Button
-                        variant="contained"
-                        onClick={() => setBattery5Warning(false)}
-                        sx={{
-                            ml: 2,
-                            backgroundColor: 'rgba(0,0,0,0.2)',
-                            '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)' }
-                        }}
-                        >
-                        Okay
-                        </Button>
-                    </Paper>
-                    )} 
+                        </Paper>
+                    )}
 
-                {/* sensor error popping message */}
-                 {sensorWarning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ff9966',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Sensor broken<br/>
-                            Uh-oh, Stretch's camera sensor just broke down. What should Stretch do in the midst of its package delivery mission? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {battery5Warning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#e53935',
+                                color: 'white',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                🚨 Critical Battery<br />
+                                Below 5 %! Take action so that the robot doesn't stop in the middle of the hallway. What should Stretch do? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                onClick={() => setBattery5Warning(false)}
+                                sx={{
+                                    ml: 2,
+                                    backgroundColor: 'rgba(0,0,0,0.2)',
+                                    '&:hover': { backgroundColor: 'rgba(0,0,0,0.3)' }
+                                }}
+                            >
+                                Okay
+                            </Button>
+                        </Paper>
+                    )}
+
+                    {/* sensor error popping message */}
+                    {sensorWarning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ff9966',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Sensor broken<br />
+                                Uh-oh, Stretch's camera sensor just broke down. What should Stretch do in the midst of its package delivery mission? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setSensorWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -429,33 +357,32 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
+                        </Paper>
+                    )}
 
-                {/* person block error popping message */}
-                 {personBlockWarning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ff9966',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Person Blocking<br/>
-                            The package room is full of people looking for their delivery items. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {/* person block error popping message */}
+                    {personBlockWarning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ff9966',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Person Blocking<br />
+                                The package room is full of people looking for their delivery items. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setPersonBlockWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -464,33 +391,32 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
+                        </Paper>
+                    )}
 
-                {/* heavy error popping message */}
-                 {heavyWarning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ff9966',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Heavy Package<br/>
-                            The package that Stretch has to deliver is way above its payload. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {/* heavy error popping message */}
+                    {heavyWarning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ff9966',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Heavy Package<br />
+                                The package that Stretch has to deliver is way above its payload. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setHeavyWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -499,33 +425,32 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
+                        </Paper>
+                    )}
 
-                {/* cart block error popping message */}
-                 {cartBlockWarning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ff9966',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Blocked by Carts and Fences<br/>
-                            The facility is going through major renovation and Stretch can't seem to get through the carts and fences. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {/* cart block error popping message */}
+                    {cartBlockWarning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ff9966',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Blocked by Carts and Fences<br />
+                                The facility is going through major renovation and Stretch can't seem to get through the carts and fences. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setCartBlockWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -534,33 +459,32 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
+                        </Paper>
+                    )}
 
-                {/* package block error popping message */}
-                 {packageBlockWarning && (
-                                <Paper
-                                    sx={{ 
-                                        position: 'absolute',
-                                        top: '10%',
-                                        left: '25%',
-                                        backgroundColor: '#ff9966',  
-                                        color: 'black',
-                                        p: '10px 16px',
-                                        maxWidth: 400,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
-                                ⚠️ Delivery Item Blocked<br/>
-                            The package that Stretch has to deliver is blocked by other residents' packages. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
-                                </Typography>
-                                <Button 
+                    {/* package block error popping message */}
+                    {packageBlockWarning && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '25%',
+                                backgroundColor: '#ff9966',
+                                color: 'black',
+                                p: '10px 16px',
+                                maxWidth: 400,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: 1.4 }}>
+                                ⚠️ Delivery Item Blocked<br />
+                                The package that Stretch has to deliver is blocked by other residents' packages. What should Stretch do in this case? Think ahead and define a few alternatives in case earlier ones fail.
+                            </Typography>
+                            <Button
                                 variant="contained"
                                 onClick={() => setPackageBlockWarning(false)}
-                                sx={{ 
+                                sx={{
                                     backgroundColor: '#ff9966',
                                     '&:hover': {
                                         backgroundColor: 'rgba(146, 45, 45, 0.3)'
@@ -569,9 +493,8 @@ export const ProgramTile = forwardRef(({onScenarioChange,}, ref) => {
                             >
                                 Okay
                             </Button>
-                            </Paper>
-                
-                    )} 
+                        </Paper>
+                    )}
                 </Box>
 
             </Tile>
