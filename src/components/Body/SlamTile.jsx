@@ -64,28 +64,30 @@ export const SlamTile = forwardRef((props, ref) => {
         width: "100%",
         height: "100%",
         backgroundColor: "white",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      {/* Top: Map / image area */}
+      {/* Map image fills the full tile height */}
       <Box
         sx={{
-          flex: 1,
-          minHeight: 0,
-          overflow: "hidden",
+          width: "100%",
+          height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
         }}
       >
         {imageSrc ? (
           <img
             src={imageSrc}
             alt="Uploaded"
-            style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover", display: "block" }}
+            style={{
+              height: "100%",
+              width: "auto",
+              display: "block",
+              objectFit: "contain",
+            }}
           />
         ) : (
           <Typography variant="h4" color="black">
@@ -94,20 +96,15 @@ export const SlamTile = forwardRef((props, ref) => {
         )}
       </Box>
 
-      {/* Logic for reading yaml and sending yaml values to the backend goes here*/}
-
-      {/* Divider */}
-      {/* <Divider sx={{ borderColor: "grey.700" }} /> */}
-
-      {/* Bottom: Upload button */}
+      {/* Upload button floated over the tile — doesn't affect image height */}
       <Box
         sx={{
-          p: 2,
-          display: "flex",
-          justifyContent: "flex-end",
+          position: "absolute",
+          bottom: 12,
+          right: 12,
         }}
       >
-        <Button variant="contained" component="label">
+        <Button variant="contained" component="label" size="small">
           Upload Map
           <input
             type="file"
