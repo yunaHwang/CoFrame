@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState, useRef} from "react";
 import { ProgramTile } from "./components/Body/ProgramTile";
 import { SlamTile } from "./components/Body/SlamTile";
 import SimTile from "./components/Body/SimTile";
-import { subscribeFlush, unsubscribeFlush } from "./stores/to_flask";
+import { subscribeFlush, unsubscribeFlush, submitFeedback } from "./stores/to_flask";
 import { TIMELINE_TYPES, STATUS } from "./stores/Constants";
 import { Detail } from "./components/Detail";
 import { SettingsModal } from "./components/Settings";
@@ -217,21 +217,30 @@ export default function App() {
   // Direction Steps status: "programming" | "running" | "completed"
   const [statusPhase, setStatusPhase] = useState("programming");
 
-  // CHANGE: Send the feedback textbox message to Flask and clear textbox on success.
-  const submitFeedback = async () => {
+  // // CHANGE: Send the feedback textbox message to Flask and clear textbox on success.
+  // const submitFeedback = async () => {
+  //   try {
+  //     const res = await fetch("http://127.0.0.1:5000/feedback", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ message: feedbackText }),
+  //     });
+
+  //     if (!res.ok) {
+  //       console.error("Feedback submit failed:", res.status);
+  //       return;
+  //     }
+
+  //     console.log("Feedback sent:", feedbackText);
+  //     setFeedbackText("");
+  //   } catch (err) {
+  //     console.error("Feedback submit error:", err);
+  //   }
+  // };
+
+  const handleSubmitFeedback = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: feedbackText }),
-      });
-
-      if (!res.ok) {
-        console.error("Feedback submit failed:", res.status);
-        return;
-      }
-
-      console.log("Feedback sent:", feedbackText);
+      await submitFeedback({ feedbackText });
       setFeedbackText("");
     } catch (err) {
       console.error("Feedback submit error:", err);
@@ -500,7 +509,7 @@ export default function App() {
                   <div className="rb-feedback-footer">
                     <button className="rb-btn secondary" onClick={() => setStatusPhase("programming")}>RETRY</button>
                     <div style={{ flex: 1 }} />
-                    <button className="rb-btn" onClick={submitFeedback}>SUBMIT</button> {/* CHANGE: send feedback to Flask */}
+                    <button className="rb-btn" onClick={handleSubmitFeedback}>SUBMIT</button> {/* CHANGE: send feedback to Flask */}
                   </div>
                 </div>
               </div>
