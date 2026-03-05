@@ -231,3 +231,9 @@
   initial-value: 0deg;
   inherits: false;
 }
+
+/* Hide the bottom-right minimap in the programming canvas (ReactFlow MiniMap) */
+.rb-program-canvas .react-flow__minimap,
+.rb-program-canvas .react-flow__panel.react-flow__minimap {
+  display: none !important;
+}
