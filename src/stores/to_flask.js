@@ -121,6 +121,20 @@ export function saveTrial({ trialNumber, conditionNumber, scenarioNumber }) {
     });
 }
 
+export function submitFeedback({feedbackText, meta = {} }) {
+  return fetch("http://localhost:5000/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ feedbackText, meta }),
+  })
+    .then((r) => r.json())
+     .then((json) => {
+      listeners.forEach((fn) => fn(json));
+      return json;
+    });
+}
+
+
 export function stageMapYaml(yamlText, meta = {}) {
   return fetch("http://localhost:5000/receive_data", {
     method: "POST",
